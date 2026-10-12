@@ -9,6 +9,7 @@ from typing import Any
 import pytest
 
 from evidencegate.cli import main
+from evidencegate.machine import Machine
 from evidencegate.store import EpisodeStore
 from fake_ollama import FakeOllama, reply_tools, tool_call
 
@@ -27,10 +28,16 @@ def two_step_agent(body: dict[str, Any]) -> dict[str, Any]:
     return reply_tools(tool_call("observe_only", args), cached=100)
 
 
-def run_cli(argv: list[str], fake: FakeOllama | None = None) -> tuple[int, str]:
+HOME_M3 = Machine(hw_model="Mac15,3", chip="Apple M3")
+WORK_M5 = Machine(hw_model="Mac17,1", chip="Apple M5")
+
+
+def run_cli(
+    argv: list[str], fake: FakeOllama | None = None, machine: Machine = HOME_M3
+) -> tuple[int, str]:
     out = io.StringIO()
     client = fake.client() if fake is not None else None
-    code = main(argv, http_client=client, out=out)
+    code = main(argv, http_client=client, out=out, machine=machine)
     return code, out.getvalue()
 
 
@@ -49,10 +56,6 @@ def run_args(runs_dir: Path, n_per_family: int = 2, repeats: int = 1) -> list[st
         str(repeats),
         "--runs-dir",
         str(runs_dir),
-        "--machine",
-        "test-mac",
-        "--chip",
-        "Apple M3",
     ]
 
 
@@ -75,7 +78,8 @@ def test_run_writes_store_at_keyed_path(tmp_path: Path) -> None:
     assert len(records) == 6
     assert {r.action for r in records} == {"observe_only"}
     assert records[0].trace.llm_config is not None
-    assert records[0].trace.llm_config["machine"] == "test-mac"
+    assert records[0].trace.llm_config["hw_model"] == "Mac15,3"
+    assert records[0].policy_config["machine"] == {"hw_model": "Mac15,3", "chip": "Apple M3"}
 
 
 def test_run_prints_progress_average_and_eta(tmp_path: Path) -> None:
@@ -113,7 +117,7 @@ def test_summarize_reports_rates_ci_cache_and_config(tmp_path: Path) -> None:
     assert "cache: cached=600 prompt_eval=1440 (41.7%)" in output
     assert "later calls with cached>0: 6/6" in output
     assert "gemma4:12b" in output and "Q4_K_M" in output and "0.33.3" in output
-    assert "test-mac (Apple M3)" in output
+    assert "on Mac15,3 (Apple M3)" in output
 
 
 def test_summarize_with_repeats_shows_each_repeat_and_noise_band(tmp_path: Path) -> None:
@@ -149,7 +153,26 @@ def test_ollama_errors_exit_1_with_a_short_message(tmp_path: Path) -> None:
     fake = FakeOllama(two_step_agent, models=[])
     out = io.StringIO()
     err = io.StringIO()
-    code = main(run_args(tmp_path), http_client=fake.client(), out=out, err=err)
+    code = main(run_args(tmp_path), http_client=fake.client(), out=out, err=err, machine=HOME_M3)
     assert code == 1
     assert "error: model 'gemma4:12b' not found" in err.getvalue()
     assert "ollama pull gemma4:12b" in err.getvalue()
+
+
+def test_different_machine_runs_into_a_separate_store(tmp_path: Path) -> None:
+    """장비가 바뀌면 config_id가 바뀌어 경로가 갈리고, 이미 있는 결과를 건너뛰지 않는다."""
+    run_cli(run_args(tmp_path), FakeOllama(two_step_agent), machine=HOME_M3)
+    fake = FakeOllama(two_step_agent)
+    _, output = run_cli(run_args(tmp_path), fake, machine=WORK_M5)
+
+    assert "to run: 6, already stored: 0" in output
+    files = sorted(tmp_path.rglob("*.jsonl"))
+    assert len(files) == 2
+    assert files[0].parent.parent != files[1].parent.parent
+    machines = {EpisodeStore(f).records()[0].trace.llm_config["chip"] for f in files}  # type: ignore[index]
+    assert machines == {"Apple M3", "Apple M5"}
+
+
+def test_machine_option_is_gone(tmp_path: Path) -> None:
+    with pytest.raises(SystemExit):
+        run_cli([*run_args(tmp_path), "--machine", "x"], FakeOllama(two_step_agent))

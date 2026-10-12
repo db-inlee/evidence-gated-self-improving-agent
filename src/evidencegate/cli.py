@@ -4,6 +4,9 @@
         --suite calibration --n-per-family 10 --repeats 1
     uv run python -m evidencegate.cli summarize runs/calibration/...
 
+장비(`sysctl` hw.model, CPU brand string)는 자동으로 감지해 정책 설정에 넣는다. 장비가 바뀌면
+config_id가 바뀌어 결과 경로가 갈린다.
+
 `run`은 결과를 `runs/<suite>/<safe_policy_id>__<config_id>/<tool_spec_id>/<skill_id>.jsonl`에
 쌓고, 이미 있는 키는 건너뛴다(같은 명령으로 재개). 진행률, 에피소드당 평균 시간, 남은 시간을
 출력한다. `summarize`는 파일이나 폴더 안의 결과 파일마다 집계를 출력한다. 반복이 2회 이상이면
@@ -12,8 +15,6 @@
 
 import argparse
 import json
-import platform
-import subprocess
 import sys
 from collections.abc import Sequence
 from dataclasses import asdict
@@ -23,6 +24,7 @@ from typing import Any, TextIO
 import httpx
 
 from evidencegate.ids import config_id, tool_spec_id
+from evidencegate.machine import Machine, MachineDetectionError, detect_machine
 from evidencegate.metrics import METRICS, GroupSummary, Summary, noise_band, summarize
 from evidencegate.ollama_policy import OllamaError, OllamaPolicy, OllamaSettings
 from evidencegate.runner import Case, EpisodeRecord, Progress, episode_key, run_suite
@@ -41,6 +43,7 @@ def main(
     http_client: httpx.Client | None = None,
     out: TextIO = sys.stdout,
     err: TextIO = sys.stderr,
+    machine: Machine | None = None,
 ) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
@@ -48,7 +51,10 @@ def main(
         if not args.policy.startswith("ollama:"):
             parser.error(f"unsupported policy {args.policy!r}; expected ollama:<model>")
         try:
-            return _run(args, http_client, out)
+            return _run(args, http_client, machine or detect_machine(), out)
+        except MachineDetectionError as error:
+            print(f"error: {error}", file=err)
+            return 1
         except OllamaError as error:
             # 이미 끝난 에피소드는 저장돼 있으므로 같은 명령으로 이어서 돌 수 있다.
             print(f"error: {error}", file=err)
@@ -71,8 +77,6 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--repeats", required=True, type=int)
     run.add_argument("--runs-dir", type=Path, default=Path("runs"))
     run.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
-    run.add_argument("--machine", default=platform.node(), help="machine label for llm_config")
-    run.add_argument("--chip", default=None, help="chip label (default: detected)")
 
     summ = sub.add_parser("summarize", help="summarize stored results")
     summ.add_argument("paths", nargs="+", type=Path, help="result .jsonl files or folders")
@@ -85,14 +89,15 @@ def _parser() -> argparse.ArgumentParser:
 # ---------------------------------------------------------------------------
 
 
-def _run(args: argparse.Namespace, http_client: httpx.Client | None, out: TextIO) -> int:
+def _run(
+    args: argparse.Namespace, http_client: httpx.Client | None, machine: Machine, out: TextIO
+) -> int:
     client = http_client or httpx.Client(base_url=args.ollama_url)
     model = args.policy.removeprefix("ollama:")
     policy = OllamaPolicy.connect(
         OllamaSettings.for_model(model),
         client,
-        machine=args.machine,
-        chip=args.chip or _detect_chip(),
+        machine=machine,
     )
     skill = load_skill(args.skill)
     cases = calibration(args.n_per_family)
@@ -142,19 +147,6 @@ def _count_missing(
         for r in range(repeats)
         for c in cases
     )
-
-
-def _detect_chip() -> str:
-    try:
-        completed = subprocess.run(
-            ["sysctl", "-n", "machdep.cpu.brand_string"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return completed.stdout.strip() or platform.machine()
-    except (OSError, subprocess.CalledProcessError):
-        return platform.machine()
 
 
 def _duration(seconds: float) -> str:
@@ -208,7 +200,7 @@ def _print_file_summary(path: Path, records: list[EpisodeRecord], out: TextIO) -
     if llm:
         print(
             f"model {llm['model']} ({llm.get('quantization')}, {llm.get('model_digest')})  "
-            f"ollama {llm.get('ollama_version')}  on {llm.get('machine')} ({llm.get('chip')})",
+            f"ollama {llm.get('ollama_version')}  on {llm.get('hw_model')} ({llm.get('chip')})",
             file=out,
         )
     cache = _cache_stats(records)

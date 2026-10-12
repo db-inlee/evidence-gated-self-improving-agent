@@ -9,6 +9,7 @@ import httpx
 import pytest
 
 from evidencegate.ids import config_id
+from evidencegate.machine import Machine
 from evidencegate.ollama_policy import (
     INSTRUCTIONS,
     NUDGE,
@@ -33,12 +34,15 @@ from opsworld import agent_env
 from opsworld.generator import generate_incident
 from opsworld.state import Family
 
+MACHINE = Machine(hw_model="Mac15,3", chip="Apple M3")
 S0 = load_skill(Path(__file__).resolve().parents[1] / "skills" / "S0" / "SKILL.md")
 
 
-def connect(fake: FakeOllama, model: str = MODEL, **overrides: Any) -> OllamaPolicy:
+def connect(
+    fake: FakeOllama, model: str = MODEL, machine: Machine = MACHINE, **overrides: Any
+) -> OllamaPolicy:
     settings = OllamaSettings.for_model(model, **overrides)
-    return OllamaPolicy.connect(settings, fake.client(), machine="test-mac", chip="Apple M3")
+    return OllamaPolicy.connect(settings, fake.client(), machine=machine)
 
 
 def run(
@@ -96,6 +100,18 @@ def test_connect_reads_version_digest_and_quantization() -> None:
     }
     fixed = json.dumps({"instructions": INSTRUCTIONS, "nudge": NUDGE}, sort_keys=True)
     assert config["instructions_sha256"] == hashlib.sha256(fixed.encode()).hexdigest()
+
+
+def test_config_includes_detected_machine() -> None:
+    assert connect(FakeOllama([])).config["machine"] == {"hw_model": "Mac15,3", "chip": "Apple M3"}
+
+
+@pytest.mark.parametrize(
+    "machine", [Machine("Mac16,12", "Apple M3"), Machine("Mac15,3", "Apple M5")]
+)
+def test_config_id_changes_with_machine(machine: Machine) -> None:
+    base = config_id(connect(FakeOllama([])))
+    assert config_id(connect(FakeOllama([]), machine=machine)) != base
 
 
 def test_connect_fails_when_model_is_not_pulled() -> None:
@@ -370,7 +386,7 @@ def test_llm_config_records_model_engine_seed_and_machine() -> None:
         "num_ctx": 8192,
         "think": False,
         "keep_alive": "60m",
-        "machine": "test-mac",
+        "hw_model": "Mac15,3",
         "chip": "Apple M3",
     }
 

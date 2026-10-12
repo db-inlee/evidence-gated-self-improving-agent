@@ -26,6 +26,7 @@ from typing import Any, TypedDict
 import httpx
 from langgraph.graph import END, START, StateGraph
 
+from evidencegate.machine import Machine
 from evidencegate.policy import (
     PolicyTrace,
     StopReason,
@@ -106,8 +107,7 @@ class OllamaPolicy:
         model_digest: str,
         quantization: str | None,
         ollama_version: str,
-        machine: str,
-        chip: str,
+        machine: Machine,
     ) -> None:
         self.settings = settings
         self.policy_id = f"ollama:{settings.model}"
@@ -117,7 +117,7 @@ class OllamaPolicy:
             "quantization": quantization,
             "ollama_version": ollama_version,
         }
-        self._machine = {"machine": machine, "chip": chip}
+        self._machine = machine
         s = settings
         self.config: dict[str, Any] = {
             "type": "ollama",
@@ -135,11 +135,12 @@ class OllamaPolicy:
                 "max_consecutive_format_errors": s.max_consecutive_format_errors,
             },
             "seed_rule": SEED_RULE,
+            "machine": machine.as_dict(),
         }
 
     @classmethod
     def connect(
-        cls, settings: OllamaSettings, client: httpx.Client, *, machine: str, chip: str
+        cls, settings: OllamaSettings, client: httpx.Client, *, machine: Machine
     ) -> "OllamaPolicy":
         """서버에서 Ollama 버전과 모델 digest·양자화를 읽어 설정에 고정한다."""
         version = _get_json(client, "/api/version")["version"]
@@ -157,7 +158,6 @@ class OllamaPolicy:
             quantization=entry.get("details", {}).get("quantization_level"),
             ollama_version=version,
             machine=machine,
-            chip=chip,
         )
 
     def run(self, env: AgentEnv, skill: Skill, alert: str, llm_seed: int) -> PolicyTrace:
@@ -268,7 +268,7 @@ class OllamaPolicy:
                 "num_ctx": s.num_ctx,
                 "think": s.think,
                 "keep_alive": s.keep_alive,
-                **self._machine,
+                **self._machine.as_dict(),
             },
             usage={
                 "calls": final["usage"],
