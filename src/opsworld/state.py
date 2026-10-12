@@ -1,0 +1,74 @@
+"""OpsWorld 상태 모델.
+
+`Incident.root_cause`와 `Deployment.has_bug`는 숨은 값이다. 어떤 도구 출력에도 넣지 않는다.
+"""
+
+from dataclasses import dataclass
+from enum import StrEnum
+
+
+class Family(StrEnum):
+    """장애 생성 레시피. v0는 L1만 있다."""
+
+    BAD_DEPLOYMENT = "bad_deployment"
+    DEPENDENCY_FAILURE = "dependency_failure"
+    TRAFFIC_SPIKE = "traffic_spike"
+
+
+class RootCause(StrEnum):
+    """숨은 근본 원인. 채점기만 읽는다."""
+
+    BAD_DEPLOYMENT = "bad_deployment"
+    DEPENDENCY_FAILURE = "dependency_failure"
+    TRAFFIC_SPIKE = "traffic_spike"
+
+
+class DependencyStatus(StrEnum):
+    HEALTHY = "healthy"
+    DEGRADED = "degraded"
+
+
+@dataclass(frozen=True)
+class ServiceState:
+    service_id: str
+    baseline_p95_ms: float
+    p95_ms: float
+    baseline_error_rate: float
+    error_rate: float
+    cpu_usage: float  # 0~100 퍼센트
+    replicas: int
+
+
+@dataclass(frozen=True)
+class Deployment:
+    deployment_id: str
+    service_id: str
+    version: str
+    deployed_at: int  # 분
+    has_bug: bool  # 숨은 값
+
+
+@dataclass(frozen=True)
+class DependencyState:
+    dependency_id: str
+    status: DependencyStatus
+    outage_started_at: int | None  # 분, 장애가 없으면 None
+
+
+@dataclass(frozen=True)
+class TrafficState:
+    baseline_rps: float
+    current_rps: float
+
+
+@dataclass(frozen=True)
+class Incident:
+    incident_id: str
+    seed: int
+    family: Family
+    root_cause: RootCause  # 숨은 값
+    regression_started_at: int  # 분
+    service: ServiceState
+    deployments: tuple[Deployment, ...]
+    dependencies: tuple[DependencyState, ...]
+    traffic: TrafficState
