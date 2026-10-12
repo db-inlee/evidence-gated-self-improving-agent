@@ -8,8 +8,12 @@ __pycache__/
 # macOS
 .DS_Store
 
-# 로컬 작업 문서: git에는 README.md만 올린다
+# 로컬 작업 문서: .md 중 git에는 README.md와 실험 입력인 skills/**/SKILL.md만 올린다
 *.md
 !/README.md
+!/skills/**/SKILL.md
 tickets/
 reports/
+
+# 실행 결과
+runs/
