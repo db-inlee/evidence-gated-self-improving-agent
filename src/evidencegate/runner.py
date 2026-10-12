@@ -5,7 +5,7 @@
 """
 
 import time
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
@@ -79,6 +79,25 @@ class SuiteRunResult:
     skipped: int
 
 
+@dataclass(frozen=True)
+class Progress:
+    """`run_suite`가 에피소드 하나를 실행할 때마다 내는 진행 상황(건너뛴 키는 제외)."""
+
+    done: int  # 이번 호출에서 실행을 마친 에피소드 수
+    total: int  # 이번 호출에서 실행할 에피소드 수
+    skipped: int  # 저장소에 이미 있어 건너뛴 수
+    record: EpisodeRecord
+    elapsed_s: float  # 이번 호출 시작부터 지난 시간
+
+    @property
+    def mean_s(self) -> float:
+        return self.elapsed_s / self.done
+
+    @property
+    def eta_s(self) -> float:
+        return self.mean_s * (self.total - self.done)
+
+
 def episode_key(
     policy: Policy, skill: Skill, family: Family, incident_seed: int, repeat: int
 ) -> EpisodeKey:
@@ -128,15 +147,21 @@ def run_suite(
     cases: Sequence[Case],
     repeats: int,
     store: "EpisodeStore",
+    on_progress: Callable[[Progress], None] | None = None,
 ) -> SuiteRunResult:
     """반복 번호 바깥, 케이스 안쪽 순서로 돈다. 반복 하나가 끝날 때마다 완전한 결과가 생긴다."""
-    executed = skipped = 0
-    for repeat in range(repeats):
-        for case in cases:
-            key = episode_key(policy, skill, case.family, case.incident_seed, repeat)
-            if key in store:
-                skipped += 1
-                continue
-            store.append(run_episode(policy, skill, case.family, case.incident_seed, repeat))
-            executed += 1
-    return SuiteRunResult(executed=executed, skipped=skipped)
+    todo = [
+        (case, repeat)
+        for repeat in range(repeats)
+        for case in cases
+        if episode_key(policy, skill, case.family, case.incident_seed, repeat) not in store
+    ]
+    skipped = repeats * len(cases) - len(todo)
+    start = time.perf_counter()
+    for done, (case, repeat) in enumerate(todo, start=1):
+        record = run_episode(policy, skill, case.family, case.incident_seed, repeat)
+        store.append(record)
+        if on_progress is not None:
+            elapsed = time.perf_counter() - start
+            on_progress(Progress(done, len(todo), skipped, record, elapsed))
+    return SuiteRunResult(executed=len(todo), skipped=skipped)

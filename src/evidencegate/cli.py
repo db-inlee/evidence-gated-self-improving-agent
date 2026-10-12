@@ -1,0 +1,310 @@
+"""실행 진입점.
+
+    uv run python -m evidencegate.cli run --policy ollama:gemma4:12b --skill skills/S0/SKILL.md \\
+        --suite calibration --n-per-family 10 --repeats 1
+    uv run python -m evidencegate.cli summarize runs/calibration/...
+
+`run`은 결과를 `runs/<suite>/<safe_policy_id>__<config_id>/<tool_spec_id>/<skill_id>.jsonl`에
+쌓고, 이미 있는 키는 건너뛴다(같은 명령으로 재개). 진행률, 에피소드당 평균 시간, 남은 시간을
+출력한다. `summarize`는 파일이나 폴더 안의 결과 파일마다 집계를 출력한다. 반복이 2회 이상이면
+반복별 집계와 노이즈 밴드를 함께 낸다.
+"""
+
+import argparse
+import json
+import platform
+import subprocess
+import sys
+from collections.abc import Sequence
+from dataclasses import asdict
+from pathlib import Path
+from typing import Any, TextIO
+
+import httpx
+
+from evidencegate.ids import config_id, tool_spec_id
+from evidencegate.metrics import METRICS, GroupSummary, Summary, noise_band, summarize
+from evidencegate.ollama_policy import OllamaError, OllamaPolicy, OllamaSettings
+from evidencegate.runner import Case, EpisodeRecord, Progress, episode_key, run_suite
+from evidencegate.skills import Skill, load_skill
+from evidencegate.store import EpisodeStore
+from evidencegate.suites import calibration
+from opsworld import agent_env
+
+DEFAULT_OLLAMA_URL = "http://localhost:11434"
+SUITES = ("calibration",)
+
+
+def main(
+    argv: Sequence[str] | None = None,
+    *,
+    http_client: httpx.Client | None = None,
+    out: TextIO = sys.stdout,
+    err: TextIO = sys.stderr,
+) -> int:
+    parser = _parser()
+    args = parser.parse_args(argv)
+    if args.command == "run":
+        if not args.policy.startswith("ollama:"):
+            parser.error(f"unsupported policy {args.policy!r}; expected ollama:<model>")
+        try:
+            return _run(args, http_client, out)
+        except OllamaError as error:
+            # 이미 끝난 에피소드는 저장돼 있으므로 같은 명령으로 이어서 돌 수 있다.
+            print(f"error: {error}", file=err)
+            if "not found" in str(error):
+                model = args.policy.removeprefix("ollama:")
+                print(f"hint: ollama pull {model}", file=err)
+            return 1
+    return _summarize(args, out)
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="evidencegate")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    run = sub.add_parser("run", help="run a policy on a suite and store results")
+    run.add_argument("--policy", required=True, help="ollama:<model>, e.g. ollama:gemma4:12b")
+    run.add_argument("--skill", required=True, type=Path)
+    run.add_argument("--suite", required=True, choices=SUITES)
+    run.add_argument("--n-per-family", required=True, type=int)
+    run.add_argument("--repeats", required=True, type=int)
+    run.add_argument("--runs-dir", type=Path, default=Path("runs"))
+    run.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
+    run.add_argument("--machine", default=platform.node(), help="machine label for llm_config")
+    run.add_argument("--chip", default=None, help="chip label (default: detected)")
+
+    summ = sub.add_parser("summarize", help="summarize stored results")
+    summ.add_argument("paths", nargs="+", type=Path, help="result .jsonl files or folders")
+    summ.add_argument("--json", action="store_true", help="print JSON instead of text")
+    return parser
+
+
+# ---------------------------------------------------------------------------
+# run
+# ---------------------------------------------------------------------------
+
+
+def _run(args: argparse.Namespace, http_client: httpx.Client | None, out: TextIO) -> int:
+    client = http_client or httpx.Client(base_url=args.ollama_url)
+    model = args.policy.removeprefix("ollama:")
+    policy = OllamaPolicy.connect(
+        OllamaSettings.for_model(model),
+        client,
+        machine=args.machine,
+        chip=args.chip or _detect_chip(),
+    )
+    skill = load_skill(args.skill)
+    cases = calibration(args.n_per_family)
+    store = EpisodeStore.for_run(
+        args.runs_dir,
+        suite=args.suite,
+        policy_id=policy.policy_id,
+        config_id=config_id(policy),
+        tool_spec_id=tool_spec_id(agent_env.TOOL_SPECS),
+        skill_id=skill.skill_id,
+    )
+
+    total = len(cases) * args.repeats
+    stored = total - _count_missing(store, policy, skill, cases, args.repeats)
+    print(f"store: {store.path}", file=out)
+    print(
+        f"policy: {policy.policy_id}  config_id={config_id(policy)}  "
+        f"tool_spec_id={tool_spec_id(agent_env.TOOL_SPECS)}  skill_id={skill.skill_id}",
+        file=out,
+    )
+    print(
+        f"cases: {len(cases)} x repeats {args.repeats} = {total} episodes "
+        f"(to run: {total - stored}, already stored: {stored})",
+        file=out,
+    )
+
+    def report(p: Progress) -> None:
+        key = p.record.key
+        print(
+            f"[{p.done}/{p.total}] {key.family} {key.incident_seed} r{key.repeat}  "
+            f"{p.record.duration_s:.1f}s  avg {p.mean_s:.1f}s/ep  ETA {_duration(p.eta_s)}",
+            file=out,
+            flush=True,
+        )
+
+    result = run_suite(policy, skill, cases, args.repeats, store, on_progress=report)
+    print(f"done: ran {result.executed}, skipped {result.skipped}", file=out)
+    _print_file_summary(store.path, store.records(), out)
+    return 0
+
+
+def _count_missing(
+    store: EpisodeStore, policy: OllamaPolicy, skill: Skill, cases: Sequence[Case], repeats: int
+) -> int:
+    return sum(
+        episode_key(policy, skill, c.family, c.incident_seed, r) not in store
+        for r in range(repeats)
+        for c in cases
+    )
+
+
+def _detect_chip() -> str:
+    try:
+        completed = subprocess.run(
+            ["sysctl", "-n", "machdep.cpu.brand_string"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return completed.stdout.strip() or platform.machine()
+    except (OSError, subprocess.CalledProcessError):
+        return platform.machine()
+
+
+def _duration(seconds: float) -> str:
+    seconds = round(seconds)
+    hours, rest = divmod(seconds, 3600)
+    minutes, secs = divmod(rest, 60)
+    if hours:
+        return f"{hours}h{minutes:02d}m"
+    if minutes:
+        return f"{minutes}m{secs:02d}s"
+    return f"{secs}s"
+
+
+# ---------------------------------------------------------------------------
+# summarize
+# ---------------------------------------------------------------------------
+
+
+def _summarize(args: argparse.Namespace, out: TextIO) -> int:
+    files = _result_files(args.paths)
+    if args.json:
+        payload = [_file_json(path, EpisodeStore(path).records()) for path in files]
+        json.dump(payload, out, indent=2, default=str)
+        out.write("\n")
+        return 0
+    for path in files:
+        _print_file_summary(path, EpisodeStore(path).records(), out)
+    return 0
+
+
+def _result_files(paths: Sequence[Path]) -> list[Path]:
+    files: list[Path] = []
+    for path in paths:
+        files.extend(sorted(path.rglob("*.jsonl")) if path.is_dir() else [path])
+    return files
+
+
+def _print_file_summary(path: Path, records: list[EpisodeRecord], out: TextIO) -> None:
+    print(f"\n== {path}", file=out)
+    if not records:
+        print("(no records)", file=out)
+        return
+    key = records[0].key
+    repeats = sorted({r.key.repeat for r in records})
+    print(
+        f"policy {key.policy_id}  config_id {key.config_id}  tool_spec_id {key.tool_spec_id}  "
+        f"skill_id {key.skill_id}  records {len(records)}  repeats {repeats}",
+        file=out,
+    )
+    llm = records[0].trace.llm_config
+    if llm:
+        print(
+            f"model {llm['model']} ({llm.get('quantization')}, {llm.get('model_digest')})  "
+            f"ollama {llm.get('ollama_version')}  on {llm.get('machine')} ({llm.get('chip')})",
+            file=out,
+        )
+    cache = _cache_stats(records)
+    if cache is not None:
+        print(cache, file=out)
+
+    if len(repeats) == 1:
+        _print_summary(f"repeat {repeats[0]}", summarize(records), out)
+        return
+    for repeat in repeats:
+        subset = [r for r in records if r.key.repeat == repeat]
+        _print_summary(f"repeat {repeat}", summarize(subset), out)
+    print(f"-- noise band (repeats {repeats}, {len(records) // len(repeats)} cases)", file=out)
+    for metric in METRICS:
+        try:
+            band = noise_band(records, metric)
+        except ValueError as error:
+            print(f"{metric}: unavailable ({error})", file=out)
+            continue
+        print(
+            f"{metric}: repeat_std={band.repeat_std:.3f}  "
+            f"paired_abs_p95={band.paired_abs_p95:.3f}  "
+            f"case_mismatch_rate={band.case_mismatch_rate:.3f}",
+            file=out,
+        )
+
+
+def _print_summary(title: str, summary: Summary, out: TextIO) -> None:
+    print(f"-- {title} (n={summary.overall.n})", file=out)
+    print(
+        f"{'group':<20}{'n':>4}  {'correct_disposition':<22}  {'evidence_safe':<22}  "
+        f"{'fmt_err':>7}  {'calls':>5}  {'sec':>6}",
+        file=out,
+    )
+    rows = [("overall", summary.overall), *summary.by_family.items()]
+    for name, group in rows:
+        print(_row(name, group), file=out)
+    labels = ", ".join(f"{k}={v}" for k, v in sorted(summary.overall.failure_labels.items()))
+    print(f"labels: {labels or '-'}", file=out)
+
+
+def _row(name: str, g: GroupSummary) -> str:
+    def rate(p: Any) -> str:
+        return f"{p.rate:.3f} [{p.ci_low:.3f}, {p.ci_high:.3f}]"
+
+    return (
+        f"{name:<20}{g.n:>4}  {rate(g.correct_disposition):<22}  {rate(g.evidence_safe):<22}  "
+        f"{g.format_error_rate:>7.3f}  {g.mean_tool_calls:>5.2f}  {g.mean_duration_s:>6.1f}"
+    )
+
+
+def _cache_stats(records: Sequence[EpisodeRecord]) -> str | None:
+    """prompt 캐시 지표. 비율 = cached / prompt_eval (정의는 B3 연기 테스트에서 실측으로 확인)."""
+    cached = prompt = later = later_hits = 0
+    seen = False
+    for record in records:
+        usage = record.trace.usage
+        if not usage:
+            continue
+        for index, call in enumerate(usage["calls"]):
+            if call.get("prompt_eval_cached_count") is None:
+                continue
+            seen = True
+            cached += call["prompt_eval_cached_count"]
+            prompt += call.get("prompt_eval_count") or 0
+            if index >= 1:
+                later += 1
+                later_hits += call["prompt_eval_cached_count"] > 0
+    if not seen:
+        return None
+    share = f"{cached / prompt:.1%}" if prompt else "n/a"
+    return (
+        f"cache: cached={cached} prompt_eval={prompt} ({share}); "
+        f"later calls with cached>0: {later_hits}/{later}"
+    )
+
+
+def _file_json(path: Path, records: list[EpisodeRecord]) -> dict[str, Any]:
+    repeats = sorted({r.key.repeat for r in records})
+    data: dict[str, Any] = {"path": str(path), "records": len(records), "repeats": repeats}
+    if records:
+        data["summary"] = asdict(summarize(records))
+        data["by_repeat"] = {
+            r: asdict(summarize([x for x in records if x.key.repeat == r])) for r in repeats
+        }
+        if len(repeats) > 1:
+            data["noise_band"] = {
+                m: {
+                    k: v
+                    for k, v in asdict(noise_band(records, m)).items()
+                    if k not in {"pair_mean_diffs", "pair_mismatch_rates"}
+                }
+                for m in METRICS
+            }
+    return data
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

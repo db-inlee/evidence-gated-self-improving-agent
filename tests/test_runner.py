@@ -7,7 +7,15 @@ import pytest
 
 from evidencegate.ids import config_id, tool_spec_id
 from evidencegate.policy import PolicyTrace, ScriptedPolicy, StopReason
-from evidencegate.runner import SCHEMA_VERSION, Case, EpisodeKey, make_alert, run_episode, run_suite
+from evidencegate.runner import (
+    SCHEMA_VERSION,
+    Case,
+    EpisodeKey,
+    Progress,
+    make_alert,
+    run_episode,
+    run_suite,
+)
 from evidencegate.seeds import derive_llm_seed
 from evidencegate.skills import Skill
 from evidencegate.store import EpisodeStore
@@ -240,3 +248,25 @@ def test_env_serves_the_same_specs_the_key_hashes(monkeypatch: pytest.MonkeyPatc
     monkeypatch.setattr(agent_env, "TOOL_SPECS", (edited, *specs[1:]))
     env = AgentEnv(Episode(generate_incident(Family.BAD_DEPLOYMENT, 0)))
     assert env.tool_specs()[0].description == "Edited."
+
+
+def test_run_suite_reports_progress_for_executed_episodes_only(tmp_path: Path) -> None:
+    store = EpisodeStore(tmp_path / "runs.jsonl")
+    run_suite(SpyPolicy(), SKILL, CASES[:2], repeats=1, store=store)
+
+    events: list[Progress] = []
+    run_suite(SpyPolicy(), SKILL, CASES, repeats=1, store=store, on_progress=events.append)
+
+    assert [(e.done, e.total, e.skipped) for e in events] == [(i, 4, 2) for i in range(1, 5)]
+    assert [e.record.key.incident_seed for e in events] == [c.incident_seed for c in CASES[2:]]
+    assert all(e.elapsed_s >= 0 and e.mean_s >= 0 for e in events)
+    assert events[-1].eta_s == 0.0
+
+
+def test_progress_eta_is_mean_time_times_remaining() -> None:
+    record = run_episode(
+        ScriptedPolicy(["observe_only"], name="x"), SKILL, Family.BAD_DEPLOYMENT, 0, 0
+    )
+    progress = Progress(done=2, total=10, skipped=0, record=record, elapsed_s=30.0)
+    assert progress.mean_s == 15.0
+    assert progress.eta_s == 120.0
