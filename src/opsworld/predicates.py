@@ -35,13 +35,15 @@ def derive_predicates(observations: Sequence[Observation]) -> frozenset[Predicat
     holds: set[Predicate] = set()
 
     if metrics is not None:
-        p95_up = metrics["p95_ms"] >= c.INCIDENT_P95_MULTIPLIER * metrics["baseline_p95_ms"]
-        errors_up = (
-            metrics["error_rate"] >= metrics["baseline_error_rate"] + c.INCIDENT_ERROR_RATE_DELTA
+        p95_up = _at_least(
+            metrics["p95_ms"], c.INCIDENT_P95_MULTIPLIER * metrics["baseline_p95_ms"]
+        )
+        errors_up = _at_least(
+            metrics["error_rate"], metrics["baseline_error_rate"] + c.INCIDENT_ERROR_RATE_DELTA
         )
         if p95_up or errors_up:
             holds.add(Predicate.INCIDENT_CONFIRMED)
-        if metrics["cpu_usage_percent"] >= c.CPU_SATURATION_PERCENT:
+        if _at_least(metrics["cpu_usage_percent"], c.CPU_SATURATION_PERCENT):
             holds.add(Predicate.CAPACITY_SATURATED)
 
     if metrics is not None and deployments is not None:
@@ -66,12 +68,18 @@ def derive_predicates(observations: Sequence[Observation]) -> frozenset[Predicat
             holds.add(Predicate.DEPENDENCY_FAILURE_CONFIRMED)
 
     if traffic is not None:
-        if traffic["current_rps"] < c.TRAFFIC_RULED_OUT_MULTIPLIER * traffic["baseline_rps"]:
+        current_rps, baseline_rps = traffic["current_rps"], traffic["baseline_rps"]
+        if not _at_least(current_rps, c.TRAFFIC_RULED_OUT_MULTIPLIER * baseline_rps):
             holds.add(Predicate.TRAFFIC_RULED_OUT)
-        if traffic["current_rps"] >= c.TRAFFIC_SPIKE_MULTIPLIER * traffic["baseline_rps"]:
+        if _at_least(current_rps, c.TRAFFIC_SPIKE_MULTIPLIER * baseline_rps):
             holds.add(Predicate.TRAFFIC_SPIKE_CONFIRMED)
 
     return frozenset(holds)
+
+
+def _at_least(value: float, threshold: float) -> bool:
+    """`value ≥ threshold`. 차이가 FLOAT_TOLERANCE 이내면 경계 값으로 보고 참이다."""
+    return value >= threshold - c.FLOAT_TOLERANCE
 
 
 def _latest(observations: Sequence[Observation], tool: ToolName) -> dict[str, Any] | None:

@@ -12,3 +12,4 @@ __pycache__/
 *.md
 !/README.md
 tickets/
+reports/
