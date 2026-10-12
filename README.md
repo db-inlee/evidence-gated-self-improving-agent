@@ -4,12 +4,19 @@ EvidenceGate is a testbed for one question: **when can a self-improving agent's 
 
 ## Status / Roadmap
 
-Only v0 is implemented so far. This repository currently contains **OpsWorld**, a deterministic incident simulator, and an **evidence grader**. There is no LLM agent, skill proposer, or acceptance gate yet, and no experimental results.
+The environment and the baseline agent are in place; the self-improvement loop is not. This repository currently contains:
+
+- **OpsWorld**, a deterministic incident simulator, and an **evidence grader** (v0).
+- A **baseline tool-using agent**: a local LLM (`gpt-oss:20b` via Ollama) driven by a LangGraph tool loop and the initial skill `skills/S0/SKILL.md`. It sees only tool outputs through an `AgentEnv` facade, never hidden values.
+- A **run and aggregation pipeline**: resumable result store keyed by policy, config, tool spec, skill, incident, and repeat; summaries with Wilson intervals; noise-band estimates.
+
+The initial skill was calibrated so that it is deliberately imperfect: it often picks the right disposition without the evidence that action requires, which is the gap the project needs to measure. There is no skill proposer or acceptance gate yet, and no skill-edit experiments or results.
 
 | Version | Scope | Status |
 | --- | --- | --- |
 | v0 | OpsWorld (3 incident families, 4 observation tools, 3 actions), deterministic evidence grader, hand-written trajectory tests | Implemented |
-| v1 | Baseline tool-using agent, skill proposer, candidate edit pool, acceptance gates (same-set greedy, keep-better, paired-bootstrap gate), evaluation-budget curve | Not started |
+| v1 | Baseline tool-using agent, run pipeline, initial-skill calibration | Implemented |
+| v1 | Skill proposer, candidate edit pool, acceptance gates (same-set greedy, keep-better, paired-bootstrap gate), evaluation-budget curve | Not started |
 | v2 | Sequential evolution over multiple rounds | Not started |
 | v3 | More incident types, out-of-distribution evaluation | Not started |
 
@@ -84,7 +91,7 @@ sorted(str(p) for p in result.missing_predicates)  # ['dependency_ruled_out', 't
 
 ## Running
 
-Requires Python 3.12 and [uv](https://docs.astral.sh/uv/). There are no runtime dependencies and nothing calls an LLM or the network.
+Requires Python 3.12 and [uv](https://docs.astral.sh/uv/). The test suite never calls an LLM or the network; the Ollama client is tested against a mock HTTP transport.
 
 ```bash
 uv sync                                               # install dev tools
@@ -94,6 +101,16 @@ uv run mypy                                           # type check (strict)
 ```
 
 The test suite includes trajectories A–D plus 22 more hand-written trajectories, each run over multiple seeds. It also covers determinism, hidden-value checks, predicate threshold boundaries, and an exhaustive grid of tool subsets × actions.
+
+Running the baseline agent needs a local [Ollama](https://ollama.com) server with the model pulled (`ollama pull gpt-oss:20b`):
+
+```bash
+uv run python -m evidencegate.cli run --policy ollama:gpt-oss:20b \
+  --skill skills/S0/SKILL.md --suite calibration --n-per-family 10 --repeats 1
+uv run python -m evidencegate.cli summarize runs/calibration
+```
+
+Results go to `runs/` (not tracked). The machine is detected automatically and is part of the run key, so results from different machines never mix.
 
 ## Layout
 
@@ -107,6 +124,17 @@ src/opsworld/
   predicates.py   evidence predicates computed from raw observations
   actions.py      actions and required-evidence expressions
   grader.py       grade() -> Correct Disposition, Evidence-Safe, failure labels
+  agent_env.py    AgentEnv: the only interface a policy sees (tool specs and calls)
+src/evidencegate/
+  policy.py       Policy protocol, traces, ScriptedPolicy
+  ollama_policy.py  local LLM policy (LangGraph loop, Ollama /api/chat)
+  runner.py       run_episode, run_suite, initial alert
+  store.py        resumable JSONL result store
+  ids.py, seeds.py, skills.py, machine.py   run-key ids, LLM seeds, skill loading, machine detection
+  suites.py       calibration incident list
+  metrics.py      summaries, Wilson intervals, noise band
+  cli.py          run / summarize entry point
+skills/           initial skill S0 and the variants tried during calibration
 tests/
 ```
 
