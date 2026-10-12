@@ -39,7 +39,9 @@ class ToolSpec:
     parameters: dict[str, Any] = field(default_factory=lambda: copy.deepcopy(_SERVICE_ID_SCHEMA))
 
 
-_TOOL_SPECS: tuple[ToolSpec, ...] = (
+# 도구 설명은 LLM 입력이다. 바꾸면 tool_spec_id가 바뀌어 이전 결과와 섞이지 않는다.
+# Ticket 002 고정 결정 8: Part B 모델 비교 전에 고정한다.
+TOOL_SPECS: tuple[ToolSpec, ...] = (
     ToolSpec(
         "get_service_metrics",
         "observation",
@@ -107,7 +109,7 @@ class AgentEnv:
         return self._episode.closed
 
     def tool_specs(self) -> list[ToolSpec]:
-        return list(_TOOL_SPECS)
+        return list(TOOL_SPECS)
 
     def call(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
         if self._episode.closed:
