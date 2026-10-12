@@ -5,7 +5,7 @@ from collections.abc import Sequence
 
 import pytest
 
-from evidencegate.metrics import noise_band, summarize, wilson_interval
+from evidencegate.metrics import noise_band, null_diff_quantile, summarize, wilson_interval
 from evidencegate.policy import PolicyTrace, StopReason, TurnRecord
 from evidencegate.runner import EpisodeKey, EpisodeRecord
 
@@ -228,3 +228,100 @@ def test_noise_band_requires_the_same_cases_in_every_repeat() -> None:
 def test_noise_band_rejects_unknown_metric() -> None:
     with pytest.raises(ValueError, match="metric"):
         noise_band(band_records(OUTCOMES), "accuracy")
+
+
+# ---------------------------------------------------------------------------
+# 케이스별 불일치율
+# ---------------------------------------------------------------------------
+
+
+def test_case_mismatch_rate_with_known_repeats() -> None:
+    band = noise_band(band_records(OUTCOMES), "correct_disposition")
+    # (0,1): 케이스 3,4가 다름 2/4, (0,2): 3/4, (1,2): 1/4
+    assert band.pair_mismatch_rates == {
+        (0, 1): pytest.approx(0.5),
+        (0, 2): pytest.approx(0.75),
+        (1, 2): pytest.approx(0.25),
+    }
+    assert band.case_mismatch_rate == pytest.approx(0.5)
+
+
+def test_case_mismatch_sees_flips_that_cancel_in_the_rate() -> None:
+    """두 케이스가 반대로 뒤집히면 비율 차이는 0이지만 불일치율은 1이다."""
+    band = noise_band(band_records({0: [1, 0], 1: [0, 1]}), "correct_disposition")
+    assert band.pair_mean_diffs == {(0, 1): 0.0}
+    assert band.case_mismatch_rate == 1.0
+
+
+# ---------------------------------------------------------------------------
+# null_diff_quantile: 크기 N에서 S0 대 S0로 우연히 나오는 차이
+# ---------------------------------------------------------------------------
+
+
+def test_null_diff_is_zero_when_repeats_are_identical() -> None:
+    same = {r: [1, 0, 1, 1, 0] for r in range(4)}
+    assert null_diff_quantile(band_records(same), "correct_disposition", n_cases=3) == 0.0
+
+
+def test_null_diff_single_always_different_case_is_one() -> None:
+    """케이스 하나가 반복마다 다르면 |평균|은 항상 1이다."""
+    records = band_records({0: [1], 1: [0]})
+    assert null_diff_quantile(records, "correct_disposition", n_cases=1, n_boot=50) == 1.0
+
+
+def test_null_diff_half_different_cases_with_one_draw() -> None:
+    """케이스 A만 반복마다 다르고 B는 같다. 한 개씩 뽑으면 |평균|은 0 또는 1, 각각 약 절반."""
+    records = band_records({0: [1, 1], 1: [0, 1]})
+    low = null_diff_quantile(records, "correct_disposition", n_cases=1, q=0.25, n_boot=2000)
+    high = null_diff_quantile(records, "correct_disposition", n_cases=1, q=0.75, n_boot=2000)
+    assert (low, high) == (0.0, 1.0)
+
+
+def test_null_diff_is_deterministic_for_a_seed() -> None:
+    records = band_records(NOISY)
+    a = null_diff_quantile(records, "correct_disposition", n_cases=10, seed=7)
+    b = null_diff_quantile(records, "correct_disposition", n_cases=10, seed=7)
+    assert a == b
+
+
+def test_null_diff_repeated_calls_agree_for_every_seed() -> None:
+    """적은 회차라 난수에 민감한 설정에서도 같은 seed면 연속 호출 값이 같다(전역 난수 미사용)."""
+    records = band_records(NOISY)
+    for seed in range(10):
+        first = null_diff_quantile(records, "correct_disposition", 7, q=0.5, n_boot=5, seed=seed)
+        second = null_diff_quantile(records, "correct_disposition", 7, q=0.5, n_boot=5, seed=seed)
+        assert first == second, seed
+
+
+def test_null_diff_uses_absolute_differences() -> None:
+    """반복 쌍 순서가 무작위라 부호 있는 차이는 +1/-1이지만, |평균|은 항상 1이다."""
+    records = band_records({0: [1], 1: [0]})
+    assert null_diff_quantile(records, "correct_disposition", n_cases=1, q=0.0, n_boot=50) == 1.0
+
+
+def test_null_diff_shrinks_as_n_cases_grows() -> None:
+    records = band_records(NOISY)
+    sizes = [5, 20, 80, 320]
+    quantiles = [
+        null_diff_quantile(records, "correct_disposition", n_cases=n, n_boot=2000) for n in sizes
+    ]
+    assert quantiles == sorted(quantiles, reverse=True)
+    assert quantiles[0] > quantiles[-1] * 2
+
+
+def test_null_diff_validates_arguments() -> None:
+    records = band_records(OUTCOMES)
+    with pytest.raises(ValueError):
+        null_diff_quantile(records, "correct_disposition", n_cases=0)
+    with pytest.raises(ValueError):
+        null_diff_quantile(records, "correct_disposition", n_cases=5, n_boot=0)
+    with pytest.raises(ValueError):
+        null_diff_quantile(records, "correct_disposition", n_cases=5, q=1.5)
+    with pytest.raises(ValueError, match="repeats"):
+        null_diff_quantile(band_records({0: [1, 0]}), "correct_disposition", n_cases=2)
+    with pytest.raises(ValueError, match="metric"):
+        null_diff_quantile(records, "accuracy", n_cases=2)
+
+
+# 케이스 40개 x 반복 3회. 케이스 i는 반복 r에서 (i * 7 + r * 3) % 5 < 3 이면 성공(결정적 패턴).
+NOISY = {r: [int((i * 7 + r * 3) % 5 < 3) for i in range(40)] for r in range(3)}
