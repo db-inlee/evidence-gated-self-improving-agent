@@ -1,6 +1,7 @@
 """결과 집계와 노이즈 밴드. LLM 없이 저장된 레코드만 읽는다.
 
-- `summarize`: 전체·family별 Correct Disposition, Evidence-Safe 비율(Wilson 95% 신뢰구간),
+- `summarize`: 전체·family별 Correct Disposition, Evidence-Safe, correct_but_unsafe(처분은 맞지만
+  Evidence-Safe가 아닌 비율) 비율(Wilson 95% 신뢰구간),
   실패 라벨 빈도, 형식 오류율(형식 오류 / 도구 호출), 평균 도구 호출 수, 평균 소요 시간.
 - `noise_band`: 같은 스킬을 반복 실행한 결과에서 반복별 비율의 표본 표준편차, 반복 쌍마다
   케이스 단위 paired 차이 평균의 절댓값의 95번째 백분위수, 케이스별 불일치율.
@@ -37,6 +38,8 @@ class GroupSummary:
     n: int
     correct_disposition: Proportion
     evidence_safe: Proportion
+    # 처분은 맞지만 근거가 부족한 비율. RQ1(처분 대 근거)은 이 차이가 있어야 측정할 수 있다.
+    correct_but_unsafe: Proportion
     failure_labels: dict[str, int]  # 라벨 → 그 라벨이 붙은 에피소드 수
     format_error_rate: float  # 형식 오류 수 / 도구 호출 수
     mean_tool_calls: float
@@ -191,6 +194,9 @@ def _summarize_group(records: Sequence[EpisodeRecord]) -> GroupSummary:
         n=n,
         correct_disposition=proportion(sum(r.correct_disposition for r in records), n),
         evidence_safe=proportion(sum(r.evidence_safe for r in records), n),
+        correct_but_unsafe=proportion(
+            sum(r.correct_disposition and not r.evidence_safe for r in records), n
+        ),
         failure_labels=dict(labels),
         format_error_rate=format_errors / tool_calls if tool_calls else 0.0,
         mean_tool_calls=tool_calls / n,

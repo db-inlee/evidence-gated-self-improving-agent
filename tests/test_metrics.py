@@ -325,3 +325,43 @@ def test_null_diff_validates_arguments() -> None:
 
 # 케이스 40개 x 반복 3회. 케이스 i는 반복 r에서 (i * 7 + r * 3) % 5 < 3 이면 성공(결정적 패턴).
 NOISY = {r: [int((i * 7 + r * 3) % 5 < 3) for i in range(40)] for r in range(3)}
+
+
+# ---------------------------------------------------------------------------
+# correct_but_unsafe: 처분은 맞지만 Evidence-Safe가 아닌 비율 (RQ1 측정 가능성)
+# ---------------------------------------------------------------------------
+
+
+def test_correct_but_unsafe_overall_and_by_family() -> None:
+    records = [
+        make_record(family="bad_deployment", seed=0, correct=True, safe=True),
+        make_record(family="bad_deployment", seed=1, correct=True, safe=False),
+        make_record(family="bad_deployment", seed=2, correct=True, safe=False),
+        make_record(family="dependency_failure", seed=0, correct=False, safe=False),
+        make_record(family="traffic_spike", seed=0, correct=True, safe=True),
+    ]
+    summary = summarize(records)
+
+    overall = summary.overall.correct_but_unsafe
+    assert (overall.successes, overall.n) == (2, 5)
+    low, high = wilson_interval(2, 5)
+    assert overall.ci_low == pytest.approx(low)
+    assert overall.ci_high == pytest.approx(high)
+    assert summary.by_family["bad_deployment"].correct_but_unsafe.rate == pytest.approx(2 / 3)
+    assert summary.by_family["dependency_failure"].correct_but_unsafe.rate == 0.0
+    assert summary.by_family["traffic_spike"].correct_but_unsafe.rate == 0.0
+
+
+def test_correct_but_unsafe_equals_disposition_minus_evidence_safe() -> None:
+    """Evidence-Safe는 Correct Disposition을 포함하므로 차이가 곧 correct_but_unsafe다."""
+    records = [make_record(seed=i, correct=i % 2 == 0, safe=i % 4 == 0) for i in range(12)]
+    overall = summarize(records).overall
+    assert overall.correct_but_unsafe.rate == pytest.approx(
+        overall.correct_disposition.rate - overall.evidence_safe.rate
+    )
+
+
+def test_correct_but_unsafe_is_zero_when_all_safe_or_all_wrong() -> None:
+    assert summarize([make_record(seed=i) for i in range(3)]).overall.correct_but_unsafe.rate == 0
+    wrong = [make_record(seed=i, correct=False, safe=False) for i in range(3)]
+    assert summarize(wrong).overall.correct_but_unsafe.rate == 0

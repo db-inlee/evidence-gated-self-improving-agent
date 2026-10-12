@@ -113,6 +113,9 @@ def test_summarize_reports_rates_ci_cache_and_config(tmp_path: Path) -> None:
     # observe_only는 dependency_failure에서만 처분이 맞다: 2/6
     assert re.search(r"overall\s+6\s+0\.333 \[0\.\d{3}, 0\.\d{3}\]", output)
     assert re.search(r"dependency_failure\s+2\s+1\.000", output)
+    # 의존성을 확인하지 않은 observe_only: dependency_failure 2개는 처분은 맞지만 근거 부족
+    assert "correct_but_unsafe" in output
+    assert re.search(r"overall\s+6\s+0\.333 \[[^]]+\]\s+0\.000 \[[^]]+\]\s+0\.333 \[", output)
     # 에피소드마다 호출 2번: 첫 호출 cached 0, 둘째 호출 cached 100, prompt_eval은 각각 120
     assert "cache: cached=600 prompt_eval=1440 (41.7%)" in output
     assert "later calls with cached>0: 6/6" in output

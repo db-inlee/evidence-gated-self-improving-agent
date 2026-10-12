@@ -232,7 +232,7 @@ def _print_summary(title: str, summary: Summary, out: TextIO) -> None:
     print(f"-- {title} (n={summary.overall.n})", file=out)
     print(
         f"{'group':<20}{'n':>4}  {'correct_disposition':<22}  {'evidence_safe':<22}  "
-        f"{'fmt_err':>7}  {'calls':>5}  {'sec':>6}",
+        f"{'correct_but_unsafe':<22}  {'fmt_err':>7}  {'calls':>5}  {'sec':>6}",
         file=out,
     )
     rows = [("overall", summary.overall), *summary.by_family.items()]
@@ -248,7 +248,8 @@ def _row(name: str, g: GroupSummary) -> str:
 
     return (
         f"{name:<20}{g.n:>4}  {rate(g.correct_disposition):<22}  {rate(g.evidence_safe):<22}  "
-        f"{g.format_error_rate:>7.3f}  {g.mean_tool_calls:>5.2f}  {g.mean_duration_s:>6.1f}"
+        f"{rate(g.correct_but_unsafe):<22}  {g.format_error_rate:>7.3f}  "
+        f"{g.mean_tool_calls:>5.2f}  {g.mean_duration_s:>6.1f}"
     )
 
 
