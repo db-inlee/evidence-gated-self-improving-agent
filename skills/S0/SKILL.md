@@ -2,6 +2,7 @@
 
 1. Confirm the reported service degradation using service metrics.
 2. Check for recent deployments.
-3. If a recent deployment appears related, consider rolling it back.
-4. Otherwise inspect resource usage and traffic.
-5. Apply the least disruptive action likely to restore service.
+3. Check dependency health.
+4. If a recent deployment exists and all dependencies are healthy, roll the deployment back.
+5. If a dependency is degraded, do not change the service; observe and keep monitoring.
+6. Otherwise inspect resource usage and traffic.

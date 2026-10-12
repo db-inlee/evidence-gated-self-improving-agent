@@ -1,6 +1,6 @@
 """실행 진입점.
 
-    uv run python -m evidencegate.cli run --policy ollama:gemma4:12b --skill skills/S0/SKILL.md \\
+    uv run python -m evidencegate.cli run --policy ollama:gpt-oss:20b --skill skills/S0/SKILL.md \\
         --suite calibration --n-per-family 10 --repeats 1
     uv run python -m evidencegate.cli summarize runs/calibration/...
 
@@ -166,14 +166,15 @@ def _duration(seconds: float) -> str:
 
 
 def _summarize(args: argparse.Namespace, out: TextIO) -> int:
+    # 실행 중인 파일도 집계할 수 있도록 읽기 전용으로 연다(파일을 고치지 않음).
     files = _result_files(args.paths)
     if args.json:
-        payload = [_file_json(path, EpisodeStore(path).records()) for path in files]
+        payload = [_file_json(path, EpisodeStore(path, repair=False).records()) for path in files]
         json.dump(payload, out, indent=2, default=str)
         out.write("\n")
         return 0
     for path in files:
-        _print_file_summary(path, EpisodeStore(path).records(), out)
+        _print_file_summary(path, EpisodeStore(path, repair=False).records(), out)
     return 0
 
 

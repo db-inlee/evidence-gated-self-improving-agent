@@ -143,3 +143,76 @@ def test_complete_last_line_missing_only_newline_is_kept(tmp_path: Path) -> None
     assert reopened.records() == records
     reopened.append(make_records(3)[2])
     assert len(EpisodeStore(path).records()) == 3
+
+
+# ---------------------------------------------------------------------------
+# 읽기 전용 열기(repair=False): 실행 중인 파일을 읽어도 바꾸지 않는다
+# ---------------------------------------------------------------------------
+
+
+def write_with_partial_last_line(path: Path, records: list[EpisodeRecord]) -> bytes:
+    """쓰는 중인 파일처럼 마지막 줄이 중간에서 끊긴 상태를 만든다."""
+    store = EpisodeStore(path)
+    for record in records:
+        store.append(record)
+    data = path.read_bytes()[:-25]
+    path.write_bytes(data)
+    return data
+
+
+def test_read_only_skips_partial_last_line_without_touching_file(tmp_path: Path) -> None:
+    path = tmp_path / "r.jsonl"
+    records = make_records(3)
+    before = write_with_partial_last_line(path, records)
+
+    with pytest.warns(UserWarning, match="incomplete last line"):
+        reader = EpisodeStore(path, repair=False)
+        assert reader.records() == records[:2]
+    assert path.read_bytes() == before
+
+
+def test_read_only_keeps_complete_line_missing_newline_without_touching_file(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "r.jsonl"
+    store = EpisodeStore(path)
+    records = make_records(2)
+    for record in records:
+        store.append(record)
+    before = path.read_bytes()[:-1]
+    path.write_bytes(before)
+
+    assert EpisodeStore(path, repair=False).records() == records
+    assert path.read_bytes() == before
+
+
+def test_read_only_still_rejects_corrupted_middle_line(tmp_path: Path) -> None:
+    path = tmp_path / "r.jsonl"
+    store = EpisodeStore(path)
+    for record in make_records(3):
+        store.append(record)
+    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    lines[1] = "{not json\n"
+    path.write_text("".join(lines), encoding="utf-8")
+    with pytest.raises(StoreCorruptedError):
+        EpisodeStore(path, repair=False)
+
+
+def test_read_only_store_refuses_to_append(tmp_path: Path) -> None:
+    reader = EpisodeStore(tmp_path / "r.jsonl", repair=False)
+    with pytest.raises(PermissionError, match="read-only"):
+        reader.append(make_records(1)[0])
+    assert not (tmp_path / "r.jsonl").exists()
+
+
+def test_writer_still_repairs_after_a_reader_looked(tmp_path: Path) -> None:
+    """읽기 전용으로 본 뒤에도, 쓰는 쪽이 다시 열면 기존처럼 복구한다."""
+    path = tmp_path / "r.jsonl"
+    records = make_records(3)
+    write_with_partial_last_line(path, records)
+    with pytest.warns(UserWarning):
+        EpisodeStore(path, repair=False)
+    with pytest.warns(UserWarning, match="truncated"):
+        writer = EpisodeStore(path)
+    writer.append(records[2])
+    assert EpisodeStore(path).records() == records

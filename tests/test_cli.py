@@ -179,3 +179,17 @@ def test_different_machine_runs_into_a_separate_store(tmp_path: Path) -> None:
 def test_machine_option_is_gone(tmp_path: Path) -> None:
     with pytest.raises(SystemExit):
         run_cli([*run_args(tmp_path), "--machine", "x"], FakeOllama(two_step_agent))
+
+
+def test_summarize_does_not_modify_a_file_that_is_being_written(tmp_path: Path) -> None:
+    """실행 중인 결과 파일을 summarize해도 쓰는 중인 마지막 줄을 잘라 내지 않는다."""
+    run_cli(run_args(tmp_path), FakeOllama(two_step_agent))
+    path = only_store_file(tmp_path)
+    partial = path.read_bytes()[:-30]
+    path.write_bytes(partial)
+
+    with pytest.warns(UserWarning, match="incomplete last line"):
+        code, output = run_cli(["summarize", str(path)])
+    assert code == 0
+    assert "records 5" in output
+    assert path.read_bytes() == partial

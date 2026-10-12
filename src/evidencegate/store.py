@@ -6,6 +6,10 @@ append 후 flush·fsync한다. 실행이 중단돼 마지막 줄이 깨졌으면
 append가 깨진 줄에 이어 붙지 않도록 파일을 마지막 정상 줄까지 잘라 둔다. 중간 줄이 깨졌으면
 중단 때문이 아니므로 `StoreCorruptedError`를 낸다.
 
+`repair=False`(읽기 전용)로 열면 파일을 절대 바꾸지 않는다. 실행 중인 파일을 집계할 때 쓰는 중인
+마지막 줄을 깨진 줄로 보고 잘라 내지 않도록 하기 위해서다. 끊긴 마지막 줄은 건너뛰고 경고만 하며,
+append는 거부한다.
+
 결과 파일에는 숨은 값이 들어갈 수 있다(채점 분석용). 이 파일을 정책 입력으로 다시 쓰지 않는다.
 """
 
@@ -25,9 +29,10 @@ class StoreCorruptedError(RuntimeError):
 
 
 class EpisodeStore:
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path, *, repair: bool = True) -> None:
         self.path = path
-        self._keys: set[EpisodeKey] = {r.key for r in self._load_and_repair()}
+        self.repair = repair
+        self._keys: set[EpisodeKey] = {r.key for r in self._load()}
 
     @classmethod
     def for_run(
@@ -54,9 +59,11 @@ class EpisodeStore:
         return set(self._keys)
 
     def records(self) -> list[EpisodeRecord]:
-        return self._load_and_repair()
+        return self._load()
 
     def append(self, record: EpisodeRecord) -> None:
+        if not self.repair:
+            raise PermissionError(f"{self.path}: store opened read-only (repair=False)")
         if record.key in self._keys:
             raise ValueError(f"key already stored: {record.key}")
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -67,7 +74,7 @@ class EpisodeStore:
             os.fsync(f.fileno())
         self._keys.add(record.key)
 
-    def _load_and_repair(self) -> list[EpisodeRecord]:
+    def _load(self) -> list[EpisodeRecord]:
         if not self.path.exists():
             return []
         data = self.path.read_bytes()
@@ -92,9 +99,17 @@ class EpisodeStore:
             except (ValueError, KeyError, TypeError):
                 pass
             else:
-                with self.path.open("ab") as f:
-                    f.write(b"\n")
+                if self.repair:
+                    with self.path.open("ab") as f:
+                        f.write(b"\n")
                 return [*records, record]
+        if tail and not self.repair:
+            warnings.warn(
+                f"{self.path}: skipped incomplete last line ({len(tail)} bytes, read-only)",
+                UserWarning,
+                stacklevel=3,
+            )
+            return records
         if tail:
             warnings.warn(
                 f"{self.path}: dropped truncated last line ({len(tail)} bytes)",
