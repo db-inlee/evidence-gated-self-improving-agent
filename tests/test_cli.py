@@ -193,3 +193,15 @@ def test_summarize_does_not_modify_a_file_that_is_being_written(tmp_path: Path) 
     assert code == 0
     assert "records 5" in output
     assert path.read_bytes() == partial
+
+
+def test_run_with_l1_and_l2_levels(tmp_path: Path) -> None:
+    args = [*run_args(tmp_path), "--levels", "L1,L2"]
+    _, output = run_cli(args, FakeOllama(two_step_agent))
+    assert "cases: 12 x repeats 1 = 12 episodes" in output
+    records = EpisodeStore(only_store_file(tmp_path)).records()
+    assert sorted({r.key.level for r in records}) == ["L1", "L2"]
+
+    _, summary = run_cli(["summarize", str(tmp_path)])
+    assert re.search(r"^L2\s+6\s", summary, re.MULTILINE)
+    assert re.search(r"^traffic_spike/L2\s+2\s", summary, re.MULTILINE)

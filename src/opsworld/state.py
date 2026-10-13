@@ -1,6 +1,7 @@
 """OpsWorld 상태 모델.
 
-`Incident.root_cause`와 `Deployment.has_bug`는 숨은 값이다. 어떤 도구 출력에도 넣지 않는다.
+`Incident.root_cause`, `Incident.level`, `Incident.l2_subtype`, `Deployment.has_bug`는 숨은 값이다.
+어떤 도구 출력에도 넣지 않는다.
 """
 
 from dataclasses import dataclass
@@ -21,6 +22,13 @@ class RootCause(StrEnum):
     BAD_DEPLOYMENT = "bad_deployment"
     DEPENDENCY_FAILURE = "dependency_failure"
     TRAFFIC_SPIKE = "traffic_spike"
+
+
+class Level(StrEnum):
+    """난이도. 숨은 값이라 도구 출력·알림·프롬프트에 나오지 않는다."""
+
+    L1 = "L1"
+    L2 = "L2"
 
 
 class DependencyStatus(StrEnum):
@@ -72,3 +80,5 @@ class Incident:
     deployments: tuple[Deployment, ...]
     dependencies: tuple[DependencyState, ...]
     traffic: TrafficState
+    level: Level = Level.L1  # 숨은 값
+    l2_subtype: str | None = None  # 숨은 값. L2 하위 유형(L1이면 None)

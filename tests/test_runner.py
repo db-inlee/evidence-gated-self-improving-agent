@@ -22,7 +22,7 @@ from evidencegate.store import EpisodeStore
 from opsworld import agent_env
 from opsworld.agent_env import AgentEnv
 from opsworld.generator import generate_incident
-from opsworld.state import Family
+from opsworld.state import Family, Level
 from opsworld.tools import Episode
 
 SKILL = Skill.from_text("# Skill\n")
@@ -270,3 +270,42 @@ def test_progress_eta_is_mean_time_times_remaining() -> None:
     progress = Progress(done=2, total=10, skipped=0, record=record, elapsed_s=30.0)
     assert progress.mean_s == 15.0
     assert progress.eta_s == 120.0
+
+
+# ---------------------------------------------------------------------------
+# level (Ticket 003): L1과 L2는 다른 키
+# ---------------------------------------------------------------------------
+
+
+def test_case_level_defaults_to_l1() -> None:
+    assert Case(Family.BAD_DEPLOYMENT, 1).level is Level.L1
+
+
+def test_run_episode_records_level_in_key() -> None:
+    policy = ScriptedPolicy(["observe_only"], name="x")
+    l1 = run_episode(policy, SKILL, Family.DEPENDENCY_FAILURE, 5, repeat=0)
+    l2 = run_episode(policy, SKILL, Family.DEPENDENCY_FAILURE, 5, repeat=0, level=Level.L2)
+    assert l1.key.level == "L1"
+    assert l2.key.level == "L2"
+    assert l1.key != l2.key
+
+
+def test_run_suite_runs_l1_and_l2_of_the_same_seed_separately(tmp_path: Path) -> None:
+    store = EpisodeStore(tmp_path / "runs.jsonl")
+    cases = [Case(Family.TRAFFIC_SPIKE, 900_000), Case(Family.TRAFFIC_SPIKE, 900_000, Level.L2)]
+    result = run_suite(SpyPolicy(), SKILL, cases, repeats=1, store=store)
+    assert (result.executed, result.skipped) == (2, 0)
+    stored_keys = store.keys()
+    assert {k.level for k in stored_keys} == {"L1", "L2"}
+
+
+def test_l2_episode_uses_the_l2_incident() -> None:
+    record = run_episode(
+        ScriptedPolicy(["get_recent_deployments", "observe_only"], name="x"),
+        SKILL,
+        Family.TRAFFIC_SPIKE,
+        1,  # 1 % 2 = 1 → extra_deployment: 배포 2개
+        repeat=0,
+        level=Level.L2,
+    )
+    assert record.trace.turns[0].result_summary.count("deployment_id") == 2

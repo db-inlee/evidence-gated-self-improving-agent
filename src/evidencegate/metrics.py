@@ -50,6 +50,8 @@ class GroupSummary:
 class Summary:
     overall: GroupSummary
     by_family: dict[str, GroupSummary]
+    by_level: dict[str, GroupSummary]
+    by_family_level: dict[str, GroupSummary]  # 키: "<family>/<level>"
 
 
 @dataclass(frozen=True)
@@ -83,11 +85,22 @@ def proportion(successes: int, n: int) -> Proportion:
 def summarize(records: Sequence[EpisodeRecord]) -> Summary:
     _check_single_run(records)
     families = sorted({r.key.family for r in records})
+    levels = sorted({r.key.level for r in records})
     return Summary(
         overall=_summarize_group(records),
         by_family={
             family: _summarize_group([r for r in records if r.key.family == family])
             for family in families
+        },
+        by_level={
+            level: _summarize_group([r for r in records if r.key.level == level])
+            for level in levels
+        },
+        by_family_level={
+            f"{family}/{level}": _summarize_group(group)
+            for family in families
+            for level in levels
+            if (group := [r for r in records if (r.key.family, r.key.level) == (family, level)])
         },
     )
 
@@ -153,8 +166,8 @@ def null_diff_quantile(
 
 def _outcomes_by_repeat(
     records: Sequence[EpisodeRecord], metric: str
-) -> dict[int, dict[tuple[str, int], int]]:
-    """반복 번호 → (family, incident_seed) → 0/1.
+) -> dict[int, dict[tuple[str, int, str], int]]:
+    """반복 번호 → (family, incident_seed, level) → 0/1.
 
     반복이 2회 이상이고 모든 반복이 같은 케이스를 담아야 한다.
     """
@@ -162,9 +175,9 @@ def _outcomes_by_repeat(
         raise ValueError(f"unknown metric {metric!r}; expected one of {METRICS}")
     _check_single_run(records)
 
-    outcomes: dict[int, dict[tuple[str, int], int]] = {}
+    outcomes: dict[int, dict[tuple[str, int, str], int]] = {}
     for r in records:
-        case = (r.key.family, r.key.incident_seed)
+        case = (r.key.family, r.key.incident_seed, r.key.level)
         outcomes.setdefault(r.key.repeat, {})[case] = int(getattr(r, metric))
     if len(outcomes) < 2:
         raise ValueError(f"noise estimates need at least 2 repeats, got {len(outcomes)}")

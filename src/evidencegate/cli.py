@@ -32,6 +32,7 @@ from evidencegate.skills import Skill, load_skill
 from evidencegate.store import EpisodeStore
 from evidencegate.suites import calibration
 from opsworld import agent_env
+from opsworld.state import Level
 
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
 SUITES = ("calibration",)
@@ -75,6 +76,12 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--suite", required=True, choices=SUITES)
     run.add_argument("--n-per-family", required=True, type=int)
     run.add_argument("--repeats", required=True, type=int)
+    run.add_argument(
+        "--levels",
+        type=_parse_levels,
+        default=(Level.L1,),
+        help="comma-separated incident levels, e.g. L1 or L1,L2 (default: L1)",
+    )
     run.add_argument("--runs-dir", type=Path, default=Path("runs"))
     run.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
 
@@ -82,6 +89,13 @@ def _parser() -> argparse.ArgumentParser:
     summ.add_argument("paths", nargs="+", type=Path, help="result .jsonl files or folders")
     summ.add_argument("--json", action="store_true", help="print JSON instead of text")
     return parser
+
+
+def _parse_levels(text: str) -> tuple[Level, ...]:
+    try:
+        return tuple(Level(part.strip()) for part in text.split(","))
+    except ValueError as error:
+        raise argparse.ArgumentTypeError(f"unknown level in {text!r}") from error
 
 
 # ---------------------------------------------------------------------------
@@ -100,7 +114,7 @@ def _run(
         machine=machine,
     )
     skill = load_skill(args.skill)
-    cases = calibration(args.n_per_family)
+    cases = calibration(args.n_per_family, levels=args.levels)
     store = EpisodeStore.for_run(
         args.runs_dir,
         suite=args.suite,
@@ -143,7 +157,7 @@ def _count_missing(
     store: EpisodeStore, policy: OllamaPolicy, skill: Skill, cases: Sequence[Case], repeats: int
 ) -> int:
     return sum(
-        episode_key(policy, skill, c.family, c.incident_seed, r) not in store
+        episode_key(policy, skill, c.family, c.incident_seed, r, c.level) not in store
         for r in range(repeats)
         for c in cases
     )
@@ -237,6 +251,8 @@ def _print_summary(title: str, summary: Summary, out: TextIO) -> None:
         file=out,
     )
     rows = [("overall", summary.overall), *summary.by_family.items()]
+    if len(summary.by_level) > 1:
+        rows += [*summary.by_level.items(), *summary.by_family_level.items()]
     for name, group in rows:
         print(_row(name, group), file=out)
     labels = ", ".join(f"{k}={v}" for k, v in sorted(summary.overall.failure_labels.items()))

@@ -127,8 +127,11 @@ def record_to_json(record: EpisodeRecord) -> dict[str, Any]:
 
 def record_from_json(data: dict[str, Any]) -> EpisodeRecord:
     trace = data["trace"]
+    key = dict(data["key"])
+    if data["schema_version"] == 1:
+        key.setdefault("level", "L1")  # 스키마 1(Ticket 002)에는 level이 없었다. 모두 L1이다.
     return EpisodeRecord(
-        key=EpisodeKey(**data["key"]),
+        key=EpisodeKey(**key),
         policy_config=data["policy_config"],
         llm_seed=data["llm_seed"],
         correct_disposition=data["correct_disposition"],

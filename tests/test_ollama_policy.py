@@ -410,3 +410,30 @@ def test_usage_records_tokens_cache_and_time_per_call() -> None:
     assert calls[0]["total_duration_ns"] == 2_000_000_000
     assert all(c["wall_s"] >= 0 for c in calls)
     assert usage["llm_calls"] == 2
+
+
+def test_requests_never_carry_level_or_subtype() -> None:
+    from opsworld.generator import L2_SUBTYPES
+    from opsworld.state import Level
+
+    words = {"level", "l2_subtype", *[n for names in L2_SUBTYPES.values() for n in names]}
+    for family in Family:
+        for seed in (0, 1):
+            service = {
+                "service_id": generate_incident(family, seed, level=Level.L2).service.service_id
+            }
+            fake = FakeOllama(
+                [
+                    reply_tools(tool_call(n, service))
+                    for n in (
+                        "get_service_metrics",
+                        "get_recent_deployments",
+                        "get_dependency_health",
+                        "get_traffic_metrics",
+                    )
+                ]
+                + [reply_tools(tool_call("observe_only", service))]
+            )
+            run_episode(connect(fake), S0, family, seed, 0, level=Level.L2)
+            text = json.dumps(fake.chat_requests)
+            assert not any(word in text for word in words), (family, seed)

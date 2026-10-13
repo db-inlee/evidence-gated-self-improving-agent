@@ -84,3 +84,19 @@ DISTRACTOR_DEPLOY_AFTER_PROBABILITY: Final = 0.5
 VERSION_MAJOR_RANGE: Final = (1, 4)
 VERSION_MINOR_RANGE: Final = (0, 30)
 VERSION_PATCH_RANGE: Final = (0, 20)
+
+# ---------------------------------------------------------------------------
+# L2 생성기 수치 범위 (Ticket 003). 술어 임계값 섹션과 L1 범위는 건드리지 않는다.
+# CPU 포화와 트래픽 급증은 L1의 SATURATED_CPU_RANGE, SPIKE_TRAFFIC_MULTIPLIER_RANGE를 쓴다
+# (트래픽 비율은 1.5 미만 또는 3 이상만, 애매 구간 금지).
+# ---------------------------------------------------------------------------
+
+# deploy_in_window: 버그 없는 방해 배포가 저하 시작 이전 이 범위(분)에 있다.
+# deploy_before_regression 창(0~DEPLOY_BEFORE_REGRESSION_WINDOW_MIN) 안쪽에 여유를 둔다.
+L2_IN_WINDOW_DEPLOY_LEAD_MIN_RANGE: Final = (1, 12)
+
+# bad_deployment/extra_deployment: 버그 없는 배포가 저하 시작 이전 이 범위(분)에 하나 더 있다.
+# recent_deployment_found 창(30분) 안이지만 deploy_before_regression 창(15분) 밖이다. 버그 배포
+# (저하 1~12분 전)보다 앞서므로 가장 최근 배포는 항상 버그 배포다. 롤백 도구는 가장 최근 배포를
+# 되돌리므로, 이래야 정답 처분(rollback)이 도구 설명과 맞는다.
+L2_EXTRA_DEPLOY_BEFORE_MIN_RANGE: Final = (20, 28)

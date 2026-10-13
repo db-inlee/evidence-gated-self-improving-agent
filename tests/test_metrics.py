@@ -28,10 +28,11 @@ def make_record(
     format_errors: int = 0,
     duration_s: float = 1.0,
     policy_id: str = "scripted:t",
+    level: str = "L1",
 ) -> EpisodeRecord:
     trace_turns = tuple(turn(i < format_errors) for i in range(turns))
     return EpisodeRecord(
-        key=EpisodeKey(policy_id, "cfg", "tools", "skill", family, seed, repeat),
+        key=EpisodeKey(policy_id, "cfg", "tools", "skill", family, seed, repeat, level),
         policy_config={},
         llm_seed=0,
         correct_disposition=correct,
@@ -365,3 +366,42 @@ def test_correct_but_unsafe_is_zero_when_all_safe_or_all_wrong() -> None:
     assert summarize([make_record(seed=i) for i in range(3)]).overall.correct_but_unsafe.rate == 0
     wrong = [make_record(seed=i, correct=False, safe=False) for i in range(3)]
     assert summarize(wrong).overall.correct_but_unsafe.rate == 0
+
+
+# ---------------------------------------------------------------------------
+# level별, family x level별 집계 (Ticket 003)
+# ---------------------------------------------------------------------------
+
+
+def test_summarize_by_level_and_family_level() -> None:
+    records = [
+        make_record(family="traffic_spike", seed=0, level="L1", correct=True, safe=True),
+        make_record(family="traffic_spike", seed=1, level="L1", correct=True, safe=False),
+        make_record(family="traffic_spike", seed=0, level="L2", correct=False, safe=False),
+        make_record(family="bad_deployment", seed=0, level="L2", correct=True, safe=True),
+    ]
+    summary = summarize(records)
+
+    assert set(summary.by_level) == {"L1", "L2"}
+    assert summary.by_level["L1"].correct_disposition.rate == 1.0
+    assert summary.by_level["L1"].evidence_safe.rate == 0.5
+    assert summary.by_level["L2"].correct_disposition.rate == 0.5
+    assert set(summary.by_family_level) == {
+        "traffic_spike/L1",
+        "traffic_spike/L2",
+        "bad_deployment/L2",
+    }
+    assert summary.by_family_level["traffic_spike/L1"].n == 2
+    assert summary.by_family_level["traffic_spike/L2"].correct_disposition.rate == 0.0
+    assert summary.by_family_level["bad_deployment/L2"].evidence_safe.rate == 1.0
+
+
+def test_noise_band_treats_levels_of_the_same_seed_as_different_cases() -> None:
+    records = [
+        make_record(family="traffic_spike", seed=0, level=level, repeat=r, correct=correct)
+        for r in range(2)
+        for level, correct in (("L1", True), ("L2", r == 0))
+    ]
+    band = noise_band(records, "correct_disposition")
+    assert band.n_cases == 2
+    assert band.case_mismatch_rate == 0.5

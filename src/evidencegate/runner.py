@@ -18,13 +18,14 @@ from opsworld import agent_env
 from opsworld.agent_env import AgentEnv
 from opsworld.generator import generate_incident
 from opsworld.grader import grade
-from opsworld.state import Family
+from opsworld.state import Family, Level
 from opsworld.tools import Episode
 
 if TYPE_CHECKING:
     from evidencegate.store import EpisodeStore
 
-SCHEMA_VERSION = 1
+# 2: EpisodeKey에 level 추가(Ticket 003). 버전 1 레코드는 level="L1"로 읽는다.
+SCHEMA_VERSION = 2
 
 # 모든 family에서 같은 형식. 서비스 ID만 바뀌고 정답 단서는 없다.
 ALERT_TEMPLATE = (
@@ -41,6 +42,7 @@ def make_alert(service_id: str) -> str:
 class Case:
     family: Family
     incident_seed: int
+    level: Level = Level.L1
 
 
 @dataclass(frozen=True)
@@ -54,6 +56,7 @@ class EpisodeKey:
     family: str
     incident_seed: int
     repeat: int
+    level: str = Level.L1.value  # 같은 (family, seed)라도 L1과 L2는 다른 키
 
 
 @dataclass(frozen=True)
@@ -99,7 +102,12 @@ class Progress:
 
 
 def episode_key(
-    policy: Policy, skill: Skill, family: Family, incident_seed: int, repeat: int
+    policy: Policy,
+    skill: Skill,
+    family: Family,
+    incident_seed: int,
+    repeat: int,
+    level: Level = Level.L1,
 ) -> EpisodeKey:
     return EpisodeKey(
         policy_id=policy.policy_id,
@@ -109,13 +117,19 @@ def episode_key(
         family=family.value,
         incident_seed=incident_seed,
         repeat=repeat,
+        level=level.value,
     )
 
 
 def run_episode(
-    policy: Policy, skill: Skill, family: Family, incident_seed: int, repeat: int
+    policy: Policy,
+    skill: Skill,
+    family: Family,
+    incident_seed: int,
+    repeat: int,
+    level: Level = Level.L1,
 ) -> EpisodeRecord:
-    incident = generate_incident(family, incident_seed)
+    incident = generate_incident(family, incident_seed, level)
     episode = Episode(incident)
     env = AgentEnv(episode)
     llm_seed = derive_llm_seed(family, incident_seed, repeat)
@@ -127,7 +141,7 @@ def run_episode(
 
     result = grade(incident, episode)
     return EpisodeRecord(
-        key=episode_key(policy, skill, family, incident_seed, repeat),
+        key=episode_key(policy, skill, family, incident_seed, repeat, level),
         policy_config=policy.config,
         llm_seed=llm_seed,
         correct_disposition=result.correct_disposition,
@@ -154,12 +168,13 @@ def run_suite(
         (case, repeat)
         for repeat in range(repeats)
         for case in cases
-        if episode_key(policy, skill, case.family, case.incident_seed, repeat) not in store
+        if episode_key(policy, skill, case.family, case.incident_seed, repeat, case.level)
+        not in store
     ]
     skipped = repeats * len(cases) - len(todo)
     start = time.perf_counter()
     for done, (case, repeat) in enumerate(todo, start=1):
-        record = run_episode(policy, skill, case.family, case.incident_seed, repeat)
+        record = run_episode(policy, skill, case.family, case.incident_seed, repeat, case.level)
         store.append(record)
         if on_progress is not None:
             elapsed = time.perf_counter() - start

@@ -4,7 +4,7 @@ import pytest
 
 from evidencegate.runner import Case
 from evidencegate.suites import CALIBRATION_SEED_OFFSET, calibration
-from opsworld.state import Family
+from opsworld.state import Family, Level
 
 
 def test_default_seed_offset_is_900000() -> None:
@@ -44,3 +44,24 @@ def test_zero_gives_empty_and_negative_raises() -> None:
     assert calibration(0) == []
     with pytest.raises(ValueError):
         calibration(-1)
+
+
+def test_default_levels_is_l1_only() -> None:
+    assert {c.level for c in calibration(3)} == {Level.L1}
+
+
+def test_mixed_levels_put_l1_block_first_then_l2() -> None:
+    cases = calibration(20, levels=(Level.L1, Level.L2))
+    assert len(cases) == 120
+    assert cases[:60] == calibration(20)
+    assert [c.level for c in cases[60:]] == [Level.L2] * 60
+    for family in Family:
+        l2 = [c.incident_seed for c in cases[60:] if c.family is family]
+        assert l2 == list(range(900_000, 900_020))
+
+
+def test_l2_seeds_reuse_the_l1_range() -> None:
+    cases = calibration(2, levels=(Level.L1, Level.L2))
+    assert {c.incident_seed for c in cases if c.level is Level.L1} == {
+        c.incident_seed for c in cases if c.level is Level.L2
+    }

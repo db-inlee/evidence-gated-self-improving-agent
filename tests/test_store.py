@@ -1,14 +1,15 @@
 """JSONL 결과 저장소: 왕복, 경로, 깨진 줄 처리."""
 
+import json
 from pathlib import Path
 
 import pytest
 
 from evidencegate.policy import ScriptedPolicy
-from evidencegate.runner import EpisodeRecord, run_episode
+from evidencegate.runner import Case, EpisodeRecord, run_episode, run_suite
 from evidencegate.skills import Skill
-from evidencegate.store import EpisodeStore, StoreCorruptedError
-from opsworld.state import Family
+from evidencegate.store import EpisodeStore, StoreCorruptedError, record_to_json
+from opsworld.state import Family, Level
 
 SKILL = Skill.from_text("# Skill\n")
 
@@ -216,3 +217,49 @@ def test_writer_still_repairs_after_a_reader_looked(tmp_path: Path) -> None:
         writer = EpisodeStore(path)
     writer.append(records[2])
     assert EpisodeStore(path).records() == records
+
+
+# ---------------------------------------------------------------------------
+# 스키마 버전 2 (level) 와 버전 1 결과 재사용
+# ---------------------------------------------------------------------------
+
+
+def as_schema_v1(record: EpisodeRecord) -> str:
+    """Ticket 002 시점(스키마 1) 형식의 줄: key에 level이 없다."""
+    data = record_to_json(record)
+    del data["key"]["level"]
+    data["schema_version"] = 1
+    return json.dumps(data) + "\n"
+
+
+def test_new_records_use_schema_2_with_level(tmp_path: Path) -> None:
+    store = EpisodeStore(tmp_path / "r.jsonl")
+    store.append(make_records(1)[0])
+    line = json.loads((tmp_path / "r.jsonl").read_text(encoding="utf-8"))
+    assert line["schema_version"] == 2
+    assert line["key"]["level"] == "L1"
+
+
+def test_schema_1_records_are_read_as_l1(tmp_path: Path) -> None:
+    records = make_records(3)
+    path = tmp_path / "r.jsonl"
+    path.write_text("".join(as_schema_v1(r) for r in records), encoding="utf-8")
+    loaded = EpisodeStore(path).records()
+    assert [r.key for r in loaded] == [r.key for r in records]
+    assert all(r.key.level == "L1" for r in loaded)
+    assert all(r.schema_version == 1 for r in loaded)
+
+
+def test_existing_schema_1_results_are_reused_not_rerun(tmp_path: Path) -> None:
+    """Ticket 002 결과 파일을 그대로 두고 같은 L1 케이스를 돌리면 전부 건너뛴다."""
+    policy = ScriptedPolicy(["observe_only"], name="t")
+    cases = [Case(family, 900_000) for family in Family]
+    old = [run_episode(policy, SKILL, c.family, c.incident_seed, 0) for c in cases]
+    path = tmp_path / "r.jsonl"
+    path.write_text("".join(as_schema_v1(r) for r in old), encoding="utf-8")
+
+    result = run_suite(policy, SKILL, cases, repeats=1, store=EpisodeStore(path))
+    assert (result.executed, result.skipped) == (0, 3)
+    l2 = [Case(family, 900_000, Level.L2) for family in Family]
+    result = run_suite(policy, SKILL, l2, repeats=1, store=EpisodeStore(path))
+    assert (result.executed, result.skipped) == (3, 0)
