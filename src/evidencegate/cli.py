@@ -27,6 +27,7 @@ from evidencegate.ids import config_id, tool_spec_id
 from evidencegate.machine import Machine, MachineDetectionError, detect_machine
 from evidencegate.metrics import METRICS, GroupSummary, Summary, noise_band, summarize
 from evidencegate.ollama_policy import (
+    PARALLEL_PROBE_MAX_RATIO,
     OllamaError,
     OllamaPolicy,
     OllamaSettings,
@@ -98,6 +99,12 @@ def _parser() -> argparse.ArgumentParser:
         "--concurrency", type=int, default=1, help="episodes run at the same time (default: 1)"
     )
     run.add_argument(
+        "--probe-max-ratio",
+        type=float,
+        default=PARALLEL_PROBE_MAX_RATIO,
+        help="parallel probe boundary: median concurrent/single time ratio must be below this",
+    )
+    run.add_argument(
         "--ollama-num-parallel",
         type=int,
         default=1,
@@ -132,11 +139,13 @@ def _run(
     )
     if settings.concurrency > 1:
         # 서버가 실제로 병렬 처리하지 않으면 조용히 순차가 되므로 시작 전에 확인한다.
-        probe = probe_parallelism(client, settings)
+        probe = probe_parallelism(client, settings, max_ratio=args.probe_max_ratio)
         verdict = "ok" if probe.parallel else "FAILED"
+        trials = ", ".join(f"{r:.2f}" for r in probe.ratios)
         print(
             f"parallel probe: single {probe.single_s:.2f}s, {settings.concurrency} at once "
-            f"{probe.concurrent_s:.2f}s, ratio {probe.ratio:.2f} -> {verdict}",
+            f"{probe.concurrent_s:.2f}s, ratio {probe.ratio:.2f} (trials {trials}; "
+            f"limit {probe.max_ratio:.2f}) -> {verdict}",
             file=out,
         )
         if not probe.parallel:

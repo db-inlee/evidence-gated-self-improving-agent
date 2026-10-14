@@ -248,3 +248,21 @@ def test_concurrency_needs_a_declared_server_parallel(tmp_path: Path) -> None:
 def test_sequential_run_does_not_probe(tmp_path: Path) -> None:
     _, output = run_cli(run_args(tmp_path), FakeOllama(two_step_agent))
     assert "parallel probe" not in output
+
+
+def test_probe_boundary_can_be_set_from_the_command_line(tmp_path: Path) -> None:
+    args = [
+        *run_args(tmp_path),
+        "--concurrency",
+        "2",
+        "--ollama-num-parallel",
+        "2",
+        "--probe-max-ratio",
+        "0.5",
+    ]
+    fake = FakeOllama(two_step_agent, delay_s=0.05)
+    out, err = io.StringIO(), io.StringIO()
+    code = main(args, http_client=fake.client(), out=out, err=err, machine=HOME_M3)
+    assert code == 1
+    assert "limit 0.50" in out.getvalue()
+    assert list(tmp_path.rglob("*.jsonl")) == []

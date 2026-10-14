@@ -496,3 +496,22 @@ def test_parallel_probe_fails_when_server_serializes_requests() -> None:
     probe = probe_parallelism(fake.client(), settings)
     assert probe.parallel is False
     assert probe.ratio >= PARALLEL_PROBE_MAX_RATIO
+
+
+def test_probe_warms_up_then_runs_three_trials_with_longer_output() -> None:
+    fake = FakeOllama([], delay_s=0.05)
+    settings = OllamaSettings.for_model(MODEL, concurrency=2, server_num_parallel=2)
+    probe = probe_parallelism(fake.client(), settings)
+    # warm-up 1회 + 3회 x (혼자 1 + 동시 2)
+    assert len(fake.chat_requests) == 1 + 3 * (1 + 2)
+    assert {r["options"]["num_predict"] for r in fake.chat_requests} == {128}
+    assert len(probe.ratios) == 3
+    assert probe.ratio == sorted(probe.ratios)[1]  # 중앙값
+
+
+def test_probe_boundary_is_a_parameter() -> None:
+    fake = FakeOllama([], delay_s=0.05)
+    settings = OllamaSettings.for_model(MODEL, concurrency=2, server_num_parallel=2)
+    strict = probe_parallelism(fake.client(), settings, max_ratio=0.5)
+    assert strict.max_ratio == 0.5
+    assert strict.parallel is False

@@ -19,6 +19,7 @@ LLM이 읽는 텍스트(지침, 재촉 문구)는 영어로 쓰고 정답 단서
 
 import hashlib
 import json
+import statistics
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
@@ -335,29 +336,40 @@ class OllamaPolicy:
         raise OllamaError(f"Ollama /api/chat returned {response.status_code}: {message}")
 
 
-# 병렬 탐침: 짧은 요청 하나를 혼자 보낸 시간 대비, 동시에 보낸 시간의 비율이 이 값 이상이면
-# 서버가 요청을 하나씩 처리하는 것으로 본다(순차면 약 2, 병렬이면 약 1).
+# 병렬 탐침: 요청 하나를 혼자 보낸 시간 대비, 동시에 보낸 시간의 비율. 순차 처리면 약 2, 병렬이면
+# 그보다 작다. 기본 경계 1.5는 처음 정한 값이고, 실측으로 정한 경계는 CLI `--probe-max-ratio`로
+# 넘긴다(Ticket 004 §1).
 PARALLEL_PROBE_MAX_RATIO = 1.5
-_PROBE_NUM_PREDICT = 32
+PROBE_NUM_PREDICT = 128  # 디코딩이 시간 대부분을 차지하도록 충분히 길게
+PROBE_TRIALS = 3
 
 
 @dataclass(frozen=True)
 class ParallelProbe:
-    single_s: float
-    concurrent_s: float
-    ratio: float
+    single_s: float  # 시행별 혼자 시간의 중앙값
+    concurrent_s: float  # 시행별 동시 시간의 중앙값
+    ratio: float  # 시행별 비율의 중앙값(판정에 씀)
+    ratios: tuple[float, ...]
+    max_ratio: float
     parallel: bool
 
 
-def probe_parallelism(client: httpx.Client, settings: OllamaSettings) -> ParallelProbe:
+def probe_parallelism(
+    client: httpx.Client,
+    settings: OllamaSettings,
+    *,
+    trials: int = PROBE_TRIALS,
+    max_ratio: float = PARALLEL_PROBE_MAX_RATIO,
+) -> ParallelProbe:
     """서버가 동시 요청을 실제로 병렬 처리하는지 확인한다.
 
-    정책과 같은 model·num_ctx·think·keep_alive로 보내 모델이 다시 로드되지 않게 한다. 먼저 한 번
-    보내 모델을 올린 뒤(시간에서 뺌), 혼자 한 번과 동시 `concurrency`개를 잰다.
+    정책과 같은 model·num_ctx·think·keep_alive로 보내 모델이 다시 로드되지 않게 한다. warm-up 요청
+    하나로 모델을 올린 뒤(판정에서 뺌), 시행마다 혼자 한 번과 동시 `concurrency`개를 잰다. 시행별
+    비율의 중앙값이 max_ratio보다 작으면 병렬로 본다.
     """
     body = {
         "model": settings.model,
-        "messages": [{"role": "user", "content": "Reply with the single word: ok"}],
+        "messages": [{"role": "user", "content": "Count from one to two hundred in words."}],
         "stream": False,
         "think": settings.think,
         "keep_alive": settings.keep_alive,
@@ -365,7 +377,7 @@ def probe_parallelism(client: httpx.Client, settings: OllamaSettings) -> Paralle
             "temperature": 0.0,
             "seed": 0,
             "num_ctx": settings.num_ctx,
-            "num_predict": _PROBE_NUM_PREDICT,
+            "num_predict": PROBE_NUM_PREDICT,
         },
     }
 
@@ -376,14 +388,26 @@ def probe_parallelism(client: httpx.Client, settings: OllamaSettings) -> Paralle
             raise OllamaError(f"parallel probe failed: {_error_text(response)}")
         return time.perf_counter() - start
 
-    send()  # 모델 로드(측정에서 뺌)
-    single = send()
-    start = time.perf_counter()
-    with ThreadPoolExecutor(max_workers=settings.concurrency) as pool:
-        list(pool.map(lambda _: send(), range(settings.concurrency)))
-    concurrent = time.perf_counter() - start
-    ratio = concurrent / single if single > 0 else float("inf")
-    return ParallelProbe(single, concurrent, ratio, ratio < PARALLEL_PROBE_MAX_RATIO)
+    send()  # warm-up: 모델 로드(판정에서 뺌)
+    singles, concurrents, ratios = [], [], []
+    for _ in range(trials):
+        single = send()
+        start = time.perf_counter()
+        with ThreadPoolExecutor(max_workers=settings.concurrency) as pool:
+            list(pool.map(lambda _: send(), range(settings.concurrency)))
+        concurrent = time.perf_counter() - start
+        singles.append(single)
+        concurrents.append(concurrent)
+        ratios.append(concurrent / single if single > 0 else float("inf"))
+    ratio = statistics.median(ratios)
+    return ParallelProbe(
+        single_s=statistics.median(singles),
+        concurrent_s=statistics.median(concurrents),
+        ratio=ratio,
+        ratios=tuple(ratios),
+        max_ratio=max_ratio,
+        parallel=ratio < max_ratio,
+    )
 
 
 def _execute(env: AgentEnv, raw: dict[str, Any]) -> tuple[str, dict[str, Any], TurnRecord]:
