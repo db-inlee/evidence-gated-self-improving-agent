@@ -336,10 +336,10 @@ class OllamaPolicy:
         raise OllamaError(f"Ollama /api/chat returned {response.status_code}: {message}")
 
 
-# 병렬 탐침: 요청 하나를 혼자 보낸 시간 대비, 동시에 보낸 시간의 비율. 순차 처리면 약 2, 병렬이면
-# 그보다 작다. 기본 경계 1.5는 처음 정한 값이고, 실측으로 정한 경계는 CLI `--probe-max-ratio`로
-# 넘긴다(Ticket 004 §1).
-PARALLEL_PROBE_MAX_RATIO = 1.5
+# 병렬 탐침: 요청 하나를 혼자 보낸 시간 대비, 동시에 보낸 시간의 비율. 순차 처리면 약 2(이론값),
+# 병렬이면 그보다 작다. 경계 1.68 = (실측 병렬 비율 평균 1.361 + 순차 이론값 2.0) / 2
+# (Ticket 004 §1, gpt-oss:20b, Mac15,3, 탐침 5회). CLI `--probe-max-ratio`로 바꿀 수 있다.
+PARALLEL_PROBE_MAX_RATIO = 1.68
 PROBE_NUM_PREDICT = 128  # 디코딩이 시간 대부분을 차지하도록 충분히 길게
 PROBE_TRIALS = 3
 

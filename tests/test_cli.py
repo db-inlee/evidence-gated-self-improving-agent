@@ -266,3 +266,49 @@ def test_probe_boundary_can_be_set_from_the_command_line(tmp_path: Path) -> None
     assert code == 1
     assert "limit 0.50" in out.getvalue()
     assert list(tmp_path.rglob("*.jsonl")) == []
+
+
+# ---------------------------------------------------------------------------
+# 분할 suite (Ticket 004 §2)
+# ---------------------------------------------------------------------------
+
+
+def split_args(runs_dir: Path, suite: str) -> list[str]:
+    return [
+        "run",
+        "--policy",
+        "ollama:gemma4:12b",
+        "--skill",
+        str(S0_PATH),
+        "--suite",
+        suite,
+        "--repeats",
+        "1",
+        "--runs-dir",
+        str(runs_dir),
+    ]
+
+
+def test_run_dev_a_split(tmp_path: Path) -> None:
+    code, output = run_cli(split_args(tmp_path, "dev_a"), FakeOllama(two_step_agent))
+    assert code == 0
+    assert "cases: 60 x repeats 1 = 60 episodes" in output
+    path = only_store_file(tmp_path)
+    assert path.relative_to(tmp_path).parts[0] == "dev_a"
+    seeds = {r.key.incident_seed for r in EpisodeStore(path).records()}
+    assert seeds == set(range(100_000, 100_010))
+
+
+def test_split_suites_reject_calibration_only_options(tmp_path: Path) -> None:
+    with pytest.raises(SystemExit) as excinfo:
+        run_cli([*split_args(tmp_path, "dev_b"), "--n-per-family", "5"], FakeOllama(two_step_agent))
+    assert excinfo.value.code == 2
+
+
+def test_calibration_still_needs_n_per_family(tmp_path: Path) -> None:
+    args = run_args(tmp_path)
+    i = args.index("--n-per-family")
+    del args[i : i + 2]
+    with pytest.raises(SystemExit) as excinfo:
+        run_cli(args, FakeOllama(two_step_agent))
+    assert excinfo.value.code == 2

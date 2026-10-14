@@ -35,13 +35,14 @@ from evidencegate.ollama_policy import (
 )
 from evidencegate.runner import Case, EpisodeRecord, Progress, episode_key, run_suite
 from evidencegate.skills import Skill, load_skill
+from evidencegate.splits import SPLITS
 from evidencegate.store import EpisodeStore
 from evidencegate.suites import calibration
 from opsworld import agent_env
 from opsworld.state import Level
 
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
-SUITES = ("calibration",)
+SUITES = ("calibration", *SPLITS)
 
 
 def main(
@@ -57,6 +58,15 @@ def main(
     if args.command == "run":
         if not args.policy.startswith("ollama:"):
             parser.error(f"unsupported policy {args.policy!r}; expected ollama:<model>")
+        if args.suite == "calibration":
+            if args.n_per_family is None:
+                parser.error("--suite calibration needs --n-per-family")
+            args.levels = args.levels or (Level.L1,)
+        elif args.n_per_family is not None or args.levels is not None:
+            parser.error(
+                f"--suite {args.suite} is a fixed split; --n-per-family and --levels "
+                "apply to calibration only"
+            )
         if args.concurrency < 1 or args.concurrency > args.ollama_num_parallel:
             parser.error(
                 "--concurrency must be >= 1 and <= --ollama-num-parallel "
@@ -85,13 +95,15 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--policy", required=True, help="ollama:<model>, e.g. ollama:gemma4:12b")
     run.add_argument("--skill", required=True, type=Path)
     run.add_argument("--suite", required=True, choices=SUITES)
-    run.add_argument("--n-per-family", required=True, type=int)
+    run.add_argument(
+        "--n-per-family", type=int, default=None, help="calibration only: cases per cell"
+    )
     run.add_argument("--repeats", required=True, type=int)
     run.add_argument(
         "--levels",
         type=_parse_levels,
-        default=(Level.L1,),
-        help="comma-separated incident levels, e.g. L1 or L1,L2 (default: L1)",
+        default=None,
+        help="calibration only: comma-separated levels, e.g. L1 or L1,L2 (default: L1)",
     )
     run.add_argument("--runs-dir", type=Path, default=Path("runs"))
     run.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
@@ -155,7 +167,11 @@ def _run(
             )
     policy = OllamaPolicy.connect(settings, client, machine=machine)
     skill = load_skill(args.skill)
-    cases = calibration(args.n_per_family, levels=args.levels)
+    cases = (
+        calibration(args.n_per_family, levels=args.levels)
+        if args.suite == "calibration"
+        else SPLITS[args.suite]()
+    )
     store = EpisodeStore.for_run(
         args.runs_dir,
         suite=args.suite,
