@@ -1,0 +1,80 @@
+### 7.8 사전 등록 (Ticket 004, 후보 생성 전 고정)
+
+이 절은 Ticket 005의 평가 정의를 **후보 풀이 생기기 전에** 고정한다. 7.3~7.6절과 다르면 이 절이 우선한다. 이 절의 원문(제목 줄부터 8절 앞 구분선 직전까지, 앞뒤 공백 제거, UTF-8)의 sha256을 `preregistration/ticket-004.sha256`에 기록하고 커밋한다. 그 커밋이 사전 등록 기준 시점이다. 이후 이 절을 고치면 해시가 달라지며, 고친 내용과 이유를 따로 남긴다.
+
+#### A. 실행 조건과 기준선
+
+- 정책: `gpt-oss:20b`, config_id `7c66ee5bf13c`(동시 2, 서버 `OLLAMA_NUM_PARALLEL=2`), 장비 Mac15,3, tool_spec_id `e9b4996f7529`, S0 skill_id `bf65e569ae37`. Ticket 005 끝까지 바꾸지 않는다.
+- 분할(`src/evidencegate/splits.py`): Dev-A 60(칸당 10), Dev-B 210(칸당 35), Oracle 300(칸당 50). 칸 = family×level 6개.
+- 후보는 모든 split에서 반복 1회. S0는 Dev-A 반복 1회(반복 0, proposer 입력과 같은 실행), Dev-B 반복 1회(반복 0), Oracle 반복 5회.
+- 게이트가 보는 S0: Dev-A·Dev-B **반복 0 한 번**(운영 조건).
+- Oracle 채점이 보는 S0: Oracle **반복 5회 다수결**(케이스마다).
+- 노이즈 기준: **보정 목록 S0 반복 5회**(L1·L2 각 60개, family 1:1:1, config `7c66ee5bf13c`, 보고서 2026-10-15-01). metric별로 따로 쓴다.
+- δ(N) = `null_diff_quantile`(노이즈 기준 기록, metric, n_cases = N, q = 0.95, n_boot = 2000, seed = 0). N > 120이면 복원 추출로 계산된다. ES의 δ(N)은 0이다(반복 노이즈 0).
+- 한계: δ(N)은 칸 층화 없이 재표본하고, C4의 bootstrap은 칸 층화로 재표본한다. 노이즈 기준과 Dev-B가 같은 구성이라 실질 차이는 작다고 보고 그대로 둔다.
+
+#### B. 게이트 (각각 CD 기준과 ES 기준으로 따로 판정)
+
+케이스 단위 Δ = 후보 결과 − S0 결과(같은 케이스, 둘 다 반복 0), 값은 −1, 0, +1. 평균 Δ는 그 split의 케이스 평균.
+
+| 게이트 | 데이터 | 채택 규칙 |
+| --- | --- | --- |
+| C1 | Dev-A(60) | 후보 평균 점수 > S0 평균 점수. 같으면 기각 |
+| C2 | Dev-B(N) | 평균 Δ ≥ 0(회귀 없음). Δ = 0도 채택(keep-better 정의 그대로) |
+| C3(CD 보조) | Dev-B(N) | 평균 Δ > δ(N) |
+| C4 | Dev-B(N) | paired bootstrap(2,000회, 칸마다 칸 크기만큼 복원 추출, seed 0)의 평균 Δ 5번째 백분위수(단측 95% 하한, percentile 방식) > 0 **그리고** 평균 Δ > δ(N) |
+
+- 주 비교는 C1·C2·C4다. C3는 CD 기준 보조 행으로만 보고한다. ES 기준에서는 δ(N) = 0이라 C3가 C2와 거의 같아지며, 이 사실을 결과로 보고한다.
+- 판정은 N = 210(Dev-B 전체)에서 하고, Budget Curve(C)에서 N을 바꿔 다시 계산한다.
+
+#### C. Budget Curve와 RQ2 민감도 분석
+
+- Budget Curve: Dev-B에서 **N = 24, 48, 96, 204**(칸당 4, 8, 16, 34)를 칸 층화 비복원 재표본, N마다 1,000회, seed 0. 재표본마다 C2·C4(+C3 보조) 판정을 다시 계산하고, 지표(D)를 재표본 평균으로 낸다. 에이전트를 다시 돌리지 않는다.
+- RQ2 민감도 분석: Dev-A를 family 비율 bad_deployment 60% / traffic_spike 30% / dependency_failure 10%(크기 60 → 36 / 18 / 6), family 안에서 L1:L2 1:1, 복원 추출, 1,000회, seed 0으로 재표본해 C1을 다시 계산한다. 재표본마다 S0와 후보를 같은 케이스로 짝짓는다. 한계: proposer 입력의 치우침은 재현하지 않는다(proposer는 같은 구성의 Dev-A 실패를 본다).
+
+#### D. Oracle 채점과 지표
+
+- Oracle Δ(케이스) = 후보 결과(반복 1회) − S0 반복 5회 다수결 기준값. 전체 Δ(300개 평균)와 칸별 Δ_cell(칸 50개 평균).
+- Oracle Δ 신뢰구간: paired bootstrap 95% 양측(2.5·97.5 백분위수), 2,000회, 칸 층화 복원 추출, seed 0.
+- 실질 효과 임계값 **ε = 5%p**.
+- **칸 판정 임계값** τ_cell = max(ε, 칸 잡음 q95). 칸 잡음: Oracle S0 반복 5회에서 반복 하나(r)를 뗀 나머지 4회의 **평균**(0, 0.25, 0.5, 0.75, 1)을 기준값으로, 그 칸의 \|평균(x_r − 기준값)\|을 r마다 구한다(다섯 값). 다섯 값의 95번째 백분위수(선형 보간)를 칸마다 쓴다. 4회 다수결은 2:2 동률이 생겨 쓰지 않는다.
+- **불확정 규칙:** 판정에 쓰는 신뢰구간이 판정 경계(+ε 또는 −ε)를 가로질러 구간의 양 끝에서 판정이 달라지면 그 후보는 그 판정에 대해 불확정이다(예: 점추정 Δ > ε인데 하한 < ε이면 "유용함"이 불확정). 지표마다 적용하고, 불확정 후보는 분모와 분자에서 빼고 개수를 따로 보고한다. **예외:** Unsupported Acceptance Rate는 신뢰구간 자체를 재는 지표라 불확정 제외를 적용하지 않는다(채택된 후보 전부가 분모).
+- 지표(게이트마다, CD 기준과 ES 기준 각각):
+
+| 지표 | 정의 |
+| --- | --- |
+| Harmful Acceptance Rate | P(Δ < −ε \| 채택) |
+| Unsupported Acceptance Rate | P(Δ 신뢰구간 하한 ≤ 0 \| 채택) |
+| Useful Acceptance Precision | P(Δ > ε \| 채택) |
+| Expected Oracle Gain per Accepted Edit | 채택된 후보의 평균 Δ |
+| False Rejection Rate | P(기각 \| Δ > ε) |
+| Local Harm Acceptance Rate | P(어떤 칸에서 Δ_cell < −τ_cell \| 채택) |
+
+- 모든 비율은 분자/분모 개수와 Clopper-Pearson 95% 구간을 함께 보고한다. 게이트 간 차이는 통계 검정 없이 기술적으로 비교한다.
+- 보조 지표: 증거 카드 `expected_effect`의 방향(up/down/none)과 oracle Δ 방향(Δ > ε / Δ < −ε / 그 사이)의 일치율, CD·ES 각각.
+
+#### E. 하위집합 판정 (통제 후보 라벨 검증과 proposer 후보 분류에 공통, CD·ES 각각)
+
+- positive: 전체 Δ > ε이고 어떤 칸도 Δ_cell < −τ_cell이 아님.
+- negative: 전체 Δ < −ε.
+- mixed: 전체 Δ > ε이면서 어떤 칸에서 Δ_cell < −τ_cell.
+- neutral: 전체 \|Δ\| ≤ ε. \|Δ_cell\| > τ_cell인 칸이 있으면 neutral로 두고 그 칸을 따로 보고한다.
+- 불확정 규칙(D)을 적용한다. 통제 후보 7개의 사전 라벨(pos 2, neg 3, mixed 1, neutral 1)은 바꾸지 않고, 판정이 다르면 "예상과 다름"으로 보고한다.
+- 결과표(7.7절 형식)의 행: Positive controls, Negative controls, Mixed controls, Neutral controls, Proposer 생성(주요 결론). Proposer 후보는 위 판정으로 나눈 하위집합별로도 보고한다.
+
+#### F. Oracle 적합성 확인 (사전 고정 이질성 기준, S0 다수결 기준선, 칸 50개)
+
+- 부호 기준: 통제 후보 하나 이상에서, 같은 family 안에 Δ_cell > τ_cell인 칸과 Δ_cell < −τ_cell인 칸이 함께 있다.
+- 크기 기준: 통제 후보 하나 이상에서, 같은 family 안 두 칸(L1, L2)의 Δ_cell 차이 ≥ 30%p.
+- CD·ES 각각 계산한다. 둘 다 못 맞추면 "미달"로 기록하고 사용자가 진행 여부를 정한다. 사후에 다른 기준으로 "통과"라고 쓰지 않는다.
+
+#### G. 가설과 보고 원칙
+
+- RQ1: CD 기준으로 채택된 후보(C2와 C4 각각) 중 ES 기준 해로운 후보(oracle ES Δ < −ε, 불확정 제외)의 비율이, 같은 게이트의 ES 기준 채택에서보다 높다.
+- RQ2: C1은 C2·C4보다 Harmful Acceptance Rate와 Local Harm Acceptance Rate가 높다. 치우친 Dev-A 민감도 분석(C)에서 그 차이가 커진다.
+- RQ3: C4는 C2보다 Useful Acceptance Precision이 높고 Harmful Acceptance Rate가 낮다. N이 작을수록 차이가 크다(Budget Curve 네 점의 추세를 기술적으로 비교, 검정 없음).
+- C2는 Δ = 0 후보도 채택하므로 neutral이 많으면 C2의 정밀도가 떨어진다. 해석에 명시한다.
+- 의도된 조건(결과 해석에 명시): proposer는 S0가 맞힌 사례를 보지 않는다(Dev-A 실패 40개 중 dependency_failure 0개). proposer는 빠진 술어 이름을 본다(채점 기준 역산 가능, 근거 보강 쪽으로 후보가 몰릴 수 있음). C1과 proposer는 같은 S0 Dev-A 실행(반복 0)을 본다(검증 누출 조건의 정의).
+- 주요 결론은 proposer 후보로만 낸다. 통제 후보와 C3는 보조로 보고한다.
+- 후보 주제 분포(트래픽 확인 계열 / 시간 관계 계열 / 그 밖)는 기술용이며, 게이트 판정과 하위집합 라벨에 쓰지 않는다.
+- 결과가 가설과 다르면 그대로 보고한다. 사전 기준을 못 맞추면 "미달"로 적고, 규칙을 바꾸려면 사용자 결정과 이유를 남긴 뒤 진행한다.

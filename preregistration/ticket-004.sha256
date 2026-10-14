@@ -1,0 +1,14 @@
+# Ticket 004 evaluation preregistration (Gate Benchmark, Ticket 005)
+# The hashed text lives in docs/design.md, a local working document not tracked in git.
+# A byte-identical copy of the hashed range is committed as preregistration/ticket-004-section-7.8.txt.
+# Range: from the line starting with "### 7.8 사전 등록 (Ticket 004, 후보 생성 전 고정)"
+#        up to, but not including, the separator "\n---\n\n## 8. 실험 B" that precedes section 8.
+# Normalization: strip leading/trailing whitespace of that range, append one "\n", encode as UTF-8.
+sha256: 7611e83ddc2204eb12f457b2caa2c93fda5bdcb0c0dd42757cc203d64818a44d
+file: docs/design.md
+copy: preregistration/ticket-004-section-7.8.txt
+section: 7.8
+start_marker: ### 7.8 사전 등록 (Ticket 004, 후보 생성 전 고정)
+end_marker: \n---\n\n## 8. 실험 B
+lines: 80
+recorded_at: 2026-10-15T01:08:23+09:00
