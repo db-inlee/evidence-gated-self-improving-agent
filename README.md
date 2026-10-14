@@ -8,7 +8,9 @@ The environment and the baseline agent are in place; the self-improvement loop i
 
 - **OpsWorld**, a deterministic incident simulator, and an **evidence grader** (v0).
 - A **baseline tool-using agent**: a local LLM (`gpt-oss:20b` via Ollama) driven by a LangGraph tool loop and the initial skill `skills/S0/SKILL.md`. It sees only tool outputs through an `AgentEnv` facade, never hidden values.
-- A **run and aggregation pipeline**: resumable result store keyed by policy, config, tool spec, skill, incident, and repeat; summaries with Wilson intervals; noise-band estimates.
+- A **run and aggregation pipeline**: resumable result store keyed by policy, config, tool spec, skill, incident level, and repeat; summaries with Wilson intervals; noise-band estimates.
+- **L2 incidents**: within each family, subtypes with different distractors, so a skill edit can help some incidents of a family and not others.
+- **Hand-written control candidates** (`skills/controls/`): one-change edits of the initial skill, labelled positive, negative, mixed, or neutral before any measurement, for checking the acceptance gates later.
 
 The initial skill was calibrated so that it is deliberately imperfect: it often picks the right disposition without the evidence that action requires, which is the gap the project needs to measure. There is no skill proposer or acceptance gate yet, and no skill-edit experiments or results.
 
@@ -16,6 +18,7 @@ The initial skill was calibrated so that it is deliberately imperfect: it often 
 | --- | --- | --- |
 | v0 | OpsWorld (3 incident families, 4 observation tools, 3 actions), deterministic evidence grader, hand-written trajectory tests | Implemented |
 | v1 | Baseline tool-using agent, run pipeline, initial-skill calibration | Implemented |
+| v1 | L2 incident generator, recalibration on mixed L1/L2 incidents, control candidates | Implemented |
 | v1 | Skill proposer, candidate edit pool, acceptance gates (same-set greedy, keep-better, paired-bootstrap gate), evaluation-budget curve | Not started |
 | v2 | Sequential evolution over multiple rounds | Not started |
 | v3 | More incident types, out-of-distribution evaluation | Not started |
@@ -55,6 +58,14 @@ Hand-written tool-call sequences, graded without any LLM:
 - **Hidden values:** the root cause and the deployment `has_bug` flag never appear in any tool output.
 - **Determinism:** the same `(family, seed)` always produces the same incident and the same tool outputs.
 - **One action per episode:** v0 ends the episode after a single action. An action records the disposition and does not change simulator state.
+
+**L2 incidents** keep the same tools, predicates, required evidence, and correct disposition per family; only the distractors change. Each family has two subtypes, chosen evenly by seed. The level and subtype are hidden values, like the root cause. Traffic is always either below 1.5× or at least 3× baseline, so every L2 incident still has an Evidence-Safe solution.
+
+| Family | L2 subtypes (distractor) |
+| --- | --- |
+| `bad_deployment` | CPU saturated by the bug while traffic is normal; an older bug-free deployment alongside the buggy one |
+| `dependency_failure` | a bug-free deployment right before the regression; traffic and CPU inflated by retries |
+| `traffic_spike` | a bug-free deployment right before the regression; two bug-free deployments, one right before the regression |
 
 Required evidence per action (all must hold):
 
@@ -118,7 +129,7 @@ Results go to `runs/` (not tracked). The machine is detected automatically and i
 src/opsworld/
   constants.py    predicate thresholds and generator ranges
   state.py        incident state model
-  generator.py    generate_incident(family, seed)
+  generator.py    generate_incident(family, seed, level), L1 and L2 subtypes
   tools.py        Episode and the four observation tools
   ledger.py       raw observation ledger, observations_before
   predicates.py   evidence predicates computed from raw observations
@@ -134,7 +145,7 @@ src/evidencegate/
   suites.py       calibration incident list
   metrics.py      summaries, Wilson intervals, noise band
   cli.py          run / summarize entry point
-skills/           initial skill S0 and the variants tried during calibration
+skills/           initial skill S0, the variants tried during calibration, and controls/
 tests/
 ```
 
