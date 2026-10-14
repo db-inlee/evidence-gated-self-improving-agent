@@ -26,7 +26,12 @@ import httpx
 from evidencegate.ids import config_id, tool_spec_id
 from evidencegate.machine import Machine, MachineDetectionError, detect_machine
 from evidencegate.metrics import METRICS, GroupSummary, Summary, noise_band, summarize
-from evidencegate.ollama_policy import OllamaError, OllamaPolicy, OllamaSettings
+from evidencegate.ollama_policy import (
+    OllamaError,
+    OllamaPolicy,
+    OllamaSettings,
+    probe_parallelism,
+)
 from evidencegate.runner import Case, EpisodeRecord, Progress, episode_key, run_suite
 from evidencegate.skills import Skill, load_skill
 from evidencegate.store import EpisodeStore
@@ -51,6 +56,11 @@ def main(
     if args.command == "run":
         if not args.policy.startswith("ollama:"):
             parser.error(f"unsupported policy {args.policy!r}; expected ollama:<model>")
+        if args.concurrency < 1 or args.concurrency > args.ollama_num_parallel:
+            parser.error(
+                "--concurrency must be >= 1 and <= --ollama-num-parallel "
+                "(the server's OLLAMA_NUM_PARALLEL)"
+            )
         try:
             return _run(args, http_client, machine or detect_machine(), out)
         except MachineDetectionError as error:
@@ -84,6 +94,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     run.add_argument("--runs-dir", type=Path, default=Path("runs"))
     run.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
+    run.add_argument(
+        "--concurrency", type=int, default=1, help="episodes run at the same time (default: 1)"
+    )
+    run.add_argument(
+        "--ollama-num-parallel",
+        type=int,
+        default=1,
+        help="declared OLLAMA_NUM_PARALLEL of the server; recorded in the policy config",
+    )
 
     summ = sub.add_parser("summarize", help="summarize stored results")
     summ.add_argument("paths", nargs="+", type=Path, help="result .jsonl files or folders")
@@ -108,11 +127,24 @@ def _run(
 ) -> int:
     client = http_client or httpx.Client(base_url=args.ollama_url)
     model = args.policy.removeprefix("ollama:")
-    policy = OllamaPolicy.connect(
-        OllamaSettings.for_model(model),
-        client,
-        machine=machine,
+    settings = OllamaSettings.for_model(
+        model, concurrency=args.concurrency, server_num_parallel=args.ollama_num_parallel
     )
+    if settings.concurrency > 1:
+        # 서버가 실제로 병렬 처리하지 않으면 조용히 순차가 되므로 시작 전에 확인한다.
+        probe = probe_parallelism(client, settings)
+        verdict = "ok" if probe.parallel else "FAILED"
+        print(
+            f"parallel probe: single {probe.single_s:.2f}s, {settings.concurrency} at once "
+            f"{probe.concurrent_s:.2f}s, ratio {probe.ratio:.2f} -> {verdict}",
+            file=out,
+        )
+        if not probe.parallel:
+            raise OllamaError(
+                f"server is not processing requests in parallel (ratio {probe.ratio:.2f}); "
+                f"restart Ollama with OLLAMA_NUM_PARALLEL={settings.server_num_parallel}"
+            )
+    policy = OllamaPolicy.connect(settings, client, machine=machine)
     skill = load_skill(args.skill)
     cases = calibration(args.n_per_family, levels=args.levels)
     store = EpisodeStore.for_run(
@@ -147,7 +179,9 @@ def _run(
             flush=True,
         )
 
-    result = run_suite(policy, skill, cases, args.repeats, store, on_progress=report)
+    result = run_suite(
+        policy, skill, cases, args.repeats, store, on_progress=report, workers=settings.concurrency
+    )
     print(f"done: ran {result.executed}, skipped {result.skipped}", file=out)
     _print_file_summary(store.path, store.records(), out)
     return 0

@@ -6,6 +6,7 @@
 
 import time
 from collections.abc import Callable, Sequence
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
@@ -162,8 +163,17 @@ def run_suite(
     repeats: int,
     store: "EpisodeStore",
     on_progress: Callable[[Progress], None] | None = None,
+    workers: int = 1,
 ) -> SuiteRunResult:
-    """반복 번호 바깥, 케이스 안쪽 순서로 돈다. 반복 하나가 끝날 때마다 완전한 결과가 생긴다."""
+    """반복 번호 바깥, 케이스 안쪽 순서로 돈다. 반복 하나가 끝날 때마다 완전한 결과가 생긴다.
+
+    workers > 1이면 에피소드를 동시에 돌린다(Ticket 004 §1). 저장소 쓰기와 진행률 콜백은 이
+    함수를 부른 스레드에서만 한다(단일 쓰기). 끝나는 순서는 바뀔 수 있지만 키는 순차와 같다.
+    워커에서 예외가 나면 아직 시작하지 않은 에피소드를 취소하고 예외를 다시 낸다. 그때까지 저장된
+    에피소드는 남고, 실행 중이던 에피소드는 저장되지 않아 재개할 때 다시 돈다.
+    """
+    if workers < 1:
+        raise ValueError(f"workers must be >= 1, got {workers}")
     todo = [
         (case, repeat)
         for repeat in range(repeats)
@@ -173,10 +183,31 @@ def run_suite(
     ]
     skipped = repeats * len(cases) - len(todo)
     start = time.perf_counter()
-    for done, (case, repeat) in enumerate(todo, start=1):
-        record = run_episode(policy, skill, case.family, case.incident_seed, repeat, case.level)
+    done = 0
+
+    def finish(record: EpisodeRecord) -> None:
+        nonlocal done
         store.append(record)
+        done += 1
         if on_progress is not None:
-            elapsed = time.perf_counter() - start
-            on_progress(Progress(done, len(todo), skipped, record, elapsed))
+            on_progress(Progress(done, len(todo), skipped, record, time.perf_counter() - start))
+
+    def execute(item: tuple[Case, int]) -> EpisodeRecord:
+        case, repeat = item
+        return run_episode(policy, skill, case.family, case.incident_seed, repeat, case.level)
+
+    if workers == 1:
+        for item in todo:
+            finish(execute(item))
+        return SuiteRunResult(executed=len(todo), skipped=skipped)
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(execute, item) for item in todo]
+        try:
+            for future in as_completed(futures):
+                finish(future.result())
+        except BaseException:
+            for future in futures:
+                future.cancel()
+            raise
     return SuiteRunResult(executed=len(todo), skipped=skipped)

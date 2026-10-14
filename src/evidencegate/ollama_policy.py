@@ -20,6 +20,7 @@ LLM이 읽는 텍스트(지침, 재촉 문구)는 영어로 쓰고 정답 단서
 import hashlib
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Any, TypedDict
 
@@ -69,6 +70,27 @@ class OllamaSettings:
     max_consecutive_text_turns: int = 2
     max_consecutive_format_errors: int = 3
     request_timeout_s: float = 600.0
+    # 병렬 실행(Ticket 004 §1). 둘 다 1이면 config에 넣지 않아 순차 config_id가 그대로다.
+    concurrency: int = 1  # 클라이언트가 동시에 돌리는 에피소드 수
+    server_num_parallel: int = 1  # 서버 OLLAMA_NUM_PARALLEL 선언값(API로 확인할 수 없음)
+
+    def __post_init__(self) -> None:
+        if self.concurrency < 1 or self.server_num_parallel < 1:
+            raise ValueError("concurrency and server_num_parallel must be >= 1")
+        if self.concurrency > self.server_num_parallel:
+            raise ValueError(
+                f"concurrency {self.concurrency} exceeds server_num_parallel "
+                f"{self.server_num_parallel}"
+            )
+
+    @property
+    def parallel(self) -> dict[str, int] | None:
+        if self.concurrency == 1 and self.server_num_parallel == 1:
+            return None
+        return {
+            "client_concurrency": self.concurrency,
+            "server_num_parallel": self.server_num_parallel,
+        }
 
     @classmethod
     def for_model(cls, model: str, **overrides: Any) -> "OllamaSettings":
@@ -137,6 +159,8 @@ class OllamaPolicy:
             "seed_rule": SEED_RULE,
             "machine": machine.as_dict(),
         }
+        if s.parallel is not None:
+            self.config["parallel"] = s.parallel
 
     @classmethod
     def connect(
@@ -269,6 +293,14 @@ class OllamaPolicy:
                 "think": s.think,
                 "keep_alive": s.keep_alive,
                 **self._machine.as_dict(),
+                **(
+                    {
+                        "client_concurrency": s.concurrency,
+                        "server_num_parallel": s.server_num_parallel,
+                    }
+                    if s.parallel is not None
+                    else {}
+                ),
             },
             usage={
                 "calls": final["usage"],
@@ -301,6 +333,57 @@ class OllamaPolicy:
         if "pars" in message.lower() and "tool" in message.lower():
             return {"parse_error": message}
         raise OllamaError(f"Ollama /api/chat returned {response.status_code}: {message}")
+
+
+# 병렬 탐침: 짧은 요청 하나를 혼자 보낸 시간 대비, 동시에 보낸 시간의 비율이 이 값 이상이면
+# 서버가 요청을 하나씩 처리하는 것으로 본다(순차면 약 2, 병렬이면 약 1).
+PARALLEL_PROBE_MAX_RATIO = 1.5
+_PROBE_NUM_PREDICT = 32
+
+
+@dataclass(frozen=True)
+class ParallelProbe:
+    single_s: float
+    concurrent_s: float
+    ratio: float
+    parallel: bool
+
+
+def probe_parallelism(client: httpx.Client, settings: OllamaSettings) -> ParallelProbe:
+    """서버가 동시 요청을 실제로 병렬 처리하는지 확인한다.
+
+    정책과 같은 model·num_ctx·think·keep_alive로 보내 모델이 다시 로드되지 않게 한다. 먼저 한 번
+    보내 모델을 올린 뒤(시간에서 뺌), 혼자 한 번과 동시 `concurrency`개를 잰다.
+    """
+    body = {
+        "model": settings.model,
+        "messages": [{"role": "user", "content": "Reply with the single word: ok"}],
+        "stream": False,
+        "think": settings.think,
+        "keep_alive": settings.keep_alive,
+        "options": {
+            "temperature": 0.0,
+            "seed": 0,
+            "num_ctx": settings.num_ctx,
+            "num_predict": _PROBE_NUM_PREDICT,
+        },
+    }
+
+    def send() -> float:
+        start = time.perf_counter()
+        response = client.post("/api/chat", json=body, timeout=settings.request_timeout_s)
+        if response.status_code != 200:
+            raise OllamaError(f"parallel probe failed: {_error_text(response)}")
+        return time.perf_counter() - start
+
+    send()  # 모델 로드(측정에서 뺌)
+    single = send()
+    start = time.perf_counter()
+    with ThreadPoolExecutor(max_workers=settings.concurrency) as pool:
+        list(pool.map(lambda _: send(), range(settings.concurrency)))
+    concurrent = time.perf_counter() - start
+    ratio = concurrent / single if single > 0 else float("inf")
+    return ParallelProbe(single, concurrent, ratio, ratio < PARALLEL_PROBE_MAX_RATIO)
 
 
 def _execute(env: AgentEnv, raw: dict[str, Any]) -> tuple[str, dict[str, Any], TurnRecord]:

@@ -205,3 +205,46 @@ def test_run_with_l1_and_l2_levels(tmp_path: Path) -> None:
     _, summary = run_cli(["summarize", str(tmp_path)])
     assert re.search(r"^L2\s+6\s", summary, re.MULTILINE)
     assert re.search(r"^traffic_spike/L2\s+2\s", summary, re.MULTILINE)
+
+
+# ---------------------------------------------------------------------------
+# 동시 실행 (Ticket 004 §1)
+# ---------------------------------------------------------------------------
+
+
+def test_run_with_two_workers_on_a_parallel_server(tmp_path: Path) -> None:
+    run_cli(run_args(tmp_path / "seq"), FakeOllama(two_step_agent))
+    args = [*run_args(tmp_path / "par"), "--concurrency", "2", "--ollama-num-parallel", "2"]
+    code, output = run_cli(args, FakeOllama(two_step_agent, delay_s=0.05))
+    assert code == 0
+    assert "parallel probe" in output and "ok" in output
+    assert "ran 6, skipped 0" in output
+    seq_dir = only_store_file(tmp_path / "seq").parent.parent.name
+    par_dir = only_store_file(tmp_path / "par").parent.parent.name
+    assert seq_dir != par_dir  # 병렬 설정은 config_id를 바꾼다
+    records = EpisodeStore(only_store_file(tmp_path / "par")).records()
+    assert records[0].policy_config["parallel"] == {
+        "client_concurrency": 2,
+        "server_num_parallel": 2,
+    }
+
+
+def test_run_stops_when_the_server_is_not_parallel(tmp_path: Path) -> None:
+    args = [*run_args(tmp_path), "--concurrency", "2", "--ollama-num-parallel", "2"]
+    fake = FakeOllama(two_step_agent, delay_s=0.1, serialize=True)
+    out, err = io.StringIO(), io.StringIO()
+    code = main(args, http_client=fake.client(), out=out, err=err, machine=HOME_M3)
+    assert code == 1
+    assert "not processing requests in parallel" in err.getvalue()
+    assert list(tmp_path.rglob("*.jsonl")) == []
+
+
+def test_concurrency_needs_a_declared_server_parallel(tmp_path: Path) -> None:
+    with pytest.raises(SystemExit) as excinfo:
+        run_cli([*run_args(tmp_path), "--concurrency", "2"], FakeOllama(two_step_agent))
+    assert excinfo.value.code == 2
+
+
+def test_sequential_run_does_not_probe(tmp_path: Path) -> None:
+    _, output = run_cli(run_args(tmp_path), FakeOllama(two_step_agent))
+    assert "parallel probe" not in output

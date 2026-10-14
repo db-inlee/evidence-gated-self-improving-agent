@@ -1,6 +1,8 @@
 """테스트용 가짜 Ollama 서버(httpx MockTransport). 실제 Ollama를 부르지 않는다."""
 
 import json
+import threading
+import time
 from collections.abc import Callable, Sequence
 from typing import Any
 
@@ -51,7 +53,13 @@ class FakeOllama:
         chat: Sequence[dict[str, Any] | httpx.Response] | ChatResponder,
         models: list[dict[str, Any]] | None = None,
         version: str = "0.33.3",
+        delay_s: float = 0.0,
+        serialize: bool = False,
     ) -> None:
+        """delay_s: chat 요청마다 지연. serialize: 요청을 한 번에 하나씩만 처리(병렬 꺼진 서버)."""
+        self.delay_s = delay_s
+        self.serialize = serialize
+        self._lock = threading.Lock()
         self.responder = chat if callable(chat) else None
         self.chat_replies = [] if callable(chat) else list(chat)
         self.chat_requests: list[dict[str, Any]] = []
@@ -65,7 +73,14 @@ class FakeOllama:
             return httpx.Response(200, json={"models": self.models})
         if request.url.path == "/api/chat":
             body = json.loads(request.content)
+            if self.serialize:
+                with self._lock:
+                    time.sleep(self.delay_s)
+            elif self.delay_s:
+                time.sleep(self.delay_s)
             self.chat_requests.append(body)
+            if "tools" not in body:  # 병렬 탐침 같은 도구 없는 요청
+                return httpx.Response(200, json=reply_text("ok"))
             if self.responder is not None:
                 reply = self.responder(body)
                 return (

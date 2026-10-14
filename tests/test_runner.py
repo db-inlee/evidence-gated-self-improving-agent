@@ -1,5 +1,7 @@
 """run_episode, run_suite, 초기 알림."""
 
+import threading
+import time
 from dataclasses import replace
 from pathlib import Path
 
@@ -11,6 +13,7 @@ from evidencegate.runner import (
     SCHEMA_VERSION,
     Case,
     EpisodeKey,
+    EpisodeRecord,
     Progress,
     make_alert,
     run_episode,
@@ -309,3 +312,118 @@ def test_l2_episode_uses_the_l2_incident() -> None:
         level=Level.L2,
     )
     assert record.trace.turns[0].result_summary.count("deployment_id") == 2
+
+
+# ---------------------------------------------------------------------------
+# 동시 실행 (Ticket 004 §1): 워커 여러 개, 저장소 쓰기는 호출한 스레드에서만
+# ---------------------------------------------------------------------------
+
+
+class SlowPolicy:
+    """에피소드마다 잠깐 멈춘다. 동시에 몇 개가 돌았는지 센다."""
+
+    policy_id = "slow"
+
+    def __init__(self, delay_s: float = 0.05, fail_on_seed: int | None = None) -> None:
+        self.config = {"type": "slow"}
+        self.delay_s = delay_s
+        self.fail_on_seed = fail_on_seed
+        self.active = 0
+        self.max_active = 0
+        self._lock = threading.Lock()
+
+    def run(self, env: AgentEnv, skill: Skill, alert: str, llm_seed: int) -> PolicyTrace:
+        with self._lock:
+            self.active += 1
+            self.max_active = max(self.max_active, self.active)
+        try:
+            time.sleep(self.delay_s)
+            if self.fail_on_seed is not None and llm_seed == self.fail_on_seed:
+                raise RuntimeError("model runner crashed")
+            return ScriptedPolicy(["observe_only"], name="inner").run(env, skill, alert, llm_seed)
+        finally:
+            with self._lock:
+                self.active -= 1
+
+
+def test_two_workers_produce_the_same_keys_as_sequential(tmp_path: Path) -> None:
+    seq = EpisodeStore(tmp_path / "seq.jsonl")
+    par = EpisodeStore(tmp_path / "par.jsonl")
+    run_suite(SlowPolicy(0.0), SKILL, CASES, repeats=2, store=seq)
+    result = run_suite(SlowPolicy(0.0), SKILL, CASES, repeats=2, store=par, workers=2)
+    assert (result.executed, result.skipped) == (12, 0)
+    assert par.keys() == seq.keys()
+    assert len(par.records()) == 12
+
+
+def test_two_workers_actually_overlap(tmp_path: Path) -> None:
+    policy = SlowPolicy(0.05)
+    run_suite(policy, SKILL, CASES, repeats=1, store=EpisodeStore(tmp_path / "r.jsonl"), workers=2)
+    assert policy.max_active == 2
+
+
+def test_one_worker_never_overlaps(tmp_path: Path) -> None:
+    policy = SlowPolicy(0.01)
+    run_suite(policy, SKILL, CASES, repeats=1, store=EpisodeStore(tmp_path / "r.jsonl"), workers=1)
+    assert policy.max_active == 1
+
+
+def test_store_is_written_only_from_the_calling_thread(tmp_path: Path) -> None:
+    store = EpisodeStore(tmp_path / "r.jsonl")
+    writer_threads: set[int] = set()
+    original = store.append
+
+    def tracking_append(record: EpisodeRecord) -> None:
+        writer_threads.add(threading.get_ident())
+        original(record)
+
+    store.append = tracking_append  # type: ignore[method-assign]
+    run_suite(SlowPolicy(0.02), SKILL, CASES, repeats=1, store=store, workers=2)
+    assert writer_threads == {threading.get_ident()}
+
+
+def test_progress_with_two_workers_counts_up_once_per_episode(tmp_path: Path) -> None:
+    events: list[Progress] = []
+    store = EpisodeStore(tmp_path / "r.jsonl")
+    run_suite(
+        SlowPolicy(0.01), SKILL, CASES, repeats=1, store=store, on_progress=events.append, workers=2
+    )
+    assert [e.done for e in events] == list(range(1, 7))
+    assert {e.total for e in events} == {6}
+    assert len({e.record.key for e in events}) == 6
+
+
+def test_resume_with_two_workers_skips_stored_keys(tmp_path: Path) -> None:
+    path = tmp_path / "r.jsonl"
+    run_suite(SlowPolicy(0.0), SKILL, CASES[:3], repeats=1, store=EpisodeStore(path))
+    result = run_suite(
+        SlowPolicy(0.0), SKILL, CASES, repeats=1, store=EpisodeStore(path), workers=2
+    )
+    assert (result.executed, result.skipped) == (3, 3)
+    assert len(EpisodeStore(path).records()) == 6
+
+
+def test_worker_error_stops_the_run_and_keeps_finished_episodes(tmp_path: Path) -> None:
+    path = tmp_path / "r.jsonl"
+    failing_seed = derive_llm_seed(CASES[3].family, CASES[3].incident_seed, 0)
+    policy = SlowPolicy(0.02, fail_on_seed=failing_seed)
+    with pytest.raises(RuntimeError, match="crashed"):
+        run_suite(policy, SKILL, CASES, repeats=1, store=EpisodeStore(path), workers=2)
+    stored = EpisodeStore(path).keys()
+    assert 1 <= len(stored) < 6
+    assert all(
+        k.incident_seed != CASES[3].incident_seed or k.family != CASES[3].family.value
+        for k in stored
+    )
+
+
+def test_workers_must_be_positive(tmp_path: Path) -> None:
+    with pytest.raises(ValueError):
+        run_suite(
+            SlowPolicy(0.0),
+            SKILL,
+            CASES,
+            repeats=1,
+            store=EpisodeStore(tmp_path / "r.jsonl"),
+            workers=0,
+        )

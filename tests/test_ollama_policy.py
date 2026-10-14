@@ -13,9 +13,11 @@ from evidencegate.machine import Machine
 from evidencegate.ollama_policy import (
     INSTRUCTIONS,
     NUDGE,
+    PARALLEL_PROBE_MAX_RATIO,
     OllamaError,
     OllamaPolicy,
     OllamaSettings,
+    probe_parallelism,
 )
 from evidencegate.policy import StopReason
 from evidencegate.runner import EpisodeRecord, make_alert, run_episode
@@ -437,3 +439,60 @@ def test_requests_never_carry_level_or_subtype() -> None:
             run_episode(connect(fake), S0, family, seed, 0, level=Level.L2)
             text = json.dumps(fake.chat_requests)
             assert not any(word in text for word in words), (family, seed)
+
+
+# ---------------------------------------------------------------------------
+# 병렬 설정과 탐침 (Ticket 004 §1)
+# ---------------------------------------------------------------------------
+
+
+def test_sequential_config_has_no_parallel_block() -> None:
+    """동시 1개·서버 1이면 config에 넣지 않아 기존 순차 config_id가 그대로다."""
+    policy = connect(FakeOllama([]))
+    assert "parallel" not in policy.config
+    assert policy.settings.concurrency == 1
+
+
+def test_parallel_settings_enter_config_and_change_config_id() -> None:
+    sequential = connect(FakeOllama([]))
+    parallel = connect(FakeOllama([]), concurrency=2, server_num_parallel=2)
+    assert parallel.config["parallel"] == {"client_concurrency": 2, "server_num_parallel": 2}
+    assert config_id(parallel) != config_id(sequential)
+
+
+def test_parallel_settings_are_recorded_in_llm_config() -> None:
+    fake = FakeOllama([reply_tools(tool_call("observe_only", svc()))])
+    policy = connect(fake, concurrency=2, server_num_parallel=2)
+    record = run(fake, policy=policy)
+    assert record.trace.llm_config is not None
+    assert record.trace.llm_config["client_concurrency"] == 2
+    assert record.trace.llm_config["server_num_parallel"] == 2
+
+
+def test_concurrency_above_server_parallel_is_rejected() -> None:
+    with pytest.raises(ValueError, match="server_num_parallel"):
+        OllamaSettings.for_model(MODEL, concurrency=2, server_num_parallel=1)
+    with pytest.raises(ValueError):
+        OllamaSettings.for_model(MODEL, concurrency=0)
+
+
+def test_parallel_probe_passes_when_server_runs_requests_together() -> None:
+    fake = FakeOllama([], delay_s=0.2)
+    settings = OllamaSettings.for_model(MODEL, concurrency=2, server_num_parallel=2)
+    probe = probe_parallelism(fake.client(), settings)
+    assert probe.parallel is True
+    assert probe.ratio < PARALLEL_PROBE_MAX_RATIO
+    # 모델이 다시 로드되지 않도록 정책과 같은 num_ctx·think·keep_alive로 보낸다
+    sent = fake.chat_requests[-1]
+    assert sent["options"]["num_ctx"] == 8192
+    assert sent["think"] == "low" or sent["think"] is False
+    assert sent["keep_alive"] == "60m"
+    assert "tools" not in sent
+
+
+def test_parallel_probe_fails_when_server_serializes_requests() -> None:
+    fake = FakeOllama([], delay_s=0.2, serialize=True)
+    settings = OllamaSettings.for_model(MODEL, concurrency=2, server_num_parallel=2)
+    probe = probe_parallelism(fake.client(), settings)
+    assert probe.parallel is False
+    assert probe.ratio >= PARALLEL_PROBE_MAX_RATIO
