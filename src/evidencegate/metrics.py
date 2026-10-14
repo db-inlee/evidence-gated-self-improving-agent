@@ -224,3 +224,73 @@ def _check_single_run(records: Sequence[EpisodeRecord]) -> None:
     runs = {(r.key.policy_id, r.key.config_id, r.key.tool_spec_id, r.key.skill_id) for r in records}
     if len(runs) > 1:
         raise ValueError(f"records from mixed runs: {sorted(runs)}")
+
+
+# ---------------------------------------------------------------------------
+# 설정 변경 전후 비교: 케이스 층화 순열 검정 (Ticket 004 §1)
+# ---------------------------------------------------------------------------
+
+SHIFT_METRICS = (*METRICS, "correct_but_unsafe")
+
+
+@dataclass(frozen=True)
+class ShiftTest:
+    metric: str
+    n_cases: int
+    observed_diff: float  # 케이스 평균(after 평균 - before 평균)
+    threshold: float  # 순열 분포 |차이|의 q 분위수
+    different: bool  # |observed_diff| > threshold
+
+
+def permutation_shift_test(
+    before: Sequence[EpisodeRecord],
+    after: Sequence[EpisodeRecord],
+    metric: str,
+    n_perm: int = 2000,
+    q: float = NOISE_PERCENTILE,
+    seed: int = 0,
+) -> ShiftTest:
+    """같은 케이스를 두 설정으로 반복 실행한 결과가 다른지 본다.
+
+    케이스마다 두 설정의 결과를 합쳐 원래 그룹 크기대로 무작위로 다시 나누고, 두 그룹 평균의 차이를
+    케이스 전체로 평균한다. n_perm회 반복한 |차이|의 q 분위수(선형 보간)를 임계값으로 쓰고, 실제
+    |차이|가 임계값보다 크면 다르다고 본다. 난수는 `random.Random(seed)`로만 쓴다.
+    """
+    if metric not in SHIFT_METRICS:
+        raise ValueError(f"unknown metric {metric!r}; expected one of {SHIFT_METRICS}")
+    old = _outcomes_by_case(before, metric)
+    new = _outcomes_by_case(after, metric)
+    if set(old) != set(new):
+        raise ValueError("before and after must contain the same cases")
+    cases = sorted(old)
+
+    def case_mean_diff(groups: list[tuple[list[int], list[int]]]) -> float:
+        diffs = [statistics.fmean(b) - statistics.fmean(a) for a, b in groups]
+        return statistics.fmean(diffs)
+
+    observed = case_mean_diff([(old[c], new[c]) for c in cases])
+    rng = random.Random(seed)
+    null = []
+    for _ in range(n_perm):
+        groups = []
+        for c in cases:
+            pooled = old[c] + new[c]
+            rng.shuffle(pooled)
+            groups.append((pooled[: len(old[c])], pooled[len(old[c]) :]))
+        null.append(abs(case_mean_diff(groups)))
+    threshold = percentile(null, q)
+    return ShiftTest(metric, len(cases), observed, threshold, abs(observed) > threshold)
+
+
+def _outcomes_by_case(
+    records: Sequence[EpisodeRecord], metric: str
+) -> dict[tuple[str, int, str], list[int]]:
+    _check_single_run(records)
+    outcomes: dict[tuple[str, int, str], list[int]] = {}
+    for r in sorted(records, key=lambda r: r.key.repeat):
+        if metric == "correct_but_unsafe":
+            value = int(r.correct_disposition and not r.evidence_safe)
+        else:
+            value = int(bool(getattr(r, metric)))
+        outcomes.setdefault((r.key.family, r.key.incident_seed, r.key.level), []).append(value)
+    return outcomes

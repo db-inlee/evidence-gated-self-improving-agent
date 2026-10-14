@@ -5,7 +5,13 @@ from collections.abc import Sequence
 
 import pytest
 
-from evidencegate.metrics import noise_band, null_diff_quantile, summarize, wilson_interval
+from evidencegate.metrics import (
+    noise_band,
+    null_diff_quantile,
+    permutation_shift_test,
+    summarize,
+    wilson_interval,
+)
 from evidencegate.policy import PolicyTrace, StopReason, TurnRecord
 from evidencegate.runner import EpisodeKey, EpisodeRecord
 
@@ -405,3 +411,97 @@ def test_noise_band_treats_levels_of_the_same_seed_as_different_cases() -> None:
     band = noise_band(records, "correct_disposition")
     assert band.n_cases == 2
     assert band.case_mismatch_rate == 0.5
+
+
+# ---------------------------------------------------------------------------
+# 케이스 층화 순열 검정 (Ticket 004 §1: 설정 변경 전후 S0 비교)
+# ---------------------------------------------------------------------------
+
+
+def runs(outcomes: dict[int, list[int]], policy_id: str, metric: str = "cd") -> list[EpisodeRecord]:
+    """outcomes: 케이스 번호 → 반복별 0/1. metric이 cd면 CD에, es면 ES에 넣는다."""
+    records = []
+    for case, values in outcomes.items():
+        for repeat, value in enumerate(values):
+            correct = bool(value) if metric == "cd" else True
+            safe = False if metric == "cd" else bool(value)
+            records.append(
+                make_record(
+                    family=FAMILIES[case % 3],
+                    seed=case,
+                    repeat=repeat,
+                    policy_id=policy_id,
+                    correct=correct,
+                    safe=safe,
+                )
+            )
+    return records
+
+
+def test_identical_settings_show_no_difference() -> None:
+    same = {c: [c % 2, 1, 0, int(c % 3 == 0), 1] for c in range(12)}
+    result = permutation_shift_test(runs(same, "old"), runs(same, "new"), "correct_disposition")
+    assert result.observed_diff == 0.0
+    assert result.different is False
+    assert result.n_cases == 12
+
+
+def test_all_zero_versus_all_one_is_different() -> None:
+    before = {c: [0] * 5 for c in range(20)}
+    after = {c: [1] * 5 for c in range(20)}
+    result = permutation_shift_test(runs(before, "old"), runs(after, "new"), "correct_disposition")
+    assert result.observed_diff == 1.0
+    assert result.threshold < 1.0
+    assert result.different is True
+
+
+def test_fully_deterministic_and_equal_gives_zero_threshold() -> None:
+    fixed = {c: [1] * 5 for c in range(6)}
+    result = permutation_shift_test(runs(fixed, "old"), runs(fixed, "new"), "correct_disposition")
+    assert (result.observed_diff, result.threshold, result.different) == (0.0, 0.0, False)
+
+
+def test_sign_of_observed_difference_is_after_minus_before() -> None:
+    before = {c: [1] * 5 for c in range(10)}
+    after = {c: [0] * 5 for c in range(10)}
+    result = permutation_shift_test(runs(before, "old"), runs(after, "new"), "correct_disposition")
+    assert result.observed_diff == -1.0
+    assert result.different is True
+
+
+def test_supports_evidence_safe_and_correct_but_unsafe() -> None:
+    before = {c: [0] * 5 for c in range(10)}  # ES 0 → correct_but_unsafe 1
+    after = {c: [1] * 5 for c in range(10)}  # ES 1 → correct_but_unsafe 0
+    es = permutation_shift_test(
+        runs(before, "old", "es"), runs(after, "new", "es"), "evidence_safe"
+    )
+    cbu = permutation_shift_test(
+        runs(before, "old", "es"), runs(after, "new", "es"), "correct_but_unsafe"
+    )
+    assert es.observed_diff == 1.0 and es.different
+    assert cbu.observed_diff == -1.0 and cbu.different
+
+
+def test_permutation_test_is_deterministic_for_a_seed() -> None:
+    noisy_before = {c: [(c + r) % 2 for r in range(5)] for c in range(30)}
+    noisy_after = {c: [int((c * r) % 3 == 0) for r in range(5)] for c in range(30)}
+    a = permutation_shift_test(
+        runs(noisy_before, "old"), runs(noisy_after, "new"), "correct_disposition"
+    )
+    b = permutation_shift_test(
+        runs(noisy_before, "old"), runs(noisy_after, "new"), "correct_disposition"
+    )
+    assert a == b
+
+
+def test_permutation_test_requires_the_same_cases() -> None:
+    before = {c: [1] * 5 for c in range(5)}
+    after = {c: [1] * 5 for c in range(6)}
+    with pytest.raises(ValueError, match="cases"):
+        permutation_shift_test(runs(before, "old"), runs(after, "new"), "correct_disposition")
+
+
+def test_permutation_test_rejects_unknown_metric() -> None:
+    same = {0: [1] * 5}
+    with pytest.raises(ValueError, match="metric"):
+        permutation_shift_test(runs(same, "old"), runs(same, "new"), "accuracy")
