@@ -40,6 +40,9 @@ API_KEY_ENV = "OPENAI_API_KEY"
 DEFAULT_BASE_URL = "https://api.openai.com/v1"
 FAILURE_TYPES = ("PREMATURE_ACTION", "WRONG_INTERVENTION")
 EFFECTS = ("up", "down", "none")
+# 형식 오류 종류(티켓 §7): 파싱 실패 / 필드 불일치 / 거절 / 출력 잘림
+FORMAT_ERROR_KINDS = ("parse_failure", "field_mismatch", "refusal", "truncated")
+STOP_EXCERPT_CHARS = 300  # 중단 메시지에 넣는 응답 앞부분 길이
 _KEY_PATTERN = re.compile(r"sk-[A-Za-z0-9_\-*.]+")
 
 SYSTEM_PROMPT = (
@@ -98,7 +101,19 @@ RESPONSE_SCHEMA: dict[str, Any] = {
 
 
 class ProposerStopped(RuntimeError):
-    """예산, 할당량, 인증, 반복된 서버 오류, 형식 오류율 때문에 proposer를 멈춘다."""
+    """예산, 할당량, 인증, 반복된 서버 오류, 형식 오류율 때문에 proposer를 멈춘다.
+
+    형식 오류율로 멈출 때만 `result`에 멈추게 한 호출의 결과가 들어 있다."""
+
+    def __init__(self, message: str, result: "ProposerResult | None" = None) -> None:
+        super().__init__(message)
+        self.result = result
+
+
+class _FormatError(ValueError):
+    def __init__(self, kind: str, detail: str) -> None:
+        super().__init__(detail)
+        self.kind = kind
 
 
 @dataclass(frozen=True)
@@ -133,6 +148,7 @@ class ProposerResult:
     candidate: ProposerCandidate | None
     format_error: str | None
     cost_usd: float
+    format_error_kind: str | None = None  # FORMAT_ERROR_KINDS 중 하나
 
 
 def prompt_sha256() -> str:
@@ -307,10 +323,11 @@ class Proposer:
         message = choice.get("message") or {}
         candidate: ProposerCandidate | None = None
         format_error: str | None = None
+        format_error_kind: str | None = None
         try:
             candidate = _parse_candidate(message, choice.get("finish_reason"), call_index, shown)
-        except ValueError as error:
-            format_error = str(error)
+        except _FormatError as error:
+            format_error, format_error_kind = str(error), error.kind
         self._log(
             call_index,
             attempt,
@@ -326,18 +343,26 @@ class Proposer:
             cost_usd=cost,
             duration_s=elapsed,
             error=format_error,
+            error_kind=format_error_kind,
             content=message.get("content"),
         )
         self.calls += 1
+        result = ProposerResult(call_index, candidate, format_error, cost, format_error_kind)
         if format_error is not None:
             self.format_errors += 1
             rate = self.format_errors / self.calls
             if rate > self.config.max_format_error_rate:
+                excerpt = str(message.get("content") or "")[:STOP_EXCERPT_CHARS]
                 raise ProposerStopped(
-                    f"format error rate {self.format_errors}/{self.calls} = {rate:.1%} exceeds "
-                    f"{self.config.max_format_error_rate:.0%}: {format_error}"
+                    redact(
+                        f"format error rate {self.format_errors}/{self.calls} = {rate:.1%} "
+                        f"exceeds {self.config.max_format_error_rate:.0%}; "
+                        f"call {call_index}, kind {format_error_kind}: {format_error[:200]}; "
+                        f"response starts: {excerpt!r}"
+                    ),
+                    result,
                 )
-        return ProposerResult(call_index, candidate, format_error, cost)
+        return result
 
     def _wait_or_stop(self, attempt: int, message: str) -> None:
         if attempt >= self.config.max_retries:
@@ -371,6 +396,7 @@ class Proposer:
             "output_tokens": 0,
             "reasoning_tokens": 0,
             "cost_usd": 0.0,
+            "error_kind": None,
             **fields,
             "cumulative_usd": self.cumulative_usd,
         }
@@ -390,19 +416,20 @@ def _parse_candidate(
     shown: list[ProposerCase],
 ) -> ProposerCandidate:
     if message.get("refusal"):
-        raise ValueError(f"refusal: {message['refusal']}")
+        raise _FormatError("refusal", f"refusal: {message['refusal']}")
     if finish_reason == "length":
-        raise ValueError("output hit max_completion_tokens")
+        raise _FormatError("truncated", "output hit max_completion_tokens")
     content = message.get("content")
     if not content:
-        raise ValueError("empty content")
+        raise _FormatError("parse_failure", "empty content")
     try:
         data = json.loads(content)
     except json.JSONDecodeError as error:
-        raise ValueError(f"content is not JSON: {error}") from None
+        raise _FormatError("parse_failure", f"content is not JSON: {error}") from None
     required = {"skill_md", "failure_type", "hypothesis", "expected_effect"}
     if not isinstance(data, dict) or set(data) != required:
-        raise ValueError(f"unexpected fields: {sorted(data) if isinstance(data, dict) else data!r}")
+        found = sorted(data) if isinstance(data, dict) else type(data).__name__
+        raise _FormatError("field_mismatch", f"unexpected fields: {found}")
     effect = data["expected_effect"]
     if (
         not isinstance(data["skill_md"], str)
@@ -414,7 +441,7 @@ def _parse_candidate(
         or effect["cd"] not in EFFECTS
         or effect["es"] not in EFFECTS
     ):
-        raise ValueError("field values do not match the schema")
+        raise _FormatError("field_mismatch", "field values do not match the schema")
     candidate_id = f"cand-{call_index:03d}"
     return ProposerCandidate(
         candidate_id=candidate_id,

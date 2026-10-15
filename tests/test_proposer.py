@@ -289,6 +289,68 @@ def test_format_errors_are_recorded_not_raised_until_rate_limit(
     assert proposer.format_errors == 1
 
 
+@pytest.mark.parametrize(
+    ("reply", "kind"),
+    [
+        (completion("not json"), "parse_failure"),
+        (completion(""), "parse_failure"),
+        (completion(json.dumps({"skill_md": GOOD_SKILL})), "field_mismatch"),
+        (
+            completion(
+                json.dumps(
+                    {
+                        "skill_md": GOOD_SKILL,
+                        "failure_type": "MADE_UP",
+                        "hypothesis": "h",
+                        "expected_effect": {"cd": "up", "es": "up"},
+                    }
+                )
+            ),
+            "field_mismatch",
+        ),
+        (completion(good_content(), refusal="I can't help with that."), "refusal"),
+        (completion(good_content(), finish="length"), "truncated"),
+    ],
+    ids=["not-json", "empty", "missing-field", "bad-enum", "refusal", "truncated"],
+)
+def test_format_error_kind_is_in_result_and_ledger(
+    reply: dict[str, Any], kind: str, tmp_path: Path
+) -> None:
+    proposer = make(FakeOpenAI([reply]), tmp_path, max_format_error_rate=1.0)
+    result = proposer.propose(call_index=0)
+    assert result.format_error_kind == kind
+    assert read_ledger(tmp_path)[-1]["error_kind"] == kind
+
+
+def test_good_call_has_no_format_error_kind(tmp_path: Path) -> None:
+    proposer = make(FakeOpenAI([completion(good_content())]), tmp_path)
+    assert proposer.propose(call_index=0).format_error_kind is None
+    assert read_ledger(tmp_path)[-1]["error_kind"] is None
+
+
+def test_format_stop_reports_kind_and_response_excerpt(tmp_path: Path) -> None:
+    """멈출 때 오류 종류와 응답 앞부분을 보여 준다. 앞부분은 길이가 제한되고 키는 지워진다."""
+    content = "Sorry, here is " + "x" * 2000 + f" {FAKE_KEY}"
+    proposer = make(FakeOpenAI([completion(content)]), tmp_path)
+    with pytest.raises(ProposerStopped) as excinfo:
+        proposer.propose(call_index=0)
+    message = str(excinfo.value)
+    assert "parse_failure" in message
+    assert "Sorry, here is xxx" in message
+    assert len(message) < 1000
+    assert FAKE_KEY not in message
+    stopped = excinfo.value.result
+    assert stopped is not None
+    assert (stopped.call_index, stopped.format_error_kind) == (0, "parse_failure")
+
+
+def test_non_format_stops_carry_no_result(tmp_path: Path) -> None:
+    proposer = make(FakeOpenAI([]), tmp_path, budget_usd=0.005)
+    with pytest.raises(ProposerStopped) as excinfo:
+        proposer.propose(call_index=0)
+    assert excinfo.value.result is None
+
+
 def test_format_error_on_the_first_call_already_exceeds_the_rate(tmp_path: Path) -> None:
     """문자 그대로의 규칙: 첫 호출이 형식 오류면 1/1 = 100% > 5%라 바로 멈춘다."""
     fake = FakeOpenAI([completion("bad")])

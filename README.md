@@ -11,15 +11,18 @@ The environment and the baseline agent are in place; the self-improvement loop i
 - A **run and aggregation pipeline**: resumable result store keyed by policy, config, tool spec, skill, incident level, and repeat; summaries with Wilson intervals; noise-band estimates.
 - **L2 incidents**: within each family, subtypes with different distractors, so a skill edit can help some incidents of a family and not others.
 - **Hand-written control candidates** (`skills/controls/`): one-change edits of the initial skill, labelled positive, negative, mixed, or neutral before any measurement, for checking the acceptance gates later.
+- **Fixed incident splits** (Dev-A for proposing edits, Dev-B for gate decisions, Oracle for after-the-fact effect estimates) and an export of Dev-A failures, the only data the proposer sees.
+- **A skill proposer** (OpenAI API): one call returns one candidate `SKILL.md` and an evidence card. It has a pre-call budget cap, per-call token and cost ledger, retries, and a format-error stop. The API key is read from the environment only. The evaluation plan was pre-registered before any candidate was generated (`preregistration/`).
 
-The initial skill was calibrated so that it is deliberately imperfect: it often picks the right disposition without the evidence that action requires, which is the gap the project needs to measure. There is no skill proposer or acceptance gate yet, and no skill-edit experiments or results.
+The initial skill was calibrated so that it is deliberately imperfect: it often picks the right disposition without the evidence that action requires, which is the gap the project needs to measure. No candidate pool has been generated yet, and there is no acceptance gate, skill-edit experiment, or result.
 
 | Version | Scope | Status |
 | --- | --- | --- |
 | v0 | OpsWorld (3 incident families, 4 observation tools, 3 actions), deterministic evidence grader, hand-written trajectory tests | Implemented |
 | v1 | Baseline tool-using agent, run pipeline, initial-skill calibration | Implemented |
 | v1 | L2 incident generator, recalibration on mixed L1/L2 incidents, control candidates | Implemented |
-| v1 | Skill proposer, candidate edit pool, acceptance gates (same-set greedy, keep-better, paired-bootstrap gate), evaluation-budget curve | Not started |
+| v1 | Data splits, skill proposer, candidate edit pool | In progress |
+| v1 | Acceptance gates (same-set greedy, keep-better, paired-bootstrap gate), evaluation-budget curve | Not started |
 | v2 | Sequential evolution over multiple rounds | Not started |
 | v3 | More incident types, out-of-distribution evaluation | Not started |
 
@@ -123,6 +126,17 @@ uv run python -m evidencegate.cli summarize runs/calibration
 
 Results go to `runs/` (not tracked). The machine is detected automatically and is part of the run key, so results from different machines never mix.
 
+The proposer calls the OpenAI API and is billed. It reads `OPENAI_API_KEY` from the environment and never prints or stores it. Prices are passed explicitly (USD per million tokens), because the API does not report cost:
+
+```bash
+export OPENAI_API_KEY=...                                        # never commit it
+bash scripts/proposer_probe.sh models                            # list model ids
+bash scripts/proposer_probe.sh probe <model> <in_usd> <out_usd>  # one call
+bash scripts/proposer_probe.sh pool <model> <in_usd> <out_usd> <calls>
+```
+
+All calls share one ledger (`runs/proposer/ledger.jsonl`), and the $1.50 budget cap counts everything in it. Exit code 2 means the proposer stopped (budget, quota, auth, repeated server errors, or format-error rate).
+
 ## Layout
 
 ```
@@ -143,8 +157,14 @@ src/evidencegate/
   store.py        resumable JSONL result store
   ids.py, seeds.py, skills.py, machine.py   run-key ids, LLM seeds, skill loading, machine detection
   suites.py       calibration incident list
+  splits.py       Dev-A / Dev-B / Oracle incident splits
   metrics.py      summaries, Wilson intervals, noise band
   cli.py          run / summarize entry point
+  proposer_inputs.py  Dev-A failure export (the proposer's only input)
+  proposer.py     OpenAI proposer: sampling, prompt, budget, retries, ledger
+  propose_cli.py  models / propose entry point
+scripts/          proposer_probe.sh (probe and pool runs)
+preregistration/  hash and copy of the pre-registered evaluation plan
 skills/           initial skill S0, the variants tried during calibration, and controls/
 tests/
 ```
