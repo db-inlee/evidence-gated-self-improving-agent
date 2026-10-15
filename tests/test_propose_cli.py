@@ -34,10 +34,10 @@ def make_case(i: int, *, correct: bool) -> ProposerCase:
     )
 
 
-def content(hypothesis: str) -> str:
+def content(hypothesis: str, *, extra: str = "") -> str:
     return json.dumps(
         {
-            "skill_md": S0_PATH.read_text() + "\n7. Check traffic before rolling back.\n",
+            "skill_md": S0_PATH.read_text() + "\n7. Check traffic before rolling back.\n" + extra,
             "failure_type": "WRONG_INTERVENTION",
             "hypothesis": hypothesis,
             "expected_effect": {"cd": "up", "es": "up"},
@@ -184,3 +184,41 @@ def test_key_is_not_in_outputs(tmp_path: Path, inputs: Path) -> None:
     texts = [out, err, (tmp_path / "out" / "call-000.json").read_text()]
     for text in texts:
         assert FAKE_KEY not in text
+
+
+def test_result_records_the_section_5_checks(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI([completion(content("H0", extra="\nEvidence card:\n- x\n"))])
+    code, out, _ = run(propose_args(tmp_path, inputs), fake)
+    assert code == 0
+    saved = json.loads((tmp_path / "out" / "call-000.json").read_text())
+    assert saved["invalid_reasons"] == ["line_count", "structure", "terms"]  # 줄 3개 추가
+    assert "cand-000 invalid (line_count, structure, terms)" in out
+
+
+def test_valid_result_has_no_invalid_reasons(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI([completion(content("H0"))])
+    run(propose_args(tmp_path, inputs), fake)
+    saved = json.loads((tmp_path / "out" / "call-000.json").read_text())
+    assert saved["invalid_reasons"] == []
+
+
+def test_only_valid_candidates_enter_previous_hypotheses(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI(
+        [
+            completion(content("H-invalid", extra="\n## Notes\n")),
+            completion(content("H-valid")),
+            completion(content("H2")),
+        ]
+    )
+    run(propose_args(tmp_path, inputs, "--calls", "2"), fake)
+    run(propose_args(tmp_path, inputs), fake)
+    assert "- H-valid" in fake.bodies[2]["messages"][1]["content"]
+    for body in fake.bodies:
+        assert "H-invalid" not in body["messages"][1]["content"]
+
+
+def test_reasoning_effort_is_sent(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI([completion(content("H0"))])
+    run(propose_args(tmp_path, inputs, "--reasoning-effort", "low"), fake)
+    assert fake.bodies[0]["reasoning_effort"] == "low"
+    assert "temperature" not in fake.bodies[0]

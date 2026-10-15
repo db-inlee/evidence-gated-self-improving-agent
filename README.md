@@ -163,6 +163,7 @@ src/evidencegate/
   proposer_inputs.py  Dev-A failure export (the proposer's only input)
   proposer.py     OpenAI proposer: sampling, prompt, budget, retries, ledger
   propose_cli.py  models / propose entry point
+  candidate_checks.py  validity checks for proposer candidates (one-change line limits, structure, grading terms)
 scripts/          proposer_probe.sh (probe and pool runs)
 preregistration/  hash and copy of the pre-registered evaluation plan
 skills/           initial skill S0, the variants tried during calibration, and controls/

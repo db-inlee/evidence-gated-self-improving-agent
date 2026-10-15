@@ -66,10 +66,18 @@ acting (evidence_safe), the failure labels, and the missing evidence.
 {previous}
 
 ## Instructions
-- Choose ONE failure type shown above and change the skill in ONE way to address it.
+- Choose ONE failure type shown above and make exactly ONE change to the skill to address it.
+- ONE change is one idea: add one step, edit one step, or remove one step.
+- Write at most ONE new or edited step. You may delete at most two steps. Copy every other \
+step of the current skill word for word; only the step numbers may change.
+- The new or edited step must state a single idea. Do not join several conditions or actions \
+into it.
 - Pick a different failure type or a different change from the ones already proposed.
-- Return the complete new SKILL.md text and an evidence card.
-- The new skill must start with "# Incident Response Skill".
+- Put the complete new skill in skill_md and your reasoning in hypothesis (one or two sentences).
+- skill_md must contain only the title line "# Incident Response Skill" and numbered steps. \
+Do not add other headings, sections, notes, explanations, or an evidence card.
+- In skill_md, do not use these terms: evidence card, hypothesis, expected effect, failure type, \
+evidence_safe, correct disposition, failure label names, or missing evidence names.
 - Do not write numeric thresholds, service names, deployment IDs, versions, or times.
 - Use only the tools listed above. Do not add steps that need other tools or actions \
 (for example logs, restarts, failover, paging, or tickets).

@@ -6,7 +6,8 @@
 #   bash scripts/proposer_probe.sh pool  <model> <input_usd_per_mtok> <output_usd_per_mtok> <calls>
 #
 # - API 키는 환경 변수 OPENAI_API_KEY에서만 읽는다. 이 스크립트는 키를 출력하지 않는다.
-# - probe: 호출 1회, 결과는 runs/proposer/probe/<model>/call-NNN.json (풀에 넣지 않음).
+# - probe: 호출 1회, 결과는 runs/proposer/probe/<prompt_sha256 앞 8자>/<model>/call-NNN.json
+#   (풀에 넣지 않음). 프롬프트가 바뀌면 폴더가 갈린다.
 # - pool: 호출 <calls>회, 결과는 runs/proposer/pool/call-NNN.json. 다시 돌리면 이어서 부른다.
 # - 원장 runs/proposer/ledger.jsonl은 probe와 pool이 함께 쓴다(누적 비용 $1.5 상한이 이어짐).
 # - 중단(예산·할당량·인증·서버 오류·형식 오류율)은 종료 코드 2. 재개는 보고서에 결정을 남긴 뒤.
@@ -44,10 +45,13 @@ case "$command" in
     [ $# -ge 3 ] || usage
     model=$1 in_usd=$2 out_usd=$3
     shift 3
+    prompt8=$(uv run python -c 'from evidencegate.proposer import prompt_sha256; print(prompt_sha256()[:8])')
+    out_dir="runs/proposer/probe/$prompt8/$model"
+    echo "out-dir: $out_dir"
     status=0
     "${CLI[@]}" propose --model "$model" \
       --input-usd-per-mtok "$in_usd" --output-usd-per-mtok "$out_usd" \
-      --out-dir "runs/proposer/probe/$model" --calls 1 --ledger "$LEDGER" "$@" || status=$?
+      --out-dir "$out_dir" --calls 1 --ledger "$LEDGER" "$@" || status=$?
     show_last_ledger_entry
     exit "$status"
     ;;

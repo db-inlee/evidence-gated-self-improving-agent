@@ -20,6 +20,7 @@ from typing import Any, TextIO
 
 import httpx
 
+from evidencegate.candidate_checks import check_proposer_candidate
 from evidencegate.proposer import (
     DEFAULT_BASE_URL,
     Proposer,
@@ -104,10 +105,11 @@ def _propose(
         reasoning_effort=args.reasoning_effort,
         budget_usd=args.budget_usd,
     )
+    s0_text = args.skill.read_text(encoding="utf-8")
     proposer = Proposer(
         config,
         cases=load_proposer_cases(args.inputs),
-        s0_text=args.skill.read_text(encoding="utf-8"),
+        s0_text=s0_text,
         ledger_path=args.ledger,
         client=client,
     )
@@ -124,7 +126,12 @@ def _propose(
                 file=err,
             )
             return 1
-    hypotheses = [s["candidate"]["evidence"]["hypothesis"] for s in previous if s["candidate"]]
+    # 이전 hypothesis 목록에는 형식 검사와 §5 검사를 통과한 후보만 넣는다(티켓 §4)
+    hypotheses = [
+        s["candidate"]["evidence"]["hypothesis"]
+        for s in previous
+        if s["candidate"] and s.get("invalid_reasons") == []
+    ]
     next_index = max((s["call_index"] for s in previous), default=-1) + 1
 
     for call_index in range(next_index, next_index + args.calls):
@@ -134,14 +141,19 @@ def _propose(
             result = proposer.propose(call_index, hypotheses)
         except ProposerStopped as error:
             if error.result is not None:
-                _save(args.out_dir, error.result, proposer_config)
+                _save(args.out_dir, error.result, proposer_config, None)
             raise
-        _save(args.out_dir, result, proposer_config)
-        if result.candidate is not None:
-            hypotheses.append(str(result.candidate.evidence["hypothesis"]))
-            status = result.candidate.candidate_id
-        else:
+        if result.candidate is None:
+            reasons = None
             status = f"format error ({result.format_error_kind})"
+        else:
+            reasons = check_proposer_candidate(result.candidate.skill_md, s0_text)
+            if reasons:
+                status = f"{result.candidate.candidate_id} invalid ({', '.join(reasons)})"
+            else:
+                hypotheses.append(str(result.candidate.evidence["hypothesis"]))
+                status = f"{result.candidate.candidate_id} valid"
+        _save(args.out_dir, result, proposer_config, reasons)
         print(
             f"call {call_index}: {status}, cost ${result.cost_usd:.4f}, "
             f"cumulative ${proposer.cumulative_usd:.4f}",
@@ -157,7 +169,12 @@ def _load_results(out_dir: Path) -> list[dict[str, Any]]:
     return [json.loads(f.read_text(encoding="utf-8")) for f in files]
 
 
-def _save(out_dir: Path, result: ProposerResult, proposer_config: dict[str, Any]) -> None:
+def _save(
+    out_dir: Path,
+    result: ProposerResult,
+    proposer_config: dict[str, Any],
+    invalid_reasons: Sequence[str] | None,
+) -> None:
     candidate = result.candidate
     data = {
         "call_index": result.call_index,
@@ -165,6 +182,8 @@ def _save(out_dir: Path, result: ProposerResult, proposer_config: dict[str, Any]
         "cost_usd": result.cost_usd,
         "format_error": result.format_error,
         "format_error_kind": result.format_error_kind,
+        # §5 검사(줄 수, 구조, 용어)에 걸린 이름. 형식 오류면 None
+        "invalid_reasons": None if invalid_reasons is None else list(invalid_reasons),
         "candidate": None
         if candidate is None
         else {"skill_md": candidate.skill_md, "evidence": candidate.evidence},

@@ -527,3 +527,23 @@ def test_proposer_config_records_reproducibility_fields(tmp_path: Path) -> None:
     ):
         assert field in cfg
     assert re.fullmatch(r"[0-9a-f]{64}", cfg["prompt_sha256"])
+
+
+# ---------------------------------------------------------------------------
+# 지시문 강화 (2026-10-16 사용자 결정, 보고서 2026-10-15-07 5.1)
+# ---------------------------------------------------------------------------
+
+
+def test_prompt_hash_is_the_approved_one() -> None:
+    from evidencegate.proposer import prompt_sha256
+
+    assert prompt_sha256() == "58ffd9f0b92c4d063adb75ddaaa8477a2c381b772ec70a0a7dbdd54f2336e2c6"
+
+
+def test_instructions_ask_for_one_change_and_skill_only(tmp_path: Path) -> None:
+    fake = FakeOpenAI([completion(good_content())])
+    make(fake, tmp_path).propose(call_index=0)
+    user = fake.bodies[0]["messages"][1]["content"]
+    assert "Write at most ONE new or edited step. You may delete at most two steps." in user
+    assert "skill_md must contain only the title line" in user
+    assert "and an evidence card" not in user
