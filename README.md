@@ -12,9 +12,10 @@ The environment and the baseline agent are in place; the self-improvement loop i
 - **L2 incidents**: within each family, subtypes with different distractors, so a skill edit can help some incidents of a family and not others.
 - **Hand-written control candidates** (`skills/controls/`): one-change edits of the initial skill, labelled positive, negative, mixed, or neutral before any measurement, for checking the acceptance gates later.
 - **Fixed incident splits** (Dev-A for proposing edits, Dev-B for gate decisions, Oracle for after-the-fact effect estimates) and an export of Dev-A failures, the only data the proposer sees.
+- **A frozen candidate pool** (`skills/candidates/POOL.json`): 12 proposer candidates, each a one-change edit of S0 with an evidence card, plus the excluded calls and their reasons. A test fails if any candidate or control file changes after freezing.
 - **A skill proposer** (OpenAI API): one call returns one candidate `SKILL.md` and an evidence card. It has a pre-call budget cap, per-call token and cost ledger, retries, and a format-error stop. The API key is read from the environment only. The evaluation plan was pre-registered before any candidate was generated (`preregistration/`).
 
-The initial skill was calibrated so that it is deliberately imperfect: it often picks the right disposition without the evidence that action requires, which is the gap the project needs to measure. No candidate pool has been generated yet, and there is no acceptance gate, skill-edit experiment, or result.
+The initial skill was calibrated so that it is deliberately imperfect: it often picks the right disposition without the evidence that action requires, which is the gap the project needs to measure. A frozen candidate pool now exists (`skills/candidates/`, 12 proposer candidates from `gpt-5.4`, plus the 7 controls). There is no acceptance gate, skill-edit experiment, or result yet.
 
 | Version | Scope | Status |
 | --- | --- | --- |
@@ -167,9 +168,10 @@ src/evidencegate/
   propose_cli.py  models / propose entry point
   candidate_checks.py  validity checks for proposer candidates (one-change line limits, structure, grading terms)
   candidate_dedupe.py  duplicate detection by change-set Jaccard against S0
+  pool_freeze.py  freezes the pool into skills/candidates/ and POOL.json, verifies file hashes
 scripts/          proposer_probe.sh (probe and pool runs)
 preregistration/  hash and copy of the pre-registered evaluation plan
-skills/           initial skill S0, the variants tried during calibration, and controls/
+skills/           initial skill S0, the variants tried during calibration, controls/, and the frozen candidates/
 tests/
 ```
 

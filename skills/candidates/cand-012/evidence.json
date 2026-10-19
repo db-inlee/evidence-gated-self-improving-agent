@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-012",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-7d36e55350b0",
+    "case-68ee67ab48cf",
+    "case-70bbb1e82d2c",
+    "case-0c0e3d98b91d",
+    "case-e787728bc96a",
+    "case-c05736674d01"
+  ],
+  "hypothesis": "The current skill allows an immediate rollback from deployment and dependency information alone, which led to actions before demand conditions were examined. Replacing that automatic rollback step with a traffic check should make the agent gather one more causal signal before acting.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

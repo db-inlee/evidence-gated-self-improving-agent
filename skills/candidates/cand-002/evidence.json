@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-002",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-0463057b6c7d",
+    "case-217199b7fcf3",
+    "case-e5543a9df361",
+    "case-006f6bf8a87e",
+    "case-0f53b2395bbd",
+    "case-d444e44b052a"
+  ],
+  "hypothesis": "Some bad rollback decisions occurred in cases with very high CPU, which is more consistent with capacity exhaustion than a bad release. Making the resource-usage branch lead to scaling should reduce choosing rollback when the service instead needs more capacity.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-001",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-217199b7fcf3",
+    "case-c64d06377d82",
+    "case-5abcccd7ed34",
+    "case-1a0b10fab864",
+    "case-758b2a6459be",
+    "case-6bb0cd64c06d"
+  ],
+  "hypothesis": "Some incorrect rollbacks happened because the agent treated any recent deployment as causal even when the regression began before that deployment. Restricting rollback to deployments that occurred before the regression should reduce misattribution and avoid unnecessary reversions.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

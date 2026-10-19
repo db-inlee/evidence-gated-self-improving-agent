@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-005",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-1f98b5c29039",
+    "case-e5543a9df361",
+    "case-0c0e3d98b91d",
+    "case-b65b22ad7a6c",
+    "case-3aba6481f096",
+    "case-c2d64941f5b8"
+  ],
+  "hypothesis": "Several incorrect rollbacks happened in incidents that already showed service saturation, which makes a bad release less likely as the primary cause. Gating rollback on non-saturated resource usage should reduce unnecessary reversions when the real issue is capacity pressure.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

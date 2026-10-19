@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-013",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-e61ce05722f2",
+    "case-0fbb8f490450",
+    "case-c64d06377d82",
+    "case-c2d64941f5b8",
+    "case-e787728bc96a",
+    "case-62b65b9220c7"
+  ],
+  "hypothesis": "Some bad rollbacks came from assuming the rollback target was causal when multiple recent deployments existed, even though the tool can only revert the most recent one. Limiting rollback to cases with a single recent deployment should reduce reversions of the wrong change.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-008",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-77e7ed4192d3",
+    "case-3aba6481f096",
+    "case-68ee67ab48cf",
+    "case-c05736674d01",
+    "case-e5543a9df361",
+    "case-c2d64941f5b8"
+  ],
+  "hypothesis": "The current dependency check treats any degraded dependency as sufficient to avoid service changes, but it does not verify whether the dependency problem is temporally related to the service regression. Adding a timing comparison should reduce misattribution and improve the chance of choosing the right disposition when dependency issues are incidental rather than causal.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

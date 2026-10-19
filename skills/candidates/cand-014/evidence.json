@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-014",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-4b83427915cb",
+    "case-e8049fb69185",
+    "case-e5543a9df361",
+    "case-e90e4cb1e4e4",
+    "case-b9aed40a8b9e",
+    "case-37d5e1931e19"
+  ],
+  "hypothesis": "The failed cases acted after checking service metrics, deployments, and dependencies, but before collecting traffic context. Requiring traffic metrics as part of the initial confirmation should make the agent gather demand evidence earlier and reduce actions taken before ruling out a load-driven explanation.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

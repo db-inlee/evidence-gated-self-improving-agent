@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-003",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-b65b22ad7a6c",
+    "case-831b6a1ae415",
+    "case-3aba6481f096",
+    "case-217199b7fcf3",
+    "case-aa1fc194ae81",
+    "case-5abcccd7ed34"
+  ],
+  "hypothesis": "The automatic rollback branch is too aggressive because a recent deployment with healthy dependencies is not enough to prove the deployment caused the incident. Removing that branch should reduce unnecessary reversions and force additional investigation before taking a disruptive action.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

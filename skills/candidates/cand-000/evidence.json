@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-000",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-8b76199ca7a1",
+    "case-0f53b2395bbd",
+    "case-217199b7fcf3",
+    "case-0463057b6c7d",
+    "case-d444e44b052a",
+    "case-3aba6481f096"
+  ],
+  "hypothesis": "The failures show rollbacks were taken before ruling out a traffic-driven cause. Adding an explicit traffic check should prevent acting too early when higher load or demand shift could explain the degradation.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

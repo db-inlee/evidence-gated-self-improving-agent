@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-011",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-758b2a6459be",
+    "case-c64d06377d82",
+    "case-e8049fb69185",
+    "case-6fc107a2b24c",
+    "case-0746b2a5ec10",
+    "case-006f6bf8a87e"
+  ],
+  "hypothesis": "The current skill leaves the final branch too vague, which allowed scaling without first confirming a demand-driven cause. Making the capacity path explicitly depend on higher traffic should force the agent to gather traffic evidence before scaling.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-015",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-0746b2a5ec10",
+    "case-62b65b9220c7",
+    "case-b9aed40a8b9e",
+    "case-758b2a6459be",
+    "case-70bbb1e82d2c",
+    "case-0fbb8f490450"
+  ],
+  "hypothesis": "Several bad rollback decisions happened when multiple deployments were present, but the rollback tool can only revert the latest one. Preventing rollback in multi-deployment situations should reduce reverting a change that is not the likely cause.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

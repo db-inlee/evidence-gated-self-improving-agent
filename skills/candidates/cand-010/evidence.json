@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-010",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-e787728bc96a",
+    "case-8b76199ca7a1",
+    "case-1f98b5c29039",
+    "case-37d5e1931e19",
+    "case-77e7ed4192d3",
+    "case-4b83427915cb"
+  ],
+  "hypothesis": "Several bad rollbacks treated any earlier deployment as causal even when the timing signal was weak. Tightening the deployment check to focus on regressions that begin near a deployment should reduce misattribution without changing the rest of the flow.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

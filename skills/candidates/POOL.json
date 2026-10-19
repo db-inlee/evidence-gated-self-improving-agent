@@ -1,0 +1,204 @@
+{
+  "frozen_at": "2026-10-20T00:31:04+09:00",
+  "preregistration_commit": "aa1c809",
+  "source": "runs/proposer/pool",
+  "proposer_config": {
+    "model": "gpt-5.4",
+    "max_completion_tokens": 8000,
+    "input_usd_per_mtok": 2.5,
+    "output_usd_per_mtok": 15.0,
+    "temperature": null,
+    "reasoning_effort": "low",
+    "budget_usd": 1.5,
+    "cases_per_call": 6,
+    "min_per_stratum": 2,
+    "max_retries": 3,
+    "max_format_error_rate": 0.05,
+    "retry_wait_s": 2.0,
+    "chars_per_token_estimate": 3.0,
+    "base_url": "https://api.openai.com/v1",
+    "timeout_s": 180.0,
+    "prompt_sha256": "58ffd9f0b92c4d063adb75ddaaa8477a2c381b772ec70a0a7dbdd54f2336e2c6",
+    "sample_rule": "random.Random('proposer-sample:<call_index>'), stratified",
+    "endpoint": "chat/completions"
+  },
+  "target": 12,
+  "pool_size": 12,
+  "shortfall": false,
+  "calls": 16,
+  "format_errors": 0,
+  "pool_cost_usd": 0.3744975,
+  "ledger_cumulative_usd": 0.4101225,
+  "proposer_candidates": [
+    {
+      "candidate_id": "cand-000",
+      "skill_id": "218f02e35d9e",
+      "call_index": 0,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-001",
+      "skill_id": "feadcd2b391b",
+      "call_index": 1,
+      "control_duplicates": [
+        "pos-timing-only"
+      ]
+    },
+    {
+      "candidate_id": "cand-002",
+      "skill_id": "ce0818337016",
+      "call_index": 2,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-003",
+      "skill_id": "2f144cd8f28c",
+      "call_index": 3,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-005",
+      "skill_id": "31fb7ec5d0af",
+      "call_index": 5,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-008",
+      "skill_id": "ca821723ff19",
+      "call_index": 8,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-010",
+      "skill_id": "f3bfded7ec6a",
+      "call_index": 10,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-011",
+      "skill_id": "82157c029c2b",
+      "call_index": 11,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-012",
+      "skill_id": "3c9353977c42",
+      "call_index": 12,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-013",
+      "skill_id": "ddc3a4bd1107",
+      "call_index": 13,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-014",
+      "skill_id": "9680dca8de51",
+      "call_index": 14,
+      "control_duplicates": []
+    },
+    {
+      "candidate_id": "cand-015",
+      "skill_id": "e0cea547fe7f",
+      "call_index": 15,
+      "control_duplicates": []
+    }
+  ],
+  "controls": [
+    {
+      "name": "mixed-scale-on-traffic",
+      "skill_id": "11e977272617",
+      "subset": "mixed"
+    },
+    {
+      "name": "neg-rollback-any",
+      "skill_id": "d21ec9d34946",
+      "subset": "negative"
+    },
+    {
+      "name": "neg-skip-metrics",
+      "skill_id": "681f45168c34",
+      "subset": "negative"
+    },
+    {
+      "name": "neg-timing-shortcut",
+      "skill_id": "e78f11923007",
+      "subset": "negative"
+    },
+    {
+      "name": "neutral-rephrase",
+      "skill_id": "d9f06d518efc",
+      "subset": "neutral"
+    },
+    {
+      "name": "pos-timing-only",
+      "skill_id": "881e3c9e9087",
+      "subset": "positive"
+    },
+    {
+      "name": "pos-traffic-check",
+      "skill_id": "e0fd0c34db25",
+      "subset": "positive"
+    }
+  ],
+  "excluded": [
+    {
+      "call_index": 4,
+      "candidate_id": "cand-004",
+      "reason": "duplicate",
+      "detail": "cand-001"
+    },
+    {
+      "call_index": 6,
+      "candidate_id": "cand-006",
+      "reason": "duplicate",
+      "detail": "cand-001"
+    },
+    {
+      "call_index": 7,
+      "candidate_id": "cand-007",
+      "reason": "duplicate",
+      "detail": "cand-001"
+    },
+    {
+      "call_index": 9,
+      "candidate_id": "cand-009",
+      "reason": "duplicate",
+      "detail": "cand-001"
+    }
+  ],
+  "files": {
+    "skills/candidates/cand-000/SKILL.md": "218f02e35d9ecfde064fde45ac31cbf5e89b3fb1284ae52277db19e43e9b1a67",
+    "skills/candidates/cand-000/evidence.json": "9d3c59f01f1f78ef6373ed4fabdb923ac26b59a7ec109ff2f87d58e5fdf154c2",
+    "skills/candidates/cand-001/SKILL.md": "feadcd2b391b6f1f97483e2d21315a7fbd210684216b8cc16375c684d09e228b",
+    "skills/candidates/cand-001/evidence.json": "90c4507a4d08b94ba8cbfcc06c1ce1a270fb2926ef6299208095916077f650a4",
+    "skills/candidates/cand-002/SKILL.md": "ce0818337016e2fcb7ea4ec9aa54036f073154effaf724c49b875b872cf7ca2f",
+    "skills/candidates/cand-002/evidence.json": "19074787dc870dd877f7c48ad1481e85d755b20cded47f6550b2e803bc37aceb",
+    "skills/candidates/cand-003/SKILL.md": "2f144cd8f28cb127e7cb96cb5fffcca0d91349c8e17f83ca469c6f5c5bf25de6",
+    "skills/candidates/cand-003/evidence.json": "7d8952b2d81ea168eb4c9f0bf10108e7ec1177765d22f5020284b179092221c9",
+    "skills/candidates/cand-005/SKILL.md": "31fb7ec5d0af1d49f96b5278b49df1b19cd6ff3d9ea8f3d4701a9e5abd4d7163",
+    "skills/candidates/cand-005/evidence.json": "80da7befc871ee56d40e6c9d284011f4160de94fcbfa17e9d9817681475e500c",
+    "skills/candidates/cand-008/SKILL.md": "ca821723ff19122de668c219785daced138f132b697c9de1327e720639c61d1c",
+    "skills/candidates/cand-008/evidence.json": "5a3c3c4e4fd807df9da4fdf1ae6358e44f78ac2c1eca0fa9c7d160637ae8e163",
+    "skills/candidates/cand-010/SKILL.md": "f3bfded7ec6a02d4be73bc615b06d38d6f4d883cf6ddf7d81194d6672d01c448",
+    "skills/candidates/cand-010/evidence.json": "25d13c2a3c180bc842b1ff6a4b606744534e02e3fee3067f763c4743805bb23d",
+    "skills/candidates/cand-011/SKILL.md": "82157c029c2bfc21e6e6bf470e75f1788a5409fd02bfbc35b35a7b2850c8ba24",
+    "skills/candidates/cand-011/evidence.json": "db280a6d24172fafa3ff4241688ddd9cf23457e88b9580baa75943692b0009af",
+    "skills/candidates/cand-012/SKILL.md": "3c9353977c42c1946e7bd7bb0f4e79718b017e4ad7ee16b93bce6f33cec55323",
+    "skills/candidates/cand-012/evidence.json": "221a29f95039241750384a3f8edece585637097ba88ab5c8dad3806f62a8dbb8",
+    "skills/candidates/cand-013/SKILL.md": "ddc3a4bd1107b776d88cd387053474b10a48ab889122fa9dba01bb051899636b",
+    "skills/candidates/cand-013/evidence.json": "1acdebb33b1bc2b36374b1da0e00f962e337a0a74f2513f60fe45f6c2826b53e",
+    "skills/candidates/cand-014/SKILL.md": "9680dca8de5175a25e831b058ff98518c39f4ce7aa035f83ee039ffc5a61c7ae",
+    "skills/candidates/cand-014/evidence.json": "add3c4d874c5b921a2b7001ed1631f717323a2d049c468135a785dc2b1531b43",
+    "skills/candidates/cand-015/SKILL.md": "e0cea547fe7fe0f0f3c3f7818ade895551b9f29ccdb0fab3ba1d504c56ca7580",
+    "skills/candidates/cand-015/evidence.json": "83687768129a7080a497fd51f3946f1e335afe21a26e73061e714933af19994b",
+    "skills/controls/mixed-scale-on-traffic/SKILL.md": "11e977272617e6c711c8a11058c545a9c304dc66964ba5159d55c80e5ae8b3bf",
+    "skills/controls/neg-rollback-any/SKILL.md": "d21ec9d3494629cd863f4847cbc2763ddff80f8c5967c1810c34200522bf46a3",
+    "skills/controls/neg-skip-metrics/SKILL.md": "681f45168c34e2431e0acb2d08fb49b04d71a34a60162a6e7e343895e0564ab5",
+    "skills/controls/neg-timing-shortcut/SKILL.md": "e78f11923007b2fe1696c48d612ee244ef2c574a216c46e8447d54fc032bf4f9",
+    "skills/controls/neutral-rephrase/SKILL.md": "d9f06d518efc21f9c7f44a17d9da167ec0fcae59e1e62f4798ee7e0d00272a03",
+    "skills/controls/pos-timing-only/SKILL.md": "881e3c9e9087da5eabf81e8e527cc2abaea28168a43d856819705131bc506c78",
+    "skills/controls/pos-traffic-check/SKILL.md": "e0fd0c34db258506d75508a2bc25e4961bde823b6f1bfb4b0a21357da1a308f3"
+  }
+}
