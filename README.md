@@ -137,6 +137,8 @@ bash scripts/proposer_probe.sh pool <model> <in_usd> <out_usd> <calls>
 
 All calls share one ledger (`runs/proposer/ledger.jsonl`), and the $1.50 budget cap counts everything in it. Exit code 2 means the proposer stopped (budget, quota, auth, repeated server errors, or format-error rate).
 
+Every candidate is validated (one-change limits, structure, no grading terms, no numbers or IDs, no out-of-scope steps, evidence-card schema) and deduplicated against earlier candidates by the Jaccard similarity of its change from S0 (duplicate at >= 0.6). A `pool` run makes at most 18 calls in total and stops once 12 valid, non-duplicate candidates exist; it ends with a summary line.
+
 ## Layout
 
 ```
@@ -164,6 +166,7 @@ src/evidencegate/
   proposer.py     OpenAI proposer: sampling, prompt, budget, retries, ledger
   propose_cli.py  models / propose entry point
   candidate_checks.py  validity checks for proposer candidates (one-change line limits, structure, grading terms)
+  candidate_dedupe.py  duplicate detection by change-set Jaccard against S0
 scripts/          proposer_probe.sh (probe and pool runs)
 preregistration/  hash and copy of the pre-registered evaluation plan
 skills/           initial skill S0, the variants tried during calibration, and controls/

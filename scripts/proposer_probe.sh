@@ -9,6 +9,8 @@
 # - probe: 호출 1회, 결과는 runs/proposer/probe/<prompt_sha256 앞 8자>/<model>/call-NNN.json
 #   (풀에 넣지 않음). 프롬프트가 바뀌면 폴더가 갈린다.
 # - pool: 호출 <calls>회, 결과는 runs/proposer/pool/call-NNN.json. 다시 돌리면 이어서 부른다.
+#   티켓 §5·§7: 폴더 전체 호출은 최대 18회(목표 12 + 추가 6), 풀(유효·비중복 후보)이 12개가 되면
+#   더 부르지 않는다. 끝에 요약 줄(풀 크기, 중복, 형식 오류, 무효 사유별 개수)을 출력한다.
 # - 원장 runs/proposer/ledger.jsonl은 probe와 pool이 함께 쓴다(누적 비용 $1.5 상한이 이어짐).
 # - 중단(예산·할당량·인증·서버 오류·형식 오류율)은 종료 코드 2. 재개는 보고서에 결정을 남긴 뒤.
 # 추가 옵션(--max-completion-tokens, --temperature, --reasoning-effort)은 끝에 붙이면 그대로 전달된다.
@@ -62,7 +64,8 @@ case "$command" in
     status=0
     "${CLI[@]}" propose --model "$model" \
       --input-usd-per-mtok "$in_usd" --output-usd-per-mtok "$out_usd" \
-      --out-dir runs/proposer/pool --calls "$calls" --ledger "$LEDGER" "$@" || status=$?
+      --out-dir runs/proposer/pool --calls "$calls" --ledger "$LEDGER" \
+      --max-total-calls 18 --stop-when-pool 12 "$@" || status=$?
     show_last_ledger_entry
     exit "$status"
     ;;

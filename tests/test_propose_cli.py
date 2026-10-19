@@ -34,10 +34,21 @@ def make_case(i: int, *, correct: bool) -> ProposerCase:
     )
 
 
-def content(hypothesis: str, *, extra: str = "") -> str:
+# 서로 중복이 아닌 단계(자카드가 낮음). 호출마다 다른 후보가 되도록 hypothesis 끝 숫자로 고른다.
+DISTINCT_STEPS = (
+    "Check traffic before rolling back.",
+    "Confirm the deployment preceded the regression.",
+    "Inspect resource usage before scaling the service.",
+    "Observe when dependency health is unclear.",
+)
+
+
+def content(hypothesis: str, *, extra: str = "", step: str | None = None) -> str:
+    if step is None:
+        step = DISTINCT_STEPS[int(hypothesis[-1]) if hypothesis[-1].isdigit() else 0]
     return json.dumps(
         {
-            "skill_md": S0_PATH.read_text() + "\n7. Check traffic before rolling back.\n" + extra,
+            "skill_md": S0_PATH.read_text() + f"\n7. {step}\n" + extra,
             "failure_type": "WRONG_INTERVENTION",
             "hypothesis": hypothesis,
             "expected_effect": {"cd": "up", "es": "up"},
@@ -95,6 +106,8 @@ def propose_args(tmp_path: Path, inputs: Path, *extra: str) -> list[str]:
         str(tmp_path / "out"),
         "--ledger",
         str(tmp_path / "ledger.jsonl"),
+        "--controls-dir",
+        str(REPO_ROOT / "skills" / "controls"),
         *extra,
     ]
 
@@ -222,3 +235,108 @@ def test_reasoning_effort_is_sent(tmp_path: Path, inputs: Path) -> None:
     run(propose_args(tmp_path, inputs, "--reasoning-effort", "low"), fake)
     assert fake.bodies[0]["reasoning_effort"] == "low"
     assert "temperature" not in fake.bodies[0]
+
+
+def test_full_section_5_validation_is_used(tmp_path: Path, inputs: Path) -> None:
+    """줄 수·구조·용어만이 아니라 금지어 같은 §5 검사 전체가 돈다."""
+    skill_md = S0_PATH.read_text() + "\n7. Restart the service if needed.\n"
+    reply = json.loads(content("H0"))
+    reply["skill_md"] = skill_md
+    fake = FakeOpenAI([completion(json.dumps(reply))])
+    run(propose_args(tmp_path, inputs), fake)
+    saved = json.loads((tmp_path / "out" / "call-000.json").read_text())
+    assert saved["invalid_reasons"] == ["forbidden_words"]
+
+
+# ---------------------------------------------------------------------------
+# 중복 제거와 풀 (티켓 §5, §7)
+# ---------------------------------------------------------------------------
+
+
+def saved(tmp_path: Path, index: int) -> dict[str, Any]:
+    data: dict[str, Any] = json.loads((tmp_path / "out" / f"call-{index:03d}.json").read_text())
+    return data
+
+
+def test_later_proposer_duplicate_is_left_out_of_the_pool(tmp_path: Path, inputs: Path) -> None:
+    step = "Check traffic before rolling back."
+    fake = FakeOpenAI(
+        [
+            completion(content("H0", step=step)),
+            completion(content("H1", step="Check traffic before rolling back now.")),
+            completion(content("H2")),
+        ]
+    )
+    code, out, _ = run(propose_args(tmp_path, inputs, "--calls", "3"), fake)
+    assert code == 0
+    first, second = saved(tmp_path, 0), saved(tmp_path, 1)
+    assert (first["duplicate_of"], first["in_pool"]) == (None, True)
+    assert (second["duplicate_of"], second["in_pool"]) == ("cand-000", False)
+    assert "cand-001 duplicate of cand-000" in out
+    prompt = fake.bodies[2]["messages"][1]["content"]
+    assert "- H0" in prompt
+    assert "- H1" not in prompt
+
+
+def test_control_duplicate_is_kept_and_marked(tmp_path: Path, inputs: Path) -> None:
+    control = (REPO_ROOT / "skills" / "controls" / "pos-timing-only" / "SKILL.md").read_text()
+    reply = json.loads(content("H0"))
+    reply["skill_md"] = control
+    fake = FakeOpenAI([completion(json.dumps(reply)), completion(content("H1"))])
+    run(propose_args(tmp_path, inputs, "--calls", "2"), fake)
+    first = saved(tmp_path, 0)
+    assert first["control_duplicates"] == ["pos-timing-only"]
+    assert first["in_pool"] is True
+    assert "- H0" in fake.bodies[1]["messages"][1]["content"]
+
+
+def test_invalid_and_format_error_results_are_not_in_the_pool(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI([completion(content("H0", extra="\n## Notes\n"))])
+    run(propose_args(tmp_path, inputs), fake)
+    first = saved(tmp_path, 0)
+    assert (first["in_pool"], first["duplicate_of"], first["control_duplicates"]) == (
+        False,
+        None,
+        None,
+    )
+
+
+def test_max_total_calls_caps_calls_across_runs(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI([completion(content(f"H{i}")) for i in range(3)])
+    run(propose_args(tmp_path, inputs, "--calls", "2", "--max-total-calls", "3"), fake)
+    code, out, _ = run(
+        propose_args(tmp_path, inputs, "--calls", "5", "--max-total-calls", "3"), fake
+    )
+    assert code == 0
+    assert len(fake.bodies) == 3
+    assert "max total calls 3 reached" in out
+
+
+def test_stop_when_pool_reaches_the_target(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI(
+        [completion(content("H0", extra="\n## Notes\n")), completion(content("H1"))]
+        + [completion(content(f"H{i}")) for i in (2, 3)]
+    )
+    code, out, _ = run(
+        propose_args(tmp_path, inputs, "--calls", "4", "--stop-when-pool", "2"), fake
+    )
+    assert code == 0
+    assert len(fake.bodies) == 3  # 무효 1, 유효 2 → 풀 2에서 멈춤
+    assert "pool reached 2" in out
+
+
+def test_summary_counts_pool_duplicates_and_invalid_reasons(tmp_path: Path, inputs: Path) -> None:
+    fake = FakeOpenAI(
+        [
+            completion(content("H0")),
+            completion(content("H1", step="Check traffic before rolling back now.")),
+            completion(content("H2", extra="\n## Notes\n")),
+            completion("not json"),
+        ]
+    )
+    run(propose_args(tmp_path, inputs, "--calls", "4", "--max-format-error-rate", "1.0"), fake)
+    _, out, _ = run(propose_args(tmp_path, inputs, "--calls", "0"), fake)
+    assert (
+        "summary: calls 4, pool 1, proposer duplicates 1, control-marked 0, "
+        "format errors 1 (parse_failure 1), invalid 1 (line_count 1, structure 1)"
+    ) in out
