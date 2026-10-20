@@ -77,6 +77,14 @@ def bootstrap_lower(
     table: PairedTable, n_boot: int = N_BOOT, seed: int = SEED, q: Fraction = C4_Q
 ) -> Fraction:
     """칸 층화 paired bootstrap 평균 Δ의 q 백분위수(선형 보간, 유리수)."""
+    (lower,) = bootstrap_quantiles(table, (q,), n_boot=n_boot, seed=seed)
+    return lower
+
+
+def bootstrap_quantiles(
+    table: PairedTable, qs: Sequence[Fraction], n_boot: int = N_BOOT, seed: int = SEED
+) -> tuple[Fraction, ...]:
+    """같은 재표본(칸 층화, seed로 새로 시작)에서 여러 백분위수. Oracle 구간은 (1/40, 39/40)."""
     groups = table.cell_indices()
     if any(not g for g in groups):
         raise ValueError("every cell needs at least one case for the stratified bootstrap")
@@ -85,7 +93,8 @@ def bootstrap_lower(
     totals = np.zeros(n_boot, dtype=np.int64)
     for group, block in zip(groups, blocks, strict=True):
         totals += deltas[np.asarray(group, dtype=np.int64)][block].sum(axis=1)
-    return _percentile_of_totals(sorted(int(t) for t in totals), q) / len(table.deltas)
+    ordered = sorted(int(t) for t in totals)
+    return tuple(_percentile_of_totals(ordered, q) / len(table.deltas) for q in qs)
 
 
 def _percentile_of_totals(ordered: Sequence[int], q: Fraction) -> Fraction:
