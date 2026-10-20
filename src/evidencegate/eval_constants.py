@@ -9,3 +9,4 @@ CI_ALPHA = Fraction(1, 20)  # 7.8 D: Clopper-Pearson 95% 양측(§8-21)
 
 GATE_REPEAT = 0  # 7.8 B: 게이트는 후보·S0 모두 반복 0(§8-5: 후보는 모든 split에서 반복 0)
 S0_ORACLE_REPEATS = (0, 1, 2, 3, 4)  # 7.8 A: Oracle S0 반복 5회 다수결
+C4_Q = Fraction(1, 20)  # 7.8 B: C4는 bootstrap 평균 Δ의 5번째 백분위수(단측 95% 하한)

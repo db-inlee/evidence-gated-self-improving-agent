@@ -22,8 +22,8 @@ The initial skill was calibrated so that it is deliberately imperfect: it often 
 | v0 | OpsWorld (3 incident families, 4 observation tools, 3 actions), deterministic evidence grader, hand-written trajectory tests | Implemented |
 | v1 | Baseline tool-using agent, run pipeline, initial-skill calibration | Implemented |
 | v1 | L2 incident generator, recalibration on mixed L1/L2 incidents, control candidates | Implemented |
-| v1 | Data splits, skill proposer, candidate edit pool | In progress |
-| v1 | Acceptance gates (same-set greedy, keep-better, paired-bootstrap gate), evaluation-budget curve | Not started |
+| v1 | Data splits, skill proposer, candidate edit pool | Implemented |
+| v1 | Acceptance gates (C1 Dev-A greedy, C2 keep-better, C3 noise threshold, C4 paired bootstrap), evaluation-budget curve | In progress |
 | v2 | Sequential evolution over multiple rounds | Not started |
 | v3 | More incident types, out-of-distribution evaluation | Not started |
 
