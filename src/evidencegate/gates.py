@@ -20,7 +20,7 @@ import numpy as np
 
 from evidencegate.eval_constants import C4_Q, N_BOOT, SEED
 from evidencegate.eval_data import PairedTable
-from evidencegate.exact import mean_fraction, stratified_bootstrap_indices
+from evidencegate.exact import IndexArray, mean_fraction, stratified_bootstrap_indices
 
 
 @dataclass(frozen=True)
@@ -54,12 +54,17 @@ def gate_c3(dev_b: PairedTable, delta: Fraction) -> GateResult:
 
 
 def gate_c4(
-    dev_b: PairedTable, delta: Fraction, n_boot: int = N_BOOT, seed: int = SEED
+    dev_b: PairedTable,
+    delta: Fraction,
+    n_boot: int = N_BOOT,
+    seed: int = SEED,
+    *,
+    blocks: Sequence[IndexArray] | None = None,
 ) -> GateResult:
     _need_split(dev_b, "dev_b", "C4")
     _need_exact(delta)
     mean = mean_fraction(dev_b.deltas)
-    lower = bootstrap_lower(dev_b, n_boot=n_boot, seed=seed)
+    lower = bootstrap_lower(dev_b, n_boot=n_boot, seed=seed, blocks=blocks)
     accepted = lower > 0 and mean > delta
     return GateResult(
         "C4", dev_b.metric, accepted, len(dev_b.cases), mean, threshold=delta, lower=lower
@@ -74,22 +79,40 @@ def decide_gates(dev_a: PairedTable, dev_b: PairedTable, delta: Fraction) -> tup
 
 
 def bootstrap_lower(
-    table: PairedTable, n_boot: int = N_BOOT, seed: int = SEED, q: Fraction = C4_Q
+    table: PairedTable,
+    n_boot: int = N_BOOT,
+    seed: int = SEED,
+    q: Fraction = C4_Q,
+    *,
+    blocks: Sequence[IndexArray] | None = None,
 ) -> Fraction:
     """칸 층화 paired bootstrap 평균 Δ의 q 백분위수(선형 보간, 유리수)."""
-    (lower,) = bootstrap_quantiles(table, (q,), n_boot=n_boot, seed=seed)
+    (lower,) = bootstrap_quantiles(table, (q,), n_boot=n_boot, seed=seed, blocks=blocks)
     return lower
 
 
 def bootstrap_quantiles(
-    table: PairedTable, qs: Sequence[Fraction], n_boot: int = N_BOOT, seed: int = SEED
+    table: PairedTable,
+    qs: Sequence[Fraction],
+    n_boot: int = N_BOOT,
+    seed: int = SEED,
+    *,
+    blocks: Sequence[IndexArray] | None = None,
 ) -> tuple[Fraction, ...]:
-    """같은 재표본(칸 층화, seed로 새로 시작)에서 여러 백분위수. Oracle 구간은 (1/40, 39/40)."""
+    """같은 재표본(칸 층화, seed로 새로 시작)에서 여러 백분위수. Oracle 구간은 (1/40, 39/40).
+
+    `blocks`는 `stratified_bootstrap_indices(칸 크기들, n_boot, seed)`의 결과를 미리 만들어 넘길 때
+    쓴다. seed로 새로 시작하므로 칸 크기가 같으면 색인이 같다(Budget Curve에서 재사용).
+    """
     groups = table.cell_indices()
     if any(not g for g in groups):
         raise ValueError("every cell needs at least one case for the stratified bootstrap")
     deltas = np.asarray(table.deltas, dtype=np.int64)
-    blocks = stratified_bootstrap_indices([len(g) for g in groups], n_boot=n_boot, seed=seed)
+    sizes = [len(g) for g in groups]
+    if blocks is None:
+        blocks = stratified_bootstrap_indices(sizes, n_boot=n_boot, seed=seed)
+    elif [b.shape for b in blocks] != [(n_boot, s) for s in sizes]:
+        raise ValueError(f"blocks do not match cell sizes {sizes} and n_boot {n_boot}")
     totals = np.zeros(n_boot, dtype=np.int64)
     for group, block in zip(groups, blocks, strict=True):
         totals += deltas[np.asarray(group, dtype=np.int64)][block].sum(axis=1)
