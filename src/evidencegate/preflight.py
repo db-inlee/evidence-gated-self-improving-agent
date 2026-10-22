@@ -8,6 +8,7 @@
 | parallel | 클라이언트 동시 2, 서버 OLLAMA_NUM_PARALLEL 2(선언값, 실제 병렬은 실행 시 탐침) |
 | frozen_pool | `verify_frozen_pool`에 문제 없음 |
 | preregistration_7_8 | 7.8 원문 사본의 sha256이 기록과 같음 |
+| preregistration_l3 | Ticket 006 사전 등록 사본의 sha256이 기록과 같음(본 실행 전 고정) |
 | plan | 계획 파일이 자기 sha256 파일과 같고, 지금 풀로 다시 만든 계획과 바이트까지 같음 |
 | disk | 결과 폴더의 여유 공간이 기준 이상 |
 
@@ -102,6 +103,25 @@ def check_preregistration_7_8(root: Path) -> Check:
     return Check("preregistration_7_8", True, f"7.8 sha256 {sha}")
 
 
+def check_preregistration_l3(root: Path) -> Check:
+    hash_file = root / "preregistration" / "ticket-006-l3.sha256"
+    copy = root / "preregistration" / "ticket-006-l3-sections.txt"
+    if not hash_file.exists() or not copy.exists():
+        return Check("preregistration_l3", False, f"missing {hash_file} or {copy}")
+    recorded = next(
+        (
+            line.removeprefix("sha256: ").strip()
+            for line in hash_file.read_text().splitlines()
+            if line.startswith("sha256: ")
+        ),
+        None,
+    )
+    actual = hashlib.sha256(copy.read_bytes()).hexdigest()
+    if actual != recorded:
+        return Check("preregistration_l3", False, f"L3 copy {actual} does not match {recorded}")
+    return Check("preregistration_l3", True, f"L3 sha256 {actual}")
+
+
 def check_plan(plan_path: Path, root: Path) -> Check:
     sha_path = plan_path.with_name(plan_path.name + ".sha256")
     if not plan_path.exists() or not sha_path.exists():
@@ -145,6 +165,7 @@ def run_preflight(
         check_parallel(current_config),
         check_frozen_pool(root),
         check_preregistration_7_8(root),
+        check_preregistration_l3(root),
         check_plan(plan_path, root),
         check_disk(runs_dir if runs_dir.exists() else root, usage=disk_usage),
     ]

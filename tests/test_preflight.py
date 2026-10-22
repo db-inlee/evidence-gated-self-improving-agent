@@ -21,6 +21,7 @@ from evidencegate.preflight import (
     check_parallel,
     check_plan,
     check_preregistration_7_8,
+    check_preregistration_l3,
     preflight_ok,
     reference_policy_config,
     run_preflight,
@@ -271,6 +272,7 @@ def test_run_preflight_passes_when_everything_matches(tmp_path: Path) -> None:
         "parallel",
         "frozen_pool",
         "preregistration_7_8",
+        "preregistration_l3",
         "plan",
         "disk",
     ]
@@ -300,3 +302,18 @@ def test_plan_check_fails_when_only_the_recorded_hash_is_wrong(tmp_path: Path) -
     (tmp_path / "plan.json.sha256").write_text("0" * 64 + "  plan.json\n")
     result = check_plan(path, REPO_ROOT)
     assert not result.ok and "recorded" in result.detail
+
+
+def test_l3_preregistration_passes_for_the_repo() -> None:
+    """Ticket 006 사전 등록이 Ticket 005 본 실행 전에 고정돼 있어야 한다(2026-10-22 사용자 결정)."""
+    result = check_preregistration_l3(REPO_ROOT)
+    assert result.ok and "e368d9ed" in result.detail
+
+
+def test_l3_preregistration_fails_when_the_copy_changes_or_is_missing(tmp_path: Path) -> None:
+    shutil.copytree(REPO_ROOT / "preregistration", tmp_path / "preregistration")
+    copy_path = tmp_path / "preregistration" / "ticket-006-l3-sections.txt"
+    copy_path.write_text(copy_path.read_text() + " ")
+    assert not check_preregistration_l3(tmp_path).ok
+    copy_path.unlink()
+    assert not check_preregistration_l3(tmp_path).ok

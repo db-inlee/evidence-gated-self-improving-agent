@@ -44,3 +44,14 @@ S0_RUN_SPLITS = (("dev_b", (0,)), ("oracle", S0_ORACLE_REPEATS))  # S0 Dev-A는 
 EXPECTED_HW_MODEL = "Mac15,3"
 EXPECTED_PARALLEL = {"client_concurrency": 2, "server_num_parallel": 2}
 MIN_FREE_DISK_BYTES = 1_000_000_000  # 12,540개 기록은 약 50MB(Dev-A 기록 기준 3.6KB/개). 넉넉히 1GB
+
+# Ticket 005 §2: 실행기 중단 규칙
+FORMAT_WINDOW = 200  # 최근 에피소드 창
+FORMAT_MIN_EPISODES = 20  # 이 수부터 판정
+FORMAT_MAX_RATE = Fraction(1, 20)  # 형식 오류가 1회 이상 있었던 에피소드 비율이 이를 넘으면 멈춤
+EPISODE_RETRIES = 3  # 서버 오류: 같은 에피소드 재시도 횟수
+MAX_CONSECUTIVE_FAILED_EPISODES = 3  # 재시도 뒤에도 실패한 에피소드가 연속 이만큼이면 멈춤
+RETRY_WAIT_S = 5.0
+RUN_WORKERS = 2  # config 7c66ee5bf13c의 동시 실행 수
+SESSION_LOG = "ticket005/sessions.jsonl"  # runs/ 아래
+STATUS_RECENT = 50  # 진행 확인의 최근 처리 속도를 내는 에피소드 수
