@@ -28,3 +28,19 @@ CONFIG_ID = "7c66ee5bf13c"
 TOOL_SPEC_ID = "e9b4996f7529"
 S0_SKILL_ID = "bf65e569ae37"
 SECTION8_VERSION = "2026-10-21 (Ticket 005 §8 items 1-33)"  # 결과 파일에 기록하는 해석 버전
+
+# Ticket 005 §2(2026-10-22): 분석 칸·split은 명시적 목록이다. Ticket 006이 Level.L3나 L3 split을
+# 더해도 고정된 Ticket 005 분석 동작이 바뀌지 않게 한다.
+EVAL_LEVELS = ("L1", "L2")
+EVAL_SPLITS = ("dev_a", "dev_b", "oracle")
+
+# Ticket 005 §2·§4: 실행 계획. 파일럿 블록 두 개를 맨 앞에 두고, 나머지 블록 순서는 Random(0)으로
+# 섞는다. 파일럿은 candidate_id가 가장 작은 proposer와 이름순 첫째 통제 후보의 Dev-A다.
+PILOT_BLOCKS = (("cand-000", "dev_a"), ("mixed-scale-on-traffic", "dev_a"))
+PLAN_ORDER_SEED = 0
+S0_RUN_SPLITS = (("dev_b", (0,)), ("oracle", S0_ORACLE_REPEATS))  # S0 Dev-A는 Ticket 004에서 완료
+
+# Ticket 005 §2: 실행 전 점검
+EXPECTED_HW_MODEL = "Mac15,3"
+EXPECTED_PARALLEL = {"client_concurrency": 2, "server_num_parallel": 2}
+MIN_FREE_DISK_BYTES = 1_000_000_000  # 12,540개 기록은 약 50MB(Dev-A 기록 기준 3.6KB/개). 넉넉히 1GB

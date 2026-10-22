@@ -294,3 +294,36 @@ def test_cell_indices_group_cases_by_cell() -> None:
     assert sorted(i for g in groups for i in g) == list(range(210))
     for cell, group in zip(CELLS, groups, strict=True):
         assert all(table.cells[i] == cell for i in group)
+
+
+# ---------------------------------------------------------------------------
+# 칸·split 명시화 (Ticket 005 §2, 2026-10-22): Level·SPLITS가 늘어도 분석 칸·split은 그대로
+# ---------------------------------------------------------------------------
+
+
+def test_cells_and_splits_come_from_explicit_lists() -> None:
+    from evidencegate import eval_constants, eval_data
+
+    assert eval_constants.EVAL_LEVELS == ("L1", "L2")
+    assert eval_constants.EVAL_SPLITS == ("dev_a", "dev_b", "oracle")
+    assert len(eval_data.CELLS) == 6
+    assert sorted(eval_data._SPLIT_CASES) == ["dev_a", "dev_b", "oracle"]
+
+
+def test_an_extra_split_does_not_change_the_analysis_splits(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Ticket 006이 splits.SPLITS에 L3 split을 더해도 eval_data의 split과 케이스는 같다."""
+    import importlib
+
+    from evidencegate import eval_data, splits
+
+    before = {name: eval_data.split_cases(name) for name in ("dev_a", "dev_b", "oracle")}
+    monkeypatch.setitem(splits.SPLITS, "l3_oracle", splits.oracle)
+    reloaded = importlib.reload(eval_data)
+    try:
+        assert sorted(reloaded._SPLIT_CASES) == ["dev_a", "dev_b", "oracle"]
+        assert {name: reloaded.split_cases(name) for name in before} == before
+    finally:
+        monkeypatch.undo()
+        importlib.reload(eval_data)

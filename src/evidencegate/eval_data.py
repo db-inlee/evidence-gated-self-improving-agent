@@ -11,22 +11,22 @@
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 
-from evidencegate.eval_constants import GATE_REPEAT, S0_ORACLE_REPEATS
+from evidencegate.eval_constants import EVAL_LEVELS, EVAL_SPLITS, GATE_REPEAT, S0_ORACLE_REPEATS
 from evidencegate.metrics import METRICS
 from evidencegate.runner import EpisodeRecord
 from evidencegate.splits import SPLITS
-from opsworld.state import Family, Level
+from opsworld.state import Family
 
 CaseId = tuple[str, str, int]  # (family, level, incident_seed)
 Cell = tuple[str, str]  # (family, level)
 
-CELLS: tuple[Cell, ...] = tuple(sorted((f.value, lv.value) for f in Family for lv in Level))
+CELLS: tuple[Cell, ...] = tuple(sorted((f.value, lv) for f in Family for lv in EVAL_LEVELS))
 GATE_SPLITS = ("dev_a", "dev_b")
 ORACLE_SPLIT = "oracle"
 
 _SPLIT_CASES: dict[str, tuple[CaseId, ...]] = {
-    name: tuple(sorted((c.family.value, c.level.value, c.incident_seed) for c in make()))
-    for name, make in SPLITS.items()
+    name: tuple(sorted((c.family.value, c.level.value, c.incident_seed) for c in SPLITS[name]()))
+    for name in EVAL_SPLITS
 }
 _CASE_SPLIT: dict[CaseId, str] = {c: name for name, cases in _SPLIT_CASES.items() for c in cases}
 
