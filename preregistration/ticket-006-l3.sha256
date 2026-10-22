@@ -1,0 +1,16 @@
+# Ticket 006 L3 compositional shift preregistration (fixed before the Ticket 005 main run)
+# The hashed text lives in tickets/ticket-006-l3-compositional-shift.md, a local document not tracked in git.
+# A byte-identical copy of the hashed text is committed as preregistration/ticket-006-l3-sections.txt.
+# Ranges (ticket section 9): from "## 목표" up to, but not including, "## 6. 작업 순서 (커밋 지점 단위)";
+#                            and from "## 7. 결과를 보기 전에 정해 둔 것" up to, but not including, "## 9. 사전 등록 고정".
+# Normalization: strip leading/trailing whitespace of each range, join with one blank line,
+#                append one "\n", encode as UTF-8.
+sha256: e368d9ed903757d9424ca5455dfcd5ce19519066bba849ef86b3b2f527f34a4b
+file: tickets/ticket-006-l3-compositional-shift.md
+copy: preregistration/ticket-006-l3-sections.txt
+range1_start: ## 목표
+range1_end: ## 6. 작업 순서 (커밋 지점 단위)
+range2_start: ## 7. 결과를 보기 전에 정해 둔 것
+range2_end: ## 9. 사전 등록 고정
+lines: 148
+recorded_at: 2026-10-22T23:27:02+09:00

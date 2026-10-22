@@ -1,0 +1,148 @@
+## 목표
+
+Ticket 005에서 L1/L2 분포로 내린 게이트 결정이 **조합적 분포 이동(L3) 아래에서도 맞는지** 측정한다. 이 티켓이 끝나면 다음이 성립해야 한다.
+
+- 기존 세 계열 안에서 L2 방해 요인을 **조합한** L3 장애가 생성기에 추가되어 있다. L1/L2 생성 결과는 바뀌지 않는다(골든 해시).
+- 후보 19개와 S0가 L3 Oracle에서 실행되어 있다.
+- **Ticket 005의 게이트 결정을 그대로 두고**, L3 oracle Δ를 기준으로 채택 오류 지표를 다시 계산해 L1/L2 결과와 비교한다.
+
+새 장애 계열, 새 도구, 새 술어, 새 조치는 추가하지 않는다. 외부 벤치마크는 범위 밖이다(후속 타당성 파일럿).
+
+**이동의 크기에 대한 사전 기대(정직하게 적는다):**
+- dep L3만 L1·L2에 없던 술어 조합을 만든다(배포 함정과 트래픽 함정이 동시에 선다).
+- bad L3는 관측만 새롭다(배포 둘 + CPU 높음). 술어 집합은 L2 cpu_saturated와 같다.
+- traffic L3는 L2 extra_deployment와 구조가 같아, 이동이 없는 대조 칸이다.
+
+그래서 전체 이동은 크지 않을 수 있다. 이 점이 RQ-L3-0을 family별로 보는 이유다.
+
+## 연구 질문 (사전 등록 대상)
+
+- **RQ-L3-0 (조작 확인):** L3는 S0에게 L1/L2보다 어려운가.
+  - **기준값:** Ticket 005의 Oracle S0(300개, 반복 5회 다수결).
+  - **CD 기준:**
+    - Δ₀ = CD율(L3) − CD율(L1/L2)이다.
+    - 두 표본은 서로 다른 케이스라 짝이 없다. 그래서 칸 층화 **독립** bootstrap(2,000회, seed 0, 95% 양측)으로 구간을 낸다.
+    - Ticket 005 §8-13의 양 끝 규칙으로 "Δ₀ < −ε"를 판정한다.
+  - **CD−ES 기준:** g = CD율 − ES율(S0 다수결)이다. 같은 방법으로 "g(L3) − g(L1/L2) > ε"를 판정한다.
+  - **종합:**
+    - 둘 중 하나라도 확정 참이면 "조작 확인"이다.
+    - 둘 다 확정 거짓이면 "조작 미달"이다.
+    - 그 밖(불확정이 섞임)은 "판정 불가"다.
+  - **family별 보고:** 전체와 family별로 보고한다. traffic은 이동 없는 대조 칸이라 조작 확인이 나오지 않을 것으로 기대한다(나오면 그대로 보고).
+  - 미달이어도 아래 RQ는 그대로 보고한다.
+- **RQ-L3-1 (채택 오류의 이동):**
+  - 게이트 C1·C2·C4마다 Harmful Acceptance Rate를 비교한다: L3 기준 값 > L1/L2 기준 값.
+  - 주 metric은 CD이고, ES는 같은 방식으로 보고만 한다.
+  - 채택 집합은 Ticket 005와 같고 oracle만 달라서 짝지은 비교다.
+  - 종합: 게이트 3개 모두 성립하면 "지지", 일부면 "부분 지지", 없으면 "지지 안 됨"이다. 하나라도 판정 불가면 "판정 불가"다(Ticket 005 §8-33).
+- **RQ-L3-2 (게이트 우열의 보존):** Ticket 005의 RQ 판정을 L3 oracle로 다시 계산해, 판정 범주가 L1/L2와 같은지 본다.
+  - **대상:**
+    - RQ2 첫째 문장
+    - RQ3 첫째 문장과 추세: Ticket 005 Budget Curve 판정 × L3 oracle
+    - RQ2 둘째 문장: 민감도 C1 판정 × L3 oracle
+  - "보존" = 판정 범주가 같다. 문장마다 보존 / 바뀜을 보고하고, 종합은 하지 않는다(기술용).
+- **RQ-L3-3 (효과 전이):** 후보마다 L1/L2 oracle 하위집합 라벨과 L3 라벨이 같은 비율을 본다. 기술용이다. 가설 없이 보고하고, 라벨이 바뀐 후보 목록을 낸다. 칸 정의가 다르다는 해석 주의를 붙인다(§4).
+
+주 결론은 proposer 후보 12개로만 낸다. 통제 후보는 보조다. 후보 수가 적어 모든 비교는 기술적이다(검정 없음).
+
+## 고정된 설계 결정 (변경 금지)
+
+1. Ticket 001~005의 고정 결정과 실행 조건(엔진, config `7c66ee5bf13c`, tool_spec_id, S0)을 그대로 쓴다.
+2. **후보 풀은 `7c48a6d` 그대로 쓴다.** L3를 보고 후보를 만들거나 고르지 않는다.
+3. **게이트 결정은 Ticket 005의 결과를 그대로 쓴다.** L3 Dev-A·Dev-B는 만들지 않는다. L3는 사후 채점(Oracle) 전용이다.
+4. 판정 정의는 Ticket 005 §8(해석 33개)을 그대로 쓰고, 칸 구조만 L3에 맞게 바꾼다(§4).
+5. **L1/L2 불변:** 같은 (family, level, seed)는 L3 추가 전과 같은 장애를 낸다. L1 골든 해시는 기존 테스트를 쓰고, L2 골든 해시는 L3 구현 전에 새로 기록한다.
+6. **Ticket 005 분석과 분리:** Ticket 005 분석 코드는 명시적 칸·split 목록(L1·L2, dev_a·dev_b·oracle)을 쓴다(Ticket 005 §2). Ticket 006은 별도 목록(예: `L3_CELLS`, `L3_SPLITS`)을 쓴다. `Level.L3` 추가가 Ticket 005 분석 동작을 바꾸지 않아야 한다.
+
+## 1. L3 정의
+
+L3 장애는 **그 계열의 L2 하위 유형 두 개를 동시에 넣은 장애**다. family마다 L2 하위 유형은 정확히 둘이다(`L2_SUBTYPES`).
+
+| family | L3 구성 | 정답 조치 | 이동 |
+| --- | --- | --- | --- |
+| bad_deployment | cpu_saturated + extra_deployment: 버그 배포(1~12분 전) + 추가 배포(20~28분 전) + CPU 포화 | rollback | 관측만 새로움 |
+| dependency_failure | deploy_in_window + traffic_elevated: 창 안 배포 + 창 밖 방해 배포 + CPU 포화 + 트래픽 급증 + 의존성 장애 | observe_only | **새 술어 조합** |
+| traffic_spike | deploy_in_window ⊂ extra_deployment라 합치면 L2 extra_deployment와 같은 구조 | scale | **이동 없음(대조 칸, T1)** |
+
+- **traffic(T1 결정):** 다른 family의 방해 요인을 넣는 안은 불가능하다. `dependency_ruled_out`이 깨져 식별 가능성 불변식을 어긴다.
+- **구현 규칙:**
+  - **난수 흐름:** `"<family>:<seed>:L3"`. L1·L2 흐름은 그대로다.
+  - **`incident_id`:** 기존 규칙(`<family>:<seed>:L3` 해시).
+  - **숨은 값:** 새 필드(예: `l3_subtypes: tuple[str, ...]`). 도구 출력에는 넣지 않는다.
+  - **dep L3의 배포:** 창 안 배포와 창 밖 방해 배포 둘 다 넣는다(합집합).
+  - **난수 소비 순서:** L2와 같다(저하 시작 → 서비스 → 트래픽 → 의존성 → 배포).
+- **범위 밖:** 축 A(첫 관측을 계열끼리 비슷하게)는 이번에 넣지 않는다. 조작 확인 결과를 본 뒤 L3를 바꾸지 않는다(§7).
+
+## 2. 생성기 불변식 (테스트로 고정)
+
+L3 장애마다, 도구 네 개를 모두 부른 뒤 확인한다.
+
+1. **술어 집합이 family마다 정확히 다음과 같다.**
+
+   | family | 성립 | 불성립 |
+   | --- | --- | --- |
+   | bad L3 | incident_confirmed, recent_deployment_found, deploy_before_regression, dependency_ruled_out, traffic_ruled_out, capacity_saturated | traffic_spike_confirmed, dependency_failure_confirmed |
+   | dep L3 | incident_confirmed, recent_deployment_found, deploy_before_regression, dependency_failure_confirmed, traffic_spike_confirmed, capacity_saturated | dependency_ruled_out, traffic_ruled_out |
+   | traffic L3 | incident_confirmed, recent_deployment_found, deploy_before_regression, dependency_ruled_out, traffic_spike_confirmed, capacity_saturated | traffic_ruled_out |
+
+2. **정답 조치만 근거를 갖출 수 있다:** 정답 조치의 필수 증거는 빠짐없이 서고, 나머지 두 조치는 하나 이상 빠진다.
+   - dep: 함정 술어(`deploy_before_regression`, `traffic_spike_confirmed`, `capacity_saturated`)가 서도 `dependency_ruled_out`이 서지 않아, rollback·scale은 근거를 갖출 수 없다.
+   - traffic: `traffic_ruled_out`이 서지 않아 rollback은 근거를 갖출 수 없다.
+   - bad: `traffic_spike_confirmed`가 없어 scale은 근거를 갖출 수 없다.
+3. **bad:** 가장 최근 배포가 버그 배포이고, 다른 배포와 8분 이상 떨어져 있다(rollback은 가장 최근 배포를 되돌림, Ticket 003의 충돌).
+4. **경계 여유(관측 해상도 1분):**
+
+   | 항목 | 최소 여유 |
+   | --- | --- |
+   | `deploy_before_regression` 창(0~15분) 끝까지 | 3분 |
+   | `recent_deployment_found`(±30분) 경계까지 | 2분 |
+   | bad 추가 배포가 before 창 밖으로 | 5분 |
+   | 트래픽 배수(`ruled_out` < 1.5, `spike` ≥ 3.0) | 0.25 / 0.3 |
+   | CPU(`capacity_saturated` ≥ 85) | 3%p |
+
+   위 값을 incident 값에서 직접 확인한다.
+5. **결정성:** 같은 (family, L3, seed)는 같은 incident를 낸다.
+6. **골든 해시:** L1(기존)과 L2(새로 기록) 골든 해시가 그대로다.
+
+## 3. 분할과 실행 규모
+
+| split | 크기 | 구성 | 시드 |
+| --- | --- | --- | --- |
+| L3-Oracle | 300 | family마다 100(칸 = family, 3칸) | 400,000 ~ 400,099 |
+| L3-check(소규모 확인용) | 30 | family마다 10 | 410,000 ~ 410,009 |
+
+- 시드 범위는 Dev-A(100,000~), Dev-B(200,000~), Oracle(300,000~), 보정(900,000~)과 겹치지 않는다.
+- L3-check는 Oracle 밖이다. 분석에 쓰지 않는다.
+
+| 대상 | 에피소드 |
+| --- | --- |
+| 후보 19개 × L3-Oracle 300, 반복 0 | 5,700 |
+| S0 × L3-Oracle 300, 반복 0~4 | 1,500 |
+| **합계** | **7,200** (약 14시간. L3는 방해 요인이 많아 도구 호출이 늘 수 있으니, L3-check 뒤 다시 잰다) |
+
+실행기·블록 순서·중단 규칙·실행 전 점검은 Ticket 005 §2를 그대로 쓴다.
+
+## 4. 분석
+
+- **L3 oracle Δ:** 후보 반복 0 대 S0 반복 0~4 다수결이다. 구간 계산은 칸 층화(3칸) bootstrap 2,000회, seed 0, 95% 양측이다.
+- **τ_cell:** L3 S0 반복 5회 leave-one-out으로 칸마다 구한다. ε = 5%p다. L1/L2(칸당 50)와 L3(칸당 100)의 칸별 τ를 나란히 표로 낸다.
+- **지표 6개:** Ticket 005의 게이트 결정(CD·ES) × L3 oracle Δ로 다시 계산한다. 불확정 규칙, Clopper-Pearson, 후보 집합 분리는 Ticket 005 §8 그대로다.
+- **비교 표:** 게이트 × metric × 지표마다 [L1/L2 Oracle 값, L3 Oracle 값, 차이]를 나란히 둔다.
+- **Local Harm:**
+  - 주 지표는 L3 칸(family 3칸) 기준이다.
+  - 보조 지표로 L1/L2를 family 단위(L1+L2 합쳐 100개)로 다시 묶은 Local Harm을 함께 내고, 3칸 대 3칸으로 나란히 비교한다. 보조 지표도 사전 등록 대상이다.
+  - 칸 수가 다르다는 해석 주의를 붙인다.
+- **Oracle 적합성(F):** L3에서는 적용하지 않는다. F는 같은 family 안의 두 칸(L1, L2)을 비교하는 정의라 칸이 family 하나인 L3에서는 정의되지 않는다.
+- **RQ-L3 판정 범주:** 지지 / 부분 지지 / 지지 안 됨 / 판정 불가(RQ-L3-2는 보존 / 바뀜)다. 종합 규칙은 Ticket 005 §8-25~28·33과 같다.
+
+## 5. 범위 밖
+
+- 새 계열·도구·술어·조치, 축 A(증상 비슷하게)와 축 E(부분 관측)
+- L3에서 후보를 새로 만들거나 게이트를 다시 판정하는 것
+- 외부 벤치마크(후속 타당성 파일럿, `claude/external-benchmark-review.md`)
+- 다회차 진화(v2)
+
+## 7. 결과를 보기 전에 정해 둔 것
+
+- **실행 시점:** Ticket 005 직후.
+- **조작 확인이 미달이거나 판정 불가일 때:** RQ-L3 결과를 그대로 보고하고 이 티켓을 끝낸다. L3 정의를 바꾸거나 다시 실행하지 않는다. 더 강한 이동(예: 축 A)은 새 티켓과 새 사전 등록으로만 한다.
