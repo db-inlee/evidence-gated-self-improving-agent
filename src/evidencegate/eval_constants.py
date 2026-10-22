@@ -21,3 +21,10 @@ N_RESAMPLE = 1000  # 7.8 C: Budget Curve와 RQ2 민감도의 재표본 수
 SENSITIVITY_TAKE = (18, 18, 3, 3, 9, 9)
 # §8-10: 재표본 분포의 2.5·97.5 백분위수(기술용)
 BUDGET_SPREAD_QS = (Fraction(1, 40), Fraction(39, 40))
+
+# 7.8 A: 실행 조건(Ticket 005 끝까지 고정)
+POLICY_ID = "ollama:gpt-oss:20b"
+CONFIG_ID = "7c66ee5bf13c"
+TOOL_SPEC_ID = "e9b4996f7529"
+S0_SKILL_ID = "bf65e569ae37"
+SECTION8_VERSION = "2026-10-21 (Ticket 005 §8 items 1-33)"  # 결과 파일에 기록하는 해석 버전
