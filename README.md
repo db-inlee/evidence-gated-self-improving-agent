@@ -14,7 +14,7 @@ The domain is incident response, but incident response is not the research targe
 | v1 | Data splits, skill proposer, frozen candidate pool | Implemented |
 | v1 | Acceptance gates C1–C4, oracle scoring, metrics, evaluation-budget curve (analysis code frozen) | Implemented |
 | v1 | Gate benchmark run: 19 candidates and S0 on Dev-A, Dev-B and Oracle (12,540 episodes) | **Running** |
-| v1 | L3 compositional shift: the same gate decisions re-scored on shifted incidents | Pre-registered, not started |
+| v1 | L3 compositional shift: the same gate decisions re-scored on shifted incidents | Pre-registered; L3 generator implemented, not run |
 | v2 | Sequential evolution over multiple rounds | Not started |
 
 **No results are reported yet.** The research questions below are questions to be tested, not findings.
@@ -146,6 +146,8 @@ Hand-written tool-call sequences, graded without any LLM:
 | `dependency_failure` | a bug-free deployment right before the regression; traffic and CPU inflated by retries |
 | `traffic_spike` | a bug-free deployment right before the regression; two bug-free deployments, one right before the regression |
 
+**L3 incidents** (Ticket 006, oracle scoring only) put both L2 subtypes of a family into one incident. Only `dependency_failure` L3 yields a predicate combination absent from L1/L2 (deployment and traffic traps at once). `bad_deployment` L3 is new only in its observations, and `traffic_spike` L3 has the same structure as its L2 subtype with two deployments, so it serves as a no-shift control. L1 and L2 incidents are unchanged (golden hashes).
+
 Required evidence per action (all must hold):
 
 | Action | Required evidence |
@@ -232,7 +234,7 @@ The analysis runs once, after every block is done (`python -m evidencegate.analy
 src/opsworld/
   constants.py    predicate thresholds and generator ranges
   state.py        incident state model
-  generator.py    generate_incident(family, seed, level), L1 and L2 subtypes
+  generator.py    generate_incident(family, seed, level), L1, L2 subtypes and L3
   tools.py        Episode and the four observation tools
   ledger.py       raw observation ledger, observations_before
   predicates.py   evidence predicates computed from raw observations

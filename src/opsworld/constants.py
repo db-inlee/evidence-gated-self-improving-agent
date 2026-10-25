@@ -100,3 +100,22 @@ L2_IN_WINDOW_DEPLOY_LEAD_MIN_RANGE: Final = (1, 12)
 # (저하 1~12분 전)보다 앞서므로 가장 최근 배포는 항상 버그 배포다. 롤백 도구는 가장 최근 배포를
 # 되돌리므로, 이래야 정답 처분(rollback)이 도구 설명과 맞는다.
 L2_EXTRA_DEPLOY_BEFORE_MIN_RANGE: Final = (20, 28)
+
+# ---------------------------------------------------------------------------
+# L3 (Ticket 006 §1~2). 생성기는 L2 범위를 그대로 쓴다(새 수치 범위 없음). 아래는 §2-4 경계 여유
+# 표와 §2-3 배포 간격으로, 불변식 테스트가 incident 값에서 직접 확인한다. 관측 해상도는 1분이다.
+# ---------------------------------------------------------------------------
+
+# 창 안 배포에서 deploy_before_regression 창 끝(15분)까지
+L3_MARGIN_BEFORE_WINDOW_END_MIN: Final = 3
+# 모든 배포에서 recent_deployment_found 경계(±30분)까지
+L3_MARGIN_RECENT_DEPLOYMENT_MIN: Final = 2
+# bad_deployment 추가 배포가 deploy_before_regression 창 밖으로
+L3_MARGIN_BAD_EXTRA_OUTSIDE_WINDOW_MIN: Final = 5
+# 트래픽 배수: traffic_ruled_out(< 1.5) 아래로, traffic_spike_confirmed(≥ 3.0) 위로
+L3_MARGIN_TRAFFIC_RULED_OUT: Final = 0.25
+L3_MARGIN_TRAFFIC_SPIKE: Final = 0.3
+# CPU: capacity_saturated(≥ 85%)에서 위아래로 (%p)
+L3_MARGIN_CPU_PERCENT: Final = 3.0
+# bad_deployment: 가장 최근 배포(버그 배포)와 다른 배포의 최소 간격
+L3_MIN_BUGGY_DEPLOY_SEPARATION_MIN: Final = 8

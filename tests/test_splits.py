@@ -15,6 +15,8 @@ EXPECTED = {
     "dev_b": (dev_b, 210, 35, range(200_000, 200_035)),
     "oracle": (oracle, 300, 50, range(300_000, 300_050)),
 }
+# Ticket 004 split은 L1·L2만이다. Level.L3(Ticket 006)는 사후 채점 전용이라 여기에 없다.
+SPLIT_LEVELS = (Level.L1, Level.L2)
 
 
 @pytest.mark.parametrize("name", sorted(EXPECTED))
@@ -23,7 +25,7 @@ def test_size_and_cells(name: str) -> None:
     cases = make()
     assert len(cases) == size
     cells = Counter((c.family, c.level) for c in cases)
-    assert set(cells) == {(f, lv) for f in Family for lv in Level}
+    assert set(cells) == {(f, lv) for f in Family for lv in SPLIT_LEVELS}
     assert set(cells.values()) == {per_cell}
 
 
@@ -32,7 +34,7 @@ def test_seed_range_is_shared_by_every_cell(name: str) -> None:
     make, _, _, seeds = EXPECTED[name]
     cases = make()
     for family in Family:
-        for level in Level:
+        for level in SPLIT_LEVELS:
             cell = sorted(c.incident_seed for c in cases if (c.family, c.level) == (family, level))
             assert cell == list(seeds)
 

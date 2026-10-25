@@ -125,6 +125,8 @@ def check_in(repo: Path, commit: str) -> subprocess.CompletedProcess[str]:
 
 def test_a_commit_that_is_not_an_ancestor_of_head_fails(clone: Path) -> None:
     subprocess.run(["git", "checkout", "--quiet", "484a685"], cwd=clone, check=True)
+    # 스크립트는 484a685 뒤에 커밋됐으므로 checkout이 지운다. 지금 스크립트를 다시 둔다.
+    (clone / "scripts" / "run_analysis.sh").write_text(SCRIPT.read_text())
     result = check_in(clone, "bdbecf0")
     assert result.returncode == 1 and "not an ancestor" in result.stderr
 

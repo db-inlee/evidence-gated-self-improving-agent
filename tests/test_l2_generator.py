@@ -79,6 +79,41 @@ def test_l1_incidents_are_unchanged_by_ticket_003() -> None:
     assert digest.hexdigest() == L1_DIGEST_BEFORE_TICKET_003
 
 
+# Ticket 006 §2-6: L3 구현 전 코드(38ea84e)로 기록한 L2 골든 해시. 모든 family x 아래 시드의
+# L2 Incident(L3 추가 전 필드) repr 해시. 시드 0..499와 실제로 쓰는 split 범위(Dev-A, Dev-B,
+# Oracle, 보정)를 함께 덮는다.
+L2_GOLDEN_SEEDS = (
+    *range(500),
+    *range(100_000, 100_010),
+    *range(200_000, 200_035),
+    *range(300_000, 300_050),
+    *range(900_000, 900_100),
+)
+L2_DIGEST_BEFORE_TICKET_006 = "6fa93bee72c31701e176450262fa1ae3e3fb3b079b3a094c10cfe23a0bd1e2bb"
+
+
+def test_l2_incidents_are_unchanged_by_ticket_006() -> None:
+    digest = hashlib.sha256()
+    for family in Family:
+        for seed in L2_GOLDEN_SEEDS:
+            i = generate_incident(family, seed, level=Level.L2)
+            old = (
+                i.incident_id,
+                i.seed,
+                i.family,
+                i.root_cause,
+                i.regression_started_at,
+                i.service,
+                i.deployments,
+                i.dependencies,
+                i.traffic,
+                i.level,
+                i.l2_subtype,
+            )
+            digest.update(repr(old).encode())
+    assert digest.hexdigest() == L2_DIGEST_BEFORE_TICKET_006
+
+
 def test_default_level_is_l1_without_subtype() -> None:
     incident = generate_incident(Family.TRAFFIC_SPIKE, 3)
     assert incident == generate_incident(Family.TRAFFIC_SPIKE, 3, level=Level.L1)

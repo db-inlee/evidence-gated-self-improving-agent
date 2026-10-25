@@ -8,6 +8,10 @@ L2(Ticket 003)는 같은 family 안에서 방해 요소가 다른 하위 유형�
 정하고, 모든 L2 장애에는 v0 도구만으로 Evidence-Safe 정답 궤적이 있다. L1은 L2 추가 전과 완전히
 같고(난수 흐름도 같음), L2는 별도 난수 흐름(`"<family>:<seed>:L2"`)을 쓴다. 하위 유형은
 `seed % 하위 유형 수`로 정해 family 안에서 균등하다.
+
+L3(Ticket 006 §1)는 그 family의 L2 하위 유형 둘을 동시에 넣는다. 별도 난수 흐름
+(`"<family>:<seed>:L3"`)을 쓰고 난수 소비 순서는 L2와 같다(저하 시작 → 서비스 → 트래픽 →
+의존성 → 배포). 새 수치 범위는 없다. L1·L2 생성 결과는 바뀌지 않는다(골든 해시).
 """
 
 import hashlib
@@ -44,6 +48,8 @@ L2_SUBTYPES: dict[Family, tuple[str, ...]] = {
 def generate_incident(family: Family, seed: int, level: Level = Level.L1) -> Incident:
     if level is Level.L2:
         return _generate_l2(family, seed)
+    if level is Level.L3:
+        return _generate_l3(family, seed)
     rng = random.Random(f"{family.value}:{seed}")
     regression_started_at = rng.randint(*c.REGRESSION_START_RANGE)
     service_id = rng.choice(c.SERVICE_IDS)
@@ -128,6 +134,51 @@ def _generate_l2(family: Family, seed: int) -> Incident:
         traffic=traffic,
         level=Level.L2,
         l2_subtype=subtype,
+    )
+
+
+def _generate_l3(family: Family, seed: int) -> Incident:
+    rng = random.Random(f"{family.value}:{seed}:L3")
+    regression_started_at = rng.randint(*c.REGRESSION_START_RANGE)
+    service_id = rng.choice(c.SERVICE_IDS)
+
+    # 세 family 모두 CPU 포화(bad: cpu_saturated, dep: traffic_elevated, traffic: L1 특징).
+    # 트래픽 급증은 traffic_spike와 dep(traffic_elevated)뿐이다.
+    service = _degraded_service(rng, service_id, saturated=True)
+    traffic = _traffic(rng, spike=family is not Family.BAD_DEPLOYMENT)
+    dependencies = _dependencies(
+        rng,
+        regression_started_at,
+        failing=family is Family.DEPENDENCY_FAILURE,
+    )
+
+    deployments: list[Deployment] = []
+    if family is Family.BAD_DEPLOYMENT:
+        # L2 extra_deployment와 같은 배포 두 개: 가장 최근 배포는 항상 버그 배포다.
+        buggy_at = regression_started_at - rng.randint(*c.BUGGY_DEPLOY_LEAD_MIN_RANGE)
+        deployments.append(_deployment(rng, service_id, buggy_at, has_bug=True))
+        extra_at = regression_started_at - rng.randint(*c.L2_EXTRA_DEPLOY_BEFORE_MIN_RANGE)
+        deployments.append(_deployment(rng, service_id, extra_at, has_bug=False))
+    else:
+        # dep: 창 안 배포(deploy_in_window)와 창 밖 방해 배포(traffic_elevated)의 합집합.
+        # traffic: deploy_in_window ⊂ extra_deployment라 L2 extra_deployment와 같은 구조(T1).
+        in_window_at = regression_started_at - rng.randint(*c.L2_IN_WINDOW_DEPLOY_LEAD_MIN_RANGE)
+        deployments.append(_deployment(rng, service_id, in_window_at, has_bug=False))
+        outside_at = _distractor_deploy_time(rng, regression_started_at)
+        deployments.append(_deployment(rng, service_id, outside_at, has_bug=False))
+
+    return Incident(
+        incident_id=_incident_id(family, seed, Level.L3),
+        seed=seed,
+        family=family,
+        root_cause=_ROOT_CAUSE[family],
+        regression_started_at=regression_started_at,
+        service=service,
+        deployments=tuple(sorted(deployments, key=lambda d: d.deployed_at, reverse=True)),
+        dependencies=dependencies,
+        traffic=traffic,
+        level=Level.L3,
+        l3_subtypes=L2_SUBTYPES[family],
     )
 
 
