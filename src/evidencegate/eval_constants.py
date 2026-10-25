@@ -55,3 +55,16 @@ RETRY_WAIT_S = 5.0
 RUN_WORKERS = 2  # config 7c66ee5bf13c의 동시 실행 수
 SESSION_LOG = "ticket005/sessions.jsonl"  # runs/ 아래
 STATUS_RECENT = 50  # 진행 확인의 최근 처리 속도를 내는 에피소드 수
+
+# ---------------------------------------------------------------------------
+# Ticket 006 (L3 compositional shift). Ticket 005 분석은 위의 EVAL_LEVELS·EVAL_SPLITS만 쓰므로
+# 여기 값이 Ticket 005 분석 동작을 바꾸지 않는다(Ticket 006 고정 결정 6).
+# ---------------------------------------------------------------------------
+
+L3_LEVEL = "L3"
+# §3 표: split 이름 → (첫 시드, family당 개수). 칸 = family 3개.
+L3_SPLIT_SEEDS = {"l3_oracle": (400_000, 100), "l3_check": (410_000, 10)}
+L3_SPLITS = ("l3_oracle",)  # 분석에 쓰는 L3 split. l3_check는 운영 확인용이라 분석에 쓰지 않는다
+L3_CHECK_SPLIT = "l3_check"
+L3_MAIN_EPISODES = 7_200  # §3: 후보 19 x 300(반복 0) + S0 x 300(반복 0~4)
+L3_SESSION_LOG = "ticket006/sessions.jsonl"  # runs/ 아래. Ticket 005 로그와 나눈다

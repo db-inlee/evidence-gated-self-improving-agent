@@ -228,6 +228,14 @@ bash scripts/gate_benchmark.sh status      # one-line progress
 
 The analysis runs once, after every block is done (`python -m evidencegate.analysis`), and refuses to overwrite an earlier result.
 
+The L3 small check (Ticket 006) runs S0 on 30 L3 incidents with the same runner, checks and stop rules (without the Ticket 005 plan check). It reports operational numbers only: format errors, episodes without a disposition, stop reasons, tool calls, time, and an estimate for the 7,200-episode main run.
+
+```bash
+bash scripts/l3_benchmark.sh preflight   # checks only
+bash scripts/l3_benchmark.sh check       # S0 x 30 L3-check incidents, resumable
+bash scripts/l3_benchmark.sh summary     # operational numbers of the stored check
+```
+
 ## Layout
 
 ```
@@ -270,7 +278,9 @@ src/evidencegate/
   run_plan.py     the frozen run plan (63 blocks, 12,540 episodes)
   preflight.py    pre-run checks
   bench_runner.py block runner with resume and stop rules
-scripts/          proposer_probe.sh (probe and pool runs), gate_benchmark.sh (benchmark runs)
+  l3_bench.py     Ticket 006 L3 splits and the L3-check run
+scripts/          proposer_probe.sh (probe and pool runs), gate_benchmark.sh (benchmark runs),
+                  l3_benchmark.sh (L3 runs), run_analysis.sh (one-shot analysis)
 plans/            the frozen run plan and its sha256
 preregistration/  hashes and copies of the pre-registered plans (Ticket 004 section 7.8, Ticket 006)
 skills/           initial skill S0, the variants tried during calibration, controls/, and the frozen candidates/

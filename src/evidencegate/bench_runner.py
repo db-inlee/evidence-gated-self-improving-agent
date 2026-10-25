@@ -15,7 +15,8 @@
   시작 시각 순)에서 비율이 5%를 넘으면 멈춘다. 20개째부터 판정한다. 기록은 그대로 둔다.
 - 멈추면 이유와 마지막 레코드의 키·시간·형식 오류 수를 출력하고 종료 코드 2를 낸다.
   **CD·ES는 어디에도 출력하지 않는다**(진행 확인 포함).
-- 세션 경계, 점검·탐침 결과, 서버 오류는 `runs/ticket005/sessions.jsonl`에 남긴다.
+- 세션 경계, 점검·탐침 결과, 서버 오류는 `runs/ticket005/sessions.jsonl`에 남긴다. Ticket 006
+  실행기(`l3_bench`)는 같은 함수를 `session_log`만 바꿔(`runs/ticket006/sessions.jsonl`) 쓴다.
 """
 
 import argparse
@@ -150,9 +151,10 @@ def run_blocks(
     workers: int = RUN_WORKERS,
     max_blocks: int | None = None,
     rules: StopRules | None = None,
+    session_log: str = SESSION_LOG,
 ) -> RunSummary:
     rules = rules or DEFAULT_RULES
-    log = SessionLog(runs_dir)
+    log = SessionLog(runs_dir, session_log)
     log.write("session_start", blocks=len(plan), max_blocks=max_blocks, workers=workers)
     window = FormatErrorWindow(rules)
     for record in sorted(_plan_records(plan, runs_dir, policy), key=lambda r: r.started_at):
@@ -222,7 +224,9 @@ def run_blocks(
     return _summary(counts, stopped_by_max_blocks=False)
 
 
-def status_line(plan: Sequence[Block], runs_dir: Path, policy: Policy) -> str:
+def status_line(
+    plan: Sequence[Block], runs_dir: Path, policy: Policy, session_log: str = SESSION_LOG
+) -> str:
     """한 줄 진행 확인. CD·ES는 내지 않는다."""
     records = sorted(_plan_records(plan, runs_dir, policy), key=lambda r: r.started_at)
     total = sum(len(b.cases) for b in plan)
@@ -241,7 +245,7 @@ def status_line(plan: Sequence[Block], runs_dir: Path, policy: Policy) -> str:
         per = (last - first).total_seconds() / (len(recent) - 1)
         speed = f"{per:.1f}s/ep (last {len(recent)})"
         eta = _duration(per * (total - len(records)))
-    server_errors = SessionLog(runs_dir).count("server_error")
+    server_errors = SessionLog(runs_dir, session_log).count("server_error")
     return (
         f"{len(records)}/{total} episodes, {blocks_done}/{len(plan)} blocks, {speed}, "
         f"ETA {eta}, format errors (last {FORMAT_WINDOW}) {window.errors}/{window.size}, "
@@ -250,8 +254,8 @@ def status_line(plan: Sequence[Block], runs_dir: Path, policy: Policy) -> str:
 
 
 class SessionLog:
-    def __init__(self, runs_dir: Path) -> None:
-        self.path = runs_dir / SESSION_LOG
+    def __init__(self, runs_dir: Path, name: str = SESSION_LOG) -> None:
+        self.path = runs_dir / name
 
     def write(self, event: str, **fields: Any) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -398,6 +402,7 @@ def main(
     plan: Sequence[Block] | None = None,
     status_policy: Policy | None = None,
     rules: StopRules | None = None,
+    session_log: str = SESSION_LOG,
     out: TextIO = sys.stdout,
     err: TextIO = sys.stderr,
 ) -> int:
@@ -416,7 +421,8 @@ def main(
     run_set = blocks[: len(PILOT_BLOCKS)] if args.pilot else blocks
 
     if args.command == "status":
-        print(status_line(blocks, args.runs_dir, status_policy or _StatusPolicy()), file=out)
+        status = status_policy or _StatusPolicy()
+        print(status_line(blocks, args.runs_dir, status, session_log), file=out)
         return 0
 
     client = httpx.Client(base_url=args.ollama_url)
@@ -445,7 +451,7 @@ def main(
     )
     for c in checks:
         print(f"preflight {'ok  ' if c.ok else 'FAIL'} {c.name}: {c.detail}", file=out)
-    log = SessionLog(args.runs_dir)
+    log = SessionLog(args.runs_dir, session_log)
     if not preflight_ok(checks):
         print("preflight failed; nothing was run", file=err)
         log.write("preflight_failed", checks=[c.__dict__ for c in checks])
@@ -481,6 +487,7 @@ def main(
             out=out,
             max_blocks=args.max_blocks,
             rules=rules or DEFAULT_RULES,
+            session_log=session_log,
         )
     except BenchStopped as stop:
         print(f"stopped: {stop.reason}", file=err)
@@ -492,7 +499,7 @@ def main(
         f"{summary.server_errors} server errors",
         file=out,
     )
-    print(status_line(blocks, args.runs_dir, policy), file=out)
+    print(status_line(blocks, args.runs_dir, policy, session_log), file=out)
     return 0
 
 
