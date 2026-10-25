@@ -5,8 +5,10 @@ L3-check는 S0 x 30개(반복 0)이고 운영 지표만 본다. CD·ES는 어디
 
 import copy
 import dataclasses
+import hashlib
 import io
 import json
+import random
 import shutil
 from collections import namedtuple
 from pathlib import Path
@@ -15,9 +17,12 @@ from typing import Any
 import pytest
 
 from evidencegate import eval_constants as k
+from evidencegate.analysis import load_pool
 from evidencegate.bench_runner import block_store
 from evidencegate.eval_data import split_cases
 from evidencegate.l3_bench import (
+    build_l3_plan,
+    check_l3_plan,
     l3_check_block,
     l3_preflight,
     l3_split_cases,
@@ -28,6 +33,7 @@ from evidencegate.l3_bench import (
 from evidencegate.machine import Machine
 from evidencegate.policy import PolicyTrace, StopReason, TurnRecord
 from evidencegate.preflight import Check, preflight_ok
+from evidencegate.run_plan import Block, plan_bytes
 from evidencegate.runner import EpisodeKey, EpisodeRecord
 from evidencegate.suites import CALIBRATION_SEED_OFFSET
 from opsworld.state import Family
@@ -319,3 +325,135 @@ def test_summary_counts_only_repeat_0_of_the_check_cases(tmp_path: Path) -> None
     store.append(dataclasses.replace(first, key=dataclasses.replace(first.key, incident_seed=7)))
     code, text = cli(tmp_path, ["summary"])
     assert code == 0 and "30/30 episodes" in text
+
+
+# ---------------------------------------------------------------------------
+# L3 본 실행 계획 (§3): 후보 19 x L3-Oracle(반복 0) + S0 x L3-Oracle(반복 0~4) = 7,200
+# ---------------------------------------------------------------------------
+
+
+def test_l3_plan_has_the_ticket_blocks_and_7200_episodes() -> None:
+    pool = load_pool(REPO_ROOT)
+    plan = build_l3_plan(pool, REPO_ROOT)
+    assert len(plan) == len(pool.candidates) + 5 == 24
+    assert sum(len(b.cases) for b in plan) == k.L3_MAIN_EPISODES == 7_200
+    assert [b.index for b in plan] == list(range(24))
+    assert {b.split for b in plan} == {"l3_oracle"}
+    assert all(b.cases == l3_split_cases("l3_oracle") for b in plan)
+    candidates = [(b.name, b.repeat) for b in plan if b.group != "s0"]
+    assert sorted(candidates) == sorted((c.name, 0) for c in pool.candidates)
+    assert sorted(b.repeat for b in plan if b.group == "s0") == [0, 1, 2, 3, 4]
+    assert {b.skill_id for b in plan if b.group == "s0"} == {k.S0_SKILL_ID}
+
+
+def test_l3_plan_order_is_the_canonical_order_shuffled_by_random_0() -> None:
+    pool = load_pool(REPO_ROOT)
+    canonical = [(c.name, 0) for c in pool.candidates] + [("S0", r) for r in range(5)]
+    random.Random(k.PLAN_ORDER_SEED).shuffle(canonical)
+    assert [(b.name, b.repeat) for b in build_l3_plan(pool, REPO_ROOT)] == canonical
+
+
+def test_l3_plan_refuses_a_skill_that_does_not_match_the_pool(tmp_path: Path) -> None:
+    root = tmp_path / "root"
+    shutil.copytree(REPO_ROOT / "skills", root / "skills")
+    skill = root / "skills" / "candidates" / "cand-000" / "SKILL.md"
+    skill.write_text(skill.read_text() + "\nchanged\n")
+    with pytest.raises(ValueError, match="cand-000"):
+        build_l3_plan(load_pool(REPO_ROOT), root)
+
+
+def test_committed_l3_plan_matches_its_hash_and_a_rebuild() -> None:
+    check = check_l3_plan(REPO_ROOT / k.L3_PLAN_PATH, REPO_ROOT)
+    assert check.ok, check.detail
+    data = (REPO_ROOT / k.L3_PLAN_PATH).read_bytes()
+    assert data == plan_bytes(build_l3_plan(load_pool(REPO_ROOT), REPO_ROOT))
+
+
+def write_l3_plan(tmp_path: Path) -> Path:
+    path = tmp_path / "plan.json"
+    data = plan_bytes(build_l3_plan(load_pool(REPO_ROOT), REPO_ROOT))
+    path.write_bytes(data)
+    path.with_name("plan.json.sha256").write_text(
+        f"{hashlib.sha256(data).hexdigest()}  plan.json\n"
+    )
+    return path
+
+
+def test_l3_plan_check_fails_on_a_changed_file_or_hash(tmp_path: Path) -> None:
+    path = write_l3_plan(tmp_path)
+    assert check_l3_plan(path, REPO_ROOT).ok
+    path.write_bytes(path.read_bytes().replace(b'"repeat":0', b'"repeat":9', 1))
+    assert "does not match" in check_l3_plan(path, REPO_ROOT).detail
+    data = path.read_bytes()
+    path.with_name("plan.json.sha256").write_text(f"{hashlib.sha256(data).hexdigest()}  x\n")
+    assert "rebuild" in check_l3_plan(path, REPO_ROOT).detail
+    path.with_name("plan.json.sha256").unlink()
+    assert not check_l3_plan(path, REPO_ROOT).ok
+
+
+def test_ticket_005_plan_is_not_the_l3_plan() -> None:
+    assert Path("plans/ticket-005-plan.json") != k.L3_PLAN_PATH
+    t005 = (REPO_ROOT / "plans" / "ticket-005-plan.json.sha256").read_text().split()[0]
+    assert t005 == "99d4dd03a33793ce6576d753e30fbbdfc01e75e122db1d8823d4973730175b67"
+
+
+def test_main_run_preflight_adds_the_l3_plan_check(tmp_path: Path) -> None:
+    checks = preflight(tmp_path, plan_path=write_l3_plan(tmp_path))
+    assert preflight_ok(checks), checks
+    assert [c.name for c in checks][-2:] == ["plan", "disk"]
+    other = tmp_path / "other"
+    assert not preflight_ok(preflight(other, plan_path=tmp_path / "missing.json"))
+
+
+# ---------------------------------------------------------------------------
+# 본 실행 명령: run / status / plan
+# ---------------------------------------------------------------------------
+
+
+def small_l3_plan() -> list[Block]:
+    cases = l3_split_cases("l3_oracle")[:2]
+    s0 = l3_check_block(REPO_ROOT)
+    return [
+        Block(0, "S0", "s0", s0.skill_id, s0.skill_path, "l3_oracle", 1, cases),
+        Block(1, "S0", "s0", s0.skill_id, s0.skill_path, "l3_oracle", 0, cases),
+    ]
+
+
+def main_cli(tmp_path: Path, args: list[str]) -> tuple[int, str]:
+    out = io.StringIO()
+    code = main(
+        [*args, "--runs-dir", str(tmp_path / "runs")],
+        policy_factory=FakePolicy,
+        preflight=lambda policy: [Check("engine", True, "fake")],
+        probe=lambda: Probe(True),
+        status_policy=FakePolicy(),
+        plan=small_l3_plan(),
+        out=out,
+        err=out,
+    )
+    return code, out.getvalue()
+
+
+def test_run_executes_the_plan_blocks_and_logs_to_ticket_006(tmp_path: Path) -> None:
+    code, text = main_cli(tmp_path, ["run", "--max-blocks", "1"])
+    assert code == 0 and "max blocks reached" in text
+    code, text = main_cli(tmp_path, ["run"])
+    assert code == 0, text
+    store = block_store(tmp_path / "runs", FakePolicy(), small_l3_plan()[0])
+    assert store.path.parts[-4] == "l3_oracle"
+    assert sorted(r.key.repeat for r in store.records()) == [0, 0, 1, 1]
+    assert (tmp_path / "runs" / k.L3_SESSION_LOG).exists()
+    assert not (tmp_path / "runs" / k.SESSION_LOG).exists()
+    code, text = main_cli(tmp_path, ["status"])
+    assert code == 0 and "4/4 episodes, 2/2 blocks" in text
+
+
+def test_plan_command_writes_the_plan_and_refuses_a_different_one(tmp_path: Path) -> None:
+    out = io.StringIO()
+    path = tmp_path / "plans" / "l3.json"
+    code = main(["plan", "--plan", str(path)], out=out, err=out)
+    assert code == 0, out.getvalue()
+    assert check_l3_plan(path, REPO_ROOT).ok
+    assert "24 blocks, 7200 episodes" in out.getvalue()
+    path.write_bytes(path.read_bytes() + b" ")
+    assert main(["plan", "--plan", str(path)], out=out, err=out) == 1

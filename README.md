@@ -13,11 +13,11 @@ The domain is incident response, but incident response is not the research targe
 | v1 | L2 incident generator, recalibration on mixed L1/L2 incidents, control candidates | Implemented |
 | v1 | Data splits, skill proposer, frozen candidate pool | Implemented |
 | v1 | Acceptance gates C1–C4, oracle scoring, metrics, evaluation-budget curve (analysis code frozen) | Implemented |
-| v1 | Gate benchmark run: 19 candidates and S0 on Dev-A, Dev-B and Oracle (12,540 episodes) | **Running** |
-| v1 | L3 compositional shift: the same gate decisions re-scored on shifted incidents | Pre-registered; L3 generator implemented, not run |
+| v1 | Gate benchmark run: 19 candidates and S0 on Dev-A, Dev-B and Oracle (12,540 episodes) | Done; analysed once (`results/ticket-005/`) |
+| v1 | L3 compositional shift: the same gate decisions re-scored on shifted incidents | Pre-registered; generator, small check, run plan and analysis code (frozen) done; main run not started |
 | v2 | Sequential evolution over multiple rounds | Not started |
 
-**No results are reported yet.** The research questions below are questions to be tested, not findings.
+**This README does not report results yet.** The research questions below are questions to be tested, not findings.
 
 ## Research questions (to be tested)
 
@@ -89,6 +89,7 @@ The evaluation is fixed in stages. Each stage is a commit made before the next s
 | 2. Candidate pool | `7c48a6d` | the 12 proposer candidates and 7 controls, with file hashes (`skills/candidates/POOL.json`) |
 | 3. L3 pre-registration | `49ce87d` | the follow-up compositional-shift study (Ticket 006), before the benchmark run |
 | 4. Analysis code | `bdbecf0` | the analysis code, the run plan (`plans/ticket-005-plan.json`, sha256 `99d4dd03…`) and the pre-run checks, before the pilot and the main run |
+| 5. L3 analysis code | the commit adding `src/evidencegate/l3_analysis.py` | the L3 analysis, the L3 run plan (`plans/ticket-006-l3-plan.json`, sha256 `3148f162…`) and the L3 pre-run checks, before the L3 main run |
 
 Interpretations needed where the pre-registered text was silent (for example random-number seeding, tie handling, how uncertain candidates enter each metric) were decided and recorded before stage 4. A test maps every pre-registered item and every interpretation to the function that implements it and the test that checks it. After stage 4, the analysis code may change only for bug fixes, reported with results before and after.
 
@@ -228,12 +229,20 @@ bash scripts/gate_benchmark.sh status      # one-line progress
 
 The analysis runs once, after every block is done (`python -m evidencegate.analysis`), and refuses to overwrite an earlier result.
 
-The L3 small check (Ticket 006) runs S0 on 30 L3 incidents with the same runner, checks and stop rules (without the Ticket 005 plan check). It reports operational numbers only: format errors, episodes without a disposition, stop reasons, tool calls, time, and an estimate for the 7,200-episode main run.
+The L3 study (Ticket 006) uses the same runner, checks and stop rules. The small check runs S0 on 30 L3 incidents and reports operational numbers only (format errors, episodes without a disposition, stop reasons, tool calls, time, and an estimate for the main run). The main run follows the frozen L3 plan: 19 candidates and S0 (five repeats) on 300 L3 incidents, 7,200 episodes in 24 blocks. Its checks add the L3 plan hash.
 
 ```bash
-bash scripts/l3_benchmark.sh preflight   # checks only
 bash scripts/l3_benchmark.sh check       # S0 x 30 L3-check incidents, resumable
 bash scripts/l3_benchmark.sh summary     # operational numbers of the stored check
+bash scripts/l3_benchmark.sh preflight   # main-run checks only
+bash scripts/l3_benchmark.sh run         # main run, resumable; `run N` stops after N blocks
+bash scripts/l3_benchmark.sh status      # one-line progress
+```
+
+The L3 analysis runs once, against its freeze commit. It first recomputes the Ticket 005 analysis from the same records and stops unless the result is byte-identical to `results/ticket-005/analysis.json`, so the gate decisions are exactly the Ticket 005 ones.
+
+```bash
+bash scripts/run_l3_analysis.sh <L3 analysis freeze commit>   # results/ticket-006/
 ```
 
 ## Layout
@@ -278,10 +287,12 @@ src/evidencegate/
   run_plan.py     the frozen run plan (63 blocks, 12,540 episodes)
   preflight.py    pre-run checks
   bench_runner.py block runner with resume and stop rules
-  l3_bench.py     Ticket 006 L3 splits and the L3-check run
+  l3_bench.py     Ticket 006 L3 splits, the L3-check, the L3 run plan and main run
+  l3_analysis.py  the one-shot L3 analysis (RQ-L3-0 to RQ-L3-3)
+  l3_prereg_map.py map from every Ticket 006 pre-registered item to its function and test
 scripts/          proposer_probe.sh (probe and pool runs), gate_benchmark.sh (benchmark runs),
-                  l3_benchmark.sh (L3 runs), run_analysis.sh (one-shot analysis)
-plans/            the frozen run plan and its sha256
+                  l3_benchmark.sh (L3 runs), run_analysis.sh and run_l3_analysis.sh (one-shot analyses)
+plans/            the frozen run plans (Ticket 005, Ticket 006 L3) and their sha256
 preregistration/  hashes and copies of the pre-registered plans (Ticket 004 section 7.8, Ticket 006)
 skills/           initial skill S0, the variants tried during calibration, controls/, and the frozen candidates/
 tests/

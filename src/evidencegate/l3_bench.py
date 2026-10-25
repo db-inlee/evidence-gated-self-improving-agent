@@ -1,6 +1,9 @@
-"""Ticket 006 실행기: L3 split과 L3-check (§3, §6 순서 4).
+"""Ticket 006 실행기: L3 split, L3-check, L3 본 실행 계획과 본 실행 (§3, §6 순서 4·6).
 
-    uv run python -m evidencegate.l3_bench preflight   # 실행 전 점검만
+    uv run python -m evidencegate.l3_bench plan        # 본 실행 계획 파일과 sha256(없을 때 만듦)
+    uv run python -m evidencegate.l3_bench preflight   # 본 실행 점검만(계획 파일 점검 포함)
+    uv run python -m evidencegate.l3_bench run [--max-blocks N]   # 본 실행 7,200개, 이어서 실행
+    uv run python -m evidencegate.l3_bench status      # 본 실행 진행 확인(CD·ES 없음)
     uv run python -m evidencegate.l3_bench check       # L3-check: S0 x 30개(반복 0), 이어서 실행
     uv run python -m evidencegate.l3_bench summary     # 저장된 L3-check의 운영 지표
 
@@ -8,13 +11,18 @@
   따로 둔다.
 - L3-check는 Ticket 005 실행기(`bench_runner`)를 그대로 쓴다: 실행 전 점검 → 병렬 탐침 → 블록
   실행, 같은 중단 규칙. 세션 로그만 `runs/ticket006/sessions.jsonl`로 나눈다.
-- 실행 전 점검은 Ticket 005와 같고, Ticket 005 계획 파일 점검만 뺀다(L3-check는 그 계획에 없다).
-  Ticket 006 사전 등록 해시 점검이 들어 있다.
+- 실행 전 점검은 Ticket 005와 같고, Ticket 005 계획 파일 점검 대신 L3 계획 파일 점검을 한다
+  (L3-check는 계획 파일 점검 없음). Ticket 006 사전 등록 해시 점검이 들어 있다.
+- 본 실행 계획: 후보 19개(풀 순서) x l3_oracle 반복 0, 그다음 S0 x l3_oracle 반복 0~4를 정해진
+  순서로 두고 `random.Random(PLAN_ORDER_SEED)`로 섞는다(Ticket 005 §2와 같은 규칙, 파일럿 없음).
+  파일은 Ticket 005 계획과 같은 형식(정렬된 키의 JSON)이고 sha256으로 고정한다.
 - **운영 지표만 낸다:** 에피소드 수, 형식 오류, 처분 없음, 종료 이유, 도구 호출 수, 시간, 서버 오류,
   본 실행(7,200개) 예상 시간. CD·ES·조치 종류는 어디에도 내지 않는다(§6 순서 4).
 """
 
 import argparse
+import hashlib
+import random
 import shutil
 import sys
 from collections import Counter
@@ -25,7 +33,7 @@ from pathlib import Path
 from typing import Any, TextIO
 
 from evidencegate import bench_runner
-from evidencegate.analysis import REPO_ROOT
+from evidencegate.analysis import REPO_ROOT, PoolSpec, load_pool
 from evidencegate.bench_runner import (
     DEFAULT_OLLAMA_URL,
     SessionLog,
@@ -39,9 +47,13 @@ from evidencegate.eval_constants import (
     L3_CHECK_SPLIT,
     L3_LEVEL,
     L3_MAIN_EPISODES,
+    L3_ORACLE_SPLIT,
+    L3_PLAN_PATH,
     L3_SESSION_LOG,
     L3_SPLIT_SEEDS,
+    PLAN_ORDER_SEED,
     RUN_WORKERS,
+    S0_ORACLE_REPEATS,
     S0_SKILL_ID,
 )
 from evidencegate.eval_data import CaseId
@@ -59,7 +71,7 @@ from evidencegate.preflight import (
     check_preregistration_l3,
     reference_policy_config,
 )
-from evidencegate.run_plan import S0_NAME, S0_PATH, Block
+from evidencegate.run_plan import S0_NAME, S0_PATH, Block, _skill_path, load_plan, plan_bytes
 from evidencegate.runner import EpisodeRecord
 from evidencegate.skills import load_skill
 from evidencegate.store import EpisodeStore
@@ -97,6 +109,48 @@ def l3_check_block(root: Path = REPO_ROOT) -> Block:
     )
 
 
+def build_l3_plan(pool: PoolSpec, root: Path = REPO_ROOT) -> tuple[Block, ...]:
+    """§3 본 실행 계획: 후보 19 x l3_oracle 반복 0 + S0 x 반복 0~4, Random(0)으로 섞은 순서."""
+    skills = {c.name: (c.skill_id, _skill_path(c.name, c.group), c.group) for c in pool.candidates}
+    skills[S0_NAME] = (pool.s0_skill_id, S0_PATH, "s0")
+    for name, (skill_id, path, _) in skills.items():
+        actual = load_skill(root / path).skill_id
+        if actual != skill_id:
+            raise ValueError(f"{name}: {path} has skill_id {actual}, expected {skill_id}")
+    keys = [(c.name, GATE_REPEAT) for c in pool.candidates]
+    keys += [(S0_NAME, r) for r in S0_ORACLE_REPEATS]
+    random.Random(PLAN_ORDER_SEED).shuffle(keys)
+    cases = l3_split_cases(L3_ORACLE_SPLIT)
+    return tuple(
+        Block(
+            index,
+            name,
+            skills[name][2],
+            skills[name][0],
+            skills[name][1],
+            L3_ORACLE_SPLIT,
+            r,
+            cases,
+        )
+        for index, (name, r) in enumerate(keys)
+    )
+
+
+def check_l3_plan(plan_path: Path, root: Path) -> Check:
+    """L3 계획 파일이 자기 sha256 기록과 같고, 지금 풀로 다시 만든 계획과 바이트까지 같다."""
+    sha_path = plan_path.with_name(plan_path.name + ".sha256")
+    if not plan_path.exists() or not sha_path.exists():
+        return Check("plan", False, f"missing {plan_path} or {sha_path}")
+    data = plan_path.read_bytes()
+    recorded = sha_path.read_text().split()[0]
+    actual = hashlib.sha256(data).hexdigest()
+    if actual != recorded:
+        return Check("plan", False, f"plan sha256 {actual} does not match recorded {recorded}")
+    if data != plan_bytes(build_l3_plan(load_pool(root), root)):
+        return Check("plan", False, "plan file differs from a rebuild from the frozen pool")
+    return Check("plan", True, f"L3 plan sha256 {actual}")
+
+
 def l3_preflight(
     *,
     root: Path,
@@ -104,8 +158,12 @@ def l3_preflight(
     current_config: Mapping[str, Any],
     machine: Machine,
     disk_usage: Callable[[Path], Any] = shutil.disk_usage,
+    plan_path: Path | None = None,
 ) -> list[Check]:
-    """Ticket 005 실행 전 점검에서 Ticket 005 계획 파일 점검만 뺀 것."""
+    """Ticket 005 실행 전 점검에서 Ticket 005 계획 파일 점검을 뺀 것.
+
+    본 실행은 `plan_path`로 L3 계획 파일 점검을 디스크 점검 앞에 더한다.
+    """
     try:
         engine = check_engine(current_config, reference_policy_config(runs_dir))
     except ValueError as error:
@@ -118,6 +176,7 @@ def l3_preflight(
         check_frozen_pool(root),
         check_preregistration_7_8(root),
         check_preregistration_l3(root),
+        *([check_l3_plan(plan_path, root)] if plan_path is not None else []),
         check_disk(runs_dir if runs_dir.exists() else root, usage=disk_usage),
     ]
 
@@ -233,19 +292,31 @@ def main(
     probe: Callable[[], Any] | None = None,
     status_policy: Policy | None = None,
     rules: StopRules | None = None,
+    plan: Sequence[Block] | None = None,
     out: TextIO = sys.stdout,
     err: TextIO = sys.stderr,
 ) -> int:
     parser = argparse.ArgumentParser(prog="evidencegate-l3")
-    parser.add_argument("command", choices=("preflight", "check", "summary"))
+    parser.add_argument(
+        "command", choices=("plan", "preflight", "run", "status", "check", "summary")
+    )
     parser.add_argument("--runs-dir", type=Path, default=Path("runs"))
     parser.add_argument("--root", type=Path, default=REPO_ROOT)
+    parser.add_argument("--plan", type=Path, default=L3_PLAN_PATH)
+    parser.add_argument("--max-blocks", type=int, default=None)
     parser.add_argument("--ollama-url", default=DEFAULT_OLLAMA_URL)
     args = parser.parse_args(argv)
-    block = l3_check_block(args.root)
 
+    if args.command == "plan":
+        return _write_plan(args.plan, args.root, out, err)
+    check_block = l3_check_block(args.root)
     if args.command == "summary":
-        return _print_summary(args.runs_dir, status_policy, block, out, err)
+        return _print_summary(args.runs_dir, status_policy, check_block, out, err)
+
+    main_run = args.command in ("preflight", "run", "status")
+    blocks = list(plan) if plan is not None else None
+    if main_run and blocks is None:
+        blocks = list(load_plan(args.plan)) if args.plan.exists() else []
 
     def default_preflight(policy: Policy) -> list[Check]:
         return l3_preflight(
@@ -253,10 +324,12 @@ def main(
             runs_dir=args.runs_dir,
             current_config=policy.config,
             machine=detect_machine(),
+            plan_path=args.plan if main_run else None,
         )
 
+    command = {"check": "run", "run": "run", "preflight": "preflight", "status": "status"}
     forwarded = [
-        "run" if args.command == "check" else "preflight",
+        command[args.command],
         "--runs-dir",
         str(args.runs_dir),
         "--root",
@@ -264,20 +337,40 @@ def main(
         "--ollama-url",
         args.ollama_url,
     ]
+    if args.command == "run" and args.max_blocks is not None:
+        forwarded += ["--max-blocks", str(args.max_blocks)]
     code = bench_runner.main(
         forwarded,
         policy_factory=policy_factory,
         preflight=preflight or default_preflight,
         probe=probe,
-        plan=[block],
+        plan=blocks if main_run else [check_block],
+        status_policy=status_policy,
         rules=rules,
         session_log=L3_SESSION_LOG,
         out=out,
         err=err,
     )
     if args.command == "check" and code == 0:
-        return _print_summary(args.runs_dir, status_policy, block, out, err)
+        return _print_summary(args.runs_dir, status_policy, check_block, out, err)
     return code
+
+
+def _write_plan(path: Path, root: Path, out: TextIO, err: TextIO) -> int:
+    plan = build_l3_plan(load_pool(root), root)
+    data = plan_bytes(plan)
+    digest = hashlib.sha256(data).hexdigest()
+    if path.exists():
+        if path.read_bytes() != data:
+            print(f"error: {path} exists and differs from the plan built now", file=err)
+            return 1
+    else:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+    path.with_name(path.name + ".sha256").write_text(f"{digest}  {path.name}\n")
+    episodes = sum(len(b.cases) for b in plan)
+    print(f"L3 plan {path}: {len(plan)} blocks, {episodes} episodes, sha256 {digest}", file=out)
+    return 0
 
 
 def _print_summary(

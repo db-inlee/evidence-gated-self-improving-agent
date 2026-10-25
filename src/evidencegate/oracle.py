@@ -10,9 +10,11 @@
   같다(§8-17·18). neutral 조건(|Δ| ≤ ε)에 따로 적용하면 neutral 띠를 통째로 덮는 구간을 확정으로
   잘못 판정하므로 그렇게 하지 않는다.
 - 칸 단위 조건(Local Harm, E의 칸 조건, neutral의 큰 칸, F)은 점추정으로 판정한다(§8-14).
+- Local Harm과 neutral의 큰 칸은 추정에 들어 있는 칸(`cell_deltas`의 순서)으로 본다. Ticket 005는
+  언제나 6칸(CELLS 순서)이고, Ticket 006 L3는 family 3칸이다.
 """
 
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from fractions import Fraction
 
@@ -79,15 +81,19 @@ def estimate(
     )
 
 
-def tau_cells(s0_repeats: Mapping[int, Mapping[CaseId, int]]) -> dict[Cell, Fraction]:
-    """S0 Oracle 반복 5회(반복 → 케이스 → 0/1)에서 칸별 τ_cell."""
+def tau_cells(
+    s0_repeats: Mapping[int, Mapping[CaseId, int]],
+    cells: Sequence[Cell] = CELLS,
+    cell_key: Callable[[CaseId], Cell] = cell_of,
+) -> dict[Cell, Fraction]:
+    """S0 Oracle 반복 5회(반복 → 케이스 → 0/1)에서 칸별 τ_cell. 칸은 `cell_key`로 정한다."""
     if sorted(s0_repeats) != list(S0_ORACLE_REPEATS):
         raise ValueError(f"tau needs {len(S0_ORACLE_REPEATS)} repeats {S0_ORACLE_REPEATS}")
     repeats = sorted(s0_repeats)
     cases = list(s0_repeats[repeats[0]])
     tau = {}
-    for cell in CELLS:
-        in_cell = [c for c in cases if cell_of(c) == cell]
+    for cell in cells:
+        in_cell = [c for c in cases if cell_key(c) == cell]
         noise = []
         for r in repeats:
             others = [o for o in repeats if o != r]
@@ -122,7 +128,7 @@ def classify_effect(e: OracleEstimate) -> str | None:
 
 def local_harm(e: OracleEstimate) -> bool:
     """어떤 칸에서 Δ_cell < -τ_cell(점추정, §8-14)."""
-    return any(e.cell_deltas[c] < -e.tau[c] for c in CELLS)
+    return any(e.cell_deltas[c] < -e.tau[c] for c in e.cell_deltas)
 
 
 def subset_label(e: OracleEstimate) -> SubsetResult:
@@ -133,7 +139,7 @@ def subset_label(e: OracleEstimate) -> SubsetResult:
         return SubsetResult("negative")
     if effect == "up":
         return SubsetResult("mixed" if local_harm(e) else "positive")
-    big = tuple(c for c in CELLS if abs(e.cell_deltas[c]) > e.tau[c])
+    big = tuple(c for c in e.cell_deltas if abs(e.cell_deltas[c]) > e.tau[c])
     return SubsetResult("neutral", big_cells=big)
 
 

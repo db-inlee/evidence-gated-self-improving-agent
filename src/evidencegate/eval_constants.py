@@ -1,6 +1,7 @@
 """Ticket 005 분석 상수 (설계 문서 7.8절, 티켓 §8 해석). 임계값과 seed는 여기에만 둔다."""
 
 from fractions import Fraction
+from pathlib import Path
 
 SEED = 0  # 7.8: 모든 bootstrap·재표본의 seed(§8-1: 호출마다 새로 시작)
 N_BOOT = 2000  # 7.8 A·B·D: δ(N), C4, Oracle 구간의 bootstrap 횟수
@@ -66,5 +67,14 @@ L3_LEVEL = "L3"
 L3_SPLIT_SEEDS = {"l3_oracle": (400_000, 100), "l3_check": (410_000, 10)}
 L3_SPLITS = ("l3_oracle",)  # 분석에 쓰는 L3 split. l3_check는 운영 확인용이라 분석에 쓰지 않는다
 L3_CHECK_SPLIT = "l3_check"
+L3_ORACLE_SPLIT = "l3_oracle"
 L3_MAIN_EPISODES = 7_200  # §3: 후보 19 x 300(반복 0) + S0 x 300(반복 0~4)
 L3_SESSION_LOG = "ticket006/sessions.jsonl"  # runs/ 아래. Ticket 005 로그와 나눈다
+# §3: 본 실행 계획(후보 19 x l3_oracle 반복 0 + S0 x l3_oracle 반복 0~4). 블록 순서는
+# Ticket 005 §2와 같이 정해진 순서를 Random(PLAN_ORDER_SEED)로 섞는다. L3-check를 마쳤으므로
+# 파일럿 블록은 없다.
+L3_PLAN_PATH = Path("plans/ticket-006-l3-plan.json")
+# Ticket 006 고정 결정 3: 게이트 결정은 이 Ticket 005 결과(results/ticket-005/analysis.json)
+# 그대로다. L3 분석은 같은 레코드로 Ticket 005 분석을 다시 계산해 이 파일과 바이트까지 같은지
+# 확인한다.
+TICKET005_ANALYSIS_SHA256 = "51d51c9b01e5471e72c7927133d9f9c5732a46036d7867ba82359601e89fc982"

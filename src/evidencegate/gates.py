@@ -19,7 +19,7 @@ from fractions import Fraction
 import numpy as np
 
 from evidencegate.eval_constants import C4_Q, N_BOOT, SEED
-from evidencegate.eval_data import PairedTable
+from evidencegate.eval_data import CELLS, Cell, PairedTable
 from evidencegate.exact import IndexArray, mean_fraction, stratified_bootstrap_indices
 
 
@@ -98,13 +98,15 @@ def bootstrap_quantiles(
     seed: int = SEED,
     *,
     blocks: Sequence[IndexArray] | None = None,
+    cells: Sequence[Cell] = CELLS,
 ) -> tuple[Fraction, ...]:
     """같은 재표본(칸 층화, seed로 새로 시작)에서 여러 백분위수. Oracle 구간은 (1/40, 39/40).
 
     `blocks`는 `stratified_bootstrap_indices(칸 크기들, n_boot, seed)`의 결과를 미리 만들어 넘길 때
     쓴다. seed로 새로 시작하므로 칸 크기가 같으면 색인이 같다(Budget Curve에서 재사용).
+    `cells`는 층화 칸 순서다(기본 6칸, Ticket 006 L3는 family 3칸).
     """
-    groups = table.cell_indices()
+    groups = table.cell_indices(cells)
     if any(not g for g in groups):
         raise ValueError("every cell needs at least one case for the stratified bootstrap")
     deltas = np.asarray(table.deltas, dtype=np.int64)

@@ -75,12 +75,22 @@ def check_run_conditions(
 
 
 def outcomes(
-    records: Sequence[EpisodeRecord], *, skill_id: str, split: str, metric: str, repeat: int
+    records: Sequence[EpisodeRecord],
+    *,
+    skill_id: str,
+    split: str,
+    metric: str,
+    repeat: int,
+    cases: Sequence[CaseId] | None = None,
 ) -> dict[CaseId, int]:
-    """(스킬, split, 반복)의 케이스 → 0/1. split의 케이스 순서로, 빠짐없이 한 번씩."""
+    """(스킬, split, 반복)의 케이스 → 0/1. split의 케이스 순서로, 빠짐없이 한 번씩.
+
+    `cases`를 주면 그 케이스 목록을 split의 케이스로 쓴다(Ticket 006 L3 split). 기본은 Ticket 005
+    split 목록이다.
+    """
     if metric not in METRICS:
         raise ValueError(f"unknown metric {metric!r}; expected one of {METRICS}")
-    cases = split_cases(split)
+    cases = list(cases) if cases is not None else split_cases(split)
     wanted = set(cases)
     found: dict[CaseId, int] = {}
     for r in records:
@@ -136,9 +146,9 @@ class PairedTable:
     def deltas(self) -> tuple[int, ...]:
         return tuple(a - b for a, b in zip(self.candidate, self.baseline, strict=True))
 
-    def cell_indices(self) -> list[list[int]]:
-        """CELLS 순서로 칸마다 케이스 위치."""
-        return [[i for i, c in enumerate(self.cells) if c == cell] for cell in CELLS]
+    def cell_indices(self, cells: Sequence[Cell] = CELLS) -> list[list[int]]:
+        """칸 순서(기본 CELLS)로 칸마다 케이스 위치. Ticket 006 L3는 family 3칸을 넘긴다."""
+        return [[i for i, c in enumerate(self.cells) if c == cell] for cell in cells]
 
 
 def paired_gate(
