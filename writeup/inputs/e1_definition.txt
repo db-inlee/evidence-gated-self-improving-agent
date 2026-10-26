@@ -1,0 +1,38 @@
+E1 definition (Ticket 007 section 2), fixed before any E1 value is computed
+==========================================================================
+
+Status: exploratory, descriptive. Not a pre-registered analysis and not a test.
+
+Inputs (read only; no new runs, no re-analysis):
+- results/ticket-005/analysis.json (sha256 51d51c9b01e5471e72c7927133d9f9c5732a46036d7867ba82359601e89fc982)
+  candidates[*].oracle[m].delta and candidates[*].oracle[m].cells (the "exact" rational strings)
+- results/ticket-006/analysis.json (sha256 1de4e7d3cab607a68c7e8c213e342a010ccf9d2956635b50e4fbd896d14eaa5f)
+  candidates[*].oracle_l3[m].delta and candidates[*].oracle_l3[m].cells (the "exact" rational strings)
+- m in {correct_disposition, evidence_safe}; every candidate in the frozen pool (12 proposer, 7 control).
+
+Definition (exact rational arithmetic):
+  E1 = (1/3)(Δ_bad,L2 + Δ_dep,L2 + Δ_traffic,L2)
+  where Δ_f,L2 is the Ticket 005 oracle cell estimate for family f at level L2
+  (cells "bad_deployment/L2", "dependency_failure/L2", "traffic_spike/L2").
+Meaning: an approximation of the overall oracle effect estimate if L2-like incidents made up each
+whole family, because an L3 incident combines the two L2 subtypes of its family.
+
+Reported per candidate and metric (proposer 12 primary, control 7 auxiliary):
+  Δ_L1/L2 (Ticket 005 overall), E1, Δ_L3 (Ticket 006 overall), residual Δ_L3 − E1,
+  and per family Δ_f,L2 next to Δ_f,L3.
+
+Summary values (fixed in advance; proposer, correct_disposition):
+  1. the number of candidates with |Δ_L3 − E1| < |Δ_L3 − Δ_L1/L2|
+  2. the mean absolute value of Δ_L3 − E1 and of Δ_L3 − Δ_L1/L2
+No verdicts, intervals or thresholds are applied to E1.
+
+Note on the rejected first draft: re-weighting the L1/L2 cells as (1/3) per family with the
+L1 and L2 cells averaged inside a family equals the Ticket 005 overall Δ exactly (the six L1/L2
+oracle cells have equal size, 50), so it was replaced by the definition above before computing.
+
+Limitation sentence (paper):
+  E1 is a post-hoc, exploratory approximation. The cell-weight explanation was formed after seeing
+  the L3 results; only the definition of E1 was fixed before computing it. Each L2 cell mixes two
+  distractor subtypes half and half, while every L3 incident contains both, so E1 ignores
+  interactions between the two distractors. L2 cells hold 50 incidents and use different seeds
+  from L3. E1 carries no uncertainty interval and is not a test.

@@ -78,3 +78,7 @@ L3_PLAN_PATH = Path("plans/ticket-006-l3-plan.json")
 # 그대로다. L3 분석은 같은 레코드로 Ticket 005 분석을 다시 계산해 이 파일과 바이트까지 같은지
 # 확인한다.
 TICKET005_ANALYSIS_SHA256 = "51d51c9b01e5471e72c7927133d9f9c5732a46036d7867ba82359601e89fc982"
+
+# Ticket 007 §1: 실행 요약(run logs, not part of the analysis). 에피소드가 하나도 돌지 않은 구간을
+# 정지 구간으로 셀 최소 길이(초).
+IDLE_GAP_S = 60.0

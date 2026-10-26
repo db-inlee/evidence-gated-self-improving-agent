@@ -1,0 +1,314 @@
+{
+  "inputs": {
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl": "346dbdb3edd0ce6c74dca14f3387d667f1fa5e1a06d6bfd41b472b6c43a74d35",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "1525b8ca0bc9af42d4d5240cf5a0721ed82239cca3cfc95e7187aa8984a78419",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "79044c8a36816ff526d671998fc58883f078c828ab7982a32928cdb0400f1a9d",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl": "530600619db6cff8b1a9a73d40b5f055a74a2a063c2e577618aa6f411459fb8d",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "fe5534d16dbdc0cd66b6f2276c09754ff5b6d18430bb9c200b46d0246941ea45",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl": "59eaf215ff0ae199a7d5e7e6fa467e6b4dbd70887e23f2c4ee741cb92d54b372",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl": "58a6772e61eea866cdb2da26a3a8c3eae9ec6f959e01be5e5037fd8d3c70ce6c",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl": "5ceb92473fe130a34af3b30acdb34f6252674d69439c74faf19fbe0e87af7f0a",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "fe2e85fc0a164dca3a25da5b502dbde53b7ab13b3a7aa6ee907a36e4a8a677ea",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl": "541867d5c83aa70e65fb8571d163f3eebca8068639c6a318956270b1ce192e2a",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl": "d104b788f8746b40a9229e2a991e8750b046958bcce1833a5fba6c5dff111601",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl": "ffb99053a51b16a2d26242a077208cb7306e96149f989c69f7ce2630fe817330",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl": "93a5d59f73b8e6e625ceaebf443b4ee38e8dadb240338d534fbe3027a7e655c6",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl": "4f4f586d55385012807212c566fc4b36cf0727c6ab5033d4a60bd3f9b0bde41b",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl": "55fa3efc2ffb42e182060e9ffb6c0d4ee8cd93c0fb7da4446f42ac3988524020",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl": "0eb2c2cfb6caa65192e72f2f478d04440862b0bf485ca79bec9be2a92764890e",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl": "28a983acd54971f4b1114965cc2a86704e3fe9bfedadeaca54ab3f40ccdffe93",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl": "0f473fa9c6584ea4da58eb0e341c2b6527d55bb67d2ec7ed45833725f9868016",
+    "runs/dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "1f8f5f9f292180c17a88c2702c0b2da9cee099859a6acafea4ccd3769b16c7bb",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl": "74722c6247a695d49ef9d7fef8fa2f2e60643cbf90532676078b8203cd1a8ab2",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "f980a804cb27360e318536646974d3cc9f0ef0f027bd3a14fd5ea0359c222b14",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "57a7b6c1019c5d374b75bb91667573f9eb43974c6a7a675261364e156d7bbb02",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl": "ac48b1427aabb190bcfeb142b193b57881fae5563068340ed50caf4f8253695e",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "86b4d2d13b14be9d4f5e9c9b8ec320c820828eca73fb0e8fc84aec9092358fee",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl": "cb6225292f77af241bc2c4c7d0cfad7741f0b0a36d1f8578b2b9a04788a69ec9",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl": "2d8f301d7c1a41973df9b9dd1e6ffd7c7eb6ec32de1b6d7db9af054e3174c0f6",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl": "3617502005b485d9e0df566b5d97aef5c452ef52a447f81a8a13eaf463d2f36a",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "73b6b55eae854f9915f00fbe08096c5f647739546f1440cdd7626ec46cf4c092",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "550336c402e7801d33e4d1d2a2ad6cab44a884cd3098f3983f4ac00286103234",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl": "a5a9c5c795d81131876387285d32d4c993428381e9aaf42a8d52c440003442b7",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl": "788e5519355dc96062146b9e84e829bd494bc0282870ad9339fa1df3248e60a5",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl": "fff68fe5707855599f45ba2f172841a0123e8bde96fc13ff835175114c0198e7",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl": "6c1e9ad8ed178ac40eafe520f688044eb1c18172bcb9be803a76c5534d12cecd",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl": "bab33e9937379fca283f3e6500cff6bade721962a755dd86fef84ae25ae5f2a0",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl": "e51c7ec169b5042405a0d8a17997554d837fa2a36b69bec37f336088489c3c8e",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl": "bf7d9d69274643d132c2af4845afcf8867367fee48e4fd2b5ceee67155e065f0",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl": "609149b770e8ddaf71a66a6a804c2c89704887e026095a7badd6260b83e7c15b",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl": "24c2f4b09a9e7b7241cc8f229d7a1805d535a29683a2c70b621fb75b3931cfb7",
+    "runs/dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "a9ccbf65ffac4f52ecbc8af95d9614861bf543ee175722679b4282438fc5a7e7",
+    "runs/l3_check/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "40f8cd0da483c10e5d5c4a4eabdcf2943be0da17d8376e2070c48a0a493ee48a",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl": "212e04f10514e2b0ca09bb75b60ce23fb47d46318e7bf88f2ea9e781db87d3ec",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "479c04ab264d319dc78bdd506290d7d84718f53ab6f70a01d65433e94cf30d68",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "a9ca791b8add37b853482311fe1effaacbab7c9d9da19a855acce931539efcd2",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl": "e3075e38428636edd367458aeaa6f724111e06c044524cc0534d594b6bbcda18",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "bb938c5d1ef763a247e40359a9b16dfb41aed83420b9ab1e1e08361510f664cb",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl": "26e7c8cea765f46074b7e511b6a5b59ea07816953d915cebbe5f4efa1bb0bc50",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl": "03d7ce36ebb6c0bd646e1bc7604cb9a5b2568dea08dad60f030ad68433621c7a",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl": "b4c7f0ec2bfbe88df5a989b724803aed721371a41979651abdf3f1301f4b2a8b",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "9878b2a934000432d719529e665b6855bb8042fa3fd288bc86ac950b22577122",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "d129958dceccea671aa619ade2db6a38f9cf1dbc01febcbe04e776cdc4224854",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl": "75ae8baf2edc4f356bbbf7ecb1d3fe836de3f4d9b51f88fa334b0a43b35b88ac",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl": "d528ea9d83a34e3c4e6d3cd1ce1edb02fa5b13a3df801c4d0f0a506c038421bf",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl": "388498c18854c058ba0cda57b8171628656ddff90d6662aeda3f4743818bdab3",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl": "d4a1e8a7a9f868d269b8739dbcd7f5ee68d50056e221692548dc74db105b2836",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl": "519e5ce5d9998a3f40bbccddcfd95040e98eea4de1463f23bcac536e9652cf34",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl": "2982c7fc58ebac4980feb9279c3546cb91c46fc8fbce97eaa09931be0ee32f76",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl": "334de135d10f986173bf93862c34464917f04dbd6acab3d39fbedbc7b6d90037",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl": "80492d2cf8eca10deb9c942288ab6ec4d199b27d80a96368f21af3d9c7390825",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl": "35c96c5a26eefb586bb5cd7f59644e3160c4cba00b3566afa6b431948faa73a7",
+    "runs/l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "a28764189577e321aa974f9a579a3d4cd19f138c92908f6dcc4408401b43086f",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl": "3445afd28106eb0e8ba65c21f9adefd1e68d8e478cdb707aa9b2a8122e6e7a2c",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "5b42b1136034d9a3d150ff666876054299b9ca96fda7f5d8eeed3bca0f9bdc04",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "2dda72d30f3939449828cf34652e726f47165d434d582d1db14859b9a3c1afd1",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl": "dab3d1bc2dc76b47e8b913052b83de5277d2f7a7bd2518ada32f244f5d8e1c30",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "8eebc126b62b5f5b79b8e47146dea2d679b6c5eb4eac3181afc7c043dcc92edc",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl": "b9f27257e211e8445a58e0b41de23826838320049afcb6ca553d56dbddd686cf",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl": "5a6c806321fb2c256bc4bcf1c73c4d71051e7bf60b87899961a252f1ecb544c0",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl": "e6d438d21dda54409bcf70b467fbf1f6effe7c463096f78bcaa5f01567f176fa",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "5f7459514fdebda9452567d332fb02d20eb70d20372b0f1160ffa1c3cc611df1",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "737365eab4eb99403caf945ca82095f35c4ea5900a9b9408cea1bcf654dcdab5",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl": "0f11a317c370a69d44fa024e6356c075b629751d00ff0789ba76e10014b4eaee",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl": "479657fea998367f6cbb2d1c6e5bc1db693d01ed543757fb6f99c31ef8d95e32",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl": "540bfb3bf432e88fd140d06843bd9df78e29968c8b8a7232d4105da55f36aa76",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl": "56a400f33c3e1a50e6299aa6a526e8f0a8cc26290da29880cd9135ec0cc06377",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl": "adbfd1bdf57697bc5e4ffa57067421e32377b04f7b28ff59fd1d095a1b788c00",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl": "e105be957817e0057fbeec18764df028310334cd9f9e5e52df43ca5dc6f4d84e",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl": "81d8111e6d87870f8f046edfed0206eb17fa7f3127ce643f02ef6232dbff1d94",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl": "4f448e3216e70fafb507beb4ac6969c7af510b4b979278d7e7186243770e998b",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl": "959dd07caba51a4f052d7596eda42b3f77ac6290db7311ed00dae96f880fbf16",
+    "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "e11a6b47aad98dec378e2ed315b29b0519c075076cc27500482dcf975c94a142",
+    "runs/ticket005/sessions.jsonl": "e6fee463cd03827e39f0d400b7bb10218335bcc4f61bc4a5f6f4a9b756f1faf9",
+    "runs/ticket006/sessions.jsonl": "c7c5f47d5578dba0aec6afa82b304911f6eae6a05b36a5ec6a52f6bde1aeb114",
+    "skills/candidates/POOL.json": "4faf6219e593bb3c6977859def3e8ca8bc5b5f5466f5506d070fbe63b4685878"
+  },
+  "notes": [
+    "Run logs, not part of the analysis: operational numbers read from the episode records and session logs; they never enter a verdict.",
+    "Ticket 005 records are the 12,540 planned episodes; the 60 S0 Dev-A episodes run in Ticket 004 are not included.",
+    "An idle span is a stretch of at least 60 s with no episode running.",
+    "Ticket 004 numbers come from skills/candidates/POOL.json; the proposer ledger is not read."
+  ],
+  "ticket004": {
+    "budget_usd": 1.5,
+    "calls": 16,
+    "candidates_overlapping_a_control": 1,
+    "controls": 7,
+    "excluded": {
+      "duplicate": 4
+    },
+    "format_errors": 0,
+    "frozen_at": "2026-10-20T00:31:04+09:00",
+    "ledger_cumulative_usd": 0.4101225,
+    "model": "gpt-5.4",
+    "pool_cost_usd": 0.3744975,
+    "pool_size": 12,
+    "reasoning_effort": "low",
+    "shortfall": false,
+    "target": 12
+  },
+  "ticket005": {
+    "idle": {
+      "active_s": 78444.268,
+      "count": 1,
+      "first_start": "2026-10-22T15:08:41+00:00",
+      "last_end": "2026-10-22T16:37:11+00:00",
+      "longest_s": 5309.897,
+      "min_gap_s": 60.0,
+      "total_s": 5309.897
+    },
+    "records": {
+      "episodes": 12540,
+      "episodes_by_skill": {
+        "S0": 1710,
+        "cand-000": 570,
+        "cand-001": 570,
+        "cand-002": 570,
+        "cand-003": 570,
+        "cand-005": 570,
+        "cand-008": 570,
+        "cand-010": 570,
+        "cand-011": 570,
+        "cand-012": 570,
+        "cand-013": 570,
+        "cand-014": 570,
+        "cand-015": 570,
+        "mixed-scale-on-traffic": 570,
+        "neg-rollback-any": 570,
+        "neg-skip-metrics": 570,
+        "neg-timing-shortcut": 570,
+        "neutral-rephrase": 570,
+        "pos-timing-only": 570,
+        "pos-traffic-check": 570
+      },
+      "first_start": "2026-10-22T14:54:40+00:00",
+      "format_error_episodes": {},
+      "format_errors_total": 0,
+      "last_end": "2026-10-23T14:11:47+00:00",
+      "no_disposition": 0,
+      "policy_time_mean_s": 12.489,
+      "stop_reasons": {
+        "action": 12540
+      },
+      "tool_calls": {
+        "counts": {
+          "2": 2,
+          "3": 1537,
+          "4": 9008,
+          "5": 1993
+        },
+        "max": 5,
+        "mean": 4.036,
+        "min": 2
+      },
+      "wall_s": 83827.018
+    },
+    "sessions": {
+      "server_error_events": 0,
+      "sessions": [
+        {
+          "blocks_run": 2,
+          "duration_s": 841.0,
+          "end": "2026-10-22T15:08:41+00:00",
+          "episodes_failed": 0,
+          "episodes_run": 120,
+          "probe_ratio": 1.363928135265213,
+          "reason": "plan_done",
+          "server_errors": 0,
+          "start": "2026-10-22T14:54:40+00:00"
+        },
+        {
+          "blocks_run": 61,
+          "duration_s": 77676.0,
+          "end": "2026-10-23T14:11:47+00:00",
+          "episodes_failed": 0,
+          "episodes_run": 12420,
+          "probe_ratio": 1.3700706380975267,
+          "reason": "plan_done",
+          "server_errors": 0,
+          "start": "2026-10-22T16:37:11+00:00"
+        }
+      ]
+    }
+  },
+  "ticket006": {
+    "idle": {
+      "active_s": 45860.681,
+      "count": 19,
+      "first_start": "2026-10-25T22:38:36+00:00",
+      "last_end": "2026-10-26T09:49:42+00:00",
+      "longest_s": 6032.456,
+      "min_gap_s": 60.0,
+      "total_s": 39945.256
+    },
+    "records": {
+      "episodes": 7200,
+      "episodes_by_skill": {
+        "S0": 1500,
+        "cand-000": 300,
+        "cand-001": 300,
+        "cand-002": 300,
+        "cand-003": 300,
+        "cand-005": 300,
+        "cand-008": 300,
+        "cand-010": 300,
+        "cand-011": 300,
+        "cand-012": 300,
+        "cand-013": 300,
+        "cand-014": 300,
+        "cand-015": 300,
+        "mixed-scale-on-traffic": 300,
+        "neg-rollback-any": 300,
+        "neg-skip-metrics": 300,
+        "neg-timing-shortcut": 300,
+        "neutral-rephrase": 300,
+        "pos-timing-only": 300,
+        "pos-traffic-check": 300
+      },
+      "first_start": "2026-10-25T14:01:07+00:00",
+      "format_error_episodes": {},
+      "format_errors_total": 0,
+      "last_end": "2026-10-26T13:52:25+00:00",
+      "no_disposition": 0,
+      "policy_time_mean_s": 12.71,
+      "stop_reasons": {
+        "action": 7200
+      },
+      "tool_calls": {
+        "counts": {
+          "2": 9,
+          "3": 814,
+          "4": 5374,
+          "5": 1003
+        },
+        "max": 5,
+        "mean": 4.024,
+        "min": 2
+      },
+      "wall_s": 85878.443
+    },
+    "sessions": {
+      "server_error_events": 0,
+      "sessions": [
+        {
+          "blocks_run": 1,
+          "duration_s": 185.0,
+          "end": "2026-10-25T13:14:47+00:00",
+          "episodes_failed": 0,
+          "episodes_run": 30,
+          "probe_ratio": 1.3503253620551563,
+          "reason": "plan_done",
+          "server_errors": 0,
+          "start": "2026-10-25T13:11:42+00:00"
+        },
+        {
+          "blocks_run": 24,
+          "duration_s": 85879.0,
+          "end": "2026-10-26T13:52:26+00:00",
+          "episodes_failed": 0,
+          "episodes_run": 7200,
+          "probe_ratio": 1.333194488447061,
+          "reason": "plan_done",
+          "server_errors": 0,
+          "start": "2026-10-25T14:01:07+00:00"
+        }
+      ]
+    }
+  },
+  "ticket006_check": {
+    "idle": {
+      "active_s": 185.257,
+      "count": 0,
+      "first_start": null,
+      "last_end": null,
+      "longest_s": 0.0,
+      "min_gap_s": 60.0,
+      "total_s": 0
+    },
+    "records": {
+      "episodes": 30,
+      "episodes_by_skill": {
+        "S0": 30
+      },
+      "first_start": "2026-10-25T13:11:42+00:00",
+      "format_error_episodes": {},
+      "format_errors_total": 0,
+      "last_end": "2026-10-25T13:14:47+00:00",
+      "no_disposition": 0,
+      "policy_time_mean_s": 12.281,
+      "stop_reasons": {
+        "action": 30
+      },
+      "tool_calls": {
+        "counts": {
+          "4": 30
+        },
+        "max": 4,
+        "mean": 4.0,
+        "min": 4
+      },
+      "wall_s": 185.257
+    }
+  }
+}
