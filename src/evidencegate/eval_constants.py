@@ -82,3 +82,6 @@ TICKET005_ANALYSIS_SHA256 = "51d51c9b01e5471e72c7927133d9f9c5732a46036d7867ba823
 # Ticket 007 §1: 실행 요약(run logs, not part of the analysis). 에피소드가 하나도 돌지 않은 구간을
 # 정지 구간으로 셀 최소 길이(초).
 IDLE_GAP_S = 60.0
+# Ticket 007 §1: 원고의 결과 출처. Ticket 006 결과 파일과 E1 정의 파일(커밋 185d69c)의 sha256.
+TICKET006_ANALYSIS_SHA256 = "1de4e7d3cab607a68c7e8c213e342a010ccf9d2956635b50e4fbd896d14eaa5f"
+E1_DEFINITION_SHA256 = "ef70f01a73260ff814993a8cf3d52ac078c0ec8f22c10baa3975d4f7bd3b5fbd"
