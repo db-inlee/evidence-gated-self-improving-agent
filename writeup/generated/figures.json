@@ -1,0 +1,3310 @@
+{
+  "f2": {
+    "cd": {
+      "cells": [
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-000.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-000.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-000.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-000.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.340",
+            "exact": "17/50",
+            "key": "t005.candidates.cand-000.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.200",
+            "exact": "1/5",
+            "key": "t005.candidates.cand-000.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-000.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-000.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.210",
+            "exact": "21/100",
+            "key": "t006.candidates.cand-000.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-001.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.080",
+            "exact": "-2/25",
+            "key": "t005.candidates.cand-001.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-001.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-001.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.360",
+            "exact": "9/25",
+            "key": "t005.candidates.cand-001.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.120",
+            "exact": "3/25",
+            "key": "t005.candidates.cand-001.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-001.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-001.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.190",
+            "exact": "19/100",
+            "key": "t006.candidates.cand-001.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-002.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.220",
+            "exact": "-11/50",
+            "key": "t005.candidates.cand-002.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-002.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.040",
+            "exact": "-1/25",
+            "key": "t005.candidates.cand-002.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.280",
+            "exact": "7/25",
+            "key": "t005.candidates.cand-002.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.320",
+            "exact": "8/25",
+            "key": "t005.candidates.cand-002.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.270",
+            "exact": "-27/100",
+            "key": "t006.candidates.cand-002.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.150",
+            "exact": "-3/20",
+            "key": "t006.candidates.cand-002.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.200",
+            "exact": "1/5",
+            "key": "t006.candidates.cand-002.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": true,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t005.candidates.cand-003.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.480",
+            "exact": "-12/25",
+            "key": "t005.candidates.cand-003.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-003.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-003.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.840",
+            "exact": "21/25",
+            "key": "t005.candidates.cand-003.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.880",
+            "exact": "22/25",
+            "key": "t005.candidates.cand-003.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.780",
+            "exact": "-39/50",
+            "key": "t006.candidates.cand-003.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-003.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.620",
+            "exact": "31/50",
+            "key": "t006.candidates.cand-003.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.140",
+            "exact": "-7/50",
+            "key": "t005.candidates.cand-005.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.260",
+            "exact": "13/50",
+            "key": "t005.candidates.cand-005.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.320",
+            "exact": "8/25",
+            "key": "t005.candidates.cand-005.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.280",
+            "exact": "-7/25",
+            "key": "t006.candidates.cand-005.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.cand-005.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.300",
+            "exact": "3/10",
+            "key": "t006.candidates.cand-005.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-008.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.100",
+            "exact": "-1/10",
+            "key": "t005.candidates.cand-008.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-008.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.180",
+            "exact": "-9/50",
+            "key": "t005.candidates.cand-008.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.280",
+            "exact": "7/25",
+            "key": "t005.candidates.cand-008.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.320",
+            "exact": "8/25",
+            "key": "t005.candidates.cand-008.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.100",
+            "exact": "-1/10",
+            "key": "t006.candidates.cand-008.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.260",
+            "exact": "-13/50",
+            "key": "t006.candidates.cand-008.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.220",
+            "exact": "11/50",
+            "key": "t006.candidates.cand-008.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.260",
+            "exact": "13/50",
+            "key": "t005.candidates.cand-010.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.140",
+            "exact": "7/50",
+            "key": "t005.candidates.cand-010.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-010.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-010.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.120",
+            "exact": "3/25",
+            "key": "t006.candidates.cand-010.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-011.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.040",
+            "exact": "-1/25",
+            "key": "t005.candidates.cand-011.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-011.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-011.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.040",
+            "exact": "1/25",
+            "key": "t005.candidates.cand-011.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-011.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-011.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-011.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.090",
+            "exact": "9/100",
+            "key": "t006.candidates.cand-011.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": true,
+            "display": "-0.220",
+            "exact": "-11/50",
+            "key": "t005.candidates.cand-012.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.440",
+            "exact": "-11/25",
+            "key": "t005.candidates.cand-012.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-012.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-012.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.620",
+            "exact": "31/50",
+            "key": "t005.candidates.cand-012.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.640",
+            "exact": "16/25",
+            "key": "t005.candidates.cand-012.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.640",
+            "exact": "-16/25",
+            "key": "t006.candidates.cand-012.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.cand-012.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.470",
+            "exact": "47/100",
+            "key": "t006.candidates.cand-012.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.300",
+            "exact": "-3/10",
+            "key": "t005.candidates.cand-013.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t005.candidates.cand-013.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.260",
+            "exact": "13/50",
+            "key": "t005.candidates.cand-013.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.470",
+            "exact": "-47/100",
+            "key": "t006.candidates.cand-013.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-013.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.640",
+            "exact": "16/25",
+            "key": "t006.candidates.cand-013.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-014.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.040",
+            "exact": "-1/25",
+            "key": "t005.candidates.cand-014.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-014.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-014.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.140",
+            "exact": "7/50",
+            "key": "t005.candidates.cand-014.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.100",
+            "exact": "1/10",
+            "key": "t005.candidates.cand-014.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-014.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.cand-014.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.080",
+            "exact": "2/25",
+            "key": "t006.candidates.cand-014.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": true,
+            "display": "-0.380",
+            "exact": "-19/50",
+            "key": "t005.candidates.cand-015.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.940",
+            "exact": "-47/50",
+            "key": "t005.candidates.cand-015.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-015.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-015.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.880",
+            "exact": "22/25",
+            "key": "t005.candidates.cand-015.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.660",
+            "exact": "33/50",
+            "key": "t005.candidates.cand-015.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.980",
+            "exact": "-49/50",
+            "key": "t006.candidates.cand-015.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-015.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.350",
+            "exact": "7/20",
+            "key": "t006.candidates.cand-015.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": true,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.180",
+            "exact": "-9/50",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.900",
+            "exact": "9/10",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.960",
+            "exact": "24/25",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.110",
+            "exact": "-11/100",
+            "key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.990",
+            "exact": "99/100",
+            "key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.940",
+            "exact": "-47/50",
+            "key": "t005.candidates.neg-rollback-any.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-1.000",
+            "exact": "-1",
+            "key": "t005.candidates.neg-rollback-any.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t005.candidates.neg-rollback-any.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-rollback-any.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.950",
+            "exact": "-19/20",
+            "key": "t006.candidates.neg-rollback-any.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-rollback-any.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t005.candidates.neg-skip-metrics.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.010",
+            "exact": "1/100",
+            "key": "t006.candidates.neg-skip-metrics.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-skip-metrics.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-skip-metrics.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.360",
+            "exact": "-9/25",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.760",
+            "exact": "-19/25",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.200",
+            "exact": "1/5",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.120",
+            "exact": "3/25",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.010",
+            "exact": "1/100",
+            "key": "t006.candidates.neg-timing-shortcut.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.660",
+            "exact": "-33/50",
+            "key": "t006.candidates.neg-timing-shortcut.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.090",
+            "exact": "9/100",
+            "key": "t006.candidates.neg-timing-shortcut.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t005.candidates.neutral-rephrase.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.010",
+            "exact": "1/100",
+            "key": "t006.candidates.neutral-rephrase.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neutral-rephrase.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neutral-rephrase.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-timing-only.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.040",
+            "exact": "-1/25",
+            "key": "t005.candidates.pos-timing-only.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-timing-only.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.pos-timing-only.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.460",
+            "exact": "23/50",
+            "key": "t005.candidates.pos-timing-only.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.180",
+            "exact": "9/50",
+            "key": "t005.candidates.pos-timing-only.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.pos-timing-only.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.pos-timing-only.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.190",
+            "exact": "19/100",
+            "key": "t006.candidates.pos-timing-only.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-traffic-check.oracle.cd.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.cd.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.240",
+            "exact": "-6/25",
+            "key": "t005.candidates.pos-traffic-check.oracle.cd.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.cd.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-traffic-check.oracle.cd.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.cd.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-traffic-check.oracle.cd.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.cd.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.940",
+            "exact": "47/50",
+            "key": "t005.candidates.pos-traffic-check.oracle.cd.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.cd.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.980",
+            "exact": "49/50",
+            "key": "t005.candidates.pos-traffic-check.oracle.cd.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.cd.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.440",
+            "exact": "-11/25",
+            "key": "t006.candidates.pos-traffic-check.oracle_l3.cd.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.cd.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.pos-traffic-check.oracle_l3.cd.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.cd.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "1.000",
+            "exact": "1",
+            "key": "t006.candidates.pos-traffic-check.oracle_l3.cd.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.cd.L3.traffic_spike/L3"
+          }
+        ]
+      ],
+      "columns": [
+        "bad_deployment/L1",
+        "bad_deployment/L2",
+        "dependency_failure/L1",
+        "dependency_failure/L2",
+        "traffic_spike/L1",
+        "traffic_spike/L2",
+        "bad_deployment/L3",
+        "dependency_failure/L3",
+        "traffic_spike/L3"
+      ],
+      "groups": [
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "control",
+        "control",
+        "control",
+        "control",
+        "control",
+        "control",
+        "control"
+      ],
+      "rows": [
+        "cand-000",
+        "cand-001",
+        "cand-002",
+        "cand-003",
+        "cand-005",
+        "cand-008",
+        "cand-010",
+        "cand-011",
+        "cand-012",
+        "cand-013",
+        "cand-014",
+        "cand-015",
+        "mixed-scale-on-traffic",
+        "neg-rollback-any",
+        "neg-skip-metrics",
+        "neg-timing-shortcut",
+        "neutral-rephrase",
+        "pos-timing-only",
+        "pos-traffic-check"
+      ]
+    },
+    "es": {
+      "cells": [
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.860",
+            "exact": "43/50",
+            "key": "t005.candidates.cand-000.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.920",
+            "exact": "23/25",
+            "key": "t005.candidates.cand-000.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-000.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-000.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.380",
+            "exact": "19/50",
+            "key": "t005.candidates.cand-000.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.200",
+            "exact": "1/5",
+            "key": "t005.candidates.cand-000.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.960",
+            "exact": "24/25",
+            "key": "t006.candidates.cand-000.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-000.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.210",
+            "exact": "21/100",
+            "key": "t006.candidates.cand-000.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-001.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-001.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-001.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-001.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.160",
+            "exact": "4/25",
+            "key": "t005.candidates.cand-001.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-001.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t006.candidates.cand-001.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-001.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.010",
+            "exact": "1/100",
+            "key": "t006.candidates.cand-001.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-002.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-002.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-002.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.040",
+            "exact": "-1/25",
+            "key": "t005.candidates.cand-002.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-002.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-002.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-002.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.150",
+            "exact": "-3/20",
+            "key": "t006.candidates.cand-002.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-002.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.340",
+            "exact": "17/50",
+            "key": "t005.candidates.cand-003.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.080",
+            "exact": "2/25",
+            "key": "t005.candidates.cand-003.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-003.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-003.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-003.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-003.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t006.candidates.cand-003.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-003.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.040",
+            "exact": "1/25",
+            "key": "t006.candidates.cand-003.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t005.candidates.cand-005.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-005.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.060",
+            "exact": "3/50",
+            "key": "t006.candidates.cand-005.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.cand-005.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-005.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-008.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-008.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-008.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.180",
+            "exact": "-9/50",
+            "key": "t005.candidates.cand-008.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-008.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-008.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-008.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.260",
+            "exact": "-13/50",
+            "key": "t006.candidates.cand-008.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-008.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-010.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.040",
+            "exact": "1/25",
+            "key": "t005.candidates.cand-010.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t005.candidates.cand-010.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t006.candidates.cand-010.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-010.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.050",
+            "exact": "1/20",
+            "key": "t006.candidates.cand-010.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t005.candidates.cand-011.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-011.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-011.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-011.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.080",
+            "exact": "2/25",
+            "key": "t005.candidates.cand-011.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-011.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.070",
+            "exact": "7/100",
+            "key": "t006.candidates.cand-011.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t006.candidates.cand-011.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.050",
+            "exact": "1/20",
+            "key": "t006.candidates.cand-011.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.640",
+            "exact": "16/25",
+            "key": "t005.candidates.cand-012.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.340",
+            "exact": "17/50",
+            "key": "t005.candidates.cand-012.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-012.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-012.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.120",
+            "exact": "3/25",
+            "key": "t005.candidates.cand-012.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.060",
+            "exact": "3/50",
+            "key": "t005.candidates.cand-012.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.070",
+            "exact": "7/100",
+            "key": "t006.candidates.cand-012.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.cand-012.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.130",
+            "exact": "13/100",
+            "key": "t006.candidates.cand-012.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.100",
+            "exact": "1/10",
+            "key": "t005.candidates.cand-013.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-013.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.180",
+            "exact": "9/50",
+            "key": "t005.candidates.cand-013.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.120",
+            "exact": "3/25",
+            "key": "t006.candidates.cand-013.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-013.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.440",
+            "exact": "11/25",
+            "key": "t006.candidates.cand-013.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.900",
+            "exact": "9/10",
+            "key": "t005.candidates.cand-014.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.540",
+            "exact": "27/50",
+            "key": "t005.candidates.cand-014.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-014.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.cand-014.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t005.candidates.cand-014.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t005.candidates.cand-014.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.410",
+            "exact": "41/100",
+            "key": "t006.candidates.cand-014.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.010",
+            "exact": "-1/100",
+            "key": "t006.candidates.cand-014.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.010",
+            "exact": "1/100",
+            "key": "t006.candidates.cand-014.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.340",
+            "exact": "17/50",
+            "key": "t005.candidates.cand-015.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.020",
+            "exact": "1/50",
+            "key": "t005.candidates.cand-015.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-015.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.cand-015.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.200",
+            "exact": "1/5",
+            "key": "t005.candidates.cand-015.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.200",
+            "exact": "1/5",
+            "key": "t005.candidates.cand-015.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.010",
+            "exact": "1/100",
+            "key": "t006.candidates.cand-015.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.cand-015.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.040",
+            "exact": "1/25",
+            "key": "t006.candidates.cand-015.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.920",
+            "exact": "23/25",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.820",
+            "exact": "41/50",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.960",
+            "exact": "24/25",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.960",
+            "exact": "24/25",
+            "key": "t005.candidates.mixed-scale-on-traffic.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.880",
+            "exact": "22/25",
+            "key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.060",
+            "exact": "-3/50",
+            "key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.990",
+            "exact": "99/100",
+            "key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.940",
+            "exact": "-47/50",
+            "key": "t005.candidates.neg-rollback-any.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-1.000",
+            "exact": "-1",
+            "key": "t005.candidates.neg-rollback-any.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-rollback-any.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-rollback-any.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.950",
+            "exact": "-19/20",
+            "key": "t006.candidates.neg-rollback-any.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-rollback-any.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.980",
+            "exact": "-49/50",
+            "key": "t005.candidates.neg-skip-metrics.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.980",
+            "exact": "-49/50",
+            "key": "t005.candidates.neg-skip-metrics.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-skip-metrics.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-skip-metrics.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.980",
+            "exact": "-49/50",
+            "key": "t006.candidates.neg-skip-metrics.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-skip-metrics.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.360",
+            "exact": "-9/25",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.760",
+            "exact": "-19/25",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.100",
+            "exact": "1/10",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neg-timing-shortcut.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neg-timing-shortcut.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": true,
+            "display": "-0.660",
+            "exact": "-33/50",
+            "key": "t006.candidates.neg-timing-shortcut.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.050",
+            "exact": "1/20",
+            "key": "t006.candidates.neg-timing-shortcut.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.neutral-rephrase.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neutral-rephrase.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neutral-rephrase.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.neutral-rephrase.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-timing-only.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-timing-only.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-timing-only.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "-0.020",
+            "exact": "-1/50",
+            "key": "t005.candidates.pos-timing-only.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.040",
+            "exact": "1/25",
+            "key": "t005.candidates.pos-timing-only.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-timing-only.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.pos-timing-only.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.pos-timing-only.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.040",
+            "exact": "1/25",
+            "key": "t006.candidates.pos-timing-only.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ],
+        [
+          {
+            "below_minus_tau": false,
+            "display": "0.980",
+            "exact": "49/50",
+            "key": "t005.candidates.pos-traffic-check.oracle.es.cells.bad_deployment/L1",
+            "tau_key": "t005.tau.es.bad_deployment/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.740",
+            "exact": "37/50",
+            "key": "t005.candidates.pos-traffic-check.oracle.es.cells.bad_deployment/L2",
+            "tau_key": "t005.tau.es.bad_deployment/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-traffic-check.oracle.es.cells.dependency_failure/L1",
+            "tau_key": "t005.tau.es.dependency_failure/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t005.candidates.pos-traffic-check.oracle.es.cells.dependency_failure/L2",
+            "tau_key": "t005.tau.es.dependency_failure/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "1.000",
+            "exact": "1",
+            "key": "t005.candidates.pos-traffic-check.oracle.es.cells.traffic_spike/L1",
+            "tau_key": "t005.tau.es.traffic_spike/L1"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.980",
+            "exact": "49/50",
+            "key": "t005.candidates.pos-traffic-check.oracle.es.cells.traffic_spike/L2",
+            "tau_key": "t005.tau.es.traffic_spike/L2"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.550",
+            "exact": "11/20",
+            "key": "t006.candidates.pos-traffic-check.oracle_l3.es.cells.bad_deployment/L3",
+            "tau_key": "t006.tau.es.L3.bad_deployment/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "0.000",
+            "exact": "0",
+            "key": "t006.candidates.pos-traffic-check.oracle_l3.es.cells.dependency_failure/L3",
+            "tau_key": "t006.tau.es.L3.dependency_failure/L3"
+          },
+          {
+            "below_minus_tau": false,
+            "display": "1.000",
+            "exact": "1",
+            "key": "t006.candidates.pos-traffic-check.oracle_l3.es.cells.traffic_spike/L3",
+            "tau_key": "t006.tau.es.L3.traffic_spike/L3"
+          }
+        ]
+      ],
+      "columns": [
+        "bad_deployment/L1",
+        "bad_deployment/L2",
+        "dependency_failure/L1",
+        "dependency_failure/L2",
+        "traffic_spike/L1",
+        "traffic_spike/L2",
+        "bad_deployment/L3",
+        "dependency_failure/L3",
+        "traffic_spike/L3"
+      ],
+      "groups": [
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "proposer",
+        "control",
+        "control",
+        "control",
+        "control",
+        "control",
+        "control",
+        "control"
+      ],
+      "rows": [
+        "cand-000",
+        "cand-001",
+        "cand-002",
+        "cand-003",
+        "cand-005",
+        "cand-008",
+        "cand-010",
+        "cand-011",
+        "cand-012",
+        "cand-013",
+        "cand-014",
+        "cand-015",
+        "mixed-scale-on-traffic",
+        "neg-rollback-any",
+        "neg-skip-metrics",
+        "neg-timing-shortcut",
+        "neutral-rephrase",
+        "pos-timing-only",
+        "pos-traffic-check"
+      ]
+    }
+  },
+  "f3": {
+    "cd": {
+      "epsilon_key": "design.epsilon",
+      "points": [
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-000.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-000",
+          "x_exact": "13/150",
+          "x_key": "t005.candidates.cand-000.oracle.cd.delta",
+          "y_exact": "7/100",
+          "y_key": "t006.candidates.cand-000.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-001.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-001",
+          "x_exact": "19/300",
+          "x_key": "t005.candidates.cand-001.oracle.cd.delta",
+          "y_exact": "19/300",
+          "y_key": "t006.candidates.cand-001.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-002.oracle_l3.cd.harmful",
+          "highlight": true,
+          "name": "cand-002",
+          "x_exact": "4/75",
+          "x_key": "t005.candidates.cand-002.oracle.cd.delta",
+          "y_exact": "-11/150",
+          "y_key": "t006.candidates.cand-002.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-003.oracle_l3.cd.harmful",
+          "highlight": true,
+          "name": "cand-003",
+          "x_exact": "59/300",
+          "x_key": "t005.candidates.cand-003.oracle.cd.delta",
+          "y_exact": "-3/50",
+          "y_key": "t006.candidates.cand-003.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-005.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-005",
+          "x_exact": "11/150",
+          "x_key": "t005.candidates.cand-005.oracle.cd.delta",
+          "y_exact": "1/300",
+          "y_key": "t006.candidates.cand-005.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-008.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-008",
+          "x_exact": "1/20",
+          "x_key": "t005.candidates.cand-008.oracle.cd.delta",
+          "y_exact": "-7/150",
+          "y_key": "t006.candidates.cand-008.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-010.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-010",
+          "x_exact": "1/15",
+          "x_key": "t005.candidates.cand-010.oracle.cd.delta",
+          "y_exact": "1/30",
+          "y_key": "t006.candidates.cand-010.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-011.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-011",
+          "x_exact": "-1/300",
+          "x_key": "t005.candidates.cand-011.oracle.cd.delta",
+          "y_exact": "1/60",
+          "y_key": "t006.candidates.cand-011.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-012.oracle_l3.cd.harmful",
+          "highlight": true,
+          "name": "cand-012",
+          "x_exact": "29/300",
+          "x_key": "t005.candidates.cand-012.oracle.cd.delta",
+          "y_exact": "-3/50",
+          "y_key": "t006.candidates.cand-012.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-013.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-013",
+          "x_exact": "-1/60",
+          "x_key": "t005.candidates.cand-013.oracle.cd.delta",
+          "y_exact": "17/300",
+          "y_key": "t006.candidates.cand-013.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-014.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "cand-014",
+          "x_exact": "3/100",
+          "x_key": "t005.candidates.cand-014.oracle.cd.delta",
+          "y_exact": "1/60",
+          "y_key": "t006.candidates.cand-014.oracle_l3.cd.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-015.oracle_l3.cd.harmful",
+          "highlight": true,
+          "name": "cand-015",
+          "x_exact": "11/300",
+          "x_key": "t005.candidates.cand-015.oracle.cd.delta",
+          "y_exact": "-21/100",
+          "y_key": "t006.candidates.cand-015.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "mixed-scale-on-traffic",
+          "x_exact": "4/15",
+          "x_key": "t005.candidates.mixed-scale-on-traffic.oracle.cd.delta",
+          "y_exact": "41/150",
+          "y_key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neg-rollback-any.oracle_l3.cd.harmful",
+          "highlight": true,
+          "name": "neg-rollback-any",
+          "x_exact": "-1/3",
+          "x_key": "t005.candidates.neg-rollback-any.oracle.cd.delta",
+          "y_exact": "-19/60",
+          "y_key": "t006.candidates.neg-rollback-any.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neg-skip-metrics.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "neg-skip-metrics",
+          "x_exact": "-1/100",
+          "x_key": "t005.candidates.neg-skip-metrics.oracle.cd.delta",
+          "y_exact": "1/300",
+          "y_key": "t006.candidates.neg-skip-metrics.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neg-timing-shortcut.oracle_l3.cd.harmful",
+          "highlight": true,
+          "name": "neg-timing-shortcut",
+          "x_exact": "-2/15",
+          "x_key": "t005.candidates.neg-timing-shortcut.oracle.cd.delta",
+          "y_exact": "-14/75",
+          "y_key": "t006.candidates.neg-timing-shortcut.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neutral-rephrase.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "neutral-rephrase",
+          "x_exact": "-1/100",
+          "x_key": "t005.candidates.neutral-rephrase.oracle.cd.delta",
+          "y_exact": "1/300",
+          "y_key": "t006.candidates.neutral-rephrase.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.pos-timing-only.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "pos-timing-only",
+          "x_exact": "29/300",
+          "x_key": "t005.candidates.pos-timing-only.oracle.cd.delta",
+          "y_exact": "3/50",
+          "y_key": "t006.candidates.pos-timing-only.oracle_l3.cd.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.pos-traffic-check.oracle_l3.cd.harmful",
+          "highlight": false,
+          "name": "pos-traffic-check",
+          "x_exact": "7/25",
+          "x_key": "t005.candidates.pos-traffic-check.oracle.cd.delta",
+          "y_exact": "14/75",
+          "y_key": "t006.candidates.pos-traffic-check.oracle_l3.cd.delta"
+        }
+      ]
+    },
+    "es": {
+      "epsilon_key": "design.epsilon",
+      "points": [
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-000.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-000",
+          "x_exact": "39/100",
+          "x_key": "t005.candidates.cand-000.oracle.es.delta",
+          "y_exact": "39/100",
+          "y_key": "t006.candidates.cand-000.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-001.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-001",
+          "x_exact": "7/300",
+          "x_key": "t005.candidates.cand-001.oracle.es.delta",
+          "y_exact": "1/100",
+          "y_key": "t006.candidates.cand-001.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-002.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-002",
+          "x_exact": "-1/100",
+          "x_key": "t005.candidates.cand-002.oracle.es.delta",
+          "y_exact": "-1/20",
+          "y_key": "t006.candidates.cand-002.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-003.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-003",
+          "x_exact": "7/100",
+          "x_key": "t005.candidates.cand-003.oracle.es.delta",
+          "y_exact": "1/75",
+          "y_key": "t006.candidates.cand-003.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-005.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-005",
+          "x_exact": "1/300",
+          "x_key": "t005.candidates.cand-005.oracle.es.delta",
+          "y_exact": "1/60",
+          "y_key": "t006.candidates.cand-005.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-008.oracle_l3.es.harmful",
+          "highlight": true,
+          "name": "cand-008",
+          "x_exact": "-1/30",
+          "x_key": "t005.candidates.cand-008.oracle.es.delta",
+          "y_exact": "-13/150",
+          "y_key": "t006.candidates.cand-008.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-010.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-010",
+          "x_exact": "1/100",
+          "x_key": "t005.candidates.cand-010.oracle.es.delta",
+          "y_exact": "7/300",
+          "y_key": "t006.candidates.cand-010.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-011.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-011",
+          "x_exact": "1/75",
+          "x_key": "t005.candidates.cand-011.oracle.es.delta",
+          "y_exact": "1/30",
+          "y_key": "t006.candidates.cand-011.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-012.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-012",
+          "x_exact": "19/100",
+          "x_key": "t005.candidates.cand-012.oracle.es.delta",
+          "y_exact": "19/300",
+          "y_key": "t006.candidates.cand-012.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-013.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-013",
+          "x_exact": "7/150",
+          "x_key": "t005.candidates.cand-013.oracle.es.delta",
+          "y_exact": "14/75",
+          "y_key": "t006.candidates.cand-013.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-014.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-014",
+          "x_exact": "73/300",
+          "x_key": "t005.candidates.cand-014.oracle.es.delta",
+          "y_exact": "41/300",
+          "y_key": "t006.candidates.cand-014.oracle_l3.es.delta"
+        },
+        {
+          "group": "proposer",
+          "harmful_key": "t006.candidates.cand-015.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "cand-015",
+          "x_exact": "19/150",
+          "x_key": "t005.candidates.cand-015.oracle.es.delta",
+          "y_exact": "1/60",
+          "y_key": "t006.candidates.cand-015.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "mixed-scale-on-traffic",
+          "x_exact": "91/150",
+          "x_key": "t005.candidates.mixed-scale-on-traffic.oracle.es.delta",
+          "y_exact": "181/300",
+          "y_key": "t006.candidates.mixed-scale-on-traffic.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neg-rollback-any.oracle_l3.es.harmful",
+          "highlight": true,
+          "name": "neg-rollback-any",
+          "x_exact": "-97/300",
+          "x_key": "t005.candidates.neg-rollback-any.oracle.es.delta",
+          "y_exact": "-19/60",
+          "y_key": "t006.candidates.neg-rollback-any.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neg-skip-metrics.oracle_l3.es.harmful",
+          "highlight": true,
+          "name": "neg-skip-metrics",
+          "x_exact": "-49/150",
+          "x_key": "t005.candidates.neg-skip-metrics.oracle.es.delta",
+          "y_exact": "-49/150",
+          "y_key": "t006.candidates.neg-skip-metrics.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neg-timing-shortcut.oracle_l3.es.harmful",
+          "highlight": true,
+          "name": "neg-timing-shortcut",
+          "x_exact": "-17/100",
+          "x_key": "t005.candidates.neg-timing-shortcut.oracle.es.delta",
+          "y_exact": "-61/300",
+          "y_key": "t006.candidates.neg-timing-shortcut.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.neutral-rephrase.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "neutral-rephrase",
+          "x_exact": "0",
+          "x_key": "t005.candidates.neutral-rephrase.oracle.es.delta",
+          "y_exact": "0",
+          "y_key": "t006.candidates.neutral-rephrase.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.pos-timing-only.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "pos-timing-only",
+          "x_exact": "1/300",
+          "x_key": "t005.candidates.pos-timing-only.oracle.es.delta",
+          "y_exact": "1/75",
+          "y_key": "t006.candidates.pos-timing-only.oracle_l3.es.delta"
+        },
+        {
+          "group": "control",
+          "harmful_key": "t006.candidates.pos-traffic-check.oracle_l3.es.harmful",
+          "highlight": false,
+          "name": "pos-traffic-check",
+          "x_exact": "37/60",
+          "x_key": "t005.candidates.pos-traffic-check.oracle.es.delta",
+          "y_exact": "31/60",
+          "y_key": "t006.candidates.pos-traffic-check.oracle_l3.es.delta"
+        }
+      ]
+    }
+  },
+  "f4": {
+    "ns": [
+      24,
+      48,
+      96,
+      204
+    ],
+    "series": {
+      "C2/cd": {
+        "acceptance_rate": [
+          {
+            "exact": "3087/4000",
+            "key": "t005.budget_curve.proposer.24.C2/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "9149/12000",
+            "key": "t005.budget_curve.proposer.48.C2/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "4621/6000",
+            "key": "t005.budget_curve.proposer.96.C2/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "4049/6000",
+            "key": "t005.budget_curve.proposer.204.C2/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "harmful": [
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.24.C2/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 1
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.48.C2/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.96.C2/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.204.C2/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "useful": [
+          {
+            "exact": "21937/29970",
+            "key": "t005.budget_curve.proposer.24.C2/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 1
+          },
+          {
+            "exact": "7769/10000",
+            "key": "t005.budget_curve.proposer.48.C2/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "48463/60000",
+            "key": "t005.budget_curve.proposer.96.C2/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "19821/20000",
+            "key": "t005.budget_curve.proposer.204.C2/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ]
+      },
+      "C2/es": {
+        "acceptance_rate": [
+          {
+            "exact": "1889/2000",
+            "key": "t005.budget_curve.proposer.24.C2/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "727/800",
+            "key": "t005.budget_curve.proposer.48.C2/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "5203/6000",
+            "key": "t005.budget_curve.proposer.96.C2/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "1003/1200",
+            "key": "t005.budget_curve.proposer.204.C2/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "harmful": [
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.24.C2/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.48.C2/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.96.C2/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.204.C2/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "useful": [
+          {
+            "exact": "54391/126000",
+            "key": "t005.budget_curve.proposer.24.C2/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "285521/630000",
+            "key": "t005.budget_curve.proposer.48.C2/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "33533/70000",
+            "key": "t005.budget_curve.proposer.96.C2/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "299/600",
+            "key": "t005.budget_curve.proposer.204.C2/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ]
+      },
+      "C4/cd": {
+        "acceptance_rate": [
+          {
+            "exact": "83/500",
+            "key": "t005.budget_curve.proposer.24.C4/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "347/1500",
+            "key": "t005.budget_curve.proposer.48.C4/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "3427/12000",
+            "key": "t005.budget_curve.proposer.96.C4/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "2407/6000",
+            "key": "t005.budget_curve.proposer.204.C4/cd.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "harmful": [
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.24.C4/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 200
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.48.C4/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 50
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.96.C4/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 1
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.204.C4/cd.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "useful": [
+          {
+            "exact": "1413/1450",
+            "key": "t005.budget_curve.proposer.24.C4/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 275
+          },
+          {
+            "exact": "27493/27690",
+            "key": "t005.budget_curve.proposer.48.C4/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 77
+          },
+          {
+            "exact": "1",
+            "key": "t005.budget_curve.proposer.96.C4/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 1
+          },
+          {
+            "exact": "1",
+            "key": "t005.budget_curve.proposer.204.C4/cd.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ]
+      },
+      "C4/es": {
+        "acceptance_rate": [
+          {
+            "exact": "73/240",
+            "key": "t005.budget_curve.proposer.24.C4/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "333/800",
+            "key": "t005.budget_curve.proposer.48.C4/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "1159/2000",
+            "key": "t005.budget_curve.proposer.96.C4/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "7999/12000",
+            "key": "t005.budget_curve.proposer.204.C4/es.acceptance_rate.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "harmful": [
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.24.C4/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.48.C4/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.96.C4/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "0",
+            "key": "t005.budget_curve.proposer.204.C4/es.metrics.harmful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ],
+        "useful": [
+          {
+            "exact": "9873/10000",
+            "key": "t005.budget_curve.proposer.24.C4/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "55847/60000",
+            "key": "t005.budget_curve.proposer.48.C4/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "46753/60000",
+            "key": "t005.budget_curve.proposer.96.C4/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          },
+          {
+            "exact": "1667/2500",
+            "key": "t005.budget_curve.proposer.204.C4/es.metrics.useful.mean",
+            "n_resample": 1000,
+            "undefined": 0
+          }
+        ]
+      }
+    }
+  }
+}

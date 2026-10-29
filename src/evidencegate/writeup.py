@@ -120,6 +120,13 @@ def _leaf(obj: object, kind: str) -> Value:
     return {"exact": exact, "display": shown, "kind": kind}
 
 
+def _short(name: str) -> str:
+    """metric 이름을 cd/es로 줄인다. "C2/correct_disposition" 같은 묶음 키 안에서도."""
+    for long, short in METRIC_KEYS.items():
+        name = name.replace(long, short)
+    return name
+
+
 def flatten_result(prefix: str, obj: object, kind: str = "result") -> dict[str, Value]:
     """JSON → 평평한 키. metric 이름은 cd/es로 줄인다. 비율과 구간은 묶음 값도 낸다."""
     out: dict[str, Value] = {}
@@ -136,9 +143,20 @@ def flatten_result(prefix: str, obj: object, kind: str = "result") -> dict[str, 
                 s, n = node["successes"], node["n"]
                 shown = f"{s}/{n}" if n else "0/0 (undefined)"
                 out[key] = {"exact": f"{s}/{n}", "display": shown, "kind": kind}
+                interval = node["interval"]
+                if n and interval:
+                    lo, hi = (display(x) for x in interval)
+                    out[f"{key}.ci"] = {
+                        "exact": f"{s}/{n} [{lo[0]}, {hi[0]}]",
+                        "display": f"{shown} [{lo[1]}, {hi[1]}]",
+                        "kind": kind,
+                    }
+                else:
+                    out[f"{key}.ci"] = {"exact": f"{s}/{n}", "display": shown, "kind": kind}
             for child, value in node.items():
-                walk(f"{key}.{METRIC_KEYS.get(child, child)}", value)
+                walk(f"{key}.{_short(child)}", value)
             return
+        out[f"{key}.count"] = _leaf(len(node), kind)
         if not node:
             out[key] = {"exact": "[]", "display": "none", "kind": kind}
             return

@@ -123,6 +123,7 @@ def test_flatten_rates_intervals_and_metric_names() -> None:
     assert rate == {"exact": "1/8", "display": "1/8", "kind": "result"}
     assert flat["t006.metrics.proposer.cd.C4.harmful.excluded"]["display"] == "4"
     assert flat["t006.metrics.proposer.cd.C4.harmful.interval"]["display"] == "[0.003, 0.527]"
+    assert flat["t006.metrics.proposer.cd.C4.harmful.ci"]["display"] == "1/8 [0.003, 0.527]"
     assert flat["t006.metrics.proposer.cd.C4.harmful.value"]["display"] == "0.125"
     assert flat["t006.candidates.cand-015.oracle.cd.interval"]["display"] == "[-0.240, -0.200]"
     assert flat["t006.candidates.cand-015.oracle.cd.interval.0"]["exact"] == "-6/25"
@@ -137,6 +138,7 @@ def test_an_undefined_rate_displays_as_undefined() -> None:
     )
     assert flat["t005.r"]["display"] == "0/0 (undefined)"
     assert flat["t005.r.value"]["display"] == "n/a"
+    assert flat["t005.r.ci"]["display"] == "0/0 (undefined)"
 
 
 # ---------------------------------------------------------------------------
@@ -356,3 +358,15 @@ def test_fixed_procedure_commits_exist_and_touch_their_files(name: str) -> None:
         check=True,
     ).stdout.split()
     assert EXPECTED_PATHS[name] in changed, (name, changed)
+
+
+def test_gate_metric_keys_use_the_short_metric_names(values: dict[str, Any]) -> None:
+    """Budget Curve의 "C2/correct_disposition" 같은 키도 "C2/cd"로 줄인다."""
+    assert "t005.budget_curve.proposer.24.C2/cd.acceptance_rate.mean" in values
+    assert not any("correct_disposition" in key or "evidence_safe" in key for key in values)
+
+
+def test_lists_also_give_their_length() -> None:
+    flat = flatten_result("t005", {"accepted": ["a", "b"], "none": []})
+    assert flat["t005.accepted.count"]["display"] == "2"
+    assert flat["t005.none.count"]["display"] == "0"

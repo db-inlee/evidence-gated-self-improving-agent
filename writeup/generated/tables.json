@@ -1,0 +1,368 @@
+{
+  "t1": {
+    "columns": [
+      "Question",
+      "Scope",
+      "CD",
+      "ES"
+    ],
+    "id": "t1",
+    "note": "Verdict categories as recorded in the result files. RQ1 crosses the two metrics, and RQ-L3-0 judges the S0 baseline, so each has one verdict. RQ-L3-2 shows the L1/L2 and L3 categories side by side.",
+    "rows": [
+      [
+        "RQ1",
+        "C2, C4: ES harm after CD vs ES acceptance",
+        "{{t005.rq.RQ1.verdict}}",
+        ""
+      ],
+      [
+        "RQ2 (a)",
+        "harmful and local harm: C1 vs C2, C4",
+        "{{t005.rq.RQ2_first.cd.verdict}}",
+        "{{t005.rq.RQ2_first.es.verdict}}"
+      ],
+      [
+        "RQ2 (b)",
+        "C1 gap under sensitivity resampling",
+        "{{t005.rq.RQ2_second.cd.verdict}}",
+        "{{t005.rq.RQ2_second.es.verdict}}"
+      ],
+      [
+        "RQ3 (a)",
+        "C4 vs C2 at N = {{design.dev_b_size}}",
+        "{{t005.rq.RQ3_first.cd.verdict}}",
+        "{{t005.rq.RQ3_first.es.verdict}}"
+      ],
+      [
+        "RQ3 trend",
+        "N from small to large",
+        "{{t005.rq.RQ3_trend.cd.verdict}}",
+        "{{t005.rq.RQ3_trend.es.verdict}}"
+      ],
+      [
+        "RQ-L3-0",
+        "all families",
+        "{{t006.rq.RQ_L3_0.all.verdict}}",
+        ""
+      ],
+      [
+        "RQ-L3-0",
+        "bad_deployment",
+        "{{t006.rq.RQ_L3_0.bad_deployment.verdict}}",
+        ""
+      ],
+      [
+        "RQ-L3-0",
+        "dependency_failure",
+        "{{t006.rq.RQ_L3_0.dependency_failure.verdict}}",
+        ""
+      ],
+      [
+        "RQ-L3-0",
+        "traffic_spike",
+        "{{t006.rq.RQ_L3_0.traffic_spike.verdict}}",
+        ""
+      ],
+      [
+        "RQ-L3-1",
+        "harmful acceptance, C1 C2 C4",
+        "{{t006.rq.RQ_L3_1.cd.verdict}}",
+        "{{t006.rq.RQ_L3_1.es.verdict}}"
+      ],
+      [
+        "RQ-L3-2",
+        "RQ2 (a)",
+        "{{t006.rq.RQ_L3_2.RQ2_first.cd.l12}} → {{t006.rq.RQ_L3_2.RQ2_first.cd.l3}} ({{t006.rq.RQ_L3_2.RQ2_first.cd.status}})",
+        "{{t006.rq.RQ_L3_2.RQ2_first.es.l12}} → {{t006.rq.RQ_L3_2.RQ2_first.es.l3}} ({{t006.rq.RQ_L3_2.RQ2_first.es.status}})"
+      ],
+      [
+        "RQ-L3-2",
+        "RQ2 (b)",
+        "{{t006.rq.RQ_L3_2.RQ2_second.cd.l12}} → {{t006.rq.RQ_L3_2.RQ2_second.cd.l3}} ({{t006.rq.RQ_L3_2.RQ2_second.cd.status}})",
+        "{{t006.rq.RQ_L3_2.RQ2_second.es.l12}} → {{t006.rq.RQ_L3_2.RQ2_second.es.l3}} ({{t006.rq.RQ_L3_2.RQ2_second.es.status}})"
+      ],
+      [
+        "RQ-L3-2",
+        "RQ3 (a)",
+        "{{t006.rq.RQ_L3_2.RQ3_first.cd.l12}} → {{t006.rq.RQ_L3_2.RQ3_first.cd.l3}} ({{t006.rq.RQ_L3_2.RQ3_first.cd.status}})",
+        "{{t006.rq.RQ_L3_2.RQ3_first.es.l12}} → {{t006.rq.RQ_L3_2.RQ3_first.es.l3}} ({{t006.rq.RQ_L3_2.RQ3_first.es.status}})"
+      ],
+      [
+        "RQ-L3-2",
+        "RQ3 trend",
+        "{{t006.rq.RQ_L3_2.RQ3_trend.cd.l12}} → {{t006.rq.RQ_L3_2.RQ3_trend.cd.l3}} ({{t006.rq.RQ_L3_2.RQ3_trend.cd.status}})",
+        "{{t006.rq.RQ_L3_2.RQ3_trend.es.l12}} → {{t006.rq.RQ_L3_2.RQ3_trend.es.l3}} ({{t006.rq.RQ_L3_2.RQ3_trend.es.status}})"
+      ],
+      [
+        "RQ-L3-3",
+        "proposer labels unchanged",
+        "{{t006.rq.RQ_L3_3.proposer.cd.same}} / {{t006.rq.RQ_L3_3.proposer.cd.n}}",
+        "{{t006.rq.RQ_L3_3.proposer.es.same}} / {{t006.rq.RQ_L3_3.proposer.es.n}}"
+      ]
+    ],
+    "title": "Pre-registered verdicts (Ticket 005 and Ticket 006, proposer candidates)"
+  },
+  "t2": {
+    "columns": [
+      "Metric",
+      "Gate",
+      "Oracle",
+      "Accepted",
+      "Harmful",
+      "Unsupported",
+      "Useful",
+      "Gain",
+      "False rejection",
+      "Local harm"
+    ],
+    "id": "t2",
+    "note": "Gate decisions are the Ticket 005 ones; the oracle is L1/L2 (Ticket 005) or L3 (Ticket 006). Rates are successes / denominator after excluding uncertain candidates, with Clopper-Pearson intervals; gain is the mean oracle effect estimate of accepted candidates.",
+    "rows": [
+      [
+        "CD",
+        "C1",
+        "L1/L2",
+        "{{t005.metrics.proposer.cd.C1.accepted.count}}",
+        "{{t005.metrics.proposer.cd.C1.harmful.ci}}",
+        "{{t005.metrics.proposer.cd.C1.unsupported.ci}}",
+        "{{t005.metrics.proposer.cd.C1.useful.ci}}",
+        "{{t005.metrics.proposer.cd.C1.gain.mean}}",
+        "{{t005.metrics.proposer.cd.C1.false_rejection.ci}}",
+        "{{t005.metrics.proposer.cd.C1.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C1",
+        "L3",
+        "{{t005.metrics.proposer.cd.C1.accepted.count}}",
+        "{{t006.metrics.proposer.cd.C1.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.cd.C1.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.cd.C1.l3.useful.ci}}",
+        "{{t006.metrics.proposer.cd.C1.l3.gain.mean}}",
+        "{{t006.metrics.proposer.cd.C1.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.cd.C1.l3.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C2",
+        "L1/L2",
+        "{{t005.metrics.proposer.cd.C2.accepted.count}}",
+        "{{t005.metrics.proposer.cd.C2.harmful.ci}}",
+        "{{t005.metrics.proposer.cd.C2.unsupported.ci}}",
+        "{{t005.metrics.proposer.cd.C2.useful.ci}}",
+        "{{t005.metrics.proposer.cd.C2.gain.mean}}",
+        "{{t005.metrics.proposer.cd.C2.false_rejection.ci}}",
+        "{{t005.metrics.proposer.cd.C2.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C2",
+        "L3",
+        "{{t005.metrics.proposer.cd.C2.accepted.count}}",
+        "{{t006.metrics.proposer.cd.C2.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.cd.C2.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.cd.C2.l3.useful.ci}}",
+        "{{t006.metrics.proposer.cd.C2.l3.gain.mean}}",
+        "{{t006.metrics.proposer.cd.C2.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.cd.C2.l3.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C3",
+        "L1/L2",
+        "{{t005.metrics.proposer.cd.C3.accepted.count}}",
+        "{{t005.metrics.proposer.cd.C3.harmful.ci}}",
+        "{{t005.metrics.proposer.cd.C3.unsupported.ci}}",
+        "{{t005.metrics.proposer.cd.C3.useful.ci}}",
+        "{{t005.metrics.proposer.cd.C3.gain.mean}}",
+        "{{t005.metrics.proposer.cd.C3.false_rejection.ci}}",
+        "{{t005.metrics.proposer.cd.C3.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C3",
+        "L3",
+        "{{t005.metrics.proposer.cd.C3.accepted.count}}",
+        "{{t006.metrics.proposer.cd.C3.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.cd.C3.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.cd.C3.l3.useful.ci}}",
+        "{{t006.metrics.proposer.cd.C3.l3.gain.mean}}",
+        "{{t006.metrics.proposer.cd.C3.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.cd.C3.l3.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C4",
+        "L1/L2",
+        "{{t005.metrics.proposer.cd.C4.accepted.count}}",
+        "{{t005.metrics.proposer.cd.C4.harmful.ci}}",
+        "{{t005.metrics.proposer.cd.C4.unsupported.ci}}",
+        "{{t005.metrics.proposer.cd.C4.useful.ci}}",
+        "{{t005.metrics.proposer.cd.C4.gain.mean}}",
+        "{{t005.metrics.proposer.cd.C4.false_rejection.ci}}",
+        "{{t005.metrics.proposer.cd.C4.local_harm.ci}}"
+      ],
+      [
+        "CD",
+        "C4",
+        "L3",
+        "{{t005.metrics.proposer.cd.C4.accepted.count}}",
+        "{{t006.metrics.proposer.cd.C4.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.cd.C4.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.cd.C4.l3.useful.ci}}",
+        "{{t006.metrics.proposer.cd.C4.l3.gain.mean}}",
+        "{{t006.metrics.proposer.cd.C4.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.cd.C4.l3.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C1",
+        "L1/L2",
+        "{{t005.metrics.proposer.es.C1.accepted.count}}",
+        "{{t005.metrics.proposer.es.C1.harmful.ci}}",
+        "{{t005.metrics.proposer.es.C1.unsupported.ci}}",
+        "{{t005.metrics.proposer.es.C1.useful.ci}}",
+        "{{t005.metrics.proposer.es.C1.gain.mean}}",
+        "{{t005.metrics.proposer.es.C1.false_rejection.ci}}",
+        "{{t005.metrics.proposer.es.C1.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C1",
+        "L3",
+        "{{t005.metrics.proposer.es.C1.accepted.count}}",
+        "{{t006.metrics.proposer.es.C1.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.es.C1.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.es.C1.l3.useful.ci}}",
+        "{{t006.metrics.proposer.es.C1.l3.gain.mean}}",
+        "{{t006.metrics.proposer.es.C1.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.es.C1.l3.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C2",
+        "L1/L2",
+        "{{t005.metrics.proposer.es.C2.accepted.count}}",
+        "{{t005.metrics.proposer.es.C2.harmful.ci}}",
+        "{{t005.metrics.proposer.es.C2.unsupported.ci}}",
+        "{{t005.metrics.proposer.es.C2.useful.ci}}",
+        "{{t005.metrics.proposer.es.C2.gain.mean}}",
+        "{{t005.metrics.proposer.es.C2.false_rejection.ci}}",
+        "{{t005.metrics.proposer.es.C2.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C2",
+        "L3",
+        "{{t005.metrics.proposer.es.C2.accepted.count}}",
+        "{{t006.metrics.proposer.es.C2.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.es.C2.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.es.C2.l3.useful.ci}}",
+        "{{t006.metrics.proposer.es.C2.l3.gain.mean}}",
+        "{{t006.metrics.proposer.es.C2.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.es.C2.l3.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C3",
+        "L1/L2",
+        "{{t005.metrics.proposer.es.C3.accepted.count}}",
+        "{{t005.metrics.proposer.es.C3.harmful.ci}}",
+        "{{t005.metrics.proposer.es.C3.unsupported.ci}}",
+        "{{t005.metrics.proposer.es.C3.useful.ci}}",
+        "{{t005.metrics.proposer.es.C3.gain.mean}}",
+        "{{t005.metrics.proposer.es.C3.false_rejection.ci}}",
+        "{{t005.metrics.proposer.es.C3.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C3",
+        "L3",
+        "{{t005.metrics.proposer.es.C3.accepted.count}}",
+        "{{t006.metrics.proposer.es.C3.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.es.C3.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.es.C3.l3.useful.ci}}",
+        "{{t006.metrics.proposer.es.C3.l3.gain.mean}}",
+        "{{t006.metrics.proposer.es.C3.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.es.C3.l3.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C4",
+        "L1/L2",
+        "{{t005.metrics.proposer.es.C4.accepted.count}}",
+        "{{t005.metrics.proposer.es.C4.harmful.ci}}",
+        "{{t005.metrics.proposer.es.C4.unsupported.ci}}",
+        "{{t005.metrics.proposer.es.C4.useful.ci}}",
+        "{{t005.metrics.proposer.es.C4.gain.mean}}",
+        "{{t005.metrics.proposer.es.C4.false_rejection.ci}}",
+        "{{t005.metrics.proposer.es.C4.local_harm.ci}}"
+      ],
+      [
+        "ES",
+        "C4",
+        "L3",
+        "{{t005.metrics.proposer.es.C4.accepted.count}}",
+        "{{t006.metrics.proposer.es.C4.l3.harmful.ci}}",
+        "{{t006.metrics.proposer.es.C4.l3.unsupported.ci}}",
+        "{{t006.metrics.proposer.es.C4.l3.useful.ci}}",
+        "{{t006.metrics.proposer.es.C4.l3.gain.mean}}",
+        "{{t006.metrics.proposer.es.C4.l3.false_rejection.ci}}",
+        "{{t006.metrics.proposer.es.C4.l3.local_harm.ci}}"
+      ]
+    ],
+    "title": "Pre-registered metrics per gate (proposer candidates)"
+  },
+  "t3": {
+    "columns": [
+      "Gate",
+      "CD, L1/L2 cells",
+      "CD, L3 cells",
+      "CD, L1/L2 by family",
+      "ES, L1/L2 cells",
+      "ES, L3 cells",
+      "ES, L1/L2 by family"
+    ],
+    "id": "t3",
+    "note": "Accepted candidates with some cell below minus tau, over accepted candidates. L1/L2 uses the six family-by-level cells, L3 the three family cells, and the auxiliary column regroups L1/L2 by family. The counts are pre-registered; reading them as mean-based gates admitting local regressions is exploratory.",
+    "rows": [
+      [
+        "C1",
+        "{{t005.metrics.proposer.cd.C1.local_harm}}",
+        "{{t006.local_harm.proposer.cd.C1.l3}}",
+        "{{t006.local_harm.proposer.cd.C1.family_l12}}",
+        "{{t005.metrics.proposer.es.C1.local_harm}}",
+        "{{t006.local_harm.proposer.es.C1.l3}}",
+        "{{t006.local_harm.proposer.es.C1.family_l12}}"
+      ],
+      [
+        "C2",
+        "{{t005.metrics.proposer.cd.C2.local_harm}}",
+        "{{t006.local_harm.proposer.cd.C2.l3}}",
+        "{{t006.local_harm.proposer.cd.C2.family_l12}}",
+        "{{t005.metrics.proposer.es.C2.local_harm}}",
+        "{{t006.local_harm.proposer.es.C2.l3}}",
+        "{{t006.local_harm.proposer.es.C2.family_l12}}"
+      ],
+      [
+        "C3",
+        "{{t005.metrics.proposer.cd.C3.local_harm}}",
+        "{{t006.local_harm.proposer.cd.C3.l3}}",
+        "{{t006.local_harm.proposer.cd.C3.family_l12}}",
+        "{{t005.metrics.proposer.es.C3.local_harm}}",
+        "{{t006.local_harm.proposer.es.C3.l3}}",
+        "{{t006.local_harm.proposer.es.C3.family_l12}}"
+      ],
+      [
+        "C4",
+        "{{t005.metrics.proposer.cd.C4.local_harm}}",
+        "{{t006.local_harm.proposer.cd.C4.l3}}",
+        "{{t006.local_harm.proposer.cd.C4.family_l12}}",
+        "{{t005.metrics.proposer.es.C4.local_harm}}",
+        "{{t006.local_harm.proposer.es.C4.l3}}",
+        "{{t006.local_harm.proposer.es.C4.family_l12}}"
+      ]
+    ],
+    "title": "Pre-registered metric: Local Harm Acceptance Rate (proposer candidates)"
+  }
+}
