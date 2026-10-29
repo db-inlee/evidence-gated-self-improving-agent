@@ -38,6 +38,7 @@ from evidencegate.analysis import REPO_ROOT
 VALUES_PATH = Path("writeup/generated/values.json")
 OUT_DIR = Path("writeup/generated")
 PLACEHOLDER = re.compile(r"\{\{([^{}]+)\}\}")
+NEGATIVE_NUMBER = re.compile(r"(?<![\w$])-(?=\d)")
 # 자리표시자 밖에 올 수 있는 숫자 섞인 이름(Ticket 007 §1 허용 목록 중 표에 쓰는 것)
 ALLOWED_NAME = re.compile(
     r"\b(?:RQ-L3-[0-3]|RQ[1-3]|C[1-4]|L[1-3]|S0|Ticket 00[4-7]|T[1-3]|F[1-4])\b"
@@ -255,7 +256,8 @@ def tex_escape(text: str) -> str:
         out = out.replace(old, new)
     for old, new in TEX_REPLACE[10:]:
         out = out.replace(old, new)
-    return out
+    # 수의 음호: 앞이 낱말 글자가 아닌 하이픈 + 숫자(이름 속 하이픈 RQ-L3-0, cand-015는 그대로)
+    return NEGATIVE_NUMBER.sub("$-$", out)
 
 
 def table_tex(table: Table, values: Values) -> str:

@@ -300,3 +300,17 @@ def test_a_cell_exactly_at_minus_tau_is_not_outlined() -> None:
     }
     assert _cell(values, "d", "tau")["below_minus_tau"] is False
     assert _cell(values, "e", "tau")["below_minus_tau"] is True
+
+
+def test_negative_numbers_in_latex_use_a_math_minus(
+    tables: dict[str, Any], values: dict[str, Any]
+) -> None:
+    """음수는 하이픈이 아니라 $-$로 찍는다. 이름 속 하이픈(RQ-L3-0, cand-015)은 그대로다."""
+    from evidencegate.writeup_artifacts import tex_escape
+
+    assert tex_escape("-0.016 [-0.240, -0.200]") == "$-$0.016 [$-$0.240, $-$0.200]"
+    assert tex_escape("RQ-L3-0 cand-015 Clopper-Pearson") == "RQ-L3-0 cand-015 Clopper-Pearson"
+    t2 = table_tex(tables["t2"], values)
+    body = t2.split("\\begin{tabular}")[1]
+    assert "$-$0.016" in body
+    assert re.search(r"(?<![\w$])-\d", body) is None
