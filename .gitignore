@@ -20,3 +20,6 @@ runs/
 
 # 재현용 기록 압축본(Release에 올림, git 밖)
 dist/
+
+# 전원 관리 로그 사본(개인 장비 정보, git 밖)
+writeup/inputs/pmset_*.txt

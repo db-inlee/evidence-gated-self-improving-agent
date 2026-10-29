@@ -135,7 +135,7 @@ E1 approximates the overall CD estimate if L2-like incidents made up each whole 
 - **Shared seeds.** On the Oracle, a candidate shares its LLM seed with S0's repeat zero, which is one of the {{design.s0_oracle_repeats}} majority votes.
 - **Noise threshold.** δ(N) resamples without cell stratification, while C4 resamples within cells.
 - **Sensitivity analysis.** The skewed Dev-A resampling for RQ2 does not reproduce the actual skew of the proposer's input.
-- **Idle time in the L3 run.** {{run.t006.idle.count}} spans of at least a minute with no episode running added up to {{run.t006.idle.total_s}} s (longest {{run.t006.idle.longest_s}} s); cause not identified; no path to the results was found. Episodes in and around these spans finished normally, and no model reload was recorded.
+- **Idle time in the L3 run.** {{run.t006.idle.count}} spans of at least a minute with no episode running added up to {{run.t006.idle.total_s}} s. The machine slept after the laptop lid was closed on battery power (confirmed in the macOS power-management log). No episode spanned these spans, no timeout or error was recorded in or around them, and no model reload was recorded.
 - **Candidate generation.** The proposer made {{run.t004.calls}} calls; {{run.t004.excluded.duplicate}} candidates were excluded as duplicates by change-set similarity, which can miss duplicates that differ in wording.
 - **Review.** The independent review of this write-up is done by a fresh session of the same model, which is not a fully independent reader.
 
