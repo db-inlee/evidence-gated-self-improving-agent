@@ -1,0 +1,44 @@
+{
+  "data": {
+    "bytes": {
+      "detectors": 177877450,
+      "json_2.1.1": 2118126165,
+      "logic": 30465
+    },
+    "games": {
+      "train": 3553,
+      "valid_seen": 140,
+      "valid_train": 200,
+      "valid_unseen": 134
+    },
+    "location": "~/.cache/alfworld"
+  },
+  "install_route": "arm64-native",
+  "os": {
+    "release": "14.2.1",
+    "system": "Darwin"
+  },
+  "packages": {
+    "alfworld": "0.4.2",
+    "fast-downward-textworld": "20.6.4",
+    "jericho": "3.3.1",
+    "opsworld": "0.0.0",
+    "textworld": "1.7.0"
+  },
+  "python": {
+    "implementation": "CPython",
+    "machine": "arm64",
+    "version": "3.12.3"
+  },
+  "smoke_run": {
+    "admissible_commands_available": true,
+    "done": true,
+    "expert_plan_available": true,
+    "first_observation_sha256": "b956687553321786073f22d6cd8c41db968511f996c042b38a89ff08e22a9006",
+    "game": "~/.cache/alfworld/json_2.1.1/train/pick_heat_then_place_in_recep-Apple-None-CounterTop-2/trial_T20190908_112534_364453/game.tw-pddl",
+    "game_sha256": "0a7ff3f112f426f3a1ba5d68cbfa39f1ce1e2a7045dfff7a9be603ae32a1f721",
+    "seconds": 1.321,
+    "steps": 7,
+    "won": true
+  }
+}

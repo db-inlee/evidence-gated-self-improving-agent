@@ -1,0 +1,47 @@
+[project]
+name = "alfworld-pilot"
+version = "0.0.0"
+description = "Ticket 008: ALFWorld feasibility pilot for the EvidenceGate admission-gate study"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "alfworld==0.4.2",
+    # Ticket 008 원칙 2 예외: evidencegate.exact만 import한다(수정하지 않음).
+    "opsworld",
+]
+
+[tool.uv.sources]
+opsworld = { path = "../..", editable = true }
+
+[dependency-groups]
+dev = [
+    "mypy>=1.11",
+    "pytest>=8.3",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/alfworld_pilot"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+# 타입 정보가 없는 외부 패키지(파일럿의 연구 대상 환경)
+module = ["textworld", "textworld.*", "alfworld", "alfworld.*"]
+ignore_missing_imports = true
