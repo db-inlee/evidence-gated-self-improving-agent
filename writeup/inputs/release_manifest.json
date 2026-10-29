@@ -1,0 +1,534 @@
+{
+  "archive": "evidencegate-records.tar.gz",
+  "archive_bytes": 5968848,
+  "archive_sha256": "741ba9d43092be4214e6550fbc0e5ab87ad717e7618e9b338220484b034b407d",
+  "excluded": [
+    "proposer/ledger.jsonl",
+    "proposer/pool",
+    "proposer/probe",
+    "proposer_inputs"
+  ],
+  "files": [
+    {
+      "bytes": 87930,
+      "path": "calibration/ollama__gemma4__12b__ced3cb5e19af/e9b4996f7529/6844264841bf.jsonl",
+      "sha256": "07570e3634289b446ddefd17c9127b5e05513283eb5f35d27c84008bc9fc7308"
+    },
+    {
+      "bytes": 115843,
+      "path": "calibration/ollama__gemma4__12b__ced3cb5e19af/e9b4996f7529/d32174164c2c.jsonl",
+      "sha256": "0cccca03bcb6ee53e97696ca2c0e2018b962e5e6161ee64b9cbfe5991cc56765"
+    },
+    {
+      "bytes": 87872,
+      "path": "calibration/ollama__gemma4__12b__ced3cb5e19af/e9b4996f7529/f174afbbdd47.jsonl",
+      "sha256": "4d7a68ab94e604d26fc4cc4440a67c15f241ab5675aa9335b6f08f38d8ea121a"
+    },
+    {
+      "bytes": 453412,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/11e977272617.jsonl",
+      "sha256": "25c168ab7a38c274b7b4341a9878b9d48b9ac90bf5d568fd881ea55b813745e3"
+    },
+    {
+      "bytes": 364974,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/681f45168c34.jsonl",
+      "sha256": "6bafe19c82ef46bf10d248d0da9cb8bb755b2284c16afd93246e9d820b6a0da5"
+    },
+    {
+      "bytes": 89604,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/6844264841bf.jsonl",
+      "sha256": "55a9d9b3210f78f49d750c447a068ec8c189d65366e9750cf1f648caa8b9e614"
+    },
+    {
+      "bytes": 417526,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/881e3c9e9087.jsonl",
+      "sha256": "001a7379eac6ecf0e06656d9d3e0e4e1edc63d9d7f83a8bee33a1b4f6ab52f8a"
+    },
+    {
+      "bytes": 103516,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/ad0071f92361.jsonl",
+      "sha256": "0c13c5c774521ea264d91a2bbdece0def396ae548f1c9b90bb899df109b45d2b"
+    },
+    {
+      "bytes": 2077518,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "150336a014bad3fc487da66ff15ae89b2acce6ef949b3379722ca01d285e37c9"
+    },
+    {
+      "bytes": 354071,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/d21ec9d34946.jsonl",
+      "sha256": "69ab94d4e29800802c790c8f9e9fccfe22b85e3d28463dd314984d0789408fdf"
+    },
+    {
+      "bytes": 89367,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/d32174164c2c.jsonl",
+      "sha256": "bfcae5922864a780972cf2a19fc3526067d2e7fe6cd9f4461409cf2121d49e67"
+    },
+    {
+      "bytes": 416438,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/d9f06d518efc.jsonl",
+      "sha256": "5659b7bddac6cb4bc51355350341b6767847aa30856c983bf84dab80ffb79611"
+    },
+    {
+      "bytes": 444665,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/e0fd0c34db25.jsonl",
+      "sha256": "b26e08ed6486528c53cf67f4e8ca0f561adb4327c877942f5463d1280af97c18"
+    },
+    {
+      "bytes": 372157,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/e78f11923007.jsonl",
+      "sha256": "e7b1f344c62b2bb4fa74069293a8a8a72c09bf10e687b73d62f8db692257c5fd"
+    },
+    {
+      "bytes": 88638,
+      "path": "calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/f174afbbdd47.jsonl",
+      "sha256": "fd9d54ef675c6997fa578cb4c6463059202bc3fb5ae54bec8f581e55d4f857e6"
+    },
+    {
+      "bytes": 2146671,
+      "path": "calibration/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "1041e046ca3acf62839cf2a21db99d885bd9b962692dd510c0814bd4f50d8158"
+    },
+    {
+      "bytes": 232127,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl",
+      "sha256": "346dbdb3edd0ce6c74dca14f3387d667f1fa5e1a06d6bfd41b472b6c43a74d35"
+    },
+    {
+      "bytes": 228200,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl",
+      "sha256": "1525b8ca0bc9af42d4d5240cf5a0721ed82239cca3cfc95e7187aa8984a78419"
+    },
+    {
+      "bytes": 215389,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl",
+      "sha256": "79044c8a36816ff526d671998fc58883f078c828ab7982a32928cdb0400f1a9d"
+    },
+    {
+      "bytes": 214163,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl",
+      "sha256": "530600619db6cff8b1a9a73d40b5f055a74a2a063c2e577618aa6f411459fb8d"
+    },
+    {
+      "bytes": 221213,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl",
+      "sha256": "fe5534d16dbdc0cd66b6f2276c09754ff5b6d18430bb9c200b46d0246941ea45"
+    },
+    {
+      "bytes": 187531,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl",
+      "sha256": "59eaf215ff0ae199a7d5e7e6fa467e6b4dbd70887e23f2c4ee741cb92d54b372"
+    },
+    {
+      "bytes": 214866,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl",
+      "sha256": "58a6772e61eea866cdb2da26a3a8c3eae9ec6f959e01be5e5037fd8d3c70ce6c"
+    },
+    {
+      "bytes": 214122,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl",
+      "sha256": "5ceb92473fe130a34af3b30acdb34f6252674d69439c74faf19fbe0e87af7f0a"
+    },
+    {
+      "bytes": 223686,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl",
+      "sha256": "fe2e85fc0a164dca3a25da5b502dbde53b7ab13b3a7aa6ee907a36e4a8a677ea"
+    },
+    {
+      "bytes": 214118,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "3ef64526f1aa33c0fb2e0511e5b3fccf10b059c1a72d7034eedf6b25037a91cd"
+    },
+    {
+      "bytes": 216757,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl",
+      "sha256": "541867d5c83aa70e65fb8571d163f3eebca8068639c6a318956270b1ce192e2a"
+    },
+    {
+      "bytes": 213999,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl",
+      "sha256": "d104b788f8746b40a9229e2a991e8750b046958bcce1833a5fba6c5dff111601"
+    },
+    {
+      "bytes": 182579,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl",
+      "sha256": "ffb99053a51b16a2d26242a077208cb7306e96149f989c69f7ce2630fe817330"
+    },
+    {
+      "bytes": 214141,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl",
+      "sha256": "93a5d59f73b8e6e625ceaebf443b4ee38e8dadb240338d534fbe3027a7e655c6"
+    },
+    {
+      "bytes": 216297,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl",
+      "sha256": "4f4f586d55385012807212c566fc4b36cf0727c6ab5033d4a60bd3f9b0bde41b"
+    },
+    {
+      "bytes": 217088,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl",
+      "sha256": "55fa3efc2ffb42e182060e9ffb6c0d4ee8cd93c0fb7da4446f42ac3988524020"
+    },
+    {
+      "bytes": 228305,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl",
+      "sha256": "0eb2c2cfb6caa65192e72f2f478d04440862b0bf485ca79bec9be2a92764890e"
+    },
+    {
+      "bytes": 191652,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl",
+      "sha256": "28a983acd54971f4b1114965cc2a86704e3fe9bfedadeaca54ab3f40ccdffe93"
+    },
+    {
+      "bytes": 214762,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl",
+      "sha256": "0f473fa9c6584ea4da58eb0e341c2b6527d55bb67d2ec7ed45833725f9868016"
+    },
+    {
+      "bytes": 214129,
+      "path": "dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl",
+      "sha256": "1f8f5f9f292180c17a88c2702c0b2da9cee099859a6acafea4ccd3769b16c7bb"
+    },
+    {
+      "bytes": 809717,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl",
+      "sha256": "74722c6247a695d49ef9d7fef8fa2f2e60643cbf90532676078b8203cd1a8ab2"
+    },
+    {
+      "bytes": 804822,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl",
+      "sha256": "f980a804cb27360e318536646974d3cc9f0ef0f027bd3a14fd5ea0359c222b14"
+    },
+    {
+      "bytes": 753409,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl",
+      "sha256": "57a7b6c1019c5d374b75bb91667573f9eb43974c6a7a675261364e156d7bbb02"
+    },
+    {
+      "bytes": 750610,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl",
+      "sha256": "ac48b1427aabb190bcfeb142b193b57881fae5563068340ed50caf4f8253695e"
+    },
+    {
+      "bytes": 769708,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl",
+      "sha256": "86b4d2d13b14be9d4f5e9c9b8ec320c820828eca73fb0e8fc84aec9092358fee"
+    },
+    {
+      "bytes": 659058,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl",
+      "sha256": "cb6225292f77af241bc2c4c7d0cfad7741f0b0a36d1f8578b2b9a04788a69ec9"
+    },
+    {
+      "bytes": 755742,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl",
+      "sha256": "2d8f301d7c1a41973df9b9dd1e6ffd7c7eb6ec32de1b6d7db9af054e3174c0f6"
+    },
+    {
+      "bytes": 749913,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl",
+      "sha256": "3617502005b485d9e0df566b5d97aef5c452ef52a447f81a8a13eaf463d2f36a"
+    },
+    {
+      "bytes": 798555,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl",
+      "sha256": "73b6b55eae854f9915f00fbe08096c5f647739546f1440cdd7626ec46cf4c092"
+    },
+    {
+      "bytes": 750168,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "550336c402e7801d33e4d1d2a2ad6cab44a884cd3098f3983f4ac00286103234"
+    },
+    {
+      "bytes": 753616,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl",
+      "sha256": "a5a9c5c795d81131876387285d32d4c993428381e9aaf42a8d52c440003442b7"
+    },
+    {
+      "bytes": 749835,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl",
+      "sha256": "788e5519355dc96062146b9e84e829bd494bc0282870ad9339fa1df3248e60a5"
+    },
+    {
+      "bytes": 640194,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl",
+      "sha256": "fff68fe5707855599f45ba2f172841a0123e8bde96fc13ff835175114c0198e7"
+    },
+    {
+      "bytes": 750512,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl",
+      "sha256": "6c1e9ad8ed178ac40eafe520f688044eb1c18172bcb9be803a76c5534d12cecd"
+    },
+    {
+      "bytes": 756850,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl",
+      "sha256": "bab33e9937379fca283f3e6500cff6bade721962a755dd86fef84ae25ae5f2a0"
+    },
+    {
+      "bytes": 760665,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl",
+      "sha256": "e51c7ec169b5042405a0d8a17997554d837fa2a36b69bec37f336088489c3c8e"
+    },
+    {
+      "bytes": 799343,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl",
+      "sha256": "bf7d9d69274643d132c2af4845afcf8867367fee48e4fd2b5ceee67155e065f0"
+    },
+    {
+      "bytes": 668505,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl",
+      "sha256": "609149b770e8ddaf71a66a6a804c2c89704887e026095a7badd6260b83e7c15b"
+    },
+    {
+      "bytes": 751602,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl",
+      "sha256": "24c2f4b09a9e7b7241cc8f229d7a1805d535a29683a2c70b621fb75b3931cfb7"
+    },
+    {
+      "bytes": 752569,
+      "path": "dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl",
+      "sha256": "a9ccbf65ffac4f52ecbc8af95d9614861bf543ee175722679b4282438fc5a7e7"
+    },
+    {
+      "bytes": 109623,
+      "path": "l3_check/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "40f8cd0da483c10e5d5c4a4eabdcf2943be0da17d8376e2070c48a0a493ee48a"
+    },
+    {
+      "bytes": 1184827,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl",
+      "sha256": "212e04f10514e2b0ca09bb75b60ce23fb47d46318e7bf88f2ea9e781db87d3ec"
+    },
+    {
+      "bytes": 1175660,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl",
+      "sha256": "479c04ab264d319dc78bdd506290d7d84718f53ab6f70a01d65433e94cf30d68"
+    },
+    {
+      "bytes": 1094803,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl",
+      "sha256": "a9ca791b8add37b853482311fe1effaacbab7c9d9da19a855acce931539efcd2"
+    },
+    {
+      "bytes": 1091206,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl",
+      "sha256": "e3075e38428636edd367458aeaa6f724111e06c044524cc0534d594b6bbcda18"
+    },
+    {
+      "bytes": 1101576,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl",
+      "sha256": "bb938c5d1ef763a247e40359a9b16dfb41aed83420b9ab1e1e08361510f664cb"
+    },
+    {
+      "bytes": 961546,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl",
+      "sha256": "26e7c8cea765f46074b7e511b6a5b59ea07816953d915cebbe5f4efa1bb0bc50"
+    },
+    {
+      "bytes": 1102511,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl",
+      "sha256": "03d7ce36ebb6c0bd646e1bc7604cb9a5b2568dea08dad60f030ad68433621c7a"
+    },
+    {
+      "bytes": 1094819,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl",
+      "sha256": "b4c7f0ec2bfbe88df5a989b724803aed721371a41979651abdf3f1301f4b2a8b"
+    },
+    {
+      "bytes": 1129707,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl",
+      "sha256": "9878b2a934000432d719529e665b6855bb8042fa3fd288bc86ac950b22577122"
+    },
+    {
+      "bytes": 5462083,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "d129958dceccea671aa619ade2db6a38f9cf1dbc01febcbe04e776cdc4224854"
+    },
+    {
+      "bytes": 1097405,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl",
+      "sha256": "75ae8baf2edc4f356bbbf7ecb1d3fe836de3f4d9b51f88fa334b0a43b35b88ac"
+    },
+    {
+      "bytes": 1093822,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl",
+      "sha256": "d528ea9d83a34e3c4e6d3cd1ce1edb02fa5b13a3df801c4d0f0a506c038421bf"
+    },
+    {
+      "bytes": 934353,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl",
+      "sha256": "388498c18854c058ba0cda57b8171628656ddff90d6662aeda3f4743818bdab3"
+    },
+    {
+      "bytes": 1091884,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl",
+      "sha256": "d4a1e8a7a9f868d269b8739dbcd7f5ee68d50056e221692548dc74db105b2836"
+    },
+    {
+      "bytes": 1127820,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl",
+      "sha256": "519e5ce5d9998a3f40bbccddcfd95040e98eea4de1463f23bcac536e9652cf34"
+    },
+    {
+      "bytes": 1098820,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl",
+      "sha256": "2982c7fc58ebac4980feb9279c3546cb91c46fc8fbce97eaa09931be0ee32f76"
+    },
+    {
+      "bytes": 1165599,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl",
+      "sha256": "334de135d10f986173bf93862c34464917f04dbd6acab3d39fbedbc7b6d90037"
+    },
+    {
+      "bytes": 971401,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl",
+      "sha256": "80492d2cf8eca10deb9c942288ab6ec4d199b27d80a96368f21af3d9c7390825"
+    },
+    {
+      "bytes": 1095253,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl",
+      "sha256": "35c96c5a26eefb586bb5cd7f59644e3160c4cba00b3566afa6b431948faa73a7"
+    },
+    {
+      "bytes": 1093566,
+      "path": "l3_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl",
+      "sha256": "a28764189577e321aa974f9a579a3d4cd19f138c92908f6dcc4408401b43086f"
+    },
+    {
+      "bytes": 1157255,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl",
+      "sha256": "3445afd28106eb0e8ba65c21f9adefd1e68d8e478cdb707aa9b2a8122e6e7a2c"
+    },
+    {
+      "bytes": 1148824,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl",
+      "sha256": "5b42b1136034d9a3d150ff666876054299b9ca96fda7f5d8eeed3bca0f9bdc04"
+    },
+    {
+      "bytes": 1078962,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl",
+      "sha256": "2dda72d30f3939449828cf34652e726f47165d434d582d1db14859b9a3c1afd1"
+    },
+    {
+      "bytes": 1072747,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/31fb7ec5d0af.jsonl",
+      "sha256": "dab3d1bc2dc76b47e8b913052b83de5277d2f7a7bd2518ada32f244f5d8e1c30"
+    },
+    {
+      "bytes": 1100070,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl",
+      "sha256": "8eebc126b62b5f5b79b8e47146dea2d679b6c5eb4eac3181afc7c043dcc92edc"
+    },
+    {
+      "bytes": 940973,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl",
+      "sha256": "b9f27257e211e8445a58e0b41de23826838320049afcb6ca553d56dbddd686cf"
+    },
+    {
+      "bytes": 1081693,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/82157c029c2b.jsonl",
+      "sha256": "5a6c806321fb2c256bc4bcf1c73c4d71051e7bf60b87899961a252f1ecb544c0"
+    },
+    {
+      "bytes": 1072597,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl",
+      "sha256": "e6d438d21dda54409bcf70b467fbf1f6effe7c463096f78bcaa5f01567f176fa"
+    },
+    {
+      "bytes": 1141518,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl",
+      "sha256": "5f7459514fdebda9452567d332fb02d20eb70d20372b0f1160ffa1c3cc611df1"
+    },
+    {
+      "bytes": 5367268,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "737365eab4eb99403caf945ca82095f35c4ea5900a9b9408cea1bcf654dcdab5"
+    },
+    {
+      "bytes": 1078273,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ca821723ff19.jsonl",
+      "sha256": "0f11a317c370a69d44fa024e6356c075b629751d00ff0789ba76e10014b4eaee"
+    },
+    {
+      "bytes": 1072660,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ce0818337016.jsonl",
+      "sha256": "479657fea998367f6cbb2d1c6e5bc1db693d01ed543757fb6f99c31ef8d95e32"
+    },
+    {
+      "bytes": 914991,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl",
+      "sha256": "540bfb3bf432e88fd140d06843bd9df78e29968c8b8a7232d4105da55f36aa76"
+    },
+    {
+      "bytes": 1073457,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl",
+      "sha256": "56a400f33c3e1a50e6299aa6a526e8f0a8cc26290da29880cd9135ec0cc06377"
+    },
+    {
+      "bytes": 1084342,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ddc3a4bd1107.jsonl",
+      "sha256": "adbfd1bdf57697bc5e4ffa57067421e32377b04f7b28ff59fd1d095a1b788c00"
+    },
+    {
+      "bytes": 1092843,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0cea547fe7f.jsonl",
+      "sha256": "e105be957817e0057fbeec18764df028310334cd9f9e5e52df43ca5dc6f4d84e"
+    },
+    {
+      "bytes": 1142175,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl",
+      "sha256": "81d8111e6d87870f8f046edfed0206eb17fa7f3127ce643f02ef6232dbff1d94"
+    },
+    {
+      "bytes": 955779,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl",
+      "sha256": "4f448e3216e70fafb507beb4ac6969c7af510b4b979278d7e7186243770e998b"
+    },
+    {
+      "bytes": 1073857,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f3bfded7ec6a.jsonl",
+      "sha256": "959dd07caba51a4f052d7596eda42b3f77ac6290db7311ed00dae96f880fbf16"
+    },
+    {
+      "bytes": 1076108,
+      "path": "oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl",
+      "sha256": "e11a6b47aad98dec378e2ed315b29b0519c075076cc27500482dcf975c94a142"
+    },
+    {
+      "bytes": 903,
+      "path": "ticket005/sessions.jsonl",
+      "sha256": "e6fee463cd03827e39f0d400b7bb10218335bcc4f61bc4a5f6f4a9b756f1faf9"
+    },
+    {
+      "bytes": 901,
+      "path": "ticket006/sessions.jsonl",
+      "sha256": "c7c5f47d5578dba0aec6afa82b304911f6eae6a05b36a5ec6a52f6bde1aeb114"
+    }
+  ],
+  "included": [
+    "dev_a",
+    "dev_b",
+    "oracle",
+    "l3_oracle",
+    "calibration",
+    "l3_check",
+    "ticket005/sessions.jsonl",
+    "ticket006/sessions.jsonl"
+  ],
+  "secret_scan": {
+    "checked": [
+      "api_key_field",
+      "aws_key",
+      "bearer_token",
+      "email",
+      "github_token",
+      "home_path",
+      "openai_env",
+      "openai_key",
+      "private_key",
+      "slack_token"
+    ],
+    "hits": 0,
+    "patterns": 10
+  }
+}

@@ -60,7 +60,7 @@ def templates(table: dict[str, Any]) -> list[str]:
 
 
 def test_tables_are_t1_t2_t3(tables: dict[str, Any]) -> None:
-    assert list(tables) == ["t1", "t2", "t3"]
+    assert list(tables)[:3] == ["t1", "t2", "t3"]
 
 
 @pytest.mark.parametrize("table_id", ["t1", "t2", "t3"])
@@ -239,6 +239,9 @@ FILES = (
     "t1.tex",
     "t2.tex",
     "t3.tex",
+    "e1.tex",
+    "e1_family.tex",
+    "e1_appendix.tex",
     "f2_cd.svg",
     "f2_cd.pdf",
     "f2_es.svg",
@@ -314,3 +317,46 @@ def test_negative_numbers_in_latex_use_a_math_minus(
     body = t2.split("\\begin{tabular}")[1]
     assert "$-$0.016" in body
     assert re.search(r"(?<![\w$])-\d", body) is None
+
+
+def test_e1_tables_hold_exploratory_values_only_and_split_main_from_appendix(
+    tables: dict[str, Any], values: dict[str, Any]
+) -> None:
+    assert {"e1", "e1_family", "e1_appendix"} <= set(tables)
+    for table_id in ("e1", "e1_family", "e1_appendix"):
+        keys = [k for c in templates(tables[table_id]) for k in PLACEHOLDER.findall(c)]
+        assert keys and all(values[k]["kind"] == "exploratory" for k in keys), table_id
+    main_rows = rendered_rows(tables["e1"], values)
+    assert [r[0] for r in main_rows] == [
+        f"cand-{n}"
+        for n in (
+            "000",
+            "001",
+            "002",
+            "003",
+            "005",
+            "008",
+            "010",
+            "011",
+            "012",
+            "013",
+            "014",
+            "015",
+        )
+    ]
+    cand015 = next(r for r in main_rows if r[0] == "cand-015")
+    assert cand015[1:] == ["0.037", "-0.093", "-0.210", "-0.117", "-0.247"]
+    fam = {r[0]: r[1:] for r in rendered_rows(tables["e1_family"], values)}
+    assert fam["cand-003"][0] == "-0.480 → -0.780"
+    assert fam["cand-015"][2] == "0.660 → 0.350"
+    appendix = rendered_rows(tables["e1_appendix"], values)
+    assert {r[0] for r in appendix if r[1] == "CD"} == {
+        "mixed-scale-on-traffic",
+        "neg-rollback-any",
+        "neg-skip-metrics",
+        "neg-timing-shortcut",
+        "neutral-rephrase",
+        "pos-timing-only",
+        "pos-traffic-check",
+    }
+    assert len([r for r in appendix if r[1] == "ES"]) == 19

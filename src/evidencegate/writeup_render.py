@@ -12,7 +12,8 @@
 - key: 자리표시자의 키가 values.json(표는 tables의 id)에 있다.
 - placement: kind = exploratory 값은 제목에 Exploratory 또는 Appendix가 들어간 절 안에서만.
 - banned: 금지 표현(단어 경계, 대소문자 무시). 용어 허용 목록은 `Evidence-Safe` 하나이고, 큰따옴표
-  안 원문 인용은 뺀다. 렌더 결과에도 같은 검사를 한다.
+  안 원문 인용은 뺀다. 렌더 결과에도 같은 검사를 한다. 뺀 인용구는 check가 파일·줄과 함께 모두
+  `note:`로 낸다(우회 통로가 되지 않게, 실패는 아님).
 README.md는 템플릿 렌더 결과와 바이트까지 같아야 한다.
 """
 
@@ -68,6 +69,7 @@ ALLOWED_PATTERNS = tuple(
         r"\bL[1-3]\b",
         r"\bS0\b",
         r"\bE1\b",  # 탐색 계산의 이름
+        r"\bsha256\b",  # 해시 알고리즘 이름
         r"\bT[1-3]\b",
         r"\bF[1-4]\b",
         r"\bTicket 00[1-7]\b",
@@ -127,10 +129,24 @@ def _tex_lines(text: str) -> list[str]:
     return out
 
 
+QUOTES = (re.compile(r"“[^”]*”"), re.compile(r'"[^"]*"'), re.compile(r"``.*?''"))
+
+
 def _strip_quotes(line: str) -> str:
-    line = re.sub(r"“[^”]*”", "", line)
-    line = re.sub(r'"[^"]*"', "", line)
-    return re.sub(r"``.*?''", "", line)
+    for quote in QUOTES:
+        line = quote.sub("", line)
+    return line
+
+
+def quoted_segments(text: str, fmt: str) -> list[tuple[int, str]]:
+    """금지 표현 검사에서 원문 인용으로 뺀 큰따옴표 구간(줄 번호, 구간). check가 note로 낸다."""
+    lines = _md_lines(text) if fmt == "md" else _tex_lines(text)
+    out = []
+    for number, line in enumerate(lines, start=1):
+        for quote in QUOTES:
+            out += [(number, m.group(0)) for m in quote.finditer(line)]
+            line = quote.sub("", line)
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -149,7 +165,17 @@ def check_source(text: str, fmt: str, values: Mapping[str, Mapping[str, str]]) -
         raise ValueError(f"unknown format {fmt!r}")
     lines = _md_lines(text) if fmt == "md" else _tex_lines(text)
     placeholder = MD_PLACEHOLDER if fmt == "md" else TEX_PLACEHOLDER
-    table_ids = set(build_tables(values))
+    tables = build_tables(values)
+    exploratory_tables = {
+        table_id
+        for table_id, table in tables.items()
+        if any(
+            values[k]["kind"] == "exploratory"
+            for row in table["rows"]
+            for cell in row
+            for k in MD_PLACEHOLDER.findall(cell)
+        )
+    }
     out: list[Violation] = []
     headings: list[tuple[int, str]] = []  # md: (수준, 제목)
     tex_section = ""
@@ -179,8 +205,11 @@ def check_source(text: str, fmt: str, values: Mapping[str, Mapping[str, str]]) -
         for match in placeholder.finditer(line):
             key = match.group(1)
             if key.startswith("table:"):
-                if key.removeprefix("table:") not in table_ids:
+                table_id = key.removeprefix("table:")
+                if table_id not in tables:
                     out.append(Violation("key", number, key))
+                elif table_id in exploratory_tables and not in_exploratory:
+                    out.append(Violation("placement", number, key))
                 continue
             if key not in values:
                 out.append(Violation("key", number, key))
@@ -250,6 +279,11 @@ def _report(path: Path, root: Path, violations: Sequence[Violation]) -> None:
         print(f"{path.relative_to(root)}:{v.line}: {v.rule}: {v.text}", file=sys.stderr)
 
 
+def _notes(path: Path, root: Path, quotes: Sequence[tuple[int, str]]) -> None:
+    for line, segment in quotes:
+        print(f"note: {path.relative_to(root)}:{line}: quoted: {segment}")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="evidencegate-writeup-render")
     parser.add_argument("command", choices=("render", "check"))
@@ -280,6 +314,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         template = template_path.read_text(encoding="utf-8")
         found = check_source(template, "md", values)
         _report(template_path, root, found)
+        _notes(template_path, root, quoted_segments(template, "md"))
         rendered = render_markdown(template, values, tables)
         found_rendered = check_rendered(rendered)
         _report(readme_path, root, found_rendered)
@@ -291,8 +326,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"note: no template at {TEMPLATE_PATH}; README checks skipped")
     paper = root / PAPER_DIR
     for tex in sorted(paper.rglob("*.tex")) if paper.exists() else []:
-        found = check_source(tex.read_text(encoding="utf-8"), "tex", values)
+        source = tex.read_text(encoding="utf-8")
+        found = check_source(source, "tex", values)
         _report(tex, root, found)
+        _notes(tex, root, quoted_segments(source, "tex"))
         failed = failed or bool(found)
     print("check failed" if failed else "check ok")
     return 1 if failed else 0

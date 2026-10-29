@@ -1,4 +1,450 @@
 {
+  "e1": {
+    "columns": [
+      "Candidate",
+      "Δ L1/L2",
+      "E1",
+      "Δ L3",
+      "Δ L3 − E1",
+      "Δ L3 − Δ L1/L2"
+    ],
+    "id": "e1",
+    "note": "Exploratory. E1 approximates the overall oracle effect estimate if L2-like incidents made up each whole family (mean of the three L2 cell estimates); definition fixed in writeup/inputs/e1_definition.txt before computing. No intervals or tests.",
+    "rows": [
+      [
+        "cand-000",
+        "{{e1.cand-000.cd.l12}}",
+        "{{e1.cand-000.cd.e1}}",
+        "{{e1.cand-000.cd.l3}}",
+        "{{e1.cand-000.cd.residual_e1}}",
+        "{{e1.cand-000.cd.residual_l12}}"
+      ],
+      [
+        "cand-001",
+        "{{e1.cand-001.cd.l12}}",
+        "{{e1.cand-001.cd.e1}}",
+        "{{e1.cand-001.cd.l3}}",
+        "{{e1.cand-001.cd.residual_e1}}",
+        "{{e1.cand-001.cd.residual_l12}}"
+      ],
+      [
+        "cand-002",
+        "{{e1.cand-002.cd.l12}}",
+        "{{e1.cand-002.cd.e1}}",
+        "{{e1.cand-002.cd.l3}}",
+        "{{e1.cand-002.cd.residual_e1}}",
+        "{{e1.cand-002.cd.residual_l12}}"
+      ],
+      [
+        "cand-003",
+        "{{e1.cand-003.cd.l12}}",
+        "{{e1.cand-003.cd.e1}}",
+        "{{e1.cand-003.cd.l3}}",
+        "{{e1.cand-003.cd.residual_e1}}",
+        "{{e1.cand-003.cd.residual_l12}}"
+      ],
+      [
+        "cand-005",
+        "{{e1.cand-005.cd.l12}}",
+        "{{e1.cand-005.cd.e1}}",
+        "{{e1.cand-005.cd.l3}}",
+        "{{e1.cand-005.cd.residual_e1}}",
+        "{{e1.cand-005.cd.residual_l12}}"
+      ],
+      [
+        "cand-008",
+        "{{e1.cand-008.cd.l12}}",
+        "{{e1.cand-008.cd.e1}}",
+        "{{e1.cand-008.cd.l3}}",
+        "{{e1.cand-008.cd.residual_e1}}",
+        "{{e1.cand-008.cd.residual_l12}}"
+      ],
+      [
+        "cand-010",
+        "{{e1.cand-010.cd.l12}}",
+        "{{e1.cand-010.cd.e1}}",
+        "{{e1.cand-010.cd.l3}}",
+        "{{e1.cand-010.cd.residual_e1}}",
+        "{{e1.cand-010.cd.residual_l12}}"
+      ],
+      [
+        "cand-011",
+        "{{e1.cand-011.cd.l12}}",
+        "{{e1.cand-011.cd.e1}}",
+        "{{e1.cand-011.cd.l3}}",
+        "{{e1.cand-011.cd.residual_e1}}",
+        "{{e1.cand-011.cd.residual_l12}}"
+      ],
+      [
+        "cand-012",
+        "{{e1.cand-012.cd.l12}}",
+        "{{e1.cand-012.cd.e1}}",
+        "{{e1.cand-012.cd.l3}}",
+        "{{e1.cand-012.cd.residual_e1}}",
+        "{{e1.cand-012.cd.residual_l12}}"
+      ],
+      [
+        "cand-013",
+        "{{e1.cand-013.cd.l12}}",
+        "{{e1.cand-013.cd.e1}}",
+        "{{e1.cand-013.cd.l3}}",
+        "{{e1.cand-013.cd.residual_e1}}",
+        "{{e1.cand-013.cd.residual_l12}}"
+      ],
+      [
+        "cand-014",
+        "{{e1.cand-014.cd.l12}}",
+        "{{e1.cand-014.cd.e1}}",
+        "{{e1.cand-014.cd.l3}}",
+        "{{e1.cand-014.cd.residual_e1}}",
+        "{{e1.cand-014.cd.residual_l12}}"
+      ],
+      [
+        "cand-015",
+        "{{e1.cand-015.cd.l12}}",
+        "{{e1.cand-015.cd.e1}}",
+        "{{e1.cand-015.cd.l3}}",
+        "{{e1.cand-015.cd.residual_e1}}",
+        "{{e1.cand-015.cd.residual_l12}}"
+      ]
+    ],
+    "title": "E1 (exploratory): proposer candidates, CD"
+  },
+  "e1_appendix": {
+    "columns": [
+      "Candidate",
+      "Metric",
+      "Δ L1/L2",
+      "E1",
+      "Δ L3",
+      "Δ L3 − E1",
+      "Δ L3 − Δ L1/L2"
+    ],
+    "id": "e1_appendix",
+    "note": "Exploratory. E1 approximates the overall oracle effect estimate if L2-like incidents made up each whole family (mean of the three L2 cell estimates); definition fixed in writeup/inputs/e1_definition.txt before computing. No intervals or tests.",
+    "rows": [
+      [
+        "mixed-scale-on-traffic",
+        "CD",
+        "{{e1.mixed-scale-on-traffic.cd.l12}}",
+        "{{e1.mixed-scale-on-traffic.cd.e1}}",
+        "{{e1.mixed-scale-on-traffic.cd.l3}}",
+        "{{e1.mixed-scale-on-traffic.cd.residual_e1}}",
+        "{{e1.mixed-scale-on-traffic.cd.residual_l12}}"
+      ],
+      [
+        "neg-rollback-any",
+        "CD",
+        "{{e1.neg-rollback-any.cd.l12}}",
+        "{{e1.neg-rollback-any.cd.e1}}",
+        "{{e1.neg-rollback-any.cd.l3}}",
+        "{{e1.neg-rollback-any.cd.residual_e1}}",
+        "{{e1.neg-rollback-any.cd.residual_l12}}"
+      ],
+      [
+        "neg-skip-metrics",
+        "CD",
+        "{{e1.neg-skip-metrics.cd.l12}}",
+        "{{e1.neg-skip-metrics.cd.e1}}",
+        "{{e1.neg-skip-metrics.cd.l3}}",
+        "{{e1.neg-skip-metrics.cd.residual_e1}}",
+        "{{e1.neg-skip-metrics.cd.residual_l12}}"
+      ],
+      [
+        "neg-timing-shortcut",
+        "CD",
+        "{{e1.neg-timing-shortcut.cd.l12}}",
+        "{{e1.neg-timing-shortcut.cd.e1}}",
+        "{{e1.neg-timing-shortcut.cd.l3}}",
+        "{{e1.neg-timing-shortcut.cd.residual_e1}}",
+        "{{e1.neg-timing-shortcut.cd.residual_l12}}"
+      ],
+      [
+        "neutral-rephrase",
+        "CD",
+        "{{e1.neutral-rephrase.cd.l12}}",
+        "{{e1.neutral-rephrase.cd.e1}}",
+        "{{e1.neutral-rephrase.cd.l3}}",
+        "{{e1.neutral-rephrase.cd.residual_e1}}",
+        "{{e1.neutral-rephrase.cd.residual_l12}}"
+      ],
+      [
+        "pos-timing-only",
+        "CD",
+        "{{e1.pos-timing-only.cd.l12}}",
+        "{{e1.pos-timing-only.cd.e1}}",
+        "{{e1.pos-timing-only.cd.l3}}",
+        "{{e1.pos-timing-only.cd.residual_e1}}",
+        "{{e1.pos-timing-only.cd.residual_l12}}"
+      ],
+      [
+        "pos-traffic-check",
+        "CD",
+        "{{e1.pos-traffic-check.cd.l12}}",
+        "{{e1.pos-traffic-check.cd.e1}}",
+        "{{e1.pos-traffic-check.cd.l3}}",
+        "{{e1.pos-traffic-check.cd.residual_e1}}",
+        "{{e1.pos-traffic-check.cd.residual_l12}}"
+      ],
+      [
+        "cand-000",
+        "ES",
+        "{{e1.cand-000.es.l12}}",
+        "{{e1.cand-000.es.e1}}",
+        "{{e1.cand-000.es.l3}}",
+        "{{e1.cand-000.es.residual_e1}}",
+        "{{e1.cand-000.es.residual_l12}}"
+      ],
+      [
+        "cand-001",
+        "ES",
+        "{{e1.cand-001.es.l12}}",
+        "{{e1.cand-001.es.e1}}",
+        "{{e1.cand-001.es.l3}}",
+        "{{e1.cand-001.es.residual_e1}}",
+        "{{e1.cand-001.es.residual_l12}}"
+      ],
+      [
+        "cand-002",
+        "ES",
+        "{{e1.cand-002.es.l12}}",
+        "{{e1.cand-002.es.e1}}",
+        "{{e1.cand-002.es.l3}}",
+        "{{e1.cand-002.es.residual_e1}}",
+        "{{e1.cand-002.es.residual_l12}}"
+      ],
+      [
+        "cand-003",
+        "ES",
+        "{{e1.cand-003.es.l12}}",
+        "{{e1.cand-003.es.e1}}",
+        "{{e1.cand-003.es.l3}}",
+        "{{e1.cand-003.es.residual_e1}}",
+        "{{e1.cand-003.es.residual_l12}}"
+      ],
+      [
+        "cand-005",
+        "ES",
+        "{{e1.cand-005.es.l12}}",
+        "{{e1.cand-005.es.e1}}",
+        "{{e1.cand-005.es.l3}}",
+        "{{e1.cand-005.es.residual_e1}}",
+        "{{e1.cand-005.es.residual_l12}}"
+      ],
+      [
+        "cand-008",
+        "ES",
+        "{{e1.cand-008.es.l12}}",
+        "{{e1.cand-008.es.e1}}",
+        "{{e1.cand-008.es.l3}}",
+        "{{e1.cand-008.es.residual_e1}}",
+        "{{e1.cand-008.es.residual_l12}}"
+      ],
+      [
+        "cand-010",
+        "ES",
+        "{{e1.cand-010.es.l12}}",
+        "{{e1.cand-010.es.e1}}",
+        "{{e1.cand-010.es.l3}}",
+        "{{e1.cand-010.es.residual_e1}}",
+        "{{e1.cand-010.es.residual_l12}}"
+      ],
+      [
+        "cand-011",
+        "ES",
+        "{{e1.cand-011.es.l12}}",
+        "{{e1.cand-011.es.e1}}",
+        "{{e1.cand-011.es.l3}}",
+        "{{e1.cand-011.es.residual_e1}}",
+        "{{e1.cand-011.es.residual_l12}}"
+      ],
+      [
+        "cand-012",
+        "ES",
+        "{{e1.cand-012.es.l12}}",
+        "{{e1.cand-012.es.e1}}",
+        "{{e1.cand-012.es.l3}}",
+        "{{e1.cand-012.es.residual_e1}}",
+        "{{e1.cand-012.es.residual_l12}}"
+      ],
+      [
+        "cand-013",
+        "ES",
+        "{{e1.cand-013.es.l12}}",
+        "{{e1.cand-013.es.e1}}",
+        "{{e1.cand-013.es.l3}}",
+        "{{e1.cand-013.es.residual_e1}}",
+        "{{e1.cand-013.es.residual_l12}}"
+      ],
+      [
+        "cand-014",
+        "ES",
+        "{{e1.cand-014.es.l12}}",
+        "{{e1.cand-014.es.e1}}",
+        "{{e1.cand-014.es.l3}}",
+        "{{e1.cand-014.es.residual_e1}}",
+        "{{e1.cand-014.es.residual_l12}}"
+      ],
+      [
+        "cand-015",
+        "ES",
+        "{{e1.cand-015.es.l12}}",
+        "{{e1.cand-015.es.e1}}",
+        "{{e1.cand-015.es.l3}}",
+        "{{e1.cand-015.es.residual_e1}}",
+        "{{e1.cand-015.es.residual_l12}}"
+      ],
+      [
+        "mixed-scale-on-traffic",
+        "ES",
+        "{{e1.mixed-scale-on-traffic.es.l12}}",
+        "{{e1.mixed-scale-on-traffic.es.e1}}",
+        "{{e1.mixed-scale-on-traffic.es.l3}}",
+        "{{e1.mixed-scale-on-traffic.es.residual_e1}}",
+        "{{e1.mixed-scale-on-traffic.es.residual_l12}}"
+      ],
+      [
+        "neg-rollback-any",
+        "ES",
+        "{{e1.neg-rollback-any.es.l12}}",
+        "{{e1.neg-rollback-any.es.e1}}",
+        "{{e1.neg-rollback-any.es.l3}}",
+        "{{e1.neg-rollback-any.es.residual_e1}}",
+        "{{e1.neg-rollback-any.es.residual_l12}}"
+      ],
+      [
+        "neg-skip-metrics",
+        "ES",
+        "{{e1.neg-skip-metrics.es.l12}}",
+        "{{e1.neg-skip-metrics.es.e1}}",
+        "{{e1.neg-skip-metrics.es.l3}}",
+        "{{e1.neg-skip-metrics.es.residual_e1}}",
+        "{{e1.neg-skip-metrics.es.residual_l12}}"
+      ],
+      [
+        "neg-timing-shortcut",
+        "ES",
+        "{{e1.neg-timing-shortcut.es.l12}}",
+        "{{e1.neg-timing-shortcut.es.e1}}",
+        "{{e1.neg-timing-shortcut.es.l3}}",
+        "{{e1.neg-timing-shortcut.es.residual_e1}}",
+        "{{e1.neg-timing-shortcut.es.residual_l12}}"
+      ],
+      [
+        "neutral-rephrase",
+        "ES",
+        "{{e1.neutral-rephrase.es.l12}}",
+        "{{e1.neutral-rephrase.es.e1}}",
+        "{{e1.neutral-rephrase.es.l3}}",
+        "{{e1.neutral-rephrase.es.residual_e1}}",
+        "{{e1.neutral-rephrase.es.residual_l12}}"
+      ],
+      [
+        "pos-timing-only",
+        "ES",
+        "{{e1.pos-timing-only.es.l12}}",
+        "{{e1.pos-timing-only.es.e1}}",
+        "{{e1.pos-timing-only.es.l3}}",
+        "{{e1.pos-timing-only.es.residual_e1}}",
+        "{{e1.pos-timing-only.es.residual_l12}}"
+      ],
+      [
+        "pos-traffic-check",
+        "ES",
+        "{{e1.pos-traffic-check.es.l12}}",
+        "{{e1.pos-traffic-check.es.e1}}",
+        "{{e1.pos-traffic-check.es.l3}}",
+        "{{e1.pos-traffic-check.es.residual_e1}}",
+        "{{e1.pos-traffic-check.es.residual_l12}}"
+      ]
+    ],
+    "title": "E1 (exploratory): controls on CD, and every candidate on ES"
+  },
+  "e1_family": {
+    "columns": [
+      "Candidate",
+      "bad: L2 → L3",
+      "dep: L2 → L3",
+      "traffic: L2 → L3"
+    ],
+    "id": "e1_family",
+    "note": "Exploratory. E1 approximates the overall oracle effect estimate if L2-like incidents made up each whole family (mean of the three L2 cell estimates); definition fixed in writeup/inputs/e1_definition.txt before computing. No intervals or tests.",
+    "rows": [
+      [
+        "cand-000",
+        "{{e1.cand-000.cd.family.bad_deployment.l2}} → {{e1.cand-000.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-000.cd.family.dependency_failure.l2}} → {{e1.cand-000.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-000.cd.family.traffic_spike.l2}} → {{e1.cand-000.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-001",
+        "{{e1.cand-001.cd.family.bad_deployment.l2}} → {{e1.cand-001.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-001.cd.family.dependency_failure.l2}} → {{e1.cand-001.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-001.cd.family.traffic_spike.l2}} → {{e1.cand-001.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-002",
+        "{{e1.cand-002.cd.family.bad_deployment.l2}} → {{e1.cand-002.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-002.cd.family.dependency_failure.l2}} → {{e1.cand-002.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-002.cd.family.traffic_spike.l2}} → {{e1.cand-002.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-003",
+        "{{e1.cand-003.cd.family.bad_deployment.l2}} → {{e1.cand-003.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-003.cd.family.dependency_failure.l2}} → {{e1.cand-003.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-003.cd.family.traffic_spike.l2}} → {{e1.cand-003.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-005",
+        "{{e1.cand-005.cd.family.bad_deployment.l2}} → {{e1.cand-005.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-005.cd.family.dependency_failure.l2}} → {{e1.cand-005.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-005.cd.family.traffic_spike.l2}} → {{e1.cand-005.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-008",
+        "{{e1.cand-008.cd.family.bad_deployment.l2}} → {{e1.cand-008.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-008.cd.family.dependency_failure.l2}} → {{e1.cand-008.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-008.cd.family.traffic_spike.l2}} → {{e1.cand-008.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-010",
+        "{{e1.cand-010.cd.family.bad_deployment.l2}} → {{e1.cand-010.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-010.cd.family.dependency_failure.l2}} → {{e1.cand-010.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-010.cd.family.traffic_spike.l2}} → {{e1.cand-010.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-011",
+        "{{e1.cand-011.cd.family.bad_deployment.l2}} → {{e1.cand-011.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-011.cd.family.dependency_failure.l2}} → {{e1.cand-011.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-011.cd.family.traffic_spike.l2}} → {{e1.cand-011.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-012",
+        "{{e1.cand-012.cd.family.bad_deployment.l2}} → {{e1.cand-012.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-012.cd.family.dependency_failure.l2}} → {{e1.cand-012.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-012.cd.family.traffic_spike.l2}} → {{e1.cand-012.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-013",
+        "{{e1.cand-013.cd.family.bad_deployment.l2}} → {{e1.cand-013.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-013.cd.family.dependency_failure.l2}} → {{e1.cand-013.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-013.cd.family.traffic_spike.l2}} → {{e1.cand-013.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-014",
+        "{{e1.cand-014.cd.family.bad_deployment.l2}} → {{e1.cand-014.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-014.cd.family.dependency_failure.l2}} → {{e1.cand-014.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-014.cd.family.traffic_spike.l2}} → {{e1.cand-014.cd.family.traffic_spike.l3}}"
+      ],
+      [
+        "cand-015",
+        "{{e1.cand-015.cd.family.bad_deployment.l2}} → {{e1.cand-015.cd.family.bad_deployment.l3}}",
+        "{{e1.cand-015.cd.family.dependency_failure.l2}} → {{e1.cand-015.cd.family.dependency_failure.l3}}",
+        "{{e1.cand-015.cd.family.traffic_spike.l2}} → {{e1.cand-015.cd.family.traffic_spike.l3}}"
+      ]
+    ],
+    "title": "E1 (exploratory): per-family L2 cell estimate next to the L3 cell estimate, proposer candidates, CD"
+  },
   "t1": {
     "columns": [
       "Question",

@@ -144,6 +144,11 @@
     "exact": "7c66ee5bf13c",
     "kind": "design"
   },
+  "design.control_candidates": {
+    "display": "7",
+    "exact": "7",
+    "kind": "design"
+  },
   "design.dev_a_per_cell": {
     "display": "10",
     "exact": "10",
@@ -169,9 +174,19 @@
     "exact": "1/20",
     "kind": "design"
   },
+  "design.family_share_l3_oracle": {
+    "display": "0.333",
+    "exact": "1/3",
+    "kind": "design"
+  },
   "design.fitness_size": {
     "display": "0.300",
     "exact": "3/10",
+    "kind": "design"
+  },
+  "design.l2_cell_share_l12_oracle": {
+    "display": "0.167",
+    "exact": "1/6",
     "kind": "design"
   },
   "design.l3_check_size": {
@@ -217,6 +232,11 @@
   "design.policy_id": {
     "display": "ollama:gpt-oss:20b",
     "exact": "ollama:gpt-oss:20b",
+    "kind": "design"
+  },
+  "design.proposer_candidates": {
+    "display": "12",
+    "exact": "12",
     "kind": "design"
   },
   "design.run_workers": {
@@ -2384,6 +2404,11 @@
     "exact": "e368d9ed903757d9424ca5455dfcd5ce19519066bba849ef86b3b2f527f34a4b",
     "kind": "provenance"
   },
+  "hash.records_archive": {
+    "display": "741ba9d43092be4214e6550fbc0e5ab87ad717e7618e9b338220484b034b407d",
+    "exact": "741ba9d43092be4214e6550fbc0e5ab87ad717e7618e9b338220484b034b407d",
+    "kind": "provenance"
+  },
   "hash.run_summary": {
     "display": "f5616fa3d49481f79d844aa028a34ea7d06869c589235d335c0da16b719474a9",
     "exact": "f5616fa3d49481f79d844aa028a34ea7d06869c589235d335c0da16b719474a9",
@@ -2408,6 +2433,26 @@
     "display": "3148f16220395d3f7b7f6dd155662eddd177f5396904b08397e7b743d7077e46",
     "exact": "3148f16220395d3f7b7f6dd155662eddd177f5396904b08397e7b743d7077e46",
     "kind": "provenance"
+  },
+  "release.archive": {
+    "display": "evidencegate-records.tar.gz",
+    "exact": "evidencegate-records.tar.gz",
+    "kind": "provenance"
+  },
+  "release.file_count": {
+    "display": "99",
+    "exact": "99",
+    "kind": "run"
+  },
+  "release.secret_hits": {
+    "display": "0",
+    "exact": "0",
+    "kind": "run"
+  },
+  "release.secret_patterns": {
+    "display": "10",
+    "exact": "10",
+    "kind": "run"
   },
   "run.t004.budget_usd": {
     "display": "1.500",

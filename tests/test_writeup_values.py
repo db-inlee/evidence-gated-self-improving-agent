@@ -67,7 +67,7 @@ def test_ticket_006_l12_metrics_must_equal_ticket_005() -> None:
     broken["metrics"]["proposer"][CD]["C2"]["l12"]["harmful"]["successes"] += 1
     run = json.loads(RUN.read_text())
     with pytest.raises(ValueError, match="Ticket 006 l12"):
-        build_values(t005, broken, run)
+        build_values(t005, broken, run, release=json.loads(RELEASE.read_text()))
 
 
 # ---------------------------------------------------------------------------
@@ -252,11 +252,22 @@ def test_e1_summary_counts_closer_candidates_and_mean_absolute_residuals() -> No
 # ---------------------------------------------------------------------------
 
 
+RELEASE = REPO_ROOT / "writeup" / "inputs" / "release_manifest.json"
+
+
+def load_inputs() -> tuple[Any, Any, Any, Any]:
+    return (
+        json.loads(T005.read_text()),
+        json.loads(T006.read_text()),
+        json.loads(RUN.read_text()),
+        json.loads(RELEASE.read_text()),
+    )
+
+
 @pytest.fixture(scope="module")
 def values() -> dict[str, dict[str, str]]:
-    return build_values(
-        json.loads(T005.read_text()), json.loads(T006.read_text()), json.loads(RUN.read_text())
-    )
+    t005, t006, run, release = load_inputs()
+    return build_values(t005, t006, run, release=release)
 
 
 def test_every_value_has_exact_display_and_a_known_kind(values: dict[str, Any]) -> None:
@@ -305,9 +316,8 @@ def test_e1_values_use_the_ticket_005_l2_cells(values: dict[str, Any]) -> None:
 
 
 def test_build_is_deterministic(values: dict[str, Any]) -> None:
-    again = build_values(
-        json.loads(T005.read_text()), json.loads(T006.read_text()), json.loads(RUN.read_text())
-    )
+    t005, t006, run, release = load_inputs()
+    again = build_values(t005, t006, run, release=release)
     assert values_bytes(again) == values_bytes(values)
 
 
@@ -370,3 +380,19 @@ def test_lists_also_give_their_length() -> None:
     flat = flatten_result("t005", {"accepted": ["a", "b"], "none": []})
     assert flat["t005.accepted.count"]["display"] == "2"
     assert flat["t005.none.count"]["display"] == "0"
+
+
+def test_release_manifest_values(values: dict[str, Any]) -> None:
+    release = json.loads(RELEASE.read_text())
+    assert values["hash.records_archive"]["display"] == release["archive_sha256"]
+    assert values["release.archive"]["display"] == "evidencegate-records.tar.gz"
+    assert values["release.file_count"]["display"] == str(len(release["files"]))
+    assert values["release.secret_hits"]["display"] == "0"
+    assert values["release.file_count"]["kind"] == "run"
+
+
+def test_design_counts_and_oracle_shares(values: dict[str, Any]) -> None:
+    assert values["design.proposer_candidates"]["display"] == "12"
+    assert values["design.control_candidates"]["display"] == "7"
+    assert values["design.l2_cell_share_l12_oracle"]["exact"] == "1/6"
+    assert values["design.family_share_l3_oracle"]["exact"] == "1/3"

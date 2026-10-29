@@ -225,8 +225,62 @@ def _t3() -> Table:
     }
 
 
+E1_FIELDS = ("l12", "e1", "l3", "residual_e1", "residual_l12")
+E1_COLUMNS = ["Δ L1/L2", "E1", "Δ L3", "Δ L3 − E1", "Δ L3 − Δ L1/L2"]  # noqa: RUF001 (빼기 기호)
+E1_NOTE = (
+    "Exploratory. E1 approximates the overall oracle effect estimate if L2-like incidents made up "
+    "each whole family (mean of the three L2 cell estimates); definition fixed in "
+    "writeup/inputs/e1_definition.txt before computing. No intervals or tests."
+)
+
+
+def _e1_row(name: str, m: str) -> list[str]:
+    return [_v(f"e1.{name}.{m}.{field}") for field in E1_FIELDS]
+
+
+def _e1_tables(values: Values) -> dict[str, Table]:
+    cands = _candidates(values)
+    proposers = [n for n, g in cands if g == "proposer"]
+    controls = [n for n, g in cands if g == "control"]
+    short = {"bad_deployment": "bad", "dependency_failure": "dep", "traffic_spike": "traffic"}
+    return {
+        "e1": {
+            "id": "e1",
+            "title": "E1 (exploratory): proposer candidates, CD",
+            "note": E1_NOTE,
+            "columns": ["Candidate", *E1_COLUMNS],
+            "rows": [[n, *_e1_row(n, "cd")] for n in proposers],
+        },
+        "e1_family": {
+            "id": "e1_family",
+            "title": "E1 (exploratory): per-family L2 cell estimate next to the L3 cell estimate, "
+            "proposer candidates, CD",
+            "note": E1_NOTE,
+            "columns": ["Candidate", *(f"{short[f]}: L2 → L3" for f in FAMILIES)],
+            "rows": [
+                [
+                    n,
+                    *(
+                        f"{_v(f'e1.{n}.cd.family.{f}.l2')} → {_v(f'e1.{n}.cd.family.{f}.l3')}"
+                        for f in FAMILIES
+                    ),
+                ]
+                for n in proposers
+            ],
+        },
+        "e1_appendix": {
+            "id": "e1_appendix",
+            "title": "E1 (exploratory): controls on CD, and every candidate on ES",
+            "note": E1_NOTE,
+            "columns": ["Candidate", "Metric", *E1_COLUMNS],
+            "rows": [[n, "CD", *_e1_row(n, "cd")] for n in controls]
+            + [[n, "ES", *_e1_row(n, "es")] for n, _ in cands],
+        },
+    }
+
+
 def build_tables(values: Values) -> dict[str, Table]:
-    tables = {"t1": _t1(), "t2": _t2(), "t3": _t3()}
+    tables = {"t1": _t1(), "t2": _t2(), "t3": _t3(), **_e1_tables(values)}
     for table in tables.values():  # 모든 자리표시자가 풀리는지 미리 확인
         for text in (table["title"], table["note"], *(c for row in table["rows"] for c in row)):
             fill(text, values)

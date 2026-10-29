@@ -26,13 +26,14 @@ from typing import Any
 
 from evidencegate import eval_constants as c
 from evidencegate import splits
-from evidencegate.analysis import REPO_ROOT
+from evidencegate.analysis import REPO_ROOT, load_pool
 from evidencegate.run_summary import summary_bytes
 
 T005_PATH = Path("results/ticket-005/analysis.json")
 T006_PATH = Path("results/ticket-006/analysis.json")
 RUN_SUMMARY_PATH = Path("writeup/inputs/run_summary.json")
 E1_DEFINITION_PATH = Path("writeup/inputs/e1_definition.txt")
+RELEASE_MANIFEST_PATH = Path("writeup/inputs/release_manifest.json")
 DEFAULT_OUT = Path("writeup/generated/values.json")
 T005_PLAN = Path("plans/ticket-005-plan.json")
 
@@ -262,6 +263,7 @@ def _derived_values(t006: Mapping[str, Any]) -> dict[str, Value]:
 
 def _design_values(root: Path) -> dict[str, Value]:
     plan = json.loads((root / T005_PLAN).read_text(encoding="utf-8"))
+    pool = load_pool(root)
     cells = len(c.EVAL_LEVELS) * len(FAMILIES)
     design: dict[str, object] = {
         "epsilon": c.EPSILON,
@@ -291,6 +293,14 @@ def _design_values(root: Path) -> dict[str, Value]:
         "tool_spec_id": c.TOOL_SPEC_ID,
         "s0_skill_id": c.S0_SKILL_ID,
         "run_workers": c.RUN_WORKERS,
+        "proposer_candidates": sum(1 for x in pool.candidates if x.group == "proposer"),
+        "control_candidates": sum(1 for x in pool.candidates if x.group == "control"),
+        # 탐색 (b): 한 L2 칸이 L1/L2 Oracle에서 차지하는 비중과
+        # 한 family가 L3 Oracle에서 차지하는 비중
+        "l2_cell_share_l12_oracle": Fraction(
+            splits.ORACLE_PER_CELL, splits.ORACLE_PER_CELL * cells
+        ),
+        "family_share_l3_oracle": Fraction(1, len(FAMILIES)),
     }
     out = {f"design.{key}": _leaf(value, "design") for key, value in design.items()}
     out["design.budget_ns"] = {
@@ -331,6 +341,26 @@ def _provenance(
     return {key: {"exact": v, "display": v, "kind": "provenance"} for key, v in entries.items()}
 
 
+def _release_values(release: Mapping[str, Any]) -> dict[str, Value]:
+    """재현용 기록 압축본(writeup/inputs/release_manifest.json)의 이름·해시·파일 수·비밀 값 확인."""
+    out = {
+        "hash.records_archive": {
+            "exact": release["archive_sha256"],
+            "display": release["archive_sha256"],
+            "kind": "provenance",
+        },
+        "release.archive": {
+            "exact": release["archive"],
+            "display": release["archive"],
+            "kind": "provenance",
+        },
+    }
+    out["release.file_count"] = _leaf(len(release["files"]), "run")
+    out["release.secret_hits"] = _leaf(release["secret_scan"]["hits"], "run")
+    out["release.secret_patterns"] = _leaf(release["secret_scan"]["patterns"], "run")
+    return out
+
+
 # ---------------------------------------------------------------------------
 # 전체
 # ---------------------------------------------------------------------------
@@ -352,6 +382,8 @@ def build_values(
     t006: Mapping[str, Any],
     run: Mapping[str, Any],
     root: Path = REPO_ROOT,
+    *,
+    release: Mapping[str, Any],
 ) -> dict[str, Value]:
     for group, by_m in t005["metrics"].items():
         for m, by_gate in by_m.items():
@@ -368,6 +400,7 @@ def build_values(
         **_design_values(root),
         **_run_values(run),
         **_provenance(t005, t006, run),
+        **_release_values(release),
     }
     return dict(sorted(values.items()))
 
@@ -404,6 +437,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         json.loads(t006.read_text(encoding="utf-8")),
         json.loads(run_path.read_text(encoding="utf-8")),
         root,
+        release=json.loads((root / RELEASE_MANIFEST_PATH).read_text(encoding="utf-8")),
     )
     data = values_bytes(values)
     out.parent.mkdir(parents=True, exist_ok=True)

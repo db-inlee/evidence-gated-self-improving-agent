@@ -1,0 +1,211 @@
+# EvidenceGate — when should a self-improving agent keep its own skill edit?
+
+A self-improving tool-using agent can rewrite its own operating procedure: it fails, proposes an edit to its skill file (`SKILL.md`), and keeps the edit if an acceptance rule says the edit helped. EvidenceGate is a testbed for that acceptance rule. In a deterministic synthetic incident-response world where every episode is graded against a hidden root cause, we froze a pool of {{design.proposer_candidates}} self-proposed edits and {{design.control_candidates}} hand-written controls, pre-registered four acceptance gates and the metrics that judge them, and then re-scored every edit on held-out incidents. Table T1 lists the verdict for every pre-registered question. The exploratory findings concern edits that help on average while hurting one part of the task: gates that judge the mean admitted them, and a metric with a floor at zero hid one of them.
+
+This README reports results. Every numeric value in it is generated from the two result files, the run summary and the design constants (see *Fixed procedure* and *Reproduce*); none was typed by hand.
+
+## Problem
+
+An agent that edits its own skill file needs an admission rule: when is an edit trusted enough to keep? The obvious rules compare the edited skill with the old one on some set of tasks and keep the edit if it does better. These rules can fail in at least three ways: an edit can look better on the failures it was written from and not elsewhere; it can raise the share of right answers while lowering the share of right answers reached with the required evidence; and it can raise the average while hurting a part of the task distribution. EvidenceGate measures how often each of a few simple and statistical rules keeps edits that are harmful, unsupported, or harmful only in part of the task distribution.
+
+## Design
+
+### World and agent
+
+- **OpsWorld.** A deterministic incident simulator with three families (`bad_deployment`, `dependency_failure`, `traffic_spike`), each with a hidden root cause and one correct action. L2 incidents add family-specific distractors. L3 incidents combine the two L2 distractors of a family in one incident. The same `(family, seed, level)` gives the same incident and tool outputs, and hidden values do not appear in any tool output.
+- **Agent.** A local LLM (`{{design.policy_id}}`, LangGraph tool loop) that follows a skill file. The initial skill S0 is deliberately imperfect: it often picks the right action without the evidence that action requires.
+- **Fixed run condition.** One engine, one machine, one policy configuration (`config_id` {{design.config_id}}) and one tool specification for every run. Each session checks these before it starts.
+
+### Two outcomes
+
+- **Correct Disposition (CD):** the chosen action matches the hidden root cause. This is the primary metric.
+- **Evidence-Safe (ES):** CD holds *and* the evidence that action requires had been observed before acting.
+
+### Candidate edits
+
+- **Proposer.** An OpenAI model ({{run.t004.model}}) sees only failed S0 episodes from Dev-A and returns one edited skill and an evidence card. Edits are machine-checked (a single change, structure, no grading terms or numbers) and deduplicated.
+- **Pool.** {{design.proposer_candidates}} proposer candidates and {{design.control_candidates}} hand-written controls with labels fixed before measurement, frozen with file hashes.
+
+### Splits
+
+| Split | Incidents | Per cell | Used for |
+| --- | --- | --- | --- |
+| Dev-A | {{design.dev_a_size}} | {{design.dev_a_per_cell}} | the proposer's input and gate C1 |
+| Dev-B | {{design.dev_b_size}} | {{design.dev_b_per_cell}} | gates C2–C4 and the budget curve |
+| Oracle (L1/L2) | {{design.oracle_size}} | {{design.oracle_per_cell}} | after-the-fact scoring (Ticket 005) |
+| Oracle (L3) | {{design.l3_oracle_size}} | {{design.l3_oracle_per_cell}} | after-the-fact scoring of the same decisions (Ticket 006) |
+
+L1/L2 cells are family × level; L3 cells are families.
+
+### Acceptance gates
+
+Each gate compares a candidate with S0 on the same incidents (paired), separately for CD and ES.
+
+| Gate | Data | Accept if |
+| --- | --- | --- |
+| C1 Dev-A greedy | Dev-A | candidate mean > S0 mean (ties rejected) |
+| C2 keep-better | Dev-B | mean paired difference ≥ zero |
+| C3 noise threshold | Dev-B | mean difference > δ(N), a high quantile of S0-vs-S0 differences (auxiliary) |
+| C4 paired bootstrap | Dev-B | lower percentile of a cell-stratified paired bootstrap of the mean difference > zero, and mean difference > δ(N) |
+
+The budget curve recomputes C2–C4 on stratified Dev-B subsamples of N = {{design.budget_ns}} incidents ({{design.n_resample}} resamples each).
+
+### Oracle scoring and metrics
+
+- **Oracle effect estimate.** Each candidate's difference from S0 on the Oracle incidents, with S0 taken as the majority of {{design.s0_oracle_repeats}} runs per incident, a cell-stratified bootstrap interval ({{design.n_boot}} draws) and per-cell differences.
+- **Thresholds.** An effect counts as practically relevant beyond ε = {{design.epsilon}}. A per-cell threshold τ also accounts for S0 repeat noise in that cell. A candidate whose interval crosses a decision boundary is *uncertain* for that decision and is counted separately.
+- **Metrics per gate:** Harmful Acceptance Rate, Unsupported Acceptance Rate, Useful Acceptance Precision, Expected Oracle Gain, False Rejection Rate and Local Harm Acceptance Rate (accepted edits with some cell estimate below minus τ). Rates come with counts and Clopper–Pearson intervals; with {{design.proposer_candidates}} proposer candidates, comparisons between gates are descriptive and no tests are run.
+
+All decisions use exact rational arithmetic.
+
+## Fixed procedure
+
+Each stage is a commit made before the next step could reveal anything about outcomes. Results were added once and not modified since; the hashes below let anyone check that.
+
+| Stage | Commit | What it fixes |
+| --- | --- | --- |
+| Pre-registration | {{commit.preregistration}} | gates, metrics, thresholds, research questions (copy sha256 {{hash.preregistration_7_8}}) |
+| Candidate pool | {{commit.candidate_pool}} | the proposer candidates and controls, with file hashes |
+| L3 pre-registration | {{commit.l3_preregistration}} | the follow-up study (copy sha256 {{hash.preregistration_l3}}), before the Ticket 005 run |
+| Analysis code | {{commit.t005_analysis}} | the analysis code and the run plan (sha256 {{hash.t005_plan}}) |
+| Ticket 005 results | {{commit.t005_results}} | `results/ticket-005/analysis.json`, sha256 {{hash.t005_analysis}} |
+| L3 analysis code | {{commit.t006_analysis}} | the L3 analysis and run plan (sha256 {{hash.t006_plan}}), before the L3 run |
+| Ticket 006 results | {{commit.t006_results}} | `results/ticket-006/analysis.json`, sha256 {{hash.t006_analysis}} |
+| E1 definition | {{commit.e1_definition}} | the exploratory calculation E1 (sha256 {{hash.e1_definition}}), before it was computed |
+
+A test maps every pre-registered item and every recorded interpretation to the function that implements it and the test that checks it. The L3 analysis recomputes the Ticket 005 analysis from the same records and stops unless the result is byte-identical, so the gate decisions scored on L3 are exactly the Ticket 005 ones.
+
+## Pre-registered results
+
+The research questions, as registered: RQ1 asks whether judging by CD admits edits that harm ES more often than judging by ES; RQ2 whether re-scoring on the proposer's own failure set (C1) admits more harmful and locally harmful edits than held-out gates (C2, C4), and whether the gap grows under a skewed failure set; RQ3 whether C4 admits a larger share of useful and a smaller share of harmful edits than C2, and whether the difference is larger at small budgets. RQ-L3-0 checks that L3 is harder for S0 than L1/L2; RQ-L3-1 to RQ-L3-3 re-score the same gate decisions on L3.
+
+**T1. Pre-registered verdicts (proposer candidates).**
+
+{{table:t1}}
+
+On the L1/L2 oracle, no accepted proposer candidate was judged harmful under any gate, so every comparison of Harmful rates between gates was a tie, and a tie does not count as holding (a rule fixed before the analysis). On the L3 oracle, the CD Harmful rates were {{t006.metrics.proposer.cd.C1.l3.harmful}} for C1, {{t006.metrics.proposer.cd.C2.l3.harmful}} for C2 and {{t006.metrics.proposer.cd.C4.l3.harmful}} for C4.
+
+RQ-L3-0 did not confirm that L3 is harder: the S0 CD rate was {{derived.s0_cd_rate.all.l12}} on L1/L2 and {{derived.s0_cd_rate.all.l3}} on L3 (difference {{t006.rq.RQ_L3_0.all.cd.delta}}, interval {{t006.rq.RQ_L3_0.all.cd.interval}}). As registered, the L3 results are reported as they are and the L3 definition was not changed.
+
+**T2. Pre-registered metrics per gate (proposer candidates).**
+
+{{table:t2}}
+
+**T3. Local Harm Acceptance Rate (pre-registered metric, proposer candidates).**
+
+{{table:t3}}
+
+## Exploratory findings
+
+Everything in this section was looked at after the pre-registered results were known. None of it is a test.
+
+### (a) Gates that judge the mean admitted locally harmful edits
+
+*Exploratory reading of T3.* C4 accepted {{t005.metrics.proposer.cd.C4.accepted.count}} proposer candidates on CD; on the L1/L2 oracle {{t005.metrics.proposer.cd.C4.local_harm}} of them had a cell estimate below minus τ, and on the L3 oracle {{t006.local_harm.proposer.cd.C4.l3}} did. A gate that checks the mean difference does not look at cells, so an edit that gains in one family and loses in another can pass it (Figure F2).
+
+![F2 (CD)](writeup/generated/f2_cd.svg)
+
+*F2. Per-cell oracle effect estimates on CD. Left: L1/L2 cells; right: L3 cells. Outlined cells are below minus τ_cell. The ES version is `writeup/generated/f2_es.svg`.*
+
+### (b) A regression held in one family became a negative overall estimate on L3
+
+*Exploratory.* Four proposer candidates (cand-002, cand-003, cand-012, cand-015) had an L3 overall point estimate below minus ε on CD, and for each of them the L1/L2 regression sat in the bad_deployment cells. One of them, cand-015, is confirmed harmful on L3 (overall estimate {{t006.candidates.cand-015.oracle_l3.cd.delta}}, harmful: {{t006.candidates.cand-015.oracle_l3.cd.harmful}}); the other three are uncertain because their intervals cross minus ε. On the L1/L2 oracle a single L2 cell carries a share of {{design.l2_cell_share_l12_oracle}} of the incidents, while on the L3 oracle a family carries {{design.family_share_l3_oracle}}, twice as much. We do not call this a distribution shift, because RQ-L3-0 did not confirm that L3 is harder (Figure F3).
+
+![F3](writeup/generated/f3.svg)
+
+*F3. Overall oracle effect estimate on L1/L2 against L3, one point per candidate. Red: confirmed harmful on L3 or L3 point estimate below minus ε. Controls are highlighted by the same rule (open circles).*
+
+E1 approximates the overall CD estimate if L2-like incidents made up each whole family: the mean of the three L2 cell estimates (definition fixed before computing it). It partly explains the change. E1 is closer to the L3 estimate than the L1/L2 estimate is for {{e1.summary.proposer.cd.closer_count}} of {{e1.summary.proposer.cd.n}} proposer candidates, and the mean absolute residual is {{e1.summary.proposer.cd.mean_abs_residual_e1}} for E1 against {{e1.summary.proposer.cd.mean_abs_residual_l12}} for the L1/L2 estimate. Residuals remain, and the effect inside an L3 cell is not the same as in the matching L2 cell: for cand-003 the bad_deployment estimate moved from {{e1.cand-003.cd.family.bad_deployment.l2}} (L2) to {{e1.cand-003.cd.family.bad_deployment.l3}} (L3), and for cand-015 the traffic_spike estimate from {{e1.cand-015.cd.family.traffic_spike.l2}} to {{e1.cand-015.cd.family.traffic_spike.l3}}. E1 is not the effect of cell weights alone, because the L2 cells also differ in difficulty from the L1 cells.
+
+{{table:e1}}
+
+{{table:e1_family}}
+
+### (c) A metric with a floor at zero cannot show a regression
+
+*Exploratory.* This is a property of the metric, illustrated by one case. Where S0's ES rate in a cell is zero, a candidate's ES difference there is at least zero, so a regression in that cell cannot appear on ES. S0's ES rate on bad_deployment was {{derived.s0_es_rate.bad_deployment.l12}} on L1/L2 and {{derived.s0_es_rate.bad_deployment.l3}} on L3. cand-015 is confirmed harmful on CD on L3, while its ES estimate there is {{t006.candidates.cand-015.oracle_l3.es.delta}} (subset: {{t006.candidates.cand-015.oracle_l3.es.subset}}), and the C4 gate on ES accepted it ({{t005.candidates.cand-015.gates.es.C4.accepted}}).
+
+## Limitations
+
+- **Few candidates.** {{design.proposer_candidates}} proposer candidates; every rate moves in large steps and comparisons are descriptive.
+- **ES floor.** S0's ES rate on bad_deployment is {{derived.s0_es_rate.bad_deployment.l12}} on L1/L2 and {{derived.s0_es_rate.bad_deployment.l3}} on L3, which makes ES blind to disposition regressions in that family (finding c).
+- **L3 manipulation not confirmed.** RQ-L3-0: {{t006.rq.RQ_L3_0.all.verdict}}. S0's CD rate barely moved from L1/L2 to L3, so the L3 re-scoring cannot be read as a test under a harder distribution.
+- **Shared seeds.** On the Oracle, a candidate shares its LLM seed with S0's repeat zero, which is one of the {{design.s0_oracle_repeats}} majority votes.
+- **Noise threshold.** δ(N) resamples without cell stratification, while C4 resamples within cells.
+- **Sensitivity analysis.** The skewed Dev-A resampling for RQ2 does not reproduce the actual skew of the proposer's input.
+- **Idle time in the L3 run.** {{run.t006.idle.count}} spans of at least a minute with no episode running added up to {{run.t006.idle.total_s}} s (longest {{run.t006.idle.longest_s}} s); cause not identified; no path to the results was found. Episodes in and around these spans finished normally, and the model was not reloaded.
+- **Candidate generation.** The proposer made {{run.t004.calls}} calls; {{run.t004.excluded.duplicate}} candidates were excluded as duplicates by change-set similarity, which can miss duplicates that differ in wording.
+- **Review.** The independent review of this write-up is done by a fresh session of the same model, which is not a fully independent reader.
+
+## Related work
+
+EvidenceGate sits close to recent work on agents that revise their own harness and focuses on one part of that loop, the admission rule.
+
+- **Harness²** (Xu et al., 2026, [arXiv:2610.14224](https://arxiv.org/abs/2610.14224)) evolves an agent's execution harness for open-world tasks without a ground-truth verifier, using a contrastive Propose–Probe–Compose step.
+- **Self-Evolving Agent Harness** (Wei et al., 2026, [arXiv:2610.18813](https://arxiv.org/abs/2610.18813)) formalizes harness self-evolution, separates update targets from proposal and admission mechanisms, and derives, under explicit assumptions, a high-probability admission rule that uses fresh, independent validation data.
+- **VERSE** (Wang et al., 2026, [arXiv:2610.02616](https://arxiv.org/abs/2610.02616)) lets a harness optimizer verify draft edits before submission and reports, in a controlled study, that optimizer self-evolution did not improve performance without execution-based verification.
+
+EvidenceGate does not propose a new optimizer. It takes a fixed pool of self-proposed edits and measures how often simple and statistical admission rules keep edits that are harmful, unsupported, or harmful only on part of the distribution.
+
+## Future work
+
+- **Cell-level gates.** A gate that also requires every cell estimate on Dev-B to stay above a noise bound derived from S0-vs-S0 calibration runs (not from the oracle's τ), tested on a new candidate pool.
+- **A larger, new candidate pool,** so that locally harmful candidates are frequent enough to compare gates.
+- **A stronger L3,** one that is confirmed harder for S0 before the gates are re-scored.
+- **An external benchmark pilot** to check whether the same failure modes appear outside OpsWorld.
+
+## Reproduce
+
+Requires `Python 3.12` and [uv](https://docs.astral.sh/uv/). The test suite does not call an LLM or the network.
+
+```bash
+uv sync
+uv run pytest
+uv run ruff check . && uv run ruff format --check .
+uv run mypy
+```
+
+The analysis inputs (episode records of every split, the L3 check and the session logs; {{release.file_count}} files, secret scan with {{release.secret_hits}} hits; the proposer's call ledger is not included) are published as `{{release.archive}}`, to be attached to a GitHub release of this repository. Check and unpack it at the repository root:
+
+```bash
+shasum -a 256 {{release.archive}}   # expect {{hash.records_archive}}
+tar -xzf {{release.archive}}        # creates runs/
+```
+
+The result files can then be checked and the write-up values regenerated:
+
+```bash
+shasum -a 256 results/ticket-005/analysis.json results/ticket-006/analysis.json
+uv run python -m evidencegate.writeup              # writeup/generated/values.json
+uv run python -m evidencegate.writeup_artifacts    # tables and figures
+uv run python -m evidencegate.writeup_render render # this README from writeup/README.template
+uv run python -m evidencegate.writeup_render check  # numbers, keys, placement, banned phrases
+```
+
+Re-running the analyses is possible (`scripts/run_analysis.sh`, `scripts/run_l3_analysis.sh`), but each refuses to overwrite its result. Re-running the policy needs a local [Ollama](https://ollama.com) server with the same model digest; the commands are in `scripts/gate_benchmark.sh` and `scripts/l3_benchmark.sh`. Displayed values are rounded half up from exact fractions, so the last digit can differ from the float formatting in `results/*/analysis.md`.
+
+## Layout
+
+```
+src/opsworld/       the simulator: state, generator (L1, L2, L3), tools, predicates, actions, grader
+src/evidencegate/   agent policy, runners, proposer, pool, gates, oracle, metrics, analyses, write-up tools
+results/            the two analysis results (JSON, sha256, Markdown)
+writeup/            README template, inputs (run summary, E1 definition, release manifest), generated values, tables and figures
+plans/              the frozen run plans and their sha256
+preregistration/    hashes and copies of the pre-registered plans
+skills/             initial skill S0, controls and the frozen candidates
+scripts/            run, analysis and probe scripts
+tests/
+```
+
+All data is synthetic. No real infrastructure or incident records are used.
+
+## Appendix: E1 for controls and on ES
+
+*Exploratory.*
+
+{{table:e1_appendix}}
+
+## License
+
+MIT

@@ -17,3 +17,6 @@ reports/
 
 # 실행 결과
 runs/
+
+# 재현용 기록 압축본(Release에 올림, git 밖)
+dist/

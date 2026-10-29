@@ -107,6 +107,7 @@ ALLOWED = (
     "Ticket 005 and Ticket 006, candidate cand-015, commit 48afcad.",
     "arXiv 2610.14224, DOI 10.1126/science.aaa9375, published 2015.",
     "See Section 3 and §8-14.",
+    "The file's sha256 is listed below.",
 )
 
 
@@ -294,3 +295,36 @@ def test_inline_code_and_fenced_blocks_are_not_checked_for_numbers(values: dict[
     md = "## Reproduce\n\nRun `bash scripts/l3_benchmark.sh run 6` to stop after a few blocks.\n"
     assert check_source(md, "md", values) == []
     assert rules(check_source(md.replace("`", ""), "md", values)) == {"number"}
+
+
+def test_check_prints_every_exempted_quote_as_a_note(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """큰따옴표 예외가 금지 표현의 우회 통로가 되지 않도록, 예외로 뺀 인용구를 모두 note로 낸다."""
+    template = CLEAN_MD + '\nThey write “the first agent” and "always on".\n'
+    root = write_repo(tmp_path, template)
+    (root / "paper").mkdir()
+    (root / "paper" / "rw.tex").write_text("\\section{Related Work}\nThey write ``robust'' here.\n")
+    assert main(["render", "--root", str(root)]) == 0
+    capsys.readouterr()
+    assert main(["check", "--root", str(root)]) == 0  # 실패는 아니다
+    out = capsys.readouterr().out
+    line = template.count("\n")
+    assert f"note: writeup/README.template:{line}: quoted: “the first agent”" in out
+    assert f'note: writeup/README.template:{line}: quoted: "always on"' in out
+    assert "note: paper/rw.tex:2: quoted: ``robust''" in out
+
+
+def test_a_table_of_exploratory_values_outside_the_exploratory_section_fails(
+    values: dict[str, Any],
+) -> None:
+    md = "## Pre-registered results\n\n{{table:e1}}\n"
+    assert rules(check_source(md, "md", values)) == {"placement"}
+    assert check_source("## Exploratory findings\n\n{{table:e1}}\n", "md", values) == []
+    assert check_source("## Appendix\n\n{{table:e1_appendix}}\n", "md", values) == []
+
+
+def test_the_repository_readme_passes_check() -> None:
+    """올린 README.md가 템플릿 렌더 결과와 같고, 템플릿과 paper/가 검사를 통과한다."""
+    assert (REPO_ROOT / "writeup" / "README.template").exists()
+    assert main(["check", "--root", str(REPO_ROOT)]) == 0
