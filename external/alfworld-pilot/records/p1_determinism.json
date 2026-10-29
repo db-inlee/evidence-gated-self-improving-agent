@@ -1,0 +1,145 @@
+{
+  "games": [
+    {
+      "game": "train/pick_and_place_simple-Book-None-CoffeeTable-229/trial_T20190908_125722_074883",
+      "replay_steps": 8,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_and_place_simple-Box-None-ArmChair-212/trial_T20190908_032830_891800",
+      "replay_steps": 6,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_and_place_simple-ButterKnife-None-Drawer-8/trial_T20190918_144242_057762",
+      "replay_steps": 29,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_and_place_simple-ButterKnife-None-SideTable-28/trial_T20190908_133100_085069",
+      "replay_steps": 12,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/look_at_obj_in_light-AlarmClock-None-DeskLamp-301/trial_T20190907_174127_043461",
+      "replay_steps": 14,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895",
+      "replay_steps": 51,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044736_929512",
+      "replay_steps": 5,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044801_050688",
+      "replay_steps": 7,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_clean_then_place_in_recep-Bowl-None-Fridge-21/trial_T20190909_014336_206275",
+      "replay_steps": 14,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_clean_then_place_in_recep-Cloth-None-Cart-430/trial_T20190906_194305_501996",
+      "replay_steps": 25,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_clean_then_place_in_recep-Cloth-None-Drawer-411/trial_T20190907_202148_426436",
+      "replay_steps": 23,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_heat_then_place_in_recep-Apple-None-Fridge-16/trial_T20190907_203354_811721",
+      "replay_steps": 16,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172302_166350",
+      "replay_steps": 11,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_heat_then_place_in_recep-Apple-None-GarbageCan-2/trial_T20190908_204114_322747",
+      "replay_steps": 15,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_cool_then_place_in_recep-Apple-None-GarbageCan-19/trial_T20190908_121626_855247",
+      "replay_steps": 15,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_cool_then_place_in_recep-Apple-None-Microwave-12/trial_T20190911_003046_688848",
+      "replay_steps": 12,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_cool_then_place_in_recep-Bowl-None-Cabinet-19/trial_T20190908_022130_590876",
+      "replay_steps": 26,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_two_obj_and_place-Book-None-Bed-304/trial_T20190907_054125_590269",
+      "replay_steps": 24,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_two_obj_and_place-Book-None-Bed-304/trial_T20190908_104725_283867",
+      "replay_steps": 85,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    },
+    {
+      "game": "train/pick_two_obj_and_place-Book-None-Desk-310/trial_T20190906_202348_138496",
+      "replay_steps": 41,
+      "same_first": true,
+      "same_first_as_sets": true,
+      "same_replay": true
+    }
+  ],
+  "resets": 3
+}

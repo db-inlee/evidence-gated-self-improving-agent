@@ -9,6 +9,10 @@ dependencies = [
     "opsworld",
 ]
 
+[tool.uv]
+# Ticket 008 P0 결정: uv가 관리하는 CPython만 쓴다(.python-version으로 정확한 버전 고정).
+python-preference = "only-managed"
+
 [tool.uv.sources]
 opsworld = { path = "../..", editable = true }
 
