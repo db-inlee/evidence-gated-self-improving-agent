@@ -542,8 +542,8 @@
       [
         "RQ-L3-3",
         "proposer labels unchanged",
-        "{{t006.rq.RQ_L3_3.proposer.cd.same}} / {{t006.rq.RQ_L3_3.proposer.cd.n}}",
-        "{{t006.rq.RQ_L3_3.proposer.es.same}} / {{t006.rq.RQ_L3_3.proposer.es.n}}"
+        "{{t006.rq.RQ_L3_3.proposer.cd.same}}/{{t006.rq.RQ_L3_3.proposer.cd.n}}",
+        "{{t006.rq.RQ_L3_3.proposer.es.same}}/{{t006.rq.RQ_L3_3.proposer.es.n}}"
       ]
     ],
     "title": "Pre-registered verdicts (Ticket 005 and Ticket 006, proposer candidates)"

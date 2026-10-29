@@ -110,7 +110,7 @@ def test_t1_holds_the_pre_registered_verdicts(
         "not supported → partially supported (changed)",
         "not supported → not supported (preserved)",
     ]
-    assert rows[("RQ-L3-3", "proposer labels unchanged")] == ["5 / 12", "5 / 12"]
+    assert rows[("RQ-L3-3", "proposer labels unchanged")] == ["5/12", "5/12"]
     assert len(t1["rows"]) == 15
 
 

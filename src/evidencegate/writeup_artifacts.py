@@ -131,7 +131,7 @@ def _t1() -> Table:
             "proposer labels unchanged",
             *(
                 _v(f"t006.rq.RQ_L3_3.proposer.{m}.same")
-                + " / "
+                + "/"
                 + _v(f"t006.rq.RQ_L3_3.proposer.{m}.n")
                 for m, _ in METRICS
             ),
