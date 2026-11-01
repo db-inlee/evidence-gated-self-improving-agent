@@ -23,6 +23,9 @@ MAX_LLM_CALLS = 2 * MAX_STEPS  # 텍스트·형식 오류가 번갈아 나와도
 
 # 실행기
 BLOCK_SIZE = 6  # 원칙 7 점검 간격(에피소드). 시작할 때도 한 번
+CONCURRENCY = 2  # 실행 설정(결정 5). 정책 설정이 아니다
+SERVER_NUM_PARALLEL = 2  # 서버를 OLLAMA_NUM_PARALLEL=2로 띄운다는 선언
+OLLAMA_URL = "http://127.0.0.1:11434"
 REQUIRED_HASH_SEED = "0"  # 결정 0: 모든 환경 실행은 PYTHONHASHSEED=0
 
 # 보조 지표

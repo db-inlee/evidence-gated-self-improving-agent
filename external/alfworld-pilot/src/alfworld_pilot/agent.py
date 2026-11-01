@@ -382,7 +382,7 @@ class OllamaError(RuntimeError):
 class OllamaChat:
     """Ollama `/api/chat` 클라이언트(표준 라이브러리). P2에서는 호출하지 않는다."""
 
-    def __init__(self, base_url: str = "http://127.0.0.1:11434") -> None:
+    def __init__(self, base_url: str = C.OLLAMA_URL) -> None:
         self.base_url = base_url.rstrip("/")
 
     def _request(self, path: str, body: dict[str, Any] | None = None) -> dict[str, Any]:

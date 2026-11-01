@@ -11,6 +11,13 @@
   에피소드는 건너뛴다. 기록의 설정(config)이 지금 설정과 다르면 이어서 돌지 않는다.
 - 기록은 원시 관측만 담는다(행동, 관측, 가능 여부, won, 종료 이유, 사용량). E-a·E-c는 분석에서
   계산한다. `to_v1_like`는 009에서 v1 분석 함수에 넣을 변환기 자리다.
+- 동시 실행(2026-11-01 결정 5): `RunSettings.concurrency`가 2 이상이면 spawn 프로세스 풀에서
+  블록 안의 에피소드를 나눠 돈다. 결과는 에피소드의 seed와 게임에만 기대므로 동시 수와 무관하다.
+  기록은 부모 프로세스 하나만 쓰고, 에피소드마다 한 줄을 한 번에 쓴 뒤 fsync한다(부분 기록 없음).
+  한 작업자에서 예외가 나면 아직 시작하지 않은 에피소드를 취소하고, 이미 돌고 있던 에피소드가 끝까지
+  마치면 그것만 기록한 뒤 멈춘다. 블록 단위로 돌기 때문에 다음 블록은 시작하지 않는다.
+- 동시 수는 정책 설정(config)이 아니라 실행 설정(`run`)으로 기록한다. 이어서 돌 때 동시 수는
+  바뀌어도 된다. 시간 필드(`TIME_FIELDS`)를 빼면 기록 내용은 동시 수와 같다.
 - LLM 실행은 사용자 확인 뒤에만 한다(Ticket 008 §4).
 """
 
@@ -19,8 +26,11 @@ import hashlib
 import json
 import os
 import sys
+import time
 from collections.abc import Callable, Sequence
-from dataclasses import dataclass
+from concurrent.futures import FIRST_EXCEPTION, Future, ProcessPoolExecutor, wait
+from dataclasses import asdict, dataclass
+from multiprocessing import get_context
 from pathlib import Path
 from typing import Any
 
@@ -39,6 +49,7 @@ from alfworld_pilot.power import PowerCheckError, check_power
 BLOCK_SIZE = C.BLOCK_SIZE
 POOL = Path("records/p1_pilot_pool.json")
 S0_SKILL = Path("skills/S0/SKILL.md")
+TIME_FIELDS = ("wall_s", "started_at", "finished_at", "run")  # 동시 수와 벽시계에 따라 바뀌는 필드
 
 
 class RunStopped(RuntimeError):
@@ -65,8 +76,51 @@ def plan_episodes(games: Sequence[dict[str, Any]], repeats: int) -> list[Episode
     ]
 
 
+@dataclass(frozen=True)
+class RunSettings:
+    """실행 설정(정책 설정 아님). server_num_parallel은 서버 OLLAMA_NUM_PARALLEL 선언값이다."""
+
+    concurrency: int = 1
+    server_num_parallel: int = 1
+
+    def __post_init__(self) -> None:
+        if self.concurrency < 1 or self.server_num_parallel < 1:
+            raise ValueError("concurrency and server_num_parallel must be >= 1")
+        if self.concurrency > self.server_num_parallel:
+            raise ValueError(
+                f"concurrency {self.concurrency} exceeds server_num_parallel "
+                f"{self.server_num_parallel}"
+            )
+
+
+Timed = tuple[EpisodeTrace, float, float]
+
+
+def _timed(worker: Callable[[Episode], EpisodeTrace], episode: Episode) -> Timed:
+    started = time.time()
+    trace = worker(episode)
+    return trace, started, time.time()
+
+
 def _normalized(config: dict[str, Any]) -> Any:
     return json.loads(json.dumps(config, sort_keys=True))
+
+
+def _read_done(out: Path, config: Any) -> set[str]:
+    done: set[str] = set()
+    if not out.exists():
+        return done
+    for n, line in enumerate(out.read_text().splitlines(), start=1):
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError as error:
+            raise RunStopped(f"{out}: line {n} is not a complete record") from error
+        if record["config"] != config:
+            raise RunStopped(f"{out}: recorded config differs from the current config")
+        if record["key"] in done:
+            raise RunStopped(f"{out}: line {n} repeats {record['key']}")
+        done.add(record["key"])
+    return done
 
 
 def run_plan(
@@ -76,15 +130,12 @@ def run_plan(
     run_episode: Callable[[Episode], EpisodeTrace],
     check_power: Callable[[], None],
     run_config: dict[str, Any],
+    run_settings: RunSettings | None = None,
 ) -> None:
+    """동시 수가 2 이상이면 run_episode는 pickle 가능해야 한다(spawn 프로세스에서 돈다)."""
+    settings = run_settings or RunSettings()
     config = _normalized(run_config)
-    done: set[str] = set()
-    if out.exists():
-        for line in out.read_text().splitlines():
-            record = json.loads(line)
-            if record["config"] != config:
-                raise RunStopped(f"{out}: recorded config differs from the current config")
-            done.add(record["key"])
+    done = _read_done(out, config)
     todo = [e for e in plan if e.key not in done]
 
     def check(where: str) -> None:
@@ -93,13 +144,8 @@ def run_plan(
         except PowerCheckError as error:
             raise RunStopped(f"power check failed {where}: {error}") from error
 
-    check("at start")
-    out.parent.mkdir(parents=True, exist_ok=True)
-    for i, episode in enumerate(todo):
-        try:
-            trace = run_episode(episode)
-        except Exception as error:  # 서버·환경 오류: 그 에피소드는 기록하지 않는다
-            raise RunStopped(f"{episode.key}: {error}") from error
+    def write(episode: Episode, result: Timed) -> None:
+        trace, started, finished = result
         record = {
             "key": episode.key,
             "rel": episode.rel,
@@ -107,14 +153,53 @@ def run_plan(
             "repeat": episode.repeat,
             "llm_seed": episode.llm_seed,
             "config": config,
+            "run": asdict(settings),
+            "started_at": started,
+            "finished_at": finished,
             **trace.as_dict(),
         }
-        with out.open("a") as f:
-            f.write(json.dumps(record, sort_keys=True) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
-        if (i + 1) % BLOCK_SIZE == 0 or i + 1 == len(todo):
-            check(f"after block ending at {episode.key}")
+        line = (json.dumps(record, sort_keys=True) + "\n").encode()
+        fd = os.open(out, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)
+        try:
+            os.write(fd, line)  # 한 줄을 한 번에
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+
+    check("at start")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    blocks = [todo[i : i + BLOCK_SIZE] for i in range(0, len(todo), BLOCK_SIZE)]
+    if settings.concurrency == 1:
+        for block in blocks:
+            for episode in block:
+                try:
+                    result = _timed(run_episode, episode)
+                except Exception as error:  # 서버·환경 오류: 그 에피소드는 기록하지 않는다
+                    raise RunStopped(f"{episode.key}: {error}") from error
+                write(episode, result)
+            check(f"after block ending at {block[-1].key}")
+        return
+
+    with ProcessPoolExecutor(settings.concurrency, mp_context=get_context("spawn")) as pool:
+        for block in blocks:
+            futures: dict[Future[Timed], Episode] = {
+                pool.submit(_timed, run_episode, e): e for e in block
+            }
+            finished, pending = wait(futures, return_when=FIRST_EXCEPTION)
+            failed = [f for f in finished if f.exception() is not None]
+            if failed:
+                for f in pending:
+                    f.cancel()  # 아직 시작하지 않은 에피소드
+                rest, _ = wait(pending)  # 이미 돌던 에피소드는 끝까지 기다린다
+                finished |= rest
+            # 기록은 계획 순서로(부모 하나만 쓴다)
+            for f in sorted(finished, key=lambda f: block.index(futures[f])):
+                if not f.cancelled() and f.exception() is None:
+                    write(futures[f], f.result())
+            if failed:
+                first = min(failed, key=lambda f: block.index(futures[f]))
+                raise RunStopped(f"{futures[first].key}: {first.exception()}")
+            check(f"after block ending at {block[-1].key}")
 
 
 def to_v1_like(record: dict[str, Any]) -> dict[str, Any]:
@@ -132,46 +217,70 @@ def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+@dataclass(frozen=True)
+class AlfworldWorker:
+    """실제 에피소드 작업자. spawn 프로세스로 보내므로 pickle 가능한 값만 가진다."""
+
+    skill_text: str
+    settings: PolicySettings
+    json_root: str
+    base_url: str = C.OLLAMA_URL
+
+    def __call__(self, episode: Episode) -> EpisodeTrace:
+        env = AlfworldEnv(
+            Path(self.json_root) / episode.rel / "game.tw-pddl", self.settings.max_steps
+        )
+        try:
+            return run_episode(
+                env,
+                self.skill_text,
+                OllamaChat(self.base_url),
+                seed=episode.llm_seed,
+                settings=self.settings,
+            )
+        finally:
+            env.close()
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="alfworld-pilot-runner")
     parser.add_argument("--per-type", type=int, required=True)
     parser.add_argument("--repeats", type=int, default=1)
     parser.add_argument("--skill", type=Path, default=S0_SKILL)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--concurrency", type=int, default=C.CONCURRENCY)
+    parser.add_argument(
+        "--server-num-parallel",
+        type=int,
+        default=C.SERVER_NUM_PARALLEL,
+        help="OLLAMA_NUM_PARALLEL the server was started with (declared; not readable via API)",
+    )
     args = parser.parse_args(argv)
     if os.environ.get("PYTHONHASHSEED") != C.REQUIRED_HASH_SEED:
         print("error: run with PYTHONHASHSEED=0 (decision 0)", file=sys.stderr)
         return 2
+    run_settings = RunSettings(args.concurrency, args.server_num_parallel)
     pool = json.loads(POOL.read_text())["games"]
     by_type: dict[str, list[dict[str, Any]]] = {}
     for g in sorted(pool, key=lambda g: str(g["rel"])):
         by_type.setdefault(g["task_type"], []).append(g)
     games = [g for gs in by_type.values() for g in gs[: args.per_type]]
     settings = PolicySettings()
-    chat = OllamaChat()
-    skill_text = args.skill.read_text()
     run_config = {
         "policy": settings.config(),
-        "server": chat.server_record(settings.model),
+        "server": OllamaChat(C.OLLAMA_URL).server_record(settings.model),
         "skill_sha256": _sha(args.skill),
         "hash_seed": C.REQUIRED_HASH_SEED,
     }
-    json_root = data_root() / "json_2.1.1"
-
-    def one(episode: Episode) -> EpisodeTrace:
-        env = AlfworldEnv(json_root / episode.rel / "game.tw-pddl", settings.max_steps)
-        try:
-            return run_episode(env, skill_text, chat, seed=episode.llm_seed, settings=settings)
-        finally:
-            env.close()
-
+    worker = AlfworldWorker(args.skill.read_text(), settings, str(data_root() / "json_2.1.1"))
     try:
         run_plan(
             plan_episodes(games, args.repeats),
             args.out,
-            run_episode=one,
+            run_episode=worker,
             check_power=check_power,
             run_config=run_config,
+            run_settings=run_settings,
         )
     except RunStopped as error:
         print(f"stopped: {error}", file=sys.stderr)
