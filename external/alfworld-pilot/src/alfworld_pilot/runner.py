@@ -102,6 +102,14 @@ def _timed(worker: Callable[[Episode], EpisodeTrace], episode: Episode) -> Timed
     return trace, started, time.time()
 
 
+def first_per_type(pool: Sequence[dict[str, Any]], n: int) -> list[dict[str, Any]]:
+    """풀에서 과제 유형마다 경로순 앞 n개(P3 선택 규칙, 2026-11-01 결정 4)."""
+    by_type: dict[str, list[dict[str, Any]]] = {}
+    for g in sorted(pool, key=lambda g: str(g["rel"])):
+        by_type.setdefault(g["task_type"], []).append(g)
+    return [g for gs in by_type.values() for g in gs[:n]]
+
+
 def _normalized(config: dict[str, Any]) -> Any:
     return json.loads(json.dumps(config, sort_keys=True))
 
@@ -260,11 +268,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("error: run with PYTHONHASHSEED=0 (decision 0)", file=sys.stderr)
         return 2
     run_settings = RunSettings(args.concurrency, args.server_num_parallel)
-    pool = json.loads(POOL.read_text())["games"]
-    by_type: dict[str, list[dict[str, Any]]] = {}
-    for g in sorted(pool, key=lambda g: str(g["rel"])):
-        by_type.setdefault(g["task_type"], []).append(g)
-    games = [g for gs in by_type.values() for g in gs[: args.per_type]]
+    games = first_per_type(json.loads(POOL.read_text())["games"], args.per_type)
     settings = PolicySettings()
     run_config = {
         "policy": settings.config(),

@@ -211,3 +211,57 @@ def test_a_repeated_episode_line_stops_resume(tmp_path: Path) -> None:
     out.write_text(line + line)
     with pytest.raises(RunStopped, match="repeats"):
         go(out, plan, 2, FakeWorker())
+
+
+# --- 실제 게임 + spawn 작업자(LLM 없음): 전문가 행동을 되풀이하는 가짜 채팅 -----------------
+
+DATA = Path.home() / ".cache" / "alfworld" / "json_2.1.1"
+RECORDS = Path(__file__).parents[1] / "records"
+
+
+@dataclass
+class ReplayChat:
+    actions: list[str]
+
+    def chat(self, body: dict[str, Any]) -> dict[str, Any]:
+        command = self.actions.pop(0)
+        call = {"function": {"name": "act", "arguments": {"command": command}}}
+        return {"message": {"role": "assistant", "content": "", "tool_calls": [call]}}
+
+
+@dataclass(frozen=True)
+class ExpertReplayWorker:
+    json_root: str
+    actions: tuple[tuple[str, tuple[str, ...]], ...]
+
+    def __call__(self, episode: Episode) -> EpisodeTrace:
+        from alfworld_pilot.agent import AlfworldEnv, run_episode
+
+        env = AlfworldEnv(Path(self.json_root) / episode.rel / "game.tw-pddl", 50)
+        try:
+            chat = ReplayChat(list(dict(self.actions)[episode.rel]))
+            return run_episode(env, "skill", chat, seed=episode.llm_seed, settings=PolicySettings())
+        finally:
+            env.close()
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="needs ALFWorld data")
+def test_real_games_run_in_spawned_workers(tmp_path: Path) -> None:
+    expert = json.loads((RECORDS / "p1_expert.json").read_text())["games"]
+    pool = json.loads((RECORDS / "p1_pilot_pool.json").read_text())["games"]
+    chosen = [g for g in pool if expert[g["rel"]]["won"] and expert[g["rel"]]["steps"] <= 20][:2]
+    worker = ExpertReplayWorker(
+        str(DATA), tuple((g["rel"], tuple(expert[g["rel"]]["actions"])) for g in chosen)
+    )
+    out1, out2 = tmp_path / "c1.jsonl", tmp_path / "c2.jsonl"
+    for out, n in ((out1, 1), (out2, 2)):
+        run_plan(
+            plan_episodes(chosen, repeats=1),
+            out,
+            run_episode=worker,
+            check_power=PowerCounter(),
+            run_config=CONFIG,
+            run_settings=RunSettings(concurrency=n, server_num_parallel=2),
+        )
+    assert all(r["won"] for r in read(out2)) and len(read(out2)) == 2
+    assert content(read(out1)) == content(read(out2))

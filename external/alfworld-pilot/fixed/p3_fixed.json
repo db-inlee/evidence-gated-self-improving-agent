@@ -1,0 +1,275 @@
+{
+  "ticket": "Ticket 008",
+  "fixed_on": "2026-11-01",
+  "criteria": {
+    "G1": {
+      "rule": "잠금 파일로 새 환경을 만들고 텍스트 게임 하나를 끝까지 돈다. conda가 필요하면 조건부"
+    },
+    "G2": {
+      "rule": "풀에서 유형마다 3~4개, 모두 20개, 리셋 3회: 첫 관측과 가능한 명령 목록이 순서까지 같고, 같은 행동 열이면 같은 관측 열"
+    },
+    "G3": {
+      "formula": [
+        "d_c = 칸 c의 S0 반복 쌍 불일치율(3쌍 평균)",
+        "d_hat_c = max(d_c, d_floor)",
+        "n_O,c = ceil(z^2 * d_hat_c / (h/2)^2)",
+        "n_B,c = ceil(n_O,c * n_B_ratio)",
+        "n_min = max_c (n_A + n_B,c + n_O,c)",
+        "통과: 모든 유형에서 (train - 파일럿 게임 수) >= n_min"
+      ],
+      "constants": {
+        "z": 1.96,
+        "h": 0.2,
+        "d_floor": 0.1,
+        "n_B_ratio": "35/50",
+        "n_A": 10
+      }
+    },
+    "G4": {
+      "rule": "S0 성공률(반복 평균의 점추정)이 range 안인 유형이 min_cells개 이상. 칸별 Clopper-Pearson 구간을 함께 보고",
+      "constants": {
+        "range": [
+          0.15,
+          0.85
+        ],
+        "min_cells": 4,
+        "cells": 6
+      }
+    },
+    "G5": {
+      "formula": [
+        "T_009 = E_009 * s_bar * margin",
+        "s_bar = P3·P4의 평균 처리량(초/에피소드, 실제 동시 수, 실제 벽시계)",
+        "E_009 = 후보 수 * (Dev-A + Dev-B + Oracle 칸 합) + S0 반복",
+        "통과: T_009 <= B_009"
+      ],
+      "constants": {
+        "margin": 1.1,
+        "candidates": 40,
+        "B_009_days": 7
+      }
+    },
+    "G6": {
+      "formula": [
+        "Delta_t = 표적 칸 게임 집합 G에서 (탐침 1회 성공 - S0 반복 3회 다수결)의 게임 평균",
+        "잡음: G를 복원 추출(|G|개)하고 매번 S0 반복 하나 r을 골라 (S0_r - 다수결)의 게임 평균",
+        "q_lo, q_hi = 잡음 분포의 percentiles",
+        "통과: 표적 칸 Delta_t < q_lo 그리고 비표적 칸마다 Delta가 [q_lo, q_hi] 안",
+        "중립·전체 도움 탐침은 기술만 하고 판정에 넣지 않는다"
+      ],
+      "constants": {
+        "resamples": 2000,
+        "seed": 0,
+        "percentiles": [
+          2.5,
+          97.5
+        ],
+        "resample_index": "evidencegate.exact 층화 재표본 색인"
+      }
+    },
+    "overall": [
+      "G1~G6 모두 통과: Go",
+      "G3나 G5만 미달이고 축소 설계로 B_009 안: 조건부 Go",
+      "G1이 조건부(conda)이고 나머지 통과: 조건부 Go",
+      "그 밖: No-Go"
+    ],
+    "budget": {
+      "B_009_days": 7,
+      "pilot_hours": 12
+    }
+  },
+  "evidence": {
+    "E-a": {
+      "step": "성공한 `take X from R`마다, 그 걸음 이전 관측(첫 관측 포함) 중에 R 안·위에 X가 보이는 문장이 있었는가",
+      "episode": "won 그리고 성공한 take가 하나 이상 그리고 모두 걸음 판정 충족",
+      "patterns": {
+        "on": "On the (?P<r>[a-z]+ \\d+), you see (?P<items>[^.]*)\\.",
+        "in_it": "(?:You open the |The )(?P<r>[a-z]+ \\d+)(?: is open)?\\.\\s+(?:The (?P=r) is open\\.\\s+)?In it, you see (?P<items>[^.]*)\\.",
+        "take_command": "^take (?P<o>[a-z]+ \\d+) from (?P<r>[a-z]+ \\d+)$",
+        "item": "^(?:and )?(?:a |an )?(?P<o>[a-z]+ \\d+)$",
+        "take_success": "You pick up the {X} from the {R}.",
+        "not_contents": [
+          "you see nothing.",
+          "Looking quickly around you, you see ..."
+        ]
+      }
+    },
+    "E-b": {
+      "rule": "실행된 걸음 중 행동이 직전 가능한 명령 목록에 있던 비율. 형식 오류 턴은 세지 않고 형식 오류 수는 따로 기록. 보조 기록, Evidence-Safe 대응 아님"
+    },
+    "E-c": {
+      "rule": "won 그리고 걸음 수 <= k * L_expert. 비율(걸음 수 / L_expert) 분포도 보고. 성공에만 정의되는 한계를 적는다",
+      "k": 2,
+      "L_expert": "records/p1_expert.json의 성공 걸음 수(전문가 시드 0, PYTHONHASHSEED=0)",
+      "undefined_when": "전문가가 그 게임을 150걸음 안에 못 풀었을 때"
+    },
+    "conclusion_rule": {
+      "base_rate_range": [
+        0.15,
+        0.85
+      ],
+      "min_share_of_wins_failing_e_a": 0.05
+    },
+    "conclusion_text": "S0 기준률이 base_rate_range 밖이면 바닥·천장. 성공한 에피소드 중 E-a 불성립 비율이 min_share 미만이면 성공과 다른 정보 없음. 둘 다 아니면 E-a를 쓴다. 아니면 대응 지표 없음, 주 지표만"
+  },
+  "s0": {
+    "path": "skills/S0/SKILL.md",
+    "sha256": "0e59f723b8c0de107e5f58ca841ddaae6d9b98f8558f9f90a6524775abdda2b9"
+  },
+  "policy": {
+    "model": "gpt-oss:20b",
+    "think": "low",
+    "temperature": 0.7,
+    "num_ctx": 8192,
+    "keep_alive": "60m",
+    "seed_rule": "derive_llm_seed(game_rel, repeat): sha256, first 8 bytes mod 2^31",
+    "instructions_sha256": "6539a5491ca758686a8e1102857d90d05f98727ee865081a8307b08d26ca62fe",
+    "max_steps": 50,
+    "max_llm_calls": 100,
+    "stop": {
+      "max_consecutive_text_turns": 2
+    },
+    "format_error_policy": {
+      "feedback": "error_as_tool_result",
+      "max_consecutive_format_errors": 3
+    },
+    "history": {
+      "rule": "keep system + first observation; drop oldest turns until the prompt fits the character budget; insert '[N earlier steps omitted]'",
+      "budget_chars": 18432,
+      "reserve_tokens": 2048,
+      "chars_per_token": 3
+    },
+    "command_list_in_prompt": false,
+    "expert_plan_in_prompt": false
+  },
+  "instructions_sha256": "6539a5491ca758686a8e1102857d90d05f98727ee865081a8307b08d26ca62fe",
+  "engine": {
+    "same_as_v1": true,
+    "model": "gpt-oss:20b",
+    "think": "low",
+    "temperature": 0.7,
+    "keep_alive": "60m",
+    "server_values": "모델 digest, 양자화, Ollama 버전은 P3 시작 때 읽어 기록의 config.server에 남긴다"
+  },
+  "run": {
+    "concurrency": 2,
+    "server_num_parallel": 2,
+    "pythonhashseed": "0",
+    "power_check": "시작할 때와 블록 끝마다: AC 전원, 덮개 열림, caffeinate 잠자기 방지",
+    "block_size": 6
+  },
+  "principle_9": "티켓 원칙 9(2026-11-01 개정)를 따른다. 티켓 sha256은 sources.ticket",
+  "amendments": {
+    "file": "fixed/amendments.json",
+    "rule": "고정 파일은 바꾸지 않는다. 고정된 출처를 고치면 항목을 더한다. 판정 기준·정의 자체는 바꾸지 않는다(원칙 6)",
+    "required_fields": [
+      "date",
+      "what",
+      "why",
+      "files",
+      "affects_episode_results",
+      "handling",
+      "changes_criteria_or_definitions"
+    ],
+    "handling_if_results_may_change": [
+      "keep",
+      "rerun",
+      "exclude"
+    ]
+  },
+  "p3": {
+    "rule": "풀에서 과제 유형마다 경로순 앞 2개, 반복 1회",
+    "episodes": [
+      {
+        "key": "train/look_at_obj_in_light-AlarmClock-None-DeskLamp-301/trial_T20190907_174127_043461#0",
+        "llm_seed": 1172774534
+      },
+      {
+        "key": "train/look_at_obj_in_light-AlarmClock-None-DeskLamp-303/trial_T20190908_144950_175895#0",
+        "llm_seed": 1961089955
+      },
+      {
+        "key": "train/pick_and_place_simple-Book-None-CoffeeTable-229/trial_T20190908_125722_074883#0",
+        "llm_seed": 1121276315
+      },
+      {
+        "key": "train/pick_and_place_simple-Box-None-ArmChair-212/trial_T20190908_032830_891800#0",
+        "llm_seed": 897948583
+      },
+      {
+        "key": "train/pick_clean_then_place_in_recep-Bowl-None-Fridge-21/trial_T20190909_014336_206275#0",
+        "llm_seed": 2118654810
+      },
+      {
+        "key": "train/pick_clean_then_place_in_recep-Cloth-None-Cart-430/trial_T20190906_194305_501996#0",
+        "llm_seed": 1249959648
+      },
+      {
+        "key": "train/pick_cool_then_place_in_recep-Apple-None-GarbageCan-19/trial_T20190908_121626_855247#0",
+        "llm_seed": 638418388
+      },
+      {
+        "key": "train/pick_cool_then_place_in_recep-Apple-None-Microwave-12/trial_T20190911_003046_688848#0",
+        "llm_seed": 2145735470
+      },
+      {
+        "key": "train/pick_heat_then_place_in_recep-Apple-None-Fridge-16/trial_T20190907_203354_811721#0",
+        "llm_seed": 1418797320
+      },
+      {
+        "key": "train/pick_heat_then_place_in_recep-Apple-None-GarbageCan-12/trial_T20190908_172302_166350#0",
+        "llm_seed": 450769422
+      },
+      {
+        "key": "train/pick_two_obj_and_place-Book-None-Bed-304/trial_T20190907_054125_590269#0",
+        "llm_seed": 548101511
+      },
+      {
+        "key": "train/pick_two_obj_and_place-Book-None-Bed-304/trial_T20190908_104725_283867#0",
+        "llm_seed": 1834139814
+      }
+    ]
+  },
+  "sources": {
+    "ticket": {
+      "path": "fixed/ticket-008.snapshot.md",
+      "sha256": "83793e913d73d71df767a14a6bb031878f8c0128916e1d1f379511b402425d0c"
+    },
+    "s0": {
+      "path": "skills/S0/SKILL.md",
+      "sha256": "0e59f723b8c0de107e5f58ca841ddaae6d9b98f8558f9f90a6524775abdda2b9"
+    },
+    "evidence_code": {
+      "path": "src/alfworld_pilot/evidence.py",
+      "sha256": "a56dc44c230faf786c5dd1b8fb5f3e5522f2bdbae8b87b638cbf09bf3b69868a"
+    },
+    "agent_code": {
+      "path": "src/alfworld_pilot/agent.py",
+      "sha256": "7fa334639cd2282589c47f7b84fe27b18b155d3cb0597d13d10cf39971266251"
+    },
+    "constants_code": {
+      "path": "src/alfworld_pilot/constants.py",
+      "sha256": "040f5d69a7af2d8293d5d9f9a854925379961ebe5df95ee1d07d58ad2c250e61"
+    },
+    "runner_code": {
+      "path": "src/alfworld_pilot/runner.py",
+      "sha256": "97541f2a4749e727687e1cc9839f37980e47971016330d769d2dd2b739bf80a2"
+    },
+    "power_code": {
+      "path": "src/alfworld_pilot/power.py",
+      "sha256": "ea419f1ee2f19a2d9d9048b4b16c51dcbba5d80fba878ee8706a56c33bd91ed3"
+    },
+    "p1_expert": {
+      "path": "records/p1_expert.json",
+      "sha256": "d6e312bcef347ebf11a93fe506b6329834e1b66674be957484bf32984ec95ece"
+    },
+    "p1_pilot_pool": {
+      "path": "records/p1_pilot_pool.json",
+      "sha256": "d1d3c7e94095c7ba9ebd521f092d3f5d82b06f998bf5fef7c5040eeb12a0e69a"
+    },
+    "p1_counts": {
+      "path": "records/p1_counts.json",
+      "sha256": "5becd04ce268f531eb182beee25b913b4799abe87a578574a7c3653501aff0db"
+    }
+  }
+}
