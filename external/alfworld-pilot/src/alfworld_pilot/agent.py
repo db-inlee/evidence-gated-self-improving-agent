@@ -14,6 +14,10 @@
 - 이력 자르기: system과 첫 관측은 항상 둔다. 나머지 턴은 오래된 것부터 빼서 문자 예산 안에 넣고,
   뺀 자리에 `[N earlier steps omitted]`를 넣는다. 예산 = (num_ctx - reserve) x chars_per_token.
 
+진단 기록(2026-11-03 amendment): 텍스트 턴마다 assistant 내용(앞 TEXT_CONTENT_LIMIT자)과 전체 길이,
+thinking 길이를 `text_turn_diagnostics`에 남긴다. 기록만 더할 뿐 프롬프트·판정·흐름은 그대로다
+(tests/test_p2_diagnostics.py가 수정 전 golden과 비교한다).
+
 LLM이 읽는 텍스트는 영어이고 정답 단서를 넣지 않는다. 바꾸면 `instructions_sha256`이 바뀐다.
 """
 
@@ -31,6 +35,8 @@ from alfworld_pilot import constants as C
 from alfworld_pilot.evidence import StepRecord
 
 StepTrace = StepRecord
+TEXT_CONTENT_LIMIT = C.TEXT_CONTENT_LIMIT
+DIAGNOSTIC_FIELDS = ("text_turn_diagnostics",)  # 진단 전용, 결과 비교에서 뺀다
 
 TEMPLATES = "\n".join(
     (
@@ -166,6 +172,7 @@ class EpisodeTrace:
     truncated_calls: int  # 이력을 잘라 보낸 LLM 호출 수
     max_omitted: int  # 한 호출에서 뺀 턴 수의 최댓값
     wall_s: float
+    text_turn_diagnostics: tuple[dict[str, Any], ...] = ()
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -244,6 +251,7 @@ def run_episode(
     prompt_tokens: list[int] = []
     completion_tokens: list[int] = []
     format_errors = text_turns = consecutive_errors = consecutive_text = 0
+    diagnostics: list[dict[str, Any]] = []
     truncated_calls = max_omitted = 0
     won = False
     stop_reason = ""
@@ -280,6 +288,15 @@ def run_episode(
             message = reply["message"]
             calls = message.get("tool_calls") or []
             if not calls:
+                content = str(message.get("content") or "")
+                diagnostics.append(
+                    {
+                        "llm_call": len(prompt_tokens) - 1,
+                        "content": content[:TEXT_CONTENT_LIMIT],
+                        "content_chars": len(content),
+                        "thinking_chars": len(str(message.get("thinking") or "")),
+                    }
+                )
                 text_turns += 1
                 consecutive_text += 1
                 turns.append(
@@ -331,6 +348,7 @@ def run_episode(
         truncated_calls=truncated_calls,
         max_omitted=max_omitted,
         wall_s=round(time.perf_counter() - start, 3),
+        text_turn_diagnostics=tuple(diagnostics),
     )
 
 

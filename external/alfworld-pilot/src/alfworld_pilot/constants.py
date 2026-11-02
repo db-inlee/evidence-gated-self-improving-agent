@@ -30,3 +30,9 @@ REQUIRED_HASH_SEED = "0"  # 결정 0: 모든 환경 실행은 PYTHONHASHSEED=0
 
 # 보조 지표
 E_C_K = 2  # E-c: 성공 걸음 수 ≤ k x 전문가 계획 길이
+
+# 진단 기록 (2026-11-03 amendment)
+TEXT_CONTENT_LIMIT = 500  # 텍스트 턴 assistant 내용을 남기는 최대 글자 수
+
+# P5 국소 해로움 탐침의 표적 칸 규칙 (2026-11-03 amendment, P4 전에 기록)
+P5_TARGET_RULE = "P4 반복 3회 평균 성공률이 가장 높은 칸, 동률이면 SIX_TYPES 순서에서 앞"

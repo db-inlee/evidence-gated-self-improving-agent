@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "date": "2026-11-03",
+    "what": "agent.py: 텍스트 턴마다 assistant 내용(앞 500자)과 전체 길이, thinking 길이를 EpisodeTrace.text_turn_diagnostics에 기록. constants.py에 TEXT_CONTENT_LIMIT = 500 추가",
+    "why": "P3에서 LLM 호출의 20%(100/508)가 텍스트 응답이었고 종료 5/12가 no_tool_call이었는데, 기록에 내용이 없어 원인을 볼 수 없었다(2026-11-03 결정 2). P6에서 유형별로 요약한다",
+    "files": [
+      {
+        "path": "src/alfworld_pilot/agent.py",
+        "sha256": "3af1df544b3cd1c67c6acbd50c0e342faf08ea63d905ad568b34b4ad0baeda7c"
+      }
+    ],
+    "affects_episode_results": {
+      "answer": "no",
+      "reason": "기록 필드만 더한다. LLM 요청 본문(프롬프트·이력·옵션), 종료 규칙, 판정은 그대로다. tests/test_p2_diagnostics.py가 같은 가짜 채팅에서 진단 필드를 뺀 기록과 요청 본문을 수정 전 golden(tests/fixtures/p2_golden.json)과 비교한다"
+    },
+    "handling": null,
+    "changes_criteria_or_definitions": false
+  },
+  {
+    "date": "2026-11-03",
+    "what": "constants.py: P5 국소 해로움 탐침의 표적 칸 규칙 P5_TARGET_RULE 추가('P4 반복 3회 평균 성공률이 가장 높은 칸, 동률이면 SIX_TYPES 순서에서 앞'), 같은 파일에 진단 상수 TEXT_CONTENT_LIMIT. 규칙 구현은 p4.choose_target_cell",
+    "why": "P3에서 heat 칸이 0/2였다. 기준률이 바닥인 칸은 하락을 보일 수 없어(G6) 표적 칸을 P4 결과로 정하되, 규칙은 P4 전에 고정한다(2026-11-03 결정 3)",
+    "files": [
+      {
+        "path": "src/alfworld_pilot/constants.py",
+        "sha256": "5199495fde15332dd960d0ad4a31d08c65163f68acb5df0949f0356d5f6fd012"
+      }
+    ],
+    "affects_episode_results": {
+      "answer": "no",
+      "reason": "에피소드 실행에 쓰이지 않는 상수다. 탐침을 어느 칸에 두는지(P5 설계)만 정하고, G6 식과 기준은 그대로다"
+    },
+    "handling": null,
+    "changes_criteria_or_definitions": false
+  }
+]

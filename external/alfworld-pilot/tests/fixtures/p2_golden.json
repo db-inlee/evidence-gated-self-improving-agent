@@ -1,0 +1,877 @@
+{
+ "format_stop": {
+  "bodies": [
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "a\nb"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "Format error: act needs one command as a single-line string.",
+      "role": "tool",
+      "tool_name": "act"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "a\nb"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "Format error: act needs one command as a single-line string.",
+      "role": "tool",
+      "tool_name": "act"
+     },
+     {
+      "content": "hmm",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "a\nb"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "Format error: act needs one command as a single-line string.",
+      "role": "tool",
+      "tool_name": "act"
+     },
+     {
+      "content": "hmm",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "a\nb"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "Format error: act needs one command as a single-line string.",
+      "role": "tool",
+      "tool_name": "act"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   }
+  ],
+  "record": {
+   "completion_tokens": [
+    2,
+    3,
+    2,
+    2
+   ],
+   "first_observation": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+   "format_errors": 3,
+   "llm_calls": 4,
+   "max_omitted": 0,
+   "prompt_tokens": [
+    70,
+    80,
+    70,
+    70
+   ],
+   "steps": [],
+   "stop_reason": "format_error",
+   "text_turns": 1,
+   "truncated_calls": 0,
+   "won": false
+  }
+ },
+ "mixed": {
+  "bodies": [
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "Let me think.",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "Let me think.",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "go to shelf 2"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "You arrive at shelf 2.",
+      "role": "tool",
+      "tool_name": "act"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "Let me think.",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "go to shelf 2"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "You arrive at shelf 2.",
+      "role": "tool",
+      "tool_name": "act"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": ""
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "Format error: act needs one command as a single-line string.",
+      "role": "tool",
+      "tool_name": "act"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "Let me think.",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "go to shelf 2"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "You arrive at shelf 2.",
+      "role": "tool",
+      "tool_name": "act"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": ""
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "Format error: act needs one command as a single-line string.",
+      "role": "tool",
+      "tool_name": "act"
+     },
+     {
+      "content": "I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. I think the pen is somewhere. ",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   }
+  ],
+  "record": {
+   "completion_tokens": [
+    5,
+    9,
+    4,
+    50,
+    9
+   ],
+   "first_observation": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+   "format_errors": 1,
+   "llm_calls": 5,
+   "max_omitted": 0,
+   "prompt_tokens": [
+    90,
+    100,
+    110,
+    120,
+    130
+   ],
+   "steps": [
+    {
+     "admissible": true,
+     "command": "go to shelf 2",
+     "observation": "You arrive at shelf 2."
+    },
+    {
+     "admissible": true,
+     "command": "take pen 1 from shelf 2",
+     "observation": "You pick up the pen 1 from the shelf 2."
+    }
+   ],
+   "stop_reason": "won",
+   "text_turns": 2,
+   "truncated_calls": 0,
+   "won": true
+  }
+ },
+ "text_stop": {
+  "bodies": [
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "go to shelf 2"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "You arrive at shelf 2.",
+      "role": "tool",
+      "tool_name": "act"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   },
+   {
+    "keep_alive": "60m",
+    "messages": [
+     {
+      "content": "You are an agent in a text-based household environment. Complete the task stated in the first observation.\nEach turn, call the act tool with exactly one command. The environment replies with an observation.\nCommands take these forms, where {recep}, {obj} and {x} are names written exactly as in the observations (for example, drawer 1):\ngo to {recep}\ntake {obj} from {recep}\nmove {obj} to {recep}\nopen {recep}\nclose {recep}\nheat {obj} with {recep}\ncool {obj} with {recep}\nclean {obj} with {recep}\nuse {obj}\nexamine {x}\nlook\ninventory\nFollow the skill below.\n\n# S0",
+      "role": "system"
+     },
+     {
+      "content": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+      "role": "user"
+     },
+     {
+      "content": "",
+      "role": "assistant",
+      "tool_calls": [
+       {
+        "function": {
+         "arguments": {
+          "command": "go to shelf 2"
+         },
+         "name": "act"
+        }
+       }
+      ]
+     },
+     {
+      "content": "You arrive at shelf 2.",
+      "role": "tool",
+      "tool_name": "act"
+     },
+     {
+      "content": "Done?",
+      "role": "assistant"
+     },
+     {
+      "content": "No command was given. Call the act tool with exactly one command.",
+      "role": "user"
+     }
+    ],
+    "model": "gpt-oss:20b",
+    "options": {
+     "num_ctx": 8192,
+     "seed": 5,
+     "temperature": 0.7
+    },
+    "stream": false,
+    "think": "low",
+    "tools": [
+     {
+      "function": {
+       "description": "Send one command to the environment.",
+       "name": "act",
+       "parameters": {
+        "properties": {
+         "command": {
+          "description": "One command.",
+          "type": "string"
+         }
+        },
+        "required": [
+         "command"
+        ],
+        "type": "object"
+       }
+      },
+      "type": "function"
+     }
+    ]
+   }
+  ],
+  "record": {
+   "completion_tokens": [
+    9,
+    3,
+    3
+   ],
+   "first_observation": "You are in the middle of a room.\n\nYour task is to: put a pen in shelf.",
+   "format_errors": 0,
+   "llm_calls": 3,
+   "max_omitted": 0,
+   "prompt_tokens": [
+    100,
+    80,
+    80
+   ],
+   "steps": [
+    {
+     "admissible": true,
+     "command": "go to shelf 2",
+     "observation": "You arrive at shelf 2."
+    }
+   ],
+   "stop_reason": "no_tool_call",
+   "text_turns": 2,
+   "truncated_calls": 0,
+   "won": false
+  }
+ }
+}
