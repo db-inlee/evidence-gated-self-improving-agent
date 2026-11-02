@@ -2,6 +2,8 @@
 
     PYTHONHASHSEED=0 caffeinate -ims uv run python -m alfworld_pilot.runner \\
         --per-type 2 --repeats 1 --out runs/p3/episodes.jsonl
+    # P4-b: 한 유형의 경로순 13~24번째, 계획만 보기
+    ... --task-type T --offset 12 --per-type 12 --repeats 3 --out ... --list
 
 - 계획: 게임(경로순) x 반복. LLM seed는 (게임 경로, 반복)에서 sha256으로 정한다. 같은 게임·반복이면
   S0와 탐침이 같은 seed를 쓴다(paired).
@@ -102,12 +104,38 @@ def _timed(worker: Callable[[Episode], EpisodeTrace], episode: Episode) -> Timed
     return trace, started, time.time()
 
 
-def first_per_type(pool: Sequence[dict[str, Any]], n: int) -> list[dict[str, Any]]:
-    """풀에서 과제 유형마다 경로순 앞 n개(P3 선택 규칙, 2026-11-01 결정 4)."""
+def select_games(
+    pool: Sequence[dict[str, Any]],
+    per_type: int,
+    *,
+    task_type: str | None = None,
+    offset: int = 0,
+) -> list[dict[str, Any]]:
+    """풀에서 과제 유형마다 경로순 [offset, offset + per_type) 게임(2026-11-03 결정 1).
+
+    task_type을 주면 그 유형만 고른다. 유형 순서는 경로순으로 처음 나오는 순서다(P3 규칙과 같음).
+    """
+    if per_type < 1 or offset < 0:
+        raise ValueError("per_type must be >= 1 and offset >= 0")
     by_type: dict[str, list[dict[str, Any]]] = {}
     for g in sorted(pool, key=lambda g: str(g["rel"])):
         by_type.setdefault(g["task_type"], []).append(g)
-    return [g for gs in by_type.values() for g in gs[:n]]
+    if task_type is not None:
+        if task_type not in by_type:
+            raise ValueError(f"unknown task type {task_type!r}")
+        by_type = {task_type: by_type[task_type]}
+    out = []
+    for t, games in by_type.items():
+        chosen = games[offset : offset + per_type]
+        if len(chosen) < per_type:
+            raise ValueError(f"{t}: only {len(chosen)} games from offset {offset}")
+        out += chosen
+    return out
+
+
+def first_per_type(pool: Sequence[dict[str, Any]], n: int) -> list[dict[str, Any]]:
+    """풀에서 과제 유형마다 경로순 앞 n개(P3 선택 규칙, 2026-11-01 결정 4)."""
+    return select_games(pool, n)
 
 
 def _normalized(config: dict[str, Any]) -> Any:
@@ -253,6 +281,11 @@ class AlfworldWorker:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="alfworld-pilot-runner")
     parser.add_argument("--per-type", type=int, required=True)
+    parser.add_argument("--task-type", default=None, help="only this task type")
+    parser.add_argument("--offset", type=int, default=0, help="skip this many games per type")
+    parser.add_argument(
+        "--list", action="store_true", help="print the plan and exit (no server, no run)"
+    )
     parser.add_argument("--repeats", type=int, default=1)
     parser.add_argument("--skill", type=Path, default=S0_SKILL)
     parser.add_argument("--out", type=Path, required=True)
@@ -268,7 +301,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("error: run with PYTHONHASHSEED=0 (decision 0)", file=sys.stderr)
         return 2
     run_settings = RunSettings(args.concurrency, args.server_num_parallel)
-    games = first_per_type(json.loads(POOL.read_text())["games"], args.per_type)
+    games = select_games(
+        json.loads(POOL.read_text())["games"],
+        args.per_type,
+        task_type=args.task_type,
+        offset=args.offset,
+    )
+    plan = plan_episodes(games, args.repeats)
+    if args.list:
+        for e in plan:
+            print(json.dumps({"key": e.key, "task_type": e.task_type, "llm_seed": e.llm_seed}))
+        return 0
     settings = PolicySettings()
     run_config = {
         "policy": settings.config(),
@@ -279,7 +322,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     worker = AlfworldWorker(args.skill.read_text(), settings, str(data_root() / "json_2.1.1"))
     try:
         run_plan(
-            plan_episodes(games, args.repeats),
+            plan,
             args.out,
             run_episode=worker,
             check_power=check_power,

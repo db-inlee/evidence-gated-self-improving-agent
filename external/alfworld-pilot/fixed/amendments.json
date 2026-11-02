@@ -32,5 +32,22 @@
     },
     "handling": null,
     "changes_criteria_or_definitions": false
+  },
+  {
+    "date": "2026-11-03",
+    "what": "runner.py: 게임 선택을 select_games(pool, per_type, task_type, offset)로 일반화하고 CLI에 --task-type, --offset, --list(계획만 출력, 서버 접속·실행 없음)를 더함. first_per_type는 select_games(pool, n)을 부른다",
+    "why": "P4-b(표적 칸의 경로순 13~24번째 게임 x 반복 3회)를 같은 실행기로 돌리기 위해서다. 표적 칸과 무관하게 필요한 옵션이라 P4-a 전에 넣는다(2026-11-03 결정 1)",
+    "files": [
+      {
+        "path": "src/alfworld_pilot/runner.py",
+        "sha256": "27eb2fa872f7c2287e3f3eb2f03ff281f4f32e541412c0c3db14e9551b8439a4"
+      }
+    ],
+    "affects_episode_results": {
+      "answer": "no",
+      "reason": "게임 선택 CLI만 바뀌었고 에피소드 실행(작업자, 정책, 기록, 점검)은 그대로다. 기존 --per-type 선택 결과와 P3 고정 에피소드 목록(key, llm_seed)이 같고 llm_seed 규칙도 그대로임을 tests/test_p4_selection.py가 확인한다"
+    },
+    "handling": null,
+    "changes_criteria_or_definitions": false
   }
 ]
