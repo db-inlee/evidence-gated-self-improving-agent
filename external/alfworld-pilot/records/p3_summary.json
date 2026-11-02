@@ -1,0 +1,152 @@
+{
+  "completion_tokens": {
+    "max": 579,
+    "mean": 43.827,
+    "median": 24.0,
+    "min": 7,
+    "n": 508
+  },
+  "config": {
+    "hash_seed": "0",
+    "policy": {
+      "command_list_in_prompt": false,
+      "expert_plan_in_prompt": false,
+      "format_error_policy": {
+        "feedback": "error_as_tool_result",
+        "max_consecutive_format_errors": 3
+      },
+      "history": {
+        "budget_chars": 18432,
+        "chars_per_token": 3,
+        "reserve_tokens": 2048,
+        "rule": "keep system + first observation; drop oldest turns until the prompt fits the character budget; insert '[N earlier steps omitted]'"
+      },
+      "instructions_sha256": "6539a5491ca758686a8e1102857d90d05f98727ee865081a8307b08d26ca62fe",
+      "keep_alive": "60m",
+      "max_llm_calls": 100,
+      "max_steps": 50,
+      "model": "gpt-oss:20b",
+      "num_ctx": 8192,
+      "seed_rule": "derive_llm_seed(game_rel, repeat): sha256, first 8 bytes mod 2^31",
+      "stop": {
+        "max_consecutive_text_turns": 2
+      },
+      "temperature": 0.7,
+      "think": "low"
+    },
+    "server": {
+      "model_digest": "f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe",
+      "ollama_version": "0.40.3",
+      "quantization": "MXFP4"
+    },
+    "skill_sha256": "0e59f723b8c0de107e5f58ca841ddaae6d9b98f8558f9f90a6524775abdda2b9"
+  },
+  "e_a": {
+    "holds": 3,
+    "won": 3
+  },
+  "e_b": {
+    "admissible_steps": 263,
+    "steps": 407
+  },
+  "e_c": {
+    "defined": 12,
+    "holds": 3
+  },
+  "episodes": 12,
+  "episodes_by_type": {
+    "look_at_obj_in_light": 2,
+    "pick_and_place_simple": 2,
+    "pick_clean_then_place_in_recep": 2,
+    "pick_cool_then_place_in_recep": 2,
+    "pick_heat_then_place_in_recep": 2,
+    "pick_two_obj_and_place": 2
+  },
+  "format_errors": 1,
+  "max_omitted": 0,
+  "memory": {
+    "max_free_percent": 23,
+    "min_free_percent": 13,
+    "ollama_ps": [
+      "gpt-oss:20b 12 GB 100% GPU 8192"
+    ],
+    "samples": 32
+  },
+  "per_episode": {
+    "llm_calls": {
+      "max": 73,
+      "mean": 42.333,
+      "median": 50.0,
+      "min": 6,
+      "n": 12
+    },
+    "max_prompt_tokens": {
+      "max": 3751,
+      "mean": 2389.333,
+      "median": 2794.0,
+      "min": 797,
+      "n": 12
+    },
+    "s_per_llm_call": {
+      "max": 7.5125,
+      "mean": 3.673,
+      "median": 3.068719047619048,
+      "min": 2.16244,
+      "n": 12
+    },
+    "steps": {
+      "max": 50,
+      "mean": 33.917,
+      "median": 40.5,
+      "min": 3,
+      "n": 12
+    },
+    "wall_s": {
+      "max": 347.331,
+      "mean": 148.852,
+      "median": 125.8585,
+      "min": 17.176,
+      "n": 12
+    }
+  },
+  "principle_9": "not_applicable",
+  "prompt_tokens": {
+    "max": 3751,
+    "mean": 1700.606,
+    "median": 1628.5,
+    "min": 459,
+    "n": 508
+  },
+  "prompt_tokens_over_limit": {
+    "calls": 0,
+    "exceeded": false,
+    "limit": 6144
+  },
+  "sources": {
+    "episodes.jsonl": "4531d53dea60f9ba6b2800bd1ff45f1192a372e8146bbdcd2639c79bf4ea74e5",
+    "memory.log": "53180032719f09cd4c4d6d9a32b0c96287a25a4cdc31ad756c29871c0b3dae99",
+    "server_log_excerpt.txt": "f012e621945cd05c1378601ec5b326591f681abcf1bd7d22e0785fee42b8fa65"
+  },
+  "stop_reasons": {
+    "max_steps": 4,
+    "no_tool_call": 5,
+    "won": 3
+  },
+  "text_turns": 100,
+  "throughput": {
+    "concurrency": [
+      2
+    ],
+    "effective_concurrency": 1.832580087475256,
+    "load_s": 13.41,
+    "s_bar_excluding_load": 80.10764500220617,
+    "s_bar_including_load": 81.22514500220616,
+    "wall_clock_s": 974.701740026474
+  },
+  "truncated_calls": 0,
+  "won": 3,
+  "won_by_type": {
+    "pick_and_place_simple": 1,
+    "pick_two_obj_and_place": 2
+  }
+}
