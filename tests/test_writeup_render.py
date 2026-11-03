@@ -105,6 +105,7 @@ ALLOWED = (
     "Gates C1 to C4, levels L1, L2 and L3, RQ1 to RQ3 and RQ-L3-0 to RQ-L3-3.",
     "The initial skill S0, tables T1 to T3 and figures F1 to F4.",
     "Ticket 005 and Ticket 006, candidate cand-015, commit 48afcad.",
+    "The Ticket 008 pilot lives in ticket-008 notes.",
     "arXiv 2610.14224, DOI 10.1126/science.aaa9375, published 2015.",
     "See Section 3 and §8-14.",
     "The file's sha256 is listed below.",
@@ -114,6 +115,12 @@ ALLOWED = (
 @pytest.mark.parametrize("text", ALLOWED)
 def test_names_and_identifiers_are_allowed(values: dict[str, Any], text: str) -> None:
     assert check_source(f"## Design\n\n{text}\n", "md", values) == []
+
+
+def test_ticket_names_are_allowed_only_up_to_the_closed_ticket_008(
+    values: dict[str, Any],
+) -> None:
+    assert "number" in rules(check_source("## Design\n\nTicket 009 is next.\n", "md", values))
 
 
 def test_numbered_lists_and_headings_are_allowed(values: dict[str, Any]) -> None:

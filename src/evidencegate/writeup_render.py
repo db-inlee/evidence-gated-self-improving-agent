@@ -72,8 +72,8 @@ ALLOWED_PATTERNS = tuple(
         r"\bsha256\b",  # 해시 알고리즘 이름
         r"\bT[1-3]\b",
         r"\bF[1-4]\b",
-        r"\bTicket 00[1-7]\b",
-        r"\bticket-00[1-7]\b",
+        r"\bTicket 00[1-8]\b",  # 008: 닫힌 ALFWorld 파일럿(2026-11-04)
+        r"\bticket-00[1-8]\b",
         r"\bcand-\d{3}\b",
         r"\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,64}\b",  # 커밋·파일 해시
         r"\b20(?:1[5-9]|2[0-6])\b",  # 연도

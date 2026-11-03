@@ -150,7 +150,7 @@ Self-improving agents keep an edit after testing it in some way. The Darwin Göd
 - **Cell-level gates.** A gate that also requires every cell estimate on Dev-B to stay above a noise bound derived from S0-vs-S0 calibration runs (not from the oracle's τ), tested on a new candidate pool.
 - **A larger, new candidate pool,** so that locally harmful candidates are frequent enough to compare gates.
 - **A stronger L3,** one that is confirmed harder for S0 before the gates are re-scored.
-- **An external benchmark pilot** to check whether the same failure modes appear outside OpsWorld.
+- An ALFWorld pilot ended No-Go: the base rate was near the floor, per-cell noise was large and episodes were long. An exploratory diagnostic pointed to the missing command list as the main cause of the floor. A retry would provide the list and reduce per-cell noise, or would move to an environment with checkable evidence such as AppWorld or τ²-bench.
 
 ## Reproduce
 
@@ -195,6 +195,8 @@ skills/             initial skill S0, controls and the frozen candidates
 scripts/            run, analysis and probe scripts
 tests/
 ```
+
+`external/alfworld-pilot/` — Ticket 008 feasibility pilot that ports the admission-gate evaluation to ALFWorld (text mode); a separate uv project with its own lock file and tests; verdict No-Go.
 
 All data is synthetic. No real infrastructure or incident records are used.
 
