@@ -36,3 +36,10 @@ TEXT_CONTENT_LIMIT = 500  # 텍스트 턴 assistant 내용을 남기는 최대 �
 
 # P5 국소 해로움 탐침의 표적 칸 규칙 (2026-11-03 amendment, P4 전에 기록)
 P5_TARGET_RULE = "P4 반복 3회 평균 성공률이 가장 높은 칸, 동률이면 SIX_TYPES 순서에서 앞"
+
+# P5 범위 (2026-11-03 결정 3, amendment)
+P5_SCOPE = (
+    "국소 해로움 탐침만 G6 판정용으로 돌린다(모든 칸, 84 에피소드). 도움·중립 탐침은 뺀다. "
+    "대신 하네스 진단 H1(연속 텍스트로 종료하지 않음)·H2(가능한 명령 목록 제공)를 P4-a 게임 중 "
+    "칸마다 경로순 앞 6개 x 반복 0으로 돌린다(exploratory diagnostic, not used for G1-G6)"
+)

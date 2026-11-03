@@ -1,6 +1,7 @@
 """P4 S0 기준률과 잡음 (Ticket 008 §4 P4). LLM은 쓰지 않는다.
 
     uv run python -m alfworld_pilot.p4 --run-dir runs/p4a --out records/p4a_summary.json
+    uv run python -m alfworld_pilot.p4 --run-dir runs/p4a runs/p4b --out records/p4_summary.json
 
 P5 표적 칸 규칙(2026-11-03 결정 3, constants.P5_TARGET_RULE): P4 반복 3회 평균 성공률이 가장
 높은 칸, 동률이면 SIX_TYPES 순서에서 앞. 기준률이 바닥인 칸은 하락을 보일 수 없어서(G6)
@@ -126,6 +127,20 @@ def text_turn_summary(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     return out
 
 
+def throughput(records: Sequence[Mapping[str, Any]], *, load_s: Sequence[float]) -> dict[str, Any]:
+    """한 실행(run 폴더)의 처리량. 실행 사이의 빈 시간을 넣지 않도록 실행마다 따로 계산한다."""
+    span = max(r["finished_at"] for r in records) - min(r["started_at"] for r in records)
+    load = sum(load_s) if load_s else None
+    return {
+        "episodes": len(records),
+        "wall_clock_s": span,
+        "load_s": load,
+        "s_bar_including_load": span / len(records),
+        "s_bar_excluding_load": (span - load) / len(records) if load is not None else None,
+        "effective_concurrency": sum(r["wall_s"] for r in records) / span,
+    }
+
+
 def _steps(r: Mapping[str, Any]) -> list[StepRecord]:
     return [StepRecord(s["command"], s["observation"], s["admissible"]) for s in r["steps"]]
 
@@ -155,9 +170,6 @@ def summarize_p4(
         e_c_holds(won=r["won"], steps=len(r["steps"]), expert_steps=expert_steps.get(r["rel"]))
         for r in records
     ]
-    start = min(r["started_at"] for r in records)
-    span = max(r["finished_at"] for r in records) - start
-    load = sum(load_s) if load_s else None
     games = _by_game(records)
     return {
         "preview_only": True,
@@ -184,13 +196,7 @@ def summarize_p4(
         "expert_failed_games": [
             {"rel": g, "won": o} for g, o in sorted(games.items()) if g in expert_failed
         ],
-        "throughput": {
-            "wall_clock_s": span,
-            "load_s": load,
-            "s_bar_including_load": span / len(records),
-            "s_bar_excluding_load": (span - load) / len(records) if load is not None else None,
-            "effective_concurrency": sum(r["wall_s"] for r in records) / span,
-        },
+        "throughput": throughput(records, load_s=load_s),
         "per_episode": {
             "wall_s": stats([r["wall_s"] for r in records]),
             "steps": stats([len(r["steps"]) for r in records]),
@@ -205,33 +211,48 @@ def summarize_p4(
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="alfworld-pilot-p4")
-    parser.add_argument("--run-dir", type=Path, required=True)
+    parser.add_argument("--run-dir", type=Path, nargs="+", required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args(argv)
-    run_dir: Path = args.run_dir
-    records = [json.loads(line) for line in (run_dir / "episodes.jsonl").read_text().splitlines()]
-    offset = int((run_dir / "server_log_offset.txt").read_text())
-    with SERVER_LOG.open("rb") as f:
-        f.seek(offset)
-        excerpt = f.read().decode(errors="replace")
-    (run_dir / "server_log_excerpt.txt").write_text(excerpt)
+    records: list[dict[str, Any]] = []
+    runs: dict[str, Any] = {}
+    sources: dict[str, str] = {}
+    for run_dir in args.run_dir:
+        rs = [json.loads(line) for line in (run_dir / "episodes.jsonl").read_text().splitlines()]
+        excerpt_file = run_dir / "server_log_excerpt.txt"
+        if excerpt_file.exists():
+            # 이미 자른 구간을 그대로 쓴다. 다시 자르면 뒤 실행의 로그가 섞인다
+            excerpt = excerpt_file.read_text()
+        else:
+            offset = int((run_dir / "server_log_offset.txt").read_text())
+            with SERVER_LOG.open("rb") as f:
+                f.seek(offset)
+                excerpt = f.read().decode(errors="replace")
+            excerpt_file.write_text(excerpt)
+        runs[run_dir.name] = {
+            "throughput": throughput(rs, load_s=load_seconds(excerpt)),
+            "memory": memory_summary((run_dir / "memory.log").read_text()),
+        }
+        for name in ("episodes.jsonl", "memory.log", "server_log_excerpt.txt"):
+            sources[f"{run_dir.name}/{name}"] = hashlib.sha256(
+                (run_dir / name).read_bytes()
+            ).hexdigest()
+        records += rs
     expert = json.loads(Path("records/p1_expert.json").read_text())["games"]
     counts = json.loads(Path("records/p1_counts.json").read_text())["table"]["train"]["playable"]
     summary = summarize_p4(
         records,
-        load_s=load_seconds(excerpt),
+        load_s=[],
         expert_steps={rel: g["steps"] for rel, g in expert.items() if g["won"]},
         expert_failed={rel for rel, g in expert.items() if not g["won"]},
         available_train={t: counts[t] - POOL_PER_TYPE for t in SIX_TYPES},
     )
-    summary["memory"] = memory_summary((run_dir / "memory.log").read_text())
+    summary["throughput"] = None  # 실행마다 따로: runs.<이름>.throughput
+    summary["runs"] = runs
     summary["config"] = records[0]["config"]
-    summary["sources"] = {
-        name: hashlib.sha256((run_dir / name).read_bytes()).hexdigest()
-        for name in ("episodes.jsonl", "memory.log", "server_log_excerpt.txt")
-    }
+    summary["sources"] = sources
     args.out.write_text(json.dumps(summary, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
-    print(json.dumps({k: summary[k] for k in ("won", "target_cell", "throughput")}, indent=1))
+    print(json.dumps({k: summary[k] for k in ("won", "target_cell", "runs")}, indent=1))
     return 0
 
 

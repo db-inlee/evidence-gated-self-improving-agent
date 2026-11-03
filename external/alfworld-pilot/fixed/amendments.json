@@ -49,5 +49,22 @@
     },
     "handling": null,
     "changes_criteria_or_definitions": false
+  },
+  {
+    "date": "2026-11-03",
+    "what": "constants.py: P5 범위 P5_SCOPE 추가. 국소 해로움 탐침(모든 칸, 84 에피소드)만 G6 판정용으로 돌리고 도움·중립 탐침은 뺀다. 하네스 진단 H1(텍스트 응답에 재촉만, 연속 텍스트로 종료하지 않음)·H2(매 관측 뒤 가능한 명령 목록 제공)를 P4-a 게임 중 칸마다 경로순 앞 6개 x 반복 0으로 더한다(탐색, G1~G6에 쓰지 않음)",
+    "why": "P4-a 뒤 남은 예산이 빠듯하다(누적 5.92시간, P4-b·P5 합 약 11.4시간). 도움·중립 탐침은 기술용이라 판정에 쓰지 않는다. No-Go가 ALFWorld 때문인지 하네스(연속 텍스트 종료 규칙, 명령 목록 미제공) 때문인지 가려 009 정책 설계에 쓰려고 진단을 넣는다(2026-11-03 결정 3)",
+    "files": [
+      {
+        "path": "src/alfworld_pilot/constants.py",
+        "sha256": "b2b959f9a6641ad4f94fcbea413a3cb141db1b8e4ebbf6483844fda8ba155059"
+      }
+    ],
+    "affects_episode_results": {
+      "answer": "no",
+      "reason": "에피소드 실행에 쓰이지 않는 상수다. G6 식과 판정 기준은 그대로다. 국소 해로움 탐침은 G6 판정에 쓰이고 도움·중립 탐침은 원래 판정에 쓰지 않는 기술용이었다(티켓 §3 G6-4). 진단 결과는 G1~G6에 쓰지 않는다"
+    },
+    "handling": null,
+    "changes_criteria_or_definitions": false
   }
 ]

@@ -142,3 +142,20 @@ def test_summarize_p4_picks_the_target_cell_and_marks_expert_failures() -> None:
         "share_of_wins_failing": 3 / 9,
     }
     assert s["throughput"]["load_s"] == 13.0
+
+
+def test_throughput_is_computed_per_run_not_across_runs() -> None:
+    from alfworld_pilot.p4 import throughput
+
+    a = [rec("a", "t", 0, True, started_at=0.0, finished_at=100.0, wall_s=100.0)]
+    a += [rec("b", "t", 0, True, started_at=0.0, finished_at=80.0, wall_s=80.0)]
+    t = throughput(a, load_s=[10.0])
+    assert t == {
+        "episodes": 2,
+        "wall_clock_s": 100.0,
+        "load_s": 10.0,
+        "s_bar_including_load": 50.0,
+        "s_bar_excluding_load": 45.0,
+        "effective_concurrency": 1.8,
+    }
+    assert throughput(a, load_s=[])["s_bar_excluding_load"] is None
