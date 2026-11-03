@@ -1,0 +1,1062 @@
+{
+  "G1": {
+    "install_route": "arm64-native",
+    "smoke_run": {
+      "admissible_commands_available": true,
+      "done": true,
+      "expert_plan_available": true,
+      "first_observation_sha256": "b956687553321786073f22d6cd8c41db968511f996c042b38a89ff08e22a9006",
+      "game": "~/.cache/alfworld/json_2.1.1/train/pick_heat_then_place_in_recep-Apple-None-CounterTop-2/trial_T20190908_112534_364453/game.tw-pddl",
+      "game_sha256": "0a7ff3f112f426f3a1ba5d68cbfa39f1ce1e2a7045dfff7a9be603ae32a1f721",
+      "seconds": 1.445,
+      "steps": 7,
+      "won": true
+    }
+  },
+  "G2": {
+    "games": 20,
+    "same_first_and_replay": 20
+  },
+  "G3": {
+    "caveat_folder_exclusion_009": {
+      "available_train": {
+        "look_at_obj_in_light": 235,
+        "pick_and_place_simple": 709,
+        "pick_clean_then_place_in_recep": 574,
+        "pick_cool_then_place_in_recep": 461,
+        "pick_heat_then_place_in_recep": 382,
+        "pick_two_obj_and_place": 743
+      },
+      "d_hat": {
+        "look_at_obj_in_light": 0.1,
+        "pick_and_place_simple": 0.3611111111111111,
+        "pick_clean_then_place_in_recep": 0.1,
+        "pick_cool_then_place_in_recep": 0.1,
+        "pick_heat_then_place_in_recep": 0.1111111111111111,
+        "pick_two_obj_and_place": 0.1111111111111111
+      },
+      "n_A": 10,
+      "n_B": {
+        "look_at_obj_in_light": 28,
+        "pick_and_place_simple": 98,
+        "pick_clean_then_place_in_recep": 28,
+        "pick_cool_then_place_in_recep": 28,
+        "pick_heat_then_place_in_recep": 31,
+        "pick_two_obj_and_place": 31
+      },
+      "n_O": {
+        "look_at_obj_in_light": 39,
+        "pick_and_place_simple": 139,
+        "pick_clean_then_place_in_recep": 39,
+        "pick_cool_then_place_in_recep": 39,
+        "pick_heat_then_place_in_recep": 43,
+        "pick_two_obj_and_place": 43
+      },
+      "n_min": 247,
+      "passes_preview": false
+    },
+    "fixed_rule_pool_only": {
+      "available_train": {
+        "look_at_obj_in_light": 278,
+        "pick_and_place_simple": 760,
+        "pick_clean_then_place_in_recep": 620,
+        "pick_cool_then_place_in_recep": 503,
+        "pick_heat_then_place_in_recep": 429,
+        "pick_two_obj_and_place": 783
+      },
+      "d_hat": {
+        "look_at_obj_in_light": 0.1,
+        "pick_and_place_simple": 0.3611111111111111,
+        "pick_clean_then_place_in_recep": 0.1,
+        "pick_cool_then_place_in_recep": 0.1,
+        "pick_heat_then_place_in_recep": 0.1111111111111111,
+        "pick_two_obj_and_place": 0.1111111111111111
+      },
+      "n_A": 10,
+      "n_B": {
+        "look_at_obj_in_light": 28,
+        "pick_and_place_simple": 98,
+        "pick_clean_then_place_in_recep": 28,
+        "pick_cool_then_place_in_recep": 28,
+        "pick_heat_then_place_in_recep": 31,
+        "pick_two_obj_and_place": 31
+      },
+      "n_O": {
+        "look_at_obj_in_light": 39,
+        "pick_and_place_simple": 139,
+        "pick_clean_then_place_in_recep": 39,
+        "pick_cool_then_place_in_recep": 39,
+        "pick_heat_then_place_in_recep": 43,
+        "pick_two_obj_and_place": 43
+      },
+      "n_min": 247,
+      "passes_preview": true
+    }
+  },
+  "G4": {
+    "cells": {
+      "look_at_obj_in_light": {
+        "episode_cp_95": [
+          0.0007030252059047808,
+          0.14528926474685327
+        ],
+        "game_majority": {
+          "clopper_pearson_95": [
+            0.0,
+            0.26464846939705133
+          ],
+          "games": 12,
+          "won_majority": 0
+        },
+        "success_rate": 0.027777777777777776
+      },
+      "pick_and_place_simple": {
+        "episode_cp_95": [
+          0.32724921563499487,
+          0.5663535545133642
+        ],
+        "game_majority": {
+          "clopper_pearson_95": [
+            0.2555302019947463,
+            0.671791924304822
+          ],
+          "games": 24,
+          "won_majority": 11
+        },
+        "success_rate": 0.4444444444444444
+      },
+      "pick_clean_then_place_in_recep": {
+        "episode_cp_95": [
+          0.0,
+          0.0973937559144919
+        ],
+        "game_majority": {
+          "clopper_pearson_95": [
+            0.0,
+            0.26464846939705133
+          ],
+          "games": 12,
+          "won_majority": 0
+        },
+        "success_rate": 0.0
+      },
+      "pick_cool_then_place_in_recep": {
+        "episode_cp_95": [
+          0.0007030252059047808,
+          0.14528926474685327
+        ],
+        "game_majority": {
+          "clopper_pearson_95": [
+            0.0,
+            0.26464846939705133
+          ],
+          "games": 12,
+          "won_majority": 0
+        },
+        "success_rate": 0.027777777777777776
+      },
+      "pick_heat_then_place_in_recep": {
+        "episode_cp_95": [
+          0.017526495923934626,
+          0.22468976055697315
+        ],
+        "game_majority": {
+          "clopper_pearson_95": [
+            0.0021075932318602277,
+            0.38479616515094406
+          ],
+          "games": 12,
+          "won_majority": 1
+        },
+        "success_rate": 0.08333333333333333
+      },
+      "pick_two_obj_and_place": {
+        "episode_cp_95": [
+          0.017526495923934626,
+          0.22468976055697315
+        ],
+        "game_majority": {
+          "clopper_pearson_95": [
+            0.0021075932318602277,
+            0.38479616515094406
+          ],
+          "games": 12,
+          "won_majority": 1
+        },
+        "success_rate": 0.08333333333333333
+      }
+    },
+    "inside": 1,
+    "inside_cells": [
+      "pick_and_place_simple"
+    ],
+    "needed": 4,
+    "passes_preview": false,
+    "range": [
+      0.15,
+      0.85
+    ]
+  },
+  "G5": {
+    "E_009": 27778,
+    "T_009_days": 33.24561492559003,
+    "T_009_s": 2872421.1295709787,
+    "budget_days": 7,
+    "candidates": 40,
+    "passes": false,
+    "per_candidate": 646,
+    "s0_repeats": 3,
+    "s_bar": 94.00575764898902
+  },
+  "G6": {
+    "available": true,
+    "cells": {
+      "look_at_obj_in_light": {
+        "delta": {
+          "float": 0.0,
+          "fraction": "0/1"
+        },
+        "games": 12,
+        "q_hi": {
+          "float": 0.16666666666666666,
+          "fraction": "1/6"
+        },
+        "q_lo": {
+          "float": 0.0,
+          "fraction": "0/1"
+        }
+      },
+      "pick_and_place_simple": {
+        "delta": {
+          "float": -0.125,
+          "fraction": "-1/8"
+        },
+        "games": 24,
+        "q_hi": {
+          "float": 0.20833333333333334,
+          "fraction": "5/24"
+        },
+        "q_lo": {
+          "float": -0.20833333333333334,
+          "fraction": "-5/24"
+        }
+      },
+      "pick_clean_then_place_in_recep": {
+        "delta": {
+          "float": 0.0,
+          "fraction": "0/1"
+        },
+        "games": 12,
+        "q_hi": {
+          "float": 0.0,
+          "fraction": "0/1"
+        },
+        "q_lo": {
+          "float": 0.0,
+          "fraction": "0/1"
+        }
+      },
+      "pick_cool_then_place_in_recep": {
+        "delta": {
+          "float": 0.0,
+          "fraction": "0/1"
+        },
+        "games": 12,
+        "q_hi": {
+          "float": 0.16666666666666666,
+          "fraction": "1/6"
+        },
+        "q_lo": {
+          "float": 0.0,
+          "fraction": "0/1"
+        }
+      },
+      "pick_heat_then_place_in_recep": {
+        "delta": {
+          "float": -0.08333333333333333,
+          "fraction": "-1/12"
+        },
+        "games": 12,
+        "q_hi": {
+          "float": 0.16666666666666666,
+          "fraction": "1/6"
+        },
+        "q_lo": {
+          "float": -0.16666666666666666,
+          "fraction": "-1/6"
+        }
+      },
+      "pick_two_obj_and_place": {
+        "delta": {
+          "float": -0.08333333333333333,
+          "fraction": "-1/12"
+        },
+        "games": 12,
+        "q_hi": {
+          "float": 0.25,
+          "fraction": "1/4"
+        },
+        "q_lo": {
+          "float": -0.25,
+          "fraction": "-1/4"
+        }
+      }
+    },
+    "episodes": 84,
+    "judgement": {
+      "non_target_outside": [],
+      "non_targets_inside": true,
+      "passes": false,
+      "target": "pick_and_place_simple",
+      "target_drop": false
+    },
+    "stops": {
+      "look_at_obj_in_light": {
+        "episodes": 12,
+        "episodes_with_format_errors": 0,
+        "format_error": 0,
+        "max_llm_calls": 0,
+        "max_steps": 3,
+        "no_tool_call": 9,
+        "won": 0
+      },
+      "pick_and_place_simple": {
+        "episodes": 24,
+        "episodes_with_format_errors": 7,
+        "format_error": 0,
+        "max_llm_calls": 0,
+        "max_steps": 11,
+        "no_tool_call": 5,
+        "won": 8
+      },
+      "pick_clean_then_place_in_recep": {
+        "episodes": 12,
+        "episodes_with_format_errors": 0,
+        "format_error": 0,
+        "max_llm_calls": 0,
+        "max_steps": 7,
+        "no_tool_call": 5,
+        "won": 0
+      },
+      "pick_cool_then_place_in_recep": {
+        "episodes": 12,
+        "episodes_with_format_errors": 6,
+        "format_error": 0,
+        "max_llm_calls": 0,
+        "max_steps": 9,
+        "no_tool_call": 3,
+        "won": 0
+      },
+      "pick_heat_then_place_in_recep": {
+        "episodes": 12,
+        "episodes_with_format_errors": 2,
+        "format_error": 0,
+        "max_llm_calls": 0,
+        "max_steps": 5,
+        "no_tool_call": 7,
+        "won": 0
+      },
+      "pick_two_obj_and_place": {
+        "episodes": 12,
+        "episodes_with_format_errors": 5,
+        "format_error": 0,
+        "max_llm_calls": 0,
+        "max_steps": 7,
+        "no_tool_call": 5,
+        "won": 0
+      }
+    }
+  },
+  "diagnostics": {
+    "diag_h1": {
+      "cells": {
+        "look_at_obj_in_light": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 41.666666666666664,
+            "variant": 50.0
+          },
+          "text_turns": {
+            "baseline": 74,
+            "variant": 123
+          },
+          "won": {
+            "baseline": 0,
+            "variant": 0
+          }
+        },
+        "pick_and_place_simple": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 33.5,
+            "variant": 38.166666666666664
+          },
+          "text_turns": {
+            "baseline": 27,
+            "variant": 25
+          },
+          "won": {
+            "baseline": 1,
+            "variant": 2
+          }
+        },
+        "pick_clean_then_place_in_recep": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 41.666666666666664,
+            "variant": 50.0
+          },
+          "text_turns": {
+            "baseline": 71,
+            "variant": 119
+          },
+          "won": {
+            "baseline": 0,
+            "variant": 0
+          }
+        },
+        "pick_cool_then_place_in_recep": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 44.0,
+            "variant": 50.0
+          },
+          "text_turns": {
+            "baseline": 55,
+            "variant": 71
+          },
+          "won": {
+            "baseline": 0,
+            "variant": 0
+          }
+        },
+        "pick_heat_then_place_in_recep": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 43.0,
+            "variant": 50.0
+          },
+          "text_turns": {
+            "baseline": 45,
+            "variant": 51
+          },
+          "won": {
+            "baseline": 1,
+            "variant": 0
+          }
+        },
+        "pick_two_obj_and_place": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 35.0,
+            "variant": 44.5
+          },
+          "text_turns": {
+            "baseline": 37,
+            "variant": 34
+          },
+          "won": {
+            "baseline": 2,
+            "variant": 1
+          }
+        }
+      },
+      "label": "exploratory diagnostic, not used for G1-G6",
+      "moves": {
+        "max_steps -> max_steps": 20,
+        "no_tool_call -> max_steps": 11,
+        "no_tool_call -> won": 1,
+        "won -> max_steps": 2,
+        "won -> won": 2
+      },
+      "paired_games": 36,
+      "won": {
+        "baseline": 4,
+        "variant": 3
+      }
+    },
+    "diag_h2": {
+      "cells": {
+        "look_at_obj_in_light": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 41.666666666666664,
+            "variant": 21.5
+          },
+          "text_turns": {
+            "baseline": 74,
+            "variant": 30
+          },
+          "won": {
+            "baseline": 0,
+            "variant": 3
+          }
+        },
+        "pick_and_place_simple": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 33.5,
+            "variant": 31.333333333333332
+          },
+          "text_turns": {
+            "baseline": 27,
+            "variant": 16
+          },
+          "won": {
+            "baseline": 1,
+            "variant": 2
+          }
+        },
+        "pick_clean_then_place_in_recep": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 41.666666666666664,
+            "variant": 43.333333333333336
+          },
+          "text_turns": {
+            "baseline": 71,
+            "variant": 46
+          },
+          "won": {
+            "baseline": 0,
+            "variant": 1
+          }
+        },
+        "pick_cool_then_place_in_recep": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 44.0,
+            "variant": 43.833333333333336
+          },
+          "text_turns": {
+            "baseline": 55,
+            "variant": 37
+          },
+          "won": {
+            "baseline": 0,
+            "variant": 1
+          }
+        },
+        "pick_heat_then_place_in_recep": {
+          "games": 6,
+          "mean_steps": {
+            "baseline": 43.0,
+            "variant": 38.333333333333336
+          },
+          "text_turns": {
+            "baseline": 45,
+            "variant": 60
+          },
+          "won": {
+            "baseline": 1,
+            "variant": 1
+          }
+        }
+      },
+      "label": "exploratory diagnostic, not used for G1-G6",
+      "moves": {
+        "max_steps -> max_steps": 11,
+        "max_steps -> no_tool_call": 2,
+        "max_steps -> won": 5,
+        "no_tool_call -> max_steps": 5,
+        "no_tool_call -> no_tool_call": 3,
+        "no_tool_call -> won": 2,
+        "won -> no_tool_call": 1,
+        "won -> won": 1
+      },
+      "paired_games": 30,
+      "won": {
+        "baseline": 2,
+        "variant": 8
+      }
+    },
+    "label": "exploratory diagnostic, not used for G1-G6"
+  },
+  "e_a_conclusion": {
+    "base_rate": 0.15873015873015872,
+    "episodes": 252,
+    "holds": 40,
+    "share_of_wins_failing": 0.0,
+    "won": 40
+  },
+  "failure_breakdown": {
+    "look_at_obj_in_light": {
+      "episodes": 36,
+      "episodes_with_format_errors": 9,
+      "format_error": 1,
+      "max_llm_calls": 0,
+      "max_steps": 16,
+      "no_tool_call": 18,
+      "won": 1
+    },
+    "pick_and_place_simple": {
+      "episodes": 72,
+      "episodes_with_format_errors": 10,
+      "format_error": 0,
+      "max_llm_calls": 0,
+      "max_steps": 21,
+      "no_tool_call": 19,
+      "won": 32
+    },
+    "pick_clean_then_place_in_recep": {
+      "episodes": 36,
+      "episodes_with_format_errors": 6,
+      "format_error": 0,
+      "max_llm_calls": 0,
+      "max_steps": 18,
+      "no_tool_call": 18,
+      "won": 0
+    },
+    "pick_cool_then_place_in_recep": {
+      "episodes": 36,
+      "episodes_with_format_errors": 6,
+      "format_error": 0,
+      "max_llm_calls": 0,
+      "max_steps": 20,
+      "no_tool_call": 15,
+      "won": 1
+    },
+    "pick_heat_then_place_in_recep": {
+      "episodes": 36,
+      "episodes_with_format_errors": 6,
+      "format_error": 0,
+      "max_llm_calls": 0,
+      "max_steps": 20,
+      "no_tool_call": 13,
+      "won": 3
+    },
+    "pick_two_obj_and_place": {
+      "episodes": 36,
+      "episodes_with_format_errors": 4,
+      "format_error": 0,
+      "max_llm_calls": 0,
+      "max_steps": 14,
+      "no_tool_call": 19,
+      "won": 3
+    }
+  },
+  "gates": {
+    "G1": "pass",
+    "G2": "pass",
+    "G3": "pass",
+    "G4": "fail",
+    "G5": "fail",
+    "G6": "fail"
+  },
+  "reduced_designs": [
+    {
+      "E_009": 8398,
+      "T_009_days": 10.050999861224893,
+      "candidates": 10,
+      "cell_scale": 1.0,
+      "fits": false,
+      "per_candidate": 646,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 7106,
+      "T_009_days": 8.504692190267217,
+      "candidates": 10,
+      "cell_scale": 1.0,
+      "fits": false,
+      "per_candidate": 646,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 4641,
+      "T_009_days": 5.5544999233084935,
+      "candidates": 10,
+      "cell_scale": 0.5,
+      "fits": true,
+      "per_candidate": 357,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 3927,
+      "T_009_days": 4.699961473568726,
+      "candidates": 10,
+      "cell_scale": 0.5,
+      "fits": true,
+      "per_candidate": 357,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 2717,
+      "T_009_days": 3.2517940727492305,
+      "candidates": 10,
+      "cell_scale": 0.25,
+      "fits": true,
+      "per_candidate": 209,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 2299,
+      "T_009_days": 2.751518061557041,
+      "candidates": 10,
+      "cell_scale": 0.25,
+      "fits": true,
+      "per_candidate": 209,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 14858,
+      "T_009_days": 17.782538216013275,
+      "candidates": 20,
+      "cell_scale": 1.0,
+      "fits": false,
+      "per_candidate": 646,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 13566,
+      "T_009_days": 16.236230545055598,
+      "candidates": 20,
+      "cell_scale": 1.0,
+      "fits": false,
+      "per_candidate": 646,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 8211,
+      "T_009_days": 9.827192172007335,
+      "candidates": 20,
+      "cell_scale": 0.5,
+      "fits": false,
+      "per_candidate": 357,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 7497,
+      "T_009_days": 8.972653722267568,
+      "candidates": 20,
+      "cell_scale": 0.5,
+      "fits": false,
+      "per_candidate": 357,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 4807,
+      "T_009_days": 5.753174128710177,
+      "candidates": 20,
+      "cell_scale": 0.25,
+      "fits": true,
+      "per_candidate": 209,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 4389,
+      "T_009_days": 5.252898117517987,
+      "candidates": 20,
+      "cell_scale": 0.25,
+      "fits": true,
+      "per_candidate": 209,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 27778,
+      "T_009_days": 33.24561492559003,
+      "candidates": 40,
+      "cell_scale": 1.0,
+      "fits": false,
+      "per_candidate": 646,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 26486,
+      "T_009_days": 31.699307254632355,
+      "candidates": 40,
+      "cell_scale": 1.0,
+      "fits": false,
+      "per_candidate": 646,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 15351,
+      "T_009_days": 18.37257666940502,
+      "candidates": 40,
+      "cell_scale": 0.5,
+      "fits": false,
+      "per_candidate": 357,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 14637,
+      "T_009_days": 17.51803821966525,
+      "candidates": 40,
+      "cell_scale": 0.5,
+      "fits": false,
+      "per_candidate": 357,
+      "s0_repeats": 1
+    },
+    {
+      "E_009": 8987,
+      "T_009_days": 10.755934240632069,
+      "candidates": 40,
+      "cell_scale": 0.25,
+      "fits": false,
+      "per_candidate": 209,
+      "s0_repeats": 3
+    },
+    {
+      "E_009": 8569,
+      "T_009_days": 10.25565822943988,
+      "candidates": 40,
+      "cell_scale": 0.25,
+      "fits": false,
+      "per_candidate": 209,
+      "s0_repeats": 1
+    }
+  ],
+  "text_turns": {
+    "look_at_obj_in_light": {
+      "content_chars": {
+        "max": 360,
+        "mean": 51.15,
+        "median": 44.0,
+        "min": 0,
+        "n": 420
+      },
+      "empty_content": 12,
+      "text_turns": 420,
+      "thinking_chars": {
+        "max": 1924,
+        "mean": 56.438,
+        "median": 0.0,
+        "min": 0,
+        "n": 420
+      },
+      "top_openings": [
+        [
+          "look",
+          15
+        ],
+        [
+          "I couldn't find the alarmclock.I couldn't find the alarmcloc",
+          13
+        ],
+        [
+          "I’m still unable to find the CD or desklamp.",
+          13
+        ],
+        [
+          "",
+          12
+        ],
+        [
+          "I’m still unable to locate the CD or the desk lamp.",
+          7
+        ]
+      ]
+    },
+    "pick_and_place_simple": {
+      "content_chars": {
+        "max": 331,
+        "mean": 61.906,
+        "median": 47,
+        "min": 0,
+        "n": 363
+      },
+      "empty_content": 15,
+      "text_turns": 363,
+      "thinking_chars": {
+        "max": 2035,
+        "mean": 32.518,
+        "median": 0,
+        "min": 0,
+        "n": 363
+      },
+      "top_openings": [
+        [
+          "",
+          15
+        ],
+        [
+          "I still can't find the remotecontrol.",
+          12
+        ],
+        [
+          "I’m still unable to locate the spraybottle.",
+          12
+        ],
+        [
+          "I still can't find a candle.",
+          11
+        ],
+        [
+          "I couldn't find the remotecontrol.",
+          8
+        ]
+      ]
+    },
+    "pick_clean_then_place_in_recep": {
+      "content_chars": {
+        "max": 898,
+        "mean": 55.404,
+        "median": 40.5,
+        "min": 0,
+        "n": 426
+      },
+      "empty_content": 4,
+      "text_turns": 426,
+      "thinking_chars": {
+        "max": 1856,
+        "mean": 29.277,
+        "median": 0.0,
+        "min": 0,
+        "n": 426
+      },
+      "top_openings": [
+        [
+          "I’m ready for the next instruction.",
+          13
+        ],
+        [
+          "The ladle has been placed in cabinet 1.",
+          12
+        ],
+        [
+          "I have no further actions.I have no further actions.",
+          9
+        ],
+        [
+          "I’m finished.",
+          9
+        ],
+        [
+          "Task completed.",
+          8
+        ]
+      ]
+    },
+    "pick_cool_then_place_in_recep": {
+      "content_chars": {
+        "max": 218,
+        "mean": 51.205,
+        "median": 40.0,
+        "min": 0,
+        "n": 342
+      },
+      "empty_content": 13,
+      "text_turns": 342,
+      "thinking_chars": {
+        "max": 1587,
+        "mean": 39.064,
+        "median": 0.0,
+        "min": 0,
+        "n": 342
+      },
+      "top_openings": [
+        [
+          "Task completed.",
+          17
+        ],
+        [
+          "",
+          13
+        ],
+        [
+          "I’ll stop.I’ll stop.",
+          13
+        ],
+        [
+          "I’m still unable to find a bowl to cool and move to the micr",
+          9
+        ],
+        [
+          "I’m ready for the next step.",
+          9
+        ]
+      ]
+    },
+    "pick_heat_then_place_in_recep": {
+      "content_chars": {
+        "max": 154,
+        "mean": 50.317,
+        "median": 44.0,
+        "min": 0,
+        "n": 312
+      },
+      "empty_content": 9,
+      "text_turns": 312,
+      "thinking_chars": {
+        "max": 1601,
+        "mean": 41.766,
+        "median": 0.0,
+        "min": 0,
+        "n": 312
+      },
+      "top_openings": [
+        [
+          "The task is complete.",
+          18
+        ],
+        [
+          "I’m sorry, but I couldn’t complete the task.",
+          17
+        ],
+        [
+          "Task completed.",
+          12
+        ],
+        [
+          "I’m sorry, but I can’t complete the task.",
+          11
+        ],
+        [
+          "",
+          9
+        ]
+      ]
+    },
+    "pick_two_obj_and_place": {
+      "content_chars": {
+        "max": 1247,
+        "mean": 79.396,
+        "median": 55,
+        "min": 0,
+        "n": 323
+      },
+      "empty_content": 8,
+      "text_turns": 323,
+      "thinking_chars": {
+        "max": 1627,
+        "mean": 57.415,
+        "median": 0,
+        "min": 0,
+        "n": 323
+      },
+      "top_openings": [
+        [
+          "I couldn't find any cloth to put in the drawers.",
+          19
+        ],
+        [
+          "",
+          8
+        ],
+        [
+          "I’m still searching for books. If you see any, let me know.",
+          8
+        ],
+        [
+          "I’m still searching for books. If you see any, let me know.I",
+          5
+        ],
+        [
+          "I’m still unable to pick up the books.",
+          5
+        ]
+      ]
+    }
+  },
+  "verdict": {
+    "conditional": [],
+    "failed": [
+      "G4",
+      "G5",
+      "G6"
+    ],
+    "rule": "그 밖",
+    "verdict": "No-Go"
+  }
+}
