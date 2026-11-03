@@ -1,0 +1,554 @@
+{
+  "cells": {
+    "look_at_obj_in_light": {
+      "clopper_pearson_95": [
+        0.0007030252059047808,
+        0.14528926474685327
+      ],
+      "d_c": 0.05555555555555555,
+      "episodes": 36,
+      "games": 12,
+      "stop_reasons": {
+        "format_error": 1,
+        "max_steps": 16,
+        "no_tool_call": 18,
+        "won": 1
+      },
+      "success_rate": 0.027777777777777776,
+      "success_rate_by_repeat": [
+        0.0,
+        0.0,
+        0.08333333333333333
+      ],
+      "won": 1
+    },
+    "pick_and_place_simple": {
+      "clopper_pearson_95": [
+        0.2551410483264678,
+        0.5924347591082235
+      ],
+      "d_c": 0.2222222222222222,
+      "episodes": 36,
+      "games": 12,
+      "stop_reasons": {
+        "max_steps": 14,
+        "no_tool_call": 7,
+        "won": 15
+      },
+      "success_rate": 0.4166666666666667,
+      "success_rate_by_repeat": [
+        0.25,
+        0.4166666666666667,
+        0.5833333333333334
+      ],
+      "won": 15
+    },
+    "pick_clean_then_place_in_recep": {
+      "clopper_pearson_95": [
+        0.0,
+        0.0973937559144919
+      ],
+      "d_c": 0.0,
+      "episodes": 36,
+      "games": 12,
+      "stop_reasons": {
+        "max_steps": 18,
+        "no_tool_call": 18
+      },
+      "success_rate": 0.0,
+      "success_rate_by_repeat": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "won": 0
+    },
+    "pick_cool_then_place_in_recep": {
+      "clopper_pearson_95": [
+        0.0007030252059047808,
+        0.14528926474685327
+      ],
+      "d_c": 0.05555555555555555,
+      "episodes": 36,
+      "games": 12,
+      "stop_reasons": {
+        "max_steps": 20,
+        "no_tool_call": 15,
+        "won": 1
+      },
+      "success_rate": 0.027777777777777776,
+      "success_rate_by_repeat": [
+        0.0,
+        0.0,
+        0.08333333333333333
+      ],
+      "won": 1
+    },
+    "pick_heat_then_place_in_recep": {
+      "clopper_pearson_95": [
+        0.017526495923934626,
+        0.22468976055697315
+      ],
+      "d_c": 0.1111111111111111,
+      "episodes": 36,
+      "games": 12,
+      "stop_reasons": {
+        "max_steps": 20,
+        "no_tool_call": 13,
+        "won": 3
+      },
+      "success_rate": 0.08333333333333333,
+      "success_rate_by_repeat": [
+        0.08333333333333333,
+        0.0,
+        0.16666666666666666
+      ],
+      "won": 3
+    },
+    "pick_two_obj_and_place": {
+      "clopper_pearson_95": [
+        0.017526495923934626,
+        0.22468976055697315
+      ],
+      "d_c": 0.1111111111111111,
+      "episodes": 36,
+      "games": 12,
+      "stop_reasons": {
+        "max_steps": 14,
+        "no_tool_call": 19,
+        "won": 3
+      },
+      "success_rate": 0.08333333333333333,
+      "success_rate_by_repeat": [
+        0.16666666666666666,
+        0.0,
+        0.08333333333333333
+      ],
+      "won": 3
+    }
+  },
+  "config": {
+    "hash_seed": "0",
+    "policy": {
+      "command_list_in_prompt": false,
+      "expert_plan_in_prompt": false,
+      "format_error_policy": {
+        "feedback": "error_as_tool_result",
+        "max_consecutive_format_errors": 3
+      },
+      "history": {
+        "budget_chars": 18432,
+        "chars_per_token": 3,
+        "reserve_tokens": 2048,
+        "rule": "keep system + first observation; drop oldest turns until the prompt fits the character budget; insert '[N earlier steps omitted]'"
+      },
+      "instructions_sha256": "6539a5491ca758686a8e1102857d90d05f98727ee865081a8307b08d26ca62fe",
+      "keep_alive": "60m",
+      "max_llm_calls": 100,
+      "max_steps": 50,
+      "model": "gpt-oss:20b",
+      "num_ctx": 8192,
+      "seed_rule": "derive_llm_seed(game_rel, repeat): sha256, first 8 bytes mod 2^31",
+      "stop": {
+        "max_consecutive_text_turns": 2
+      },
+      "temperature": 0.7,
+      "think": "low"
+    },
+    "server": {
+      "model_digest": "f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe",
+      "ollama_version": "0.40.3",
+      "quantization": "MXFP4"
+    },
+    "skill_sha256": "0e59f723b8c0de107e5f58ca841ddaae6d9b98f8558f9f90a6524775abdda2b9"
+  },
+  "e_a": {
+    "base_rate": 0.10648148148148148,
+    "episodes": 216,
+    "holds": 23,
+    "share_of_wins_failing": 0.0,
+    "won": 23
+  },
+  "e_b": {
+    "admissible_steps": 4977,
+    "steps": 8395
+  },
+  "e_c": {
+    "defined": 207,
+    "holds": 10
+  },
+  "episodes": 216,
+  "expert_failed_games": [
+    {
+      "rel": "train/pick_heat_then_place_in_recep-Cup-None-SideTable-3/trial_T20190908_210949_409950",
+      "won": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "rel": "train/pick_two_obj_and_place-CD-None-Shelf-303/trial_T20190907_200441_879615",
+      "won": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "rel": "train/pick_two_obj_and_place-Candle-None-Drawer-427/trial_T20190909_043851_831379",
+      "won": [
+        false,
+        false,
+        false
+      ]
+    }
+  ],
+  "format_errors": 69,
+  "g3_preview": {
+    "available_train": {
+      "look_at_obj_in_light": 278,
+      "pick_and_place_simple": 760,
+      "pick_clean_then_place_in_recep": 620,
+      "pick_cool_then_place_in_recep": 503,
+      "pick_heat_then_place_in_recep": 429,
+      "pick_two_obj_and_place": 783
+    },
+    "d_hat": {
+      "look_at_obj_in_light": 0.1,
+      "pick_and_place_simple": 0.2222222222222222,
+      "pick_clean_then_place_in_recep": 0.1,
+      "pick_cool_then_place_in_recep": 0.1,
+      "pick_heat_then_place_in_recep": 0.1111111111111111,
+      "pick_two_obj_and_place": 0.1111111111111111
+    },
+    "n_A": 10,
+    "n_B": {
+      "look_at_obj_in_light": 28,
+      "pick_and_place_simple": 61,
+      "pick_clean_then_place_in_recep": 28,
+      "pick_cool_then_place_in_recep": 28,
+      "pick_heat_then_place_in_recep": 31,
+      "pick_two_obj_and_place": 31
+    },
+    "n_O": {
+      "look_at_obj_in_light": 39,
+      "pick_and_place_simple": 86,
+      "pick_clean_then_place_in_recep": 39,
+      "pick_cool_then_place_in_recep": 39,
+      "pick_heat_then_place_in_recep": 43,
+      "pick_two_obj_and_place": 43
+    },
+    "n_min": 157,
+    "passes_preview": true
+  },
+  "g4_preview": {
+    "inside": 1,
+    "inside_cells": [
+      "pick_and_place_simple"
+    ],
+    "needed": 4,
+    "passes_preview": false,
+    "range": [
+      0.15,
+      0.85
+    ]
+  },
+  "memory": {
+    "max_free_percent": 68,
+    "min_free_percent": 13,
+    "ollama_ps": [
+      "gpt-oss:20b 12 GB 100% GPU 8192"
+    ],
+    "samples": 677
+  },
+  "per_episode": {
+    "llm_calls": {
+      "max": 80,
+      "mean": 48.431,
+      "median": 53.5,
+      "min": 4,
+      "n": 216
+    },
+    "max_prompt_tokens": {
+      "max": 3839,
+      "mean": 2544.06,
+      "median": 2757.5,
+      "min": 653,
+      "n": 216
+    },
+    "steps": {
+      "max": 50,
+      "mean": 38.866,
+      "median": 47.0,
+      "min": 4,
+      "n": 216
+    },
+    "wall_s": {
+      "max": 565.749,
+      "mean": 177.044,
+      "median": 174.531,
+      "min": 11.563,
+      "n": 216
+    }
+  },
+  "preview_only": true,
+  "sources": {
+    "episodes.jsonl": "44a7b22290653cfeaab9f930994efe0552e11ddf4914784b2ccdec84a391b4dd",
+    "memory.log": "1ea20582197d43c441e8f880023364705eea87fedc2a1571ca85dae1c018b953",
+    "server_log_excerpt.txt": "e11750962d2169065cc02d26d7cd538bfb6881c5b49eec4b35e81f5a0c3ca650"
+  },
+  "target_cell": "pick_and_place_simple",
+  "text_turn_total": 1997,
+  "text_turns": {
+    "look_at_obj_in_light": {
+      "content_chars": {
+        "max": 360,
+        "mean": 51.15,
+        "median": 44.0,
+        "min": 0,
+        "n": 420
+      },
+      "empty_content": 12,
+      "text_turns": 420,
+      "thinking_chars": {
+        "max": 1924,
+        "mean": 56.438,
+        "median": 0.0,
+        "min": 0,
+        "n": 420
+      },
+      "top_openings": [
+        [
+          "look",
+          15
+        ],
+        [
+          "I couldn't find the alarmclock.I couldn't find the alarmcloc",
+          13
+        ],
+        [
+          "I’m still unable to find the CD or desklamp.",
+          13
+        ],
+        [
+          "",
+          12
+        ],
+        [
+          "I’m still unable to locate the CD or the desk lamp.",
+          7
+        ]
+      ]
+    },
+    "pick_and_place_simple": {
+      "content_chars": {
+        "max": 294,
+        "mean": 69.569,
+        "median": 55.5,
+        "min": 0,
+        "n": 174
+      },
+      "empty_content": 9,
+      "text_turns": 174,
+      "thinking_chars": {
+        "max": 968,
+        "mean": 32.586,
+        "median": 0.0,
+        "min": 0,
+        "n": 174
+      },
+      "top_openings": [
+        [
+          "I still can't find a candle.",
+          11
+        ],
+        [
+          "",
+          9
+        ],
+        [
+          "I have no items to move.",
+          3
+        ],
+        [
+          "I have no further actions.",
+          2
+        ],
+        [
+          "I cannot proceed further.",
+          2
+        ]
+      ]
+    },
+    "pick_clean_then_place_in_recep": {
+      "content_chars": {
+        "max": 898,
+        "mean": 55.404,
+        "median": 40.5,
+        "min": 0,
+        "n": 426
+      },
+      "empty_content": 4,
+      "text_turns": 426,
+      "thinking_chars": {
+        "max": 1856,
+        "mean": 29.277,
+        "median": 0.0,
+        "min": 0,
+        "n": 426
+      },
+      "top_openings": [
+        [
+          "I’m ready for the next instruction.",
+          13
+        ],
+        [
+          "The ladle has been placed in cabinet 1.",
+          12
+        ],
+        [
+          "I have no further actions.I have no further actions.",
+          9
+        ],
+        [
+          "I’m finished.",
+          9
+        ],
+        [
+          "Task completed.",
+          8
+        ]
+      ]
+    },
+    "pick_cool_then_place_in_recep": {
+      "content_chars": {
+        "max": 218,
+        "mean": 51.205,
+        "median": 40.0,
+        "min": 0,
+        "n": 342
+      },
+      "empty_content": 13,
+      "text_turns": 342,
+      "thinking_chars": {
+        "max": 1587,
+        "mean": 39.064,
+        "median": 0.0,
+        "min": 0,
+        "n": 342
+      },
+      "top_openings": [
+        [
+          "Task completed.",
+          17
+        ],
+        [
+          "",
+          13
+        ],
+        [
+          "I’ll stop.I’ll stop.",
+          13
+        ],
+        [
+          "I’m still unable to find a bowl to cool and move to the micr",
+          9
+        ],
+        [
+          "I’m ready for the next step.",
+          9
+        ]
+      ]
+    },
+    "pick_heat_then_place_in_recep": {
+      "content_chars": {
+        "max": 154,
+        "mean": 50.317,
+        "median": 44.0,
+        "min": 0,
+        "n": 312
+      },
+      "empty_content": 9,
+      "text_turns": 312,
+      "thinking_chars": {
+        "max": 1601,
+        "mean": 41.766,
+        "median": 0.0,
+        "min": 0,
+        "n": 312
+      },
+      "top_openings": [
+        [
+          "The task is complete.",
+          18
+        ],
+        [
+          "I’m sorry, but I couldn’t complete the task.",
+          17
+        ],
+        [
+          "Task completed.",
+          12
+        ],
+        [
+          "I’m sorry, but I can’t complete the task.",
+          11
+        ],
+        [
+          "",
+          9
+        ]
+      ]
+    },
+    "pick_two_obj_and_place": {
+      "content_chars": {
+        "max": 1247,
+        "mean": 79.396,
+        "median": 55,
+        "min": 0,
+        "n": 323
+      },
+      "empty_content": 8,
+      "text_turns": 323,
+      "thinking_chars": {
+        "max": 1627,
+        "mean": 57.415,
+        "median": 0,
+        "min": 0,
+        "n": 323
+      },
+      "top_openings": [
+        [
+          "I couldn't find any cloth to put in the drawers.",
+          19
+        ],
+        [
+          "",
+          8
+        ],
+        [
+          "I’m still searching for books. If you see any, let me know.",
+          8
+        ],
+        [
+          "I’m still searching for books. If you see any, let me know.I",
+          5
+        ],
+        [
+          "I’m still unable to pick up the books.",
+          5
+        ]
+      ]
+    }
+  },
+  "throughput": {
+    "effective_concurrency": 1.88125520248343,
+    "load_s": 22.42,
+    "s_bar_excluding_load": 94.00575764898902,
+    "s_bar_including_load": 94.1095539452853,
+    "wall_clock_s": 20327.663652181625
+  },
+  "truncated_calls": 9,
+  "won": 23
+}
