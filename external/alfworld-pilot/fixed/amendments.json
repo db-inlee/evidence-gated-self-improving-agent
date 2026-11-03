@@ -66,5 +66,22 @@
     },
     "handling": null,
     "changes_criteria_or_definitions": false
+  },
+  {
+    "date": "2026-11-03",
+    "what": "agent.py: run_episode에 선택 인자 observation_suffix(Callable[[], str] | None = None)를 더함. 주면 보내는 요청의 가장 최근 관측(걸음 전이면 첫 관측)에만 문자열을 덧붙이고, 이력 예산을 접미사의 JSON 길이만큼 줄인다. 이력과 기록에는 원래 관측만 남긴다. AlfworldEnv.admissible_commands()(목록 사본) 공개 메서드를 더함",
+    "why": "하네스 진단 H2(매 관측 뒤 가능한 명령 목록 제공, exploratory diagnostic, not used for G1-G6)를 방식 (나)로 구현한다(2026-11-03 결정 2). 목록이 이력에 쌓여 자르기가 진단을 오염시키는 것을 막는다",
+    "files": [
+      {
+        "path": "src/alfworld_pilot/agent.py",
+        "sha256": "50ae14232ebaa3271f44da028bba36be953fd0c3896250f9da28e2975058760c"
+      }
+    ],
+    "affects_episode_results": {
+      "answer": "no",
+      "reason": "기본값 None 경로는 수정 전과 같다. tests/test_p2_diagnostics.py가 같은 가짜 채팅 시나리오 3개(won / no_tool_call / format_error)에서 기록과 LLM 요청 본문을 수정 전 golden과 비교해 같음을 확인한다. S0·P5 실행은 이 인자를 쓰지 않는다"
+    },
+    "handling": null,
+    "changes_criteria_or_definitions": false
   }
 ]

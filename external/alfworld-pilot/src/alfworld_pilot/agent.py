@@ -18,6 +18,10 @@
 thinking 길이를 `text_turn_diagnostics`에 남긴다. 기록만 더할 뿐 프롬프트·판정·흐름은 그대로다
 (tests/test_p2_diagnostics.py가 수정 전 golden과 비교한다).
 
+H2 진단 훅(2026-11-03 amendment): `observation_suffix`를 주면 보내는 요청의 가장 최근 관측(아직
+걸음이 없으면 첫 관측)에만 그 문자열을 덧붙인다. 이력·기록에는 원래 관측만 남고, 이력 예산은 접미사
+길이만큼 줄인다. 기본값 None 경로는 수정 전과 같다(golden 비교).
+
 LLM이 읽는 텍스트는 영어이고 정답 단서를 넣지 않는다. 바꾸면 `instructions_sha256`이 바뀐다.
 """
 
@@ -26,7 +30,7 @@ import json
 import time
 import urllib.error
 import urllib.request
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Protocol
@@ -239,8 +243,27 @@ def _command(calls: list[dict[str, Any]]) -> tuple[str | None, str | None]:
     return command.strip(), None
 
 
+def _with_suffix(messages: list[Message], latest: Message | None, suffix: str) -> list[Message]:
+    """가장 최근 관측 메시지(latest, 없으면 첫 관측) 하나에만 접미사를 붙인 새 목록."""
+    if latest is None:
+        index: int | None = 1
+    else:
+        index = next((i for i, m in enumerate(messages) if m is latest), None)
+    if index is None:  # 이력 자르기로 빠졌다
+        return messages
+    out = list(messages)
+    out[index] = {**out[index], "content": out[index]["content"] + "\n\n" + suffix}
+    return out
+
+
 def run_episode(
-    env: Env, skill_text: str, chat: ChatClient, *, seed: int, settings: PolicySettings
+    env: Env,
+    skill_text: str,
+    chat: ChatClient,
+    *,
+    seed: int,
+    settings: PolicySettings,
+    observation_suffix: Callable[[], str] | None = None,
 ) -> EpisodeTrace:
     s = settings
     start = time.perf_counter()
@@ -252,6 +275,7 @@ def run_episode(
     completion_tokens: list[int] = []
     format_errors = text_turns = consecutive_errors = consecutive_text = 0
     diagnostics: list[dict[str, Any]] = []
+    latest_observation: Message | None = None  # 가장 최근 걸음의 관측 메시지(H2 접미사 위치)
     truncated_calls = max_omitted = 0
     won = False
     stop_reason = ""
@@ -261,9 +285,13 @@ def run_episode(
         if len(prompt_tokens) >= s.max_llm_calls:
             stop_reason = "max_llm_calls"
             break
-        messages, omitted = build_messages(
-            system, first, turns, budget_chars=s.history_budget_chars
-        )
+        suffix = observation_suffix() if observation_suffix is not None else ""
+        # 접미사가 늘리는 JSON 길이("\n\n" 이스케이프 포함)만큼 이력 예산을 줄인다
+        extra = len(json.dumps("\n\n" + suffix)) - 2 if suffix else 0
+        budget = s.history_budget_chars - extra
+        messages, omitted = build_messages(system, first, turns, budget_chars=budget)
+        if suffix:
+            messages = _with_suffix(messages, latest_observation, suffix)
         if omitted:
             truncated_calls += 1
             max_omitted = max(max_omitted, omitted)
@@ -330,6 +358,7 @@ def run_episode(
         outcome = env.step(command)
         steps.append(StepTrace(command, outcome.observation, outcome.admissible))
         turns.append(step_turn(command, outcome.observation))
+        latest_observation = turns[-1][1]
         if outcome.won:
             won, stop_reason = True, "won"
         elif outcome.done or len(steps) >= s.max_steps:
@@ -380,6 +409,10 @@ class AlfworldEnv:
 
     def close(self) -> None:
         self._env.close()
+
+    def admissible_commands(self) -> list[str]:
+        """지금 상태의 가능한 명령 목록 사본(H2 진단과 E-b용)."""
+        return list(self._admissible)
 
     def last_admissible_for_tests(self) -> list[str]:
         return list(self._admissible)
