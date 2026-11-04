@@ -17,6 +17,14 @@
   **CD·ES는 어디에도 출력하지 않는다**(진행 확인 포함).
 - 세션 경계, 점검·탐침 결과, 서버 오류는 `runs/ticket005/sessions.jsonl`에 남긴다. Ticket 006
   실행기(`l3_bench`)는 같은 함수를 `session_log`만 바꿔(`runs/ticket006/sessions.jsonl`) 쓴다.
+- Ticket 009 선택 인자(기본값이면 위 동작과 같다):
+  - `check_power`: 시작할 때와 할 일이 있던 블록이 끝날 때마다 부른다. `PowerCheckError`면 중단
+    (종료 코드 2, 끝 기록 "power check failed …").
+  - `stop_at`(시각), `stop_file`(경로): 할 일이 있는 블록을 시작하기 전에 확인한다. 시각이 지났거나
+    파일이 있으면 그 블록을 시작하지 않고 정상 종료한다(끝 기록 "stop_at" / "stop_file").
+    진행 중인 블록은 끝까지 돈다.
+  - `log_interrupt`: Ctrl-C(KeyboardInterrupt)를 끝 기록 "interrupted"로 남기고 다시 올린다.
+  - `session_fields`: 시작 기록에 더할 필드(단계, Ollama 버전, 계획 sha256 등).
 """
 
 import argparse
@@ -24,7 +32,7 @@ import json
 import sys
 import time
 from collections import deque
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -58,6 +66,7 @@ from evidencegate.ollama_policy import (
     probe_parallelism,
 )
 from evidencegate.policy import Policy
+from evidencegate.power import PowerCheckError
 from evidencegate.preflight import Check, preflight_ok, run_preflight
 from evidencegate.run_plan import DEFAULT_PLAN_PATH, Block, load_plan
 from evidencegate.runner import EpisodeRecord, run_episode
@@ -97,6 +106,7 @@ class RunSummary:
     episodes_failed: int
     server_errors: int
     stopped_by_max_blocks: bool
+    stopped_by: str | None = None  # "stop_at" / "stop_file"(블록 경계 멈춤, Ticket 009)
 
 
 DEFAULT_RULES = StopRules()
@@ -152,10 +162,23 @@ def run_blocks(
     max_blocks: int | None = None,
     rules: StopRules | None = None,
     session_log: str = SESSION_LOG,
+    check_power: Callable[[], None] | None = None,
+    stop_at: datetime | None = None,
+    stop_file: Path | None = None,
+    clock: Callable[[], datetime] | None = None,
+    log_interrupt: bool = False,
+    session_fields: Mapping[str, Any] | None = None,
 ) -> RunSummary:
     rules = rules or DEFAULT_RULES
+    now = clock or (lambda: datetime.now(UTC))
     log = SessionLog(runs_dir, session_log)
-    log.write("session_start", blocks=len(plan), max_blocks=max_blocks, workers=workers)
+    log.write(
+        "session_start",
+        blocks=len(plan),
+        max_blocks=max_blocks,
+        workers=workers,
+        **dict(session_fields or {}),
+    )
     window = FormatErrorWindow(rules)
     for record in sorted(_plan_records(plan, runs_dir, policy), key=lambda r: r.started_at):
         window.add(record.trace.format_errors > 0)
@@ -165,6 +188,8 @@ def run_blocks(
     last: dict[str, Any] | None = None
     start = time.perf_counter()
     try:
+        if check_power is not None:
+            _check_power(check_power, "at start", last)
         for block in plan:
             if max_blocks is not None and counts["blocks_run"] >= max_blocks:
                 log.write("session_end", reason="max_blocks", **_summary_fields(counts))
@@ -176,6 +201,11 @@ def run_blocks(
             if not todo:
                 counts["blocks_skipped"] += 1
                 continue
+            boundary = _boundary_stop(stop_file, stop_at, now)
+            if boundary is not None:
+                log.write("session_end", reason=boundary, **_summary_fields(counts))
+                print(f"stopped at a block boundary: {boundary}", file=out, flush=True)
+                return _summary(counts, stopped_by_max_blocks=False, stopped_by=boundary)
             print(
                 f"block {block.index} {block.name}/{block.split}/r{block.repeat}: "
                 f"{len(todo)} to run",
@@ -217,11 +247,34 @@ def run_blocks(
                             last,
                         )
             counts["blocks_run"] += 1
+            if check_power is not None:
+                _check_power(check_power, f"after block {block.index}", last)
     except BenchStopped as stop:
         log.write("session_end", reason=stop.reason, last=stop.last, **_summary_fields(counts))
         raise
+    except KeyboardInterrupt:
+        if log_interrupt:
+            log.write("session_end", reason="interrupted", last=last, **_summary_fields(counts))
+        raise
     log.write("session_end", reason="plan_done", **_summary_fields(counts))
     return _summary(counts, stopped_by_max_blocks=False)
+
+
+def _check_power(check_power: Callable[[], None], where: str, last: dict[str, Any] | None) -> None:
+    try:
+        check_power()
+    except PowerCheckError as error:
+        raise BenchStopped(f"power check failed {where}: {error}", last) from error
+
+
+def _boundary_stop(
+    stop_file: Path | None, stop_at: datetime | None, now: Callable[[], datetime]
+) -> str | None:
+    if stop_file is not None and stop_file.exists():
+        return "stop_file"
+    if stop_at is not None and now() >= stop_at:
+        return "stop_at"
+    return None
 
 
 def status_line(
@@ -370,7 +423,9 @@ def _summary_fields(counts: dict[str, int]) -> dict[str, int]:
     }
 
 
-def _summary(counts: dict[str, int], *, stopped_by_max_blocks: bool) -> RunSummary:
+def _summary(
+    counts: dict[str, int], *, stopped_by_max_blocks: bool, stopped_by: str | None = None
+) -> RunSummary:
     return RunSummary(
         blocks_run=counts["blocks_run"],
         blocks_skipped=counts["blocks_skipped"],
@@ -378,6 +433,7 @@ def _summary(counts: dict[str, int], *, stopped_by_max_blocks: bool) -> RunSumma
         episodes_failed=counts["failed"],
         server_errors=counts["server_errors"],
         stopped_by_max_blocks=stopped_by_max_blocks,
+        stopped_by=stopped_by,
     )
 
 
@@ -405,6 +461,11 @@ def main(
     session_log: str = SESSION_LOG,
     out: TextIO = sys.stdout,
     err: TextIO = sys.stderr,
+    check_power: Callable[[], None] | None = None,
+    stop_at: datetime | None = None,
+    stop_file: Path | None = None,
+    log_interrupt: bool = False,
+    session_fields: Mapping[str, Any] | None = None,
 ) -> int:
     parser = argparse.ArgumentParser(prog="evidencegate-bench")
     parser.add_argument("command", choices=("run", "status", "preflight"))
@@ -488,6 +549,11 @@ def main(
             max_blocks=args.max_blocks,
             rules=rules or DEFAULT_RULES,
             session_log=session_log,
+            check_power=check_power,
+            stop_at=stop_at,
+            stop_file=stop_file,
+            log_interrupt=log_interrupt,
+            session_fields=session_fields,
         )
     except BenchStopped as stop:
         print(f"stopped: {stop.reason}", file=err)
