@@ -1,0 +1,163 @@
+{
+  "h": {
+    "35": {
+      "achieved_false_rejection_median": 0.033,
+      "h_median": 0.14285714285714285,
+      "h_p05": 0.14285714285714285,
+      "h_p95": 0.17142857142857143
+    },
+    "70": {
+      "achieved_false_rejection_median": 0.0385,
+      "h_median": 0.11428571428571428,
+      "h_p05": 0.1,
+      "h_p95": 0.15714285714285714
+    },
+    "null_label_rate": {
+      "local_harm": 0.167205,
+      "n": 200000,
+      "severe": 0.000475
+    }
+  },
+  "settings": {
+    "boot": 2000,
+    "calibration_per_cell": 70,
+    "candidates_per_pool": 60,
+    "inputs": {
+      "analysis": "results/ticket-005/analysis.json",
+      "oracle_s0": "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl"
+    },
+    "ns": [
+      40
+    ],
+    "null_candidates_per_pool": 200,
+    "pools": 1000,
+    "rq9_2_basis": "clean useful (definite Useful and not Severe); all Useful reported",
+    "sim_seed": 20261104
+  },
+  "table": {
+    "dev_b_35_shrink_0.5": {
+      "40": {
+        "median_c4_accepted": 12.0,
+        "median_filtered": 4.0,
+        "median_severe_in_c4": 6.0,
+        "rq9_1": {
+          "direction_only": 403,
+          "not_supported": 14,
+          "supported": 532,
+          "undecidable": 51
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 137,
+          "supported": 82,
+          "undecidable": 781
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 878,
+          "supported": 54,
+          "undecidable": 68
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 174,
+          "supported": 826,
+          "undecidable": 0
+        }
+      }
+    },
+    "dev_b_35_shrink_1.0": {
+      "40": {
+        "median_c4_accepted": 25.0,
+        "median_filtered": 11.0,
+        "median_severe_in_c4": 13.0,
+        "rq9_1": {
+          "direction_only": 62,
+          "not_supported": 0,
+          "supported": 938,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 89,
+          "supported": 883,
+          "undecidable": 28
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 983,
+          "supported": 17,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 9,
+          "supported": 991,
+          "undecidable": 0
+        }
+      }
+    },
+    "dev_b_70_shrink_0.5": {
+      "40": {
+        "median_c4_accepted": 17.0,
+        "median_filtered": 6.0,
+        "median_severe_in_c4": 7.0,
+        "rq9_1": {
+          "direction_only": 123,
+          "not_supported": 3,
+          "supported": 845,
+          "undecidable": 29
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 162,
+          "supported": 85,
+          "undecidable": 753
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 930,
+          "supported": 15,
+          "undecidable": 55
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 158,
+          "supported": 842,
+          "undecidable": 0
+        }
+      }
+    },
+    "dev_b_70_shrink_1.0": {
+      "40": {
+        "median_c4_accepted": 28.0,
+        "median_filtered": 15.0,
+        "median_severe_in_c4": 16.0,
+        "rq9_1": {
+          "direction_only": 13,
+          "not_supported": 0,
+          "supported": 987,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 212,
+          "supported": 767,
+          "undecidable": 21
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 992,
+          "supported": 8,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 4,
+          "supported": 996,
+          "undecidable": 0
+        }
+      }
+    }
+  }
+}

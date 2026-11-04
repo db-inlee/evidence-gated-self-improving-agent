@@ -43,7 +43,7 @@ from evidencegate.t009.rq9 import SEVERE_Q, cell_threshold_h, rq9_1, rq9_2, rq9_
 IntArray = npt.NDArray[np.int64]
 DEV_SIZES = (35, 70)
 SHRINKS = (1.0, 0.5)
-CAL_PER_CELL = 35
+CAL_PER_CELL = 35  # 기본값(2026-11-04-04 대안 비교). 확정 설정은 70(--cal-per-cell 70)
 ORACLE_PER_CELL = 50
 SIM_SEED = 20261104  # 모의실험 난수(계획용)
 
@@ -173,6 +173,7 @@ def simulate_pool(
     n_null: int,
     n_boot: int,
     seed: int,
+    cal_per_cell: int = CAL_PER_CELL,
 ) -> dict[str, Any]:
     rng = np.random.default_rng(np.random.SeedSequence(seed).spawn(index + 1)[index])
     names = sorted(effects)
@@ -182,10 +183,10 @@ def simulate_pool(
     cal_h: dict[int, dict[CaseId, int]] = {r: {} for r in range(5)}
     cal_d: dict[int, dict[tuple[str, int, str], int]] = {r: {} for r in range(5)}
     for f, lv in CELLS:
-        ps = rng.choice(p[(f, lv)], CAL_PER_CELL)
-        draws = rng.random((5, CAL_PER_CELL)) < ps
+        ps = rng.choice(p[(f, lv)], cal_per_cell)
+        draws = rng.random((5, cal_per_cell)) < ps
         for r in range(5):
-            for i in range(CAL_PER_CELL):
+            for i in range(cal_per_cell):
                 cal_h[r][(f, lv, 900_000 + i)] = int(draws[r, i])
                 cal_d[r][(f, 900_000 + i, lv)] = int(draws[r, i])
     h, achieved = {}, {}
@@ -244,6 +245,7 @@ def simulate_pool(
         "n": n_null,
     }
     return {
+        "calibration_per_cell": cal_per_cell,
         "h": h,
         "achieved": achieved,
         "delta": delta,
@@ -263,9 +265,16 @@ def simulate(
     n_boot: int = N_BOOT,
     seed: int = SIM_SEED,
     workers: int = 1,
+    cal_per_cell: int = CAL_PER_CELL,
 ) -> dict[str, Any]:
     kw = dict(
-        effects=effects, p_hat=p_hat, n_cands=n_cands, n_null=n_null, n_boot=n_boot, seed=seed
+        effects=effects,
+        p_hat=p_hat,
+        n_cands=n_cands,
+        n_null=n_null,
+        n_boot=n_boot,
+        seed=seed,
+        cal_per_cell=cal_per_cell,
     )
     if workers == 1:
         pools = [simulate_pool(b, **kw) for b in range(n_pools)]  # type: ignore[arg-type]
@@ -281,20 +290,34 @@ def simulate(
 VERDICTS = ("supported", "direction_only", "not_supported", "undecidable")
 
 
-def summarize(sim: Mapping[str, Any], ns: Sequence[int] = (40, 48, 60)) -> dict[Scenario, Any]:
+def summarize(
+    sim: Mapping[str, Any], ns: Sequence[int] = (40, 48, 60), *, clean_useful: bool = False
+) -> dict[Scenario, Any]:
+    """clean_useful이면 RQ9-2를 깨끗한 Useful(확정 Useful 그리고 Severe 아님) 기준으로 판정하고,
+    모든 Useful 기준은 `rq9_2_all_useful`로 함께 낸다(2026-11-04 확정 정의). 기본은 모든 Useful."""
     out: dict[Scenario, Any] = {}
     for sc in sim["scenarios"]:
         out[sc] = {}
         for n in ns:
-            tallies: dict[str, Counter[str]] = {r: Counter() for r in ("rq9_1", "rq9_2", "rq9_3")}
+            keys = ("rq9_1", "rq9_2", "rq9_3") + (("rq9_2_all_useful",) if clean_useful else ())
+            tallies: dict[str, Counter[str]] = {r: Counter() for r in keys}
             c4n, fn, kn = [], [], []
             for pool in sim["pools"]:
                 rows = pool["candidates"][sc][:n]
                 acc = [r for r in rows if r[0]]
                 one = rq9_1([(c5, severe) for _, c5, severe, _, _ in acc])
+                filtered = any(not r[1] for r in acc)
                 useful_c4 = sum(1 for r in acc if r[4] is True)
                 u = sum(1 for r in acc if r[4] is True and not r[1])
-                two = rq9_2(useful_c4, u, any_filtered=any(not r[1] for r in acc))
+                all_useful = rq9_2(useful_c4, u, any_filtered=filtered)
+                if clean_useful:
+                    clean = [r for r in acc if r[4] is True and not r[2]]
+                    two = rq9_2(
+                        len(clean), sum(1 for r in clean if not r[1]), any_filtered=filtered
+                    )
+                    tallies["rq9_2_all_useful"][all_useful["verdict"]] += 1
+                else:
+                    two = all_useful
                 three = rq9_3(severe_accepted=sum(1 for r in acc if r[2]), accepted=len(acc))
                 tallies["rq9_1"][one["verdict"]] += 1
                 tallies["rq9_2"][two["verdict"]] += 1
@@ -369,12 +392,29 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--boot", type=int, default=N_BOOT)
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--cal-per-cell", type=int, default=CAL_PER_CELL)
+    parser.add_argument("--clean-useful", action="store_true", help="RQ9-2 on clean Useful")
+    parser.add_argument("--ns", default="40,48,60", help="comma-separated candidate counts")
     args = parser.parse_args(argv)
+    ns = tuple(int(x) for x in args.ns.split(","))
     effects, p_hat = load_v1_inputs()
     sim = simulate(
-        effects=effects, p_hat=p_hat, n_pools=args.pools, n_boot=args.boot, workers=args.workers
+        effects=effects,
+        p_hat=p_hat,
+        n_pools=args.pools,
+        n_boot=args.boot,
+        workers=args.workers,
+        cal_per_cell=args.cal_per_cell,
     )
-    table = summarize(sim)
+    table = summarize(sim, ns, clean_useful=args.clean_useful)
+    # 기본값이 아닌 설정만 적는다(기본 명령의 출력은 이전 파일과 바이트가 같다)
+    extra: dict[str, Any] = {}
+    if args.cal_per_cell != CAL_PER_CELL:
+        extra["calibration_per_cell"] = args.cal_per_cell
+    if args.clean_useful:
+        extra["rq9_2_basis"] = "clean useful (definite Useful and not Severe); all Useful reported"
+    if ns != (40, 48, 60):
+        extra["ns"] = list(ns)
     result = {
         "settings": {
             "pools": args.pools,
@@ -383,6 +423,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "null_candidates_per_pool": 200,
             "sim_seed": SIM_SEED,
             "inputs": {"analysis": str(V1_ANALYSIS), "oracle_s0": str(V1_ORACLE_S0)},
+            **extra,
         },
         "h": h_summary(sim),
         "table": {

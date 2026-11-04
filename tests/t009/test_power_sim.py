@@ -182,3 +182,35 @@ def test_c5_many_matches_the_cell_condition_on_the_boundary() -> None:
         for j in range(3)
     ]
     assert list(got) == want == [True, False, False]
+
+
+def test_calibration_size_is_a_setting() -> None:
+    kw = dict(effects=EFFECTS, p_hat=P_HAT, n_pools=1, n_cands=4, n_null=2, n_boot=100, seed=3)
+    a = simulate(**kw)  # type: ignore[arg-type]
+    b = simulate(**kw, cal_per_cell=70)  # type: ignore[arg-type]
+    assert a == simulate(**kw, cal_per_cell=35)  # type: ignore[arg-type]  # 기본값 35
+    assert a["pools"][0]["calibration_per_cell"] == 35
+    assert b["pools"][0]["calibration_per_cell"] == 70
+
+
+def fake_sim(rows: list[tuple[bool, bool, bool, bool, bool | None]]) -> dict[str, object]:
+    sc = Scenario(70, 1.0)
+    return {"scenarios": [sc], "pools": [{"candidates": {sc: rows}}]}
+
+
+def test_clean_useful_basis_for_rq9_2() -> None:
+    # (C4, C5, Severe, Local Harm, Useful)
+    rows = [
+        (True, False, True, True, True),  # 섞인 Useful: C5가 거름
+        (True, False, True, True, True),
+        (True, True, False, False, True),  # 깨끗한 Useful: 남음
+        (True, False, False, False, None),  # Useful 불확정(C5가 거름): 세지 않음
+        (True, True, False, False, False),
+    ]
+    sim = fake_sim(rows)
+    default = summarize(sim, ns=(5,))[Scenario(70, 1.0)][5]
+    assert default["rq9_2"]["not_supported"] == 1  # 모든 Useful: 손실 2/3(불확정은 세지 않음)
+    assert "rq9_2_all_useful" not in default
+    clean = summarize(sim, ns=(5,), clean_useful=True)[Scenario(70, 1.0)][5]
+    assert clean["rq9_2"]["supported"] == 1  # 깨끗한 Useful: 손실 0/1
+    assert clean["rq9_2_all_useful"]["not_supported"] == 1  # 기술용으로 함께
