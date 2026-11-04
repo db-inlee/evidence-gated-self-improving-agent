@@ -8,7 +8,7 @@ import pytest
 
 from evidencegate.eval_data import CELLS, PairedTable
 from evidencegate.exact import percentile_exact, stratified_bootstrap_indices
-from evidencegate.rq9 import (
+from evidencegate.t009.rq9 import (
     cell_condition,
     cell_threshold_h,
     fisher_one_sided,

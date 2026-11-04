@@ -14,7 +14,7 @@ from evidencegate.eval_data import CELLS, PairedTable
 from evidencegate.exact import null_diff_quantile_exact, stratified_bootstrap_indices
 from evidencegate.gates import gate_c4
 from evidencegate.oracle import estimate, local_harm, useful
-from evidencegate.power_sim_009 import (
+from evidencegate.t009.power_sim import (
     Scenario,
     c4_many,
     cell_sums,
@@ -25,7 +25,7 @@ from evidencegate.power_sim_009 import (
     summarize,
     useful_many,
 )
-from evidencegate.rq9 import severe_local_harm
+from evidencegate.t009.rq9 import severe_local_harm
 
 RNG = np.random.default_rng(7)
 
@@ -168,8 +168,8 @@ def test_c4_many_matches_gate_c4_at_the_boundaries() -> None:
 
 
 def test_c5_many_matches_the_cell_condition_on_the_boundary() -> None:
-    from evidencegate.power_sim_009 import c5_many
-    from evidencegate.rq9 import cell_condition
+    from evidencegate.t009.power_sim import c5_many
+    from evidencegate.t009.rq9 import cell_condition
 
     h = Fraction(6, 35)
     d = np.zeros((210, 3), dtype=np.int64)

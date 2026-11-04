@@ -1,6 +1,6 @@
 """Ticket 009 §2.5 검정력 점검(계획용, LLM 없음). v1 공개 결과만 쓴다.
 
-    uv run python -m evidencegate.power_sim_009 --pools 1000 --boot 2000 \\
+    uv run python -m evidencegate.t009.power_sim --pools 1000 --boot 2000 \\
         --out plans/ticket-009-power.json
 
 모의 풀 하나:
@@ -13,7 +13,7 @@
   성공률 clip(p̂_i + Δ_c, 0, 1)로 Bernoulli. 같은 균등 난수를 두 축소에 쓴다(공통 난수).
 - 귀무 후보(Δ = 0)로 Local Harm·Severe 귀무 라벨률을 낸다.
 - 판정: C4(`gates.gate_c4`와 같음), C5 = C4 그리고 칸 조건, Severe(`rq9`와 같음),
-  Local Harm·Useful(`oracle`과 같음). 같음은 tests/test_power_sim_009.py가 확인한다.
+  Local Harm·Useful(`oracle`과 같음). 같음은 tests/t009/test_power_sim.py가 확인한다.
   후보 여러 개를 한 번에 판정하려고 bootstrap 색인의 개수 행렬을 곱한다
   (색인은 실제 함수와 같은 `stratified_bootstrap_indices(…, seed 0)`).
 """
@@ -38,7 +38,7 @@ from evidencegate.eval_constants import C4_Q, EPSILON, N_BOOT, NOISE_Q, ORACLE_C
 from evidencegate.eval_data import CELLS, CaseId, Cell
 from evidencegate.exact import IndexArray, percentile_exact, stratified_bootstrap_indices
 from evidencegate.oracle import tau_cells
-from evidencegate.rq9 import SEVERE_Q, cell_threshold_h, rq9_1, rq9_2, rq9_3
+from evidencegate.t009.rq9 import SEVERE_Q, cell_threshold_h, rq9_1, rq9_2, rq9_3
 
 IntArray = npt.NDArray[np.int64]
 DEV_SIZES = (35, 70)
