@@ -1,0 +1,451 @@
+{
+ "files": [
+  {
+   "bytes": 94406,
+   "path": "runs/proposer-009/ledger.jsonl",
+   "sha256": "2f06e953ec4a95e98323b1bbb3f0b7cc003d546ee82fbfb99ae172d665035100"
+  },
+  {
+   "bytes": 1966,
+   "path": "runs/proposer-009/pool/call-000.json",
+   "sha256": "3ac60ed7b5c7a776621454ba3647ea4a81bbed259d1961e6343576ad0900ee64"
+  },
+  {
+   "bytes": 1967,
+   "path": "runs/proposer-009/pool/call-001.json",
+   "sha256": "f42c1147f046d32f92205663464bf6b01cce45f1fde6c6977aaf932ce414e6f3"
+  },
+  {
+   "bytes": 2010,
+   "path": "runs/proposer-009/pool/call-002.json",
+   "sha256": "ee3aa46ae1854867ea9dc79a9a27349570a58ff9283803a4eb7b6d860de4775b"
+  },
+  {
+   "bytes": 1990,
+   "path": "runs/proposer-009/pool/call-003.json",
+   "sha256": "6563a5409858df076a963ce646027c60197dfa0dcc514b7b99e6dcfc08be0099"
+  },
+  {
+   "bytes": 1878,
+   "path": "runs/proposer-009/pool/call-004.json",
+   "sha256": "c4d029ee79a08c24030a655191d7dfd84fd514638a86bf361eeecbbdeab12b08"
+  },
+  {
+   "bytes": 1996,
+   "path": "runs/proposer-009/pool/call-005.json",
+   "sha256": "e205790014d7e58e6eaf99176d60b3ebde402896749ba6e40cfb98b006d03b8c"
+  },
+  {
+   "bytes": 1938,
+   "path": "runs/proposer-009/pool/call-006.json",
+   "sha256": "6c8a50ca597373d90e8d765a09cc4b4918768761c59458c94c74c8fe18a96d4f"
+  },
+  {
+   "bytes": 1975,
+   "path": "runs/proposer-009/pool/call-007.json",
+   "sha256": "483c8a18c2fadfbc421a62cf0ba68c6c1671ae0a8c9c381f187339b6d9a9486b"
+  },
+  {
+   "bytes": 1985,
+   "path": "runs/proposer-009/pool/call-008.json",
+   "sha256": "55faf3c41e71d32fda5839d7d44f7b6da9e820efd7e86a14876d44afcb85caf3"
+  },
+  {
+   "bytes": 2013,
+   "path": "runs/proposer-009/pool/call-009.json",
+   "sha256": "8c4e54275cf72718ed750bf0ba1905068a8fde2f5db3d14b314b2e8ab9e43c98"
+  },
+  {
+   "bytes": 2095,
+   "path": "runs/proposer-009/pool/call-010.json",
+   "sha256": "494c6ae874917a462d600dcc5bd904750edc96eed2965d36454b5b8124de468b"
+  },
+  {
+   "bytes": 2032,
+   "path": "runs/proposer-009/pool/call-011.json",
+   "sha256": "814ef922e7535cc062fb842c915fa55974b1fad2c5fdec03a62795bbba759080"
+  },
+  {
+   "bytes": 2053,
+   "path": "runs/proposer-009/pool/call-012.json",
+   "sha256": "a56436d396463619bc915a8f95a609d70ac482bfadcf301c5fc57ee50055c96b"
+  },
+  {
+   "bytes": 1980,
+   "path": "runs/proposer-009/pool/call-013.json",
+   "sha256": "247401b4ffb759f91de41cba30c8835a33a8269761f8ef9e98f37de3ace0c041"
+  },
+  {
+   "bytes": 2044,
+   "path": "runs/proposer-009/pool/call-014.json",
+   "sha256": "782a1dea045739d1ed7d03f92e9c224cf834734b27df41a119d3f54b2e7c6f3d"
+  },
+  {
+   "bytes": 2034,
+   "path": "runs/proposer-009/pool/call-015.json",
+   "sha256": "b96ce0c300cc019d054440c5271d55c36dd436f730bf9ecc1b4e508a9ce5c9ad"
+  },
+  {
+   "bytes": 2046,
+   "path": "runs/proposer-009/pool/call-016.json",
+   "sha256": "a4b3b4a7bccdf8473566b54f23ee145906ecdbdd8064e1a70b2dac5a46b2fcb6"
+  },
+  {
+   "bytes": 2009,
+   "path": "runs/proposer-009/pool/call-017.json",
+   "sha256": "8afd514b88bf5e553d8bd275a81acfcfbedce32a620803f8f8d5f89762720702"
+  },
+  {
+   "bytes": 2029,
+   "path": "runs/proposer-009/pool/call-018.json",
+   "sha256": "c22fde9728d64f51337fe10ae5fe4d0d98956124aa48e1352365801b7d3e8cba"
+  },
+  {
+   "bytes": 2042,
+   "path": "runs/proposer-009/pool/call-019.json",
+   "sha256": "421438eec87578e8f3f129e8566df7089cca9072487b04481bfadd596a91c634"
+  },
+  {
+   "bytes": 1994,
+   "path": "runs/proposer-009/pool/call-020.json",
+   "sha256": "1b3357bc1835365f582422fb88b5bbe2be3dd062ad78eeb1f9eeaedb343fb19b"
+  },
+  {
+   "bytes": 1976,
+   "path": "runs/proposer-009/pool/call-021.json",
+   "sha256": "6a2099f7bd99d5412efc10750a73b8b30f1896aef45a37be80e14a78a9128a66"
+  },
+  {
+   "bytes": 1965,
+   "path": "runs/proposer-009/pool/call-022.json",
+   "sha256": "331dce8e10881534b285747d542f21a7d6eead67f5508aa8218253984e6ea893"
+  },
+  {
+   "bytes": 2036,
+   "path": "runs/proposer-009/pool/call-023.json",
+   "sha256": "db6da0824a85f3864b0f55d416a661c2c0cdc201c9570ee306df9f0860bbce50"
+  },
+  {
+   "bytes": 2048,
+   "path": "runs/proposer-009/pool/call-024.json",
+   "sha256": "22ff348020960b99b65d659410c5aa72e33c6cfb376549714ee7f7c065701d04"
+  },
+  {
+   "bytes": 2031,
+   "path": "runs/proposer-009/pool/call-025.json",
+   "sha256": "ec1bff4795c90ff6aa219fdfbcfd4125df338965561ddf716dfe326768524c5e"
+  },
+  {
+   "bytes": 2021,
+   "path": "runs/proposer-009/pool/call-026.json",
+   "sha256": "94a455a435f15b4970346bfdb81a6df2c5aa362d9ba5c9c70b2f9e3ee03d692d"
+  },
+  {
+   "bytes": 1970,
+   "path": "runs/proposer-009/pool/call-027.json",
+   "sha256": "7455e020881a808293835dec6a739fd44619120e99e6570e93c5a42b3902906b"
+  },
+  {
+   "bytes": 1971,
+   "path": "runs/proposer-009/pool/call-028.json",
+   "sha256": "25561489f0d8150d84f1bb66038b93704cc4c2e1423af284cc6b2812cc83b266"
+  },
+  {
+   "bytes": 2016,
+   "path": "runs/proposer-009/pool/call-029.json",
+   "sha256": "d88247dd04768dbc8dca29f5031a8deefedd39ca09f58caa0582896ba38f6661"
+  },
+  {
+   "bytes": 2019,
+   "path": "runs/proposer-009/pool/call-030.json",
+   "sha256": "95993971c18d9b9585ad4170b7c96e1fbb7976029e5050f14723474e757ec9b8"
+  },
+  {
+   "bytes": 2018,
+   "path": "runs/proposer-009/pool/call-031.json",
+   "sha256": "f469bb864944b06a12754dd31dee03060b847ea11a5d0edb54b87a4d0814f2ba"
+  },
+  {
+   "bytes": 2006,
+   "path": "runs/proposer-009/pool/call-032.json",
+   "sha256": "ff8f75dc9a8e0f3fcad33102cdc629e7d3d208f916c7161624cdddcd314dd091"
+  },
+  {
+   "bytes": 2006,
+   "path": "runs/proposer-009/pool/call-033.json",
+   "sha256": "de29ea72145839be02e0ec5b199d1c618ee5328685f4cfdcd87c594089a182c0"
+  },
+  {
+   "bytes": 2027,
+   "path": "runs/proposer-009/pool/call-034.json",
+   "sha256": "edd124391c3844b8510c2e14d56dc310f111f2a8278e9458b3480404f10a5753"
+  },
+  {
+   "bytes": 2008,
+   "path": "runs/proposer-009/pool/call-035.json",
+   "sha256": "609b20a36e1fa62a2bf19ac2ad3468321a7c8dd96157b2c97c452fb60a2a4b3f"
+  },
+  {
+   "bytes": 1983,
+   "path": "runs/proposer-009/pool/call-036.json",
+   "sha256": "75703f2026c878fad9ba26f2df1eb61e806df8e98823ab0558107c41c5e94781"
+  },
+  {
+   "bytes": 2061,
+   "path": "runs/proposer-009/pool/call-037.json",
+   "sha256": "8730e7b3c2b04dbab7aae1457734261c923351122a611acb8a4bb5ae65676a56"
+  },
+  {
+   "bytes": 1991,
+   "path": "runs/proposer-009/pool/call-038.json",
+   "sha256": "d161c35236f9163c2a9ef3b4911e2112ec5d9e4dd7f605be9bbd409531648239"
+  },
+  {
+   "bytes": 2019,
+   "path": "runs/proposer-009/pool/call-039.json",
+   "sha256": "5390da48d57cec6a04a40587256897e5c92400d3cc198bbe5b8ae6a8f047384a"
+  },
+  {
+   "bytes": 2003,
+   "path": "runs/proposer-009/pool/call-040.json",
+   "sha256": "95b56dbc2e70a974c1a1cf6e4828e67def7b0bec85a5e8fd83e1db8d46445ce6"
+  },
+  {
+   "bytes": 2041,
+   "path": "runs/proposer-009/pool/call-041.json",
+   "sha256": "3e106e9a52f2ea94e1c5ee321ba0cce22746f9b1f9337ea17332fe16eb7c0f38"
+  },
+  {
+   "bytes": 1987,
+   "path": "runs/proposer-009/pool/call-042.json",
+   "sha256": "083a8fafc85dd64a470cb1a851dcc197e3f63c5c9ce28d0c73a68c224c3c9e8a"
+  },
+  {
+   "bytes": 1969,
+   "path": "runs/proposer-009/pool/call-043.json",
+   "sha256": "80afcb6858b12821397720ad5520f1e44ab611fa702278636a86ecdd054f63db"
+  },
+  {
+   "bytes": 1999,
+   "path": "runs/proposer-009/pool/call-044.json",
+   "sha256": "27b354843012f1635c6ad3dafe8deca527b17a68619e9c70dd46aeeefcf38afa"
+  },
+  {
+   "bytes": 1989,
+   "path": "runs/proposer-009/pool/call-045.json",
+   "sha256": "505f217235a8898a5de74d8c6351159321ea3e26e874d0c783681f6face0c7ed"
+  },
+  {
+   "bytes": 2041,
+   "path": "runs/proposer-009/pool/call-046.json",
+   "sha256": "d7fceddafbc4fdc04e727afd660a5303ec63f2a02609af348bd583eb9f23a1ec"
+  },
+  {
+   "bytes": 1978,
+   "path": "runs/proposer-009/pool/call-047.json",
+   "sha256": "a5448a52cd8eecacdfe3e140f6a8e5720297abe783ccd6bf664ec3bec6029fdc"
+  },
+  {
+   "bytes": 2021,
+   "path": "runs/proposer-009/pool/call-048.json",
+   "sha256": "b3efda121efcefed7fd3f237f05180f3bfa5c29e5584d0a4743e0d5151d0ae2c"
+  },
+  {
+   "bytes": 1999,
+   "path": "runs/proposer-009/pool/call-049.json",
+   "sha256": "48a1015497d769fab20d2f50a67a9bb749c2146628e02246c9b5d1c745441245"
+  },
+  {
+   "bytes": 2049,
+   "path": "runs/proposer-009/pool/call-050.json",
+   "sha256": "89f4a0001c8b7ccd51a0c6ed19da4e2f7267e870ad04749b5b315ddd011d18db"
+  },
+  {
+   "bytes": 1992,
+   "path": "runs/proposer-009/pool/call-051.json",
+   "sha256": "25676bd7c246514d2981a220e857f368ee10685f32f2f7657c79fa5c35abc414"
+  },
+  {
+   "bytes": 1996,
+   "path": "runs/proposer-009/pool/call-052.json",
+   "sha256": "e98f966e7c184f8c1bccc58927feb061568a57480b4ad201cc390f45ea27d0db"
+  },
+  {
+   "bytes": 2054,
+   "path": "runs/proposer-009/pool/call-053.json",
+   "sha256": "071e747dee346444d02c236f84ac8148d608cb30e11a66dcd5fa9b30c13dd77b"
+  },
+  {
+   "bytes": 2014,
+   "path": "runs/proposer-009/pool/call-054.json",
+   "sha256": "7fee7337876b6a4e79615c139221ae3068e006bb41882756186bbd8240247245"
+  },
+  {
+   "bytes": 2026,
+   "path": "runs/proposer-009/pool/call-055.json",
+   "sha256": "f51fd6333bab7b85a2fc33ab10825fc9293e9391965cca2191586fe833e13e03"
+  },
+  {
+   "bytes": 2025,
+   "path": "runs/proposer-009/pool/call-056.json",
+   "sha256": "b9381063d7021a5e9a72af94e9d0ea6a50c740faebbef0d196e81fe04b7e39db"
+  },
+  {
+   "bytes": 1967,
+   "path": "runs/proposer-009/pool/call-057.json",
+   "sha256": "1838edaaf1e319db384ca08697a0b9c3bfd7276ff67018c0345f2df92729b628"
+  },
+  {
+   "bytes": 2055,
+   "path": "runs/proposer-009/pool/call-058.json",
+   "sha256": "65de820e4b282b28215c675bd46c90bf488700ada975600c13df38d48a3796e7"
+  },
+  {
+   "bytes": 2007,
+   "path": "runs/proposer-009/pool/call-059.json",
+   "sha256": "8571054a86a3e7b3c15fc138e23e0cfde0a3c6ec783b74d8c774e3472b1383aa"
+  },
+  {
+   "bytes": 1993,
+   "path": "runs/proposer-009/pool/call-060.json",
+   "sha256": "23a6638985b751dbef84baed87f336092b98e06026b9082399869b632c197da6"
+  },
+  {
+   "bytes": 2022,
+   "path": "runs/proposer-009/pool/call-061.json",
+   "sha256": "c3d472b17ab38f802101e45bd7533b868b3f9c3222858a155063e980609c9f6b"
+  },
+  {
+   "bytes": 1983,
+   "path": "runs/proposer-009/pool/call-062.json",
+   "sha256": "d9b0e273e657b650904ab0dad37f951292f596690f040196791066f9a2ef49af"
+  },
+  {
+   "bytes": 1978,
+   "path": "runs/proposer-009/pool/call-063.json",
+   "sha256": "05ca252638493ac278887c15f03a6171703d4f3a47c2cbec5c44dc4dbaaab331"
+  },
+  {
+   "bytes": 1984,
+   "path": "runs/proposer-009/pool/call-064.json",
+   "sha256": "5b6de4a0cacea2c2c44e6ba668d6f139b4cc87ce94203902ee14b05084281055"
+  },
+  {
+   "bytes": 2018,
+   "path": "runs/proposer-009/pool/call-065.json",
+   "sha256": "d50f1eac65a6b698ebe0fc4aede359676ed515e4a03629fccd9ab073c5efc4c1"
+  },
+  {
+   "bytes": 2057,
+   "path": "runs/proposer-009/pool/call-066.json",
+   "sha256": "f01a23d956a168c5ec9e7c6c724c2bc516ce7a99ab5a3306296c11055e228ca6"
+  },
+  {
+   "bytes": 2009,
+   "path": "runs/proposer-009/pool/call-067.json",
+   "sha256": "12757c96271d1a7b72108d2f7fbe8b2084bbe55a6e800c9c7146887be0211eab"
+  },
+  {
+   "bytes": 2033,
+   "path": "runs/proposer-009/pool/call-068.json",
+   "sha256": "64d8c767d41fcc9219930f4439f01f2e977d4e5a69af74c2729f3dc5cb60996f"
+  },
+  {
+   "bytes": 2003,
+   "path": "runs/proposer-009/pool/call-069.json",
+   "sha256": "34cdadcbf54e3d46fad53b6c1efca2585888f7ce78fb46d61352a1e554e25909"
+  },
+  {
+   "bytes": 2031,
+   "path": "runs/proposer-009/pool/call-070.json",
+   "sha256": "1ed0b15ad2f0b7a47c769393ebadbb4be4a544cb5228aafecb8844e2d549f283"
+  },
+  {
+   "bytes": 2050,
+   "path": "runs/proposer-009/pool/call-071.json",
+   "sha256": "031b77e1a4d17cf661f74dfbeed7d910f5562d8701d3285392c332d5485f13f0"
+  },
+  {
+   "bytes": 2029,
+   "path": "runs/proposer-009/pool/call-072.json",
+   "sha256": "8d6ea2fcd12cefea9c2cae70c64bc190f008475d5753c4b0b4b293662f162ada"
+  },
+  {
+   "bytes": 2004,
+   "path": "runs/proposer-009/pool/call-073.json",
+   "sha256": "98d44a70f098486191c5ed9ea8af4d0d13d68c6ab465477c661725138cb4b9b8"
+  },
+  {
+   "bytes": 1982,
+   "path": "runs/proposer-009/pool/call-074.json",
+   "sha256": "7c6a7fa033770c2e45bc1708c673367a8ac0798105fcd573198e72b61391e8e9"
+  },
+  {
+   "bytes": 2009,
+   "path": "runs/proposer-009/pool/call-075.json",
+   "sha256": "75fa30b05d330d00c0e72f89820f88c4fc0310b7afdd4a31a2794559a1afe9fa"
+  },
+  {
+   "bytes": 2001,
+   "path": "runs/proposer-009/pool/call-076.json",
+   "sha256": "e288b6c56992e062ab79ef8cf1f676b4a07c05de9734c885a1501e1af4b3abfb"
+  },
+  {
+   "bytes": 2046,
+   "path": "runs/proposer-009/pool/call-077.json",
+   "sha256": "fc07e05b291dffc35d265b7309dd9b38a74391421e7cb2457b826b80a6c15b05"
+  },
+  {
+   "bytes": 1962,
+   "path": "runs/proposer-009/pool/call-078.json",
+   "sha256": "b70023531c0bd6d1abec6afc57be9f116cd9fb17c1d586ebd7ee5104dcacccbd"
+  },
+  {
+   "bytes": 1979,
+   "path": "runs/proposer-009/pool/call-079.json",
+   "sha256": "2e0a30328e0d5720870344b1dd5fda06f734f22c832c231285c791b3be4cf436"
+  },
+  {
+   "bytes": 9350,
+   "path": "runs/proposer-009/response_models.jsonl",
+   "sha256": "11a349aaca0243b731b2997a6eaf6608d18b79f57a1431ba15bd4d47c5d8fa5a"
+  },
+  {
+   "bytes": 82319,
+   "path": "runs/proposer_inputs-009/dev_a__ollama__gpt-oss__20b__7c66ee5bf13c__bf65e569ae37.json",
+   "sha256": "4f9afa27360f01cfbf6a680bbc4ae2fc0a9f52cbe30f5d14f7bba11b54504c6d"
+  },
+  {
+   "bytes": 127,
+   "path": "runs/proposer_inputs-009/dev_a__ollama__gpt-oss__20b__7c66ee5bf13c__bf65e569ae37.json.sha256",
+   "sha256": "6e30a3dfe32bc31365329d23459fd9701ba2194dda4e60e73f56f439dfe922b9"
+  }
+ ],
+ "note": "file contents stay outside git (runs/ is ignored); only sizes and sha256 are recorded here",
+ "preregistration": {
+  "sha256": "dd5f93a345bd2c9ec8bb30ad14ffaa875e80b92bea3645447de499f183dae882",
+  "tags": [
+   "t009-prereg",
+   "t009-prereg-r1"
+  ]
+ },
+ "status": "closed at the pool stage: shortfall (pool 14 / target 40); Dev-B and Oracle were not run",
+ "summary": {
+  "calls": 80,
+  "control_marked": 2,
+  "cost_usd": 2.113948,
+  "format_errors": 0,
+  "invalid": 0,
+  "ledger_lines": {
+   "ok": 80,
+   "server_error": 4
+  },
+  "pool": 14,
+  "proposer_duplicates": 66,
+  "requested_model": "gpt-5.4",
+  "response_models": {
+   "gpt-5.4-2026-03-05": 80
+  }
+ },
+ "ticket": "009"
+}
