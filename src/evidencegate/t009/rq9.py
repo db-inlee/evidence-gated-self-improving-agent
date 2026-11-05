@@ -13,6 +13,7 @@
 
 import random
 from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 from fractions import Fraction
 from math import comb
 from typing import Any
@@ -121,3 +122,66 @@ def rq9_3(*, severe_accepted: int, accepted: int) -> dict[str, Any]:
     if interval is None:
         return {**out, "verdict": "undecidable"}
     return {**out, "verdict": "supported" if interval[0] >= RQ9_3_LOWER else "not_supported"}
+
+
+# --- RQ9-5 초안(사전 등록 전, 보고서 2026-11-05-02. 승인되면 사전 등록 6.5) ---------------------
+
+
+@dataclass(frozen=True)
+class Rq95Row:
+    """C4 채택 proposer 후보 하나. mean·lower는 Dev-B 평균 Δ와 C4 bootstrap 5번째 백분위수."""
+
+    candidate_id: str
+    mean: Fraction
+    lower: Fraction
+    c5: bool
+    severe: bool
+    clean_useful: bool = False
+
+
+def c4_star(rows: Sequence[Rq95Row], m: int) -> list[Rq95Row]:
+    """C4 채택 후보를 평균 Δ 내림차순, 하한 내림차순, candidate_id 오름차순으로 정렬해 앞의 m개.
+
+    oracle 정보는 쓰지 않는다(Dev-B 값만)."""
+    ordered = sorted(rows, key=lambda r: (-r.mean, -r.lower, r.candidate_id))
+    return ordered[:m]
+
+
+def rq9_5(rows: Sequence[Rq95Row]) -> dict[str, Any]:
+    """사전 등록 6.5. rows: C4 채택 proposer 후보 전부. C5와 같은 수 m을 받는 엄격한 평균 게이트
+    C4*와 비교한다. m = 0이거나 C5 = C4면 두 규칙 모두 판정 불가.
+
+    - verdict(판정): 두 집합이 겹치므로 차집합 D1 = C5\\C4*, D2 = C4*\\C5(크기 d로 같음)의 Severe 수
+      s1, s2로 단측 초기하 검정 p = P(X >= s2), X ~ 초기하(2d, s1 + s2, d). s1 < s2이고 p < 1/20이면
+      지지, s1 < s2이고 p >= 1/20이면 방향만 일치, s1 >= s2면 지지 안 됨.
+    - verdict_count(기술용, 개수 규칙): Severe(C5) < Severe(C4*)면 지지, 같거나 크면 지지 안 됨.
+    """
+    c5 = [r for r in rows if r.c5]
+    m = len(c5)
+    star = c4_star(rows, m)
+    ids_c5 = {r.candidate_id for r in c5}
+    ids_star = {r.candidate_id for r in star}
+    d1 = [r for r in c5 if r.candidate_id not in ids_star]
+    d2 = [r for r in star if r.candidate_id not in ids_c5]
+    s1 = sum(1 for r in d1 if r.severe)
+    s2 = sum(1 for r in d2 if r.severe)
+    out: dict[str, Any] = {
+        "m": m,
+        "n_c4": len(rows),
+        "severe_c5": sum(1 for r in c5 if r.severe),
+        "severe_c4_star": sum(1 for r in star if r.severe),
+        "clean_useful_c5": sum(1 for r in c5 if r.clean_useful),
+        "clean_useful_c4_star": sum(1 for r in star if r.clean_useful),
+        "d": len(d1),
+        "s1": s1,
+        "s2": s2,
+        "p": None,
+    }
+    if m == 0 or m == len(rows):
+        return {**out, "verdict": "undecidable", "verdict_count": "undecidable"}
+    count = "supported" if out["severe_c5"] < out["severe_c4_star"] else "not_supported"
+    if s1 >= s2:
+        return {**out, "verdict": "not_supported", "verdict_count": count}
+    p = fisher_one_sided(a=s2, f=len(d1), k=s1 + s2, n=2 * len(d1))
+    verdict = "supported" if p < FISHER_ALPHA else "direction_only"
+    return {**out, "p": p, "verdict": verdict, "verdict_count": count}

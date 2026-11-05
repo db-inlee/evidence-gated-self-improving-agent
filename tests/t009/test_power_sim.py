@@ -214,3 +214,33 @@ def test_clean_useful_basis_for_rq9_2() -> None:
     clean = summarize(sim, ns=(5,), clean_useful=True)[Scenario(70, 1.0)][5]
     assert clean["rq9_2"]["supported"] == 1  # 깨끗한 Useful: 손실 0/1
     assert clean["rq9_2_all_useful"]["not_supported"] == 1  # 기술용으로 함께
+
+
+def test_c4_parts_give_the_same_decision_and_a_rankable_lower_bound() -> None:
+    from evidencegate.gates import gate_c4
+    from evidencegate.t009.power_sim import c4_parts
+
+    d = random_deltas(70, 12, bias=0.05)
+    delta = Fraction(1, 21)
+    blocks = stratified_bootstrap_indices([70] * 6, 2000, 0)
+    accepted, lower_v, den, totals = c4_parts(d, blocks, delta)
+    assert list(accepted) == list(c4_many(d, blocks, delta))
+    for j in range(12):
+        real = gate_c4(as_table(d[:, j], "dev_b", 70), delta)
+        assert real.lower == Fraction(int(lower_v[j]), den * 420)
+        assert real.mean_delta == Fraction(int(totals[j]), 420)
+
+
+def test_rq9_5_summary_is_added_only_when_asked() -> None:
+    kw = dict(effects=EFFECTS, p_hat=P_HAT, n_pools=3, n_cands=10, n_null=2, n_boot=200, seed=3)
+    sim = simulate(**kw)  # type: ignore[arg-type]
+    plain = summarize(sim, ns=(10,))[Scenario(70, 1.0)][10]
+    assert "rq9_5" not in plain
+    full = summarize(sim, ns=(10,), rq9_5=True)[Scenario(70, 1.0)][10]
+    assert sum(full["rq9_5"].values()) == 3 and sum(full["rq9_5_with_test"].values()) == 3
+    assert {"median_m", "median_severe_c5", "median_severe_c4_star"} <= set(full)
+    assert {
+        k: v
+        for k, v in full.items()
+        if not k.startswith(("rq9_5", "median_m", "median_severe_c", "median_clean", "median_d"))
+    } == plain

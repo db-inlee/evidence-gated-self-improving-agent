@@ -38,7 +38,8 @@ from evidencegate.eval_constants import C4_Q, EPSILON, N_BOOT, NOISE_Q, ORACLE_C
 from evidencegate.eval_data import CELLS, CaseId, Cell
 from evidencegate.exact import IndexArray, percentile_exact, stratified_bootstrap_indices
 from evidencegate.oracle import tau_cells
-from evidencegate.t009.rq9 import SEVERE_Q, cell_threshold_h, rq9_1, rq9_2, rq9_3
+from evidencegate.t009.rq9 import SEVERE_Q, Rq95Row, cell_threshold_h, rq9_1, rq9_2, rq9_3
+from evidencegate.t009.rq9 import rq9_5 as rq9_5_rule
 
 IntArray = npt.NDArray[np.int64]
 DEV_SIZES = (35, 70)
@@ -86,12 +87,20 @@ def _quantile_scaled(totals: IntArray, q: Fraction) -> tuple[IntArray, int]:
     )
 
 
-def c4_many(d: IntArray, blocks: Sequence[IndexArray], delta: Fraction) -> npt.NDArray[np.bool_]:
+def c4_parts(
+    d: IntArray, blocks: Sequence[IndexArray], delta: Fraction
+) -> tuple[npt.NDArray[np.bool_], IntArray, int, IntArray]:
+    """(채택, 하한 x den x N 정수, den, 평균 Δ x N 정수). 하한 = lower_v / (den * N)."""
     n = d.shape[0]
     totals = sum(_totals(d, blocks))
-    v, _ = _quantile_scaled(np.asarray(totals), C4_Q)
-    mean_ok = d.sum(axis=0) * delta.denominator > delta.numerator * n
-    return np.asarray((v > 0) & mean_ok)
+    v, den = _quantile_scaled(np.asarray(totals), C4_Q)
+    sums = d.sum(axis=0)
+    mean_ok = sums * delta.denominator > delta.numerator * n
+    return np.asarray((v > 0) & mean_ok), np.asarray(v), den, np.asarray(sums)
+
+
+def c4_many(d: IntArray, blocks: Sequence[IndexArray], delta: Fraction) -> npt.NDArray[np.bool_]:
+    return c4_parts(d, blocks, delta)[0]
 
 
 def cell_sums(d: IntArray, n_per_cell: int) -> IntArray:
@@ -220,6 +229,7 @@ def simulate_pool(
     or_blocks = stratified_bootstrap_indices([ORACLE_PER_CELL] * 6, n_boot, SEED)
 
     candidates: dict[Scenario, list[tuple[bool, bool, bool, bool, bool | None]]] = {}
+    rank: dict[Scenario, list[tuple[int, int]]] = {}  # (평균 Δ x N, 하한 x den x N): RQ9-5 순위용
     for shrink in SHRINKS:
         shift = shrink * eff[:, None, :]
         dev_c = dev_u < np.clip(dev_p[:, :, None] + shift, 0, 1)
@@ -231,8 +241,9 @@ def simulate_pool(
         for n in DEV_SIZES:
             d_dev = (dev_c[:, :n].astype(np.int64) - dev_s0[:, :n, None]).reshape(-1, n_cands)
             blocks = stratified_bootstrap_indices([n] * 6, n_boot, SEED)
-            c4 = c4_many(d_dev, blocks, delta[6 * n])
+            c4, lower_v, _den, sums = c4_parts(d_dev, blocks, delta[6 * n])
             c5 = c5_many(c4, d_dev, n, h[n])
+            rank[Scenario(n, shrink)] = [(int(sums[j]), int(lower_v[j])) for j in range(n_cands)]
             candidates[Scenario(n, shrink)] = [
                 (bool(c4[j]), bool(c5[j]), bool(severe[j]), bool(lh[j]), use[j])
                 for j in range(n_cands)
@@ -251,6 +262,7 @@ def simulate_pool(
         "delta": delta,
         "tau": tau,
         "candidates": candidates,
+        "rank": rank,
         "null": null,
     }
 
@@ -291,7 +303,11 @@ VERDICTS = ("supported", "direction_only", "not_supported", "undecidable")
 
 
 def summarize(
-    sim: Mapping[str, Any], ns: Sequence[int] = (40, 48, 60), *, clean_useful: bool = False
+    sim: Mapping[str, Any],
+    ns: Sequence[int] = (40, 48, 60),
+    *,
+    clean_useful: bool = False,
+    rq9_5: bool = False,
 ) -> dict[Scenario, Any]:
     """clean_useful이면 RQ9-2를 깨끗한 Useful(확정 Useful 그리고 Severe 아님) 기준으로 판정하고,
     모든 Useful 기준은 `rq9_2_all_useful`로 함께 낸다(2026-11-04 확정 정의). 기본은 모든 Useful."""
@@ -301,9 +317,21 @@ def summarize(
         for n in ns:
             keys = ("rq9_1", "rq9_2", "rq9_3") + (("rq9_2_all_useful",) if clean_useful else ())
             tallies: dict[str, Counter[str]] = {r: Counter() for r in keys}
+            five: dict[str, list[int]] = {k: [] for k in RQ9_5_MEDIANS}
+            if rq9_5:
+                tallies["rq9_5"] = Counter()
+                tallies["rq9_5_with_test"] = Counter()
             c4n, fn, kn = [], [], []
             for pool in sim["pools"]:
                 rows = pool["candidates"][sc][:n]
+                if rq9_5:
+                    r5 = _rq9_5_pool(rows, pool["rank"][sc][:n])
+                    # 출력 키는 초안 때 이름을 유지한다(계획 파일 바이트 고정): rq9_5는 개수 규칙,
+                    # rq9_5_with_test는 판정(6.5)
+                    tallies["rq9_5"][r5["verdict_count"]] += 1
+                    tallies["rq9_5_with_test"][r5["verdict"]] += 1
+                    for k, src in RQ9_5_MEDIANS.items():
+                        five[k].append(r5[src])
                 acc = [r for r in rows if r[0]]
                 one = rq9_1([(c5, severe) for _, c5, severe, _, _ in acc])
                 filtered = any(not r[1] for r in acc)
@@ -330,8 +358,37 @@ def summarize(
                 "median_c4_accepted": median(c4n),
                 "median_filtered": median(fn),
                 "median_severe_in_c4": median(kn),
+                **({k: median(v) for k, v in five.items()} if rq9_5 else {}),
             }
     return out
+
+
+RQ9_5_MEDIANS = {
+    "median_m": "m",
+    "median_d": "d",
+    "median_severe_c5": "severe_c5",
+    "median_severe_c4_star": "severe_c4_star",
+    "median_clean_useful_c5": "clean_useful_c5",
+    "median_clean_useful_c4_star": "clean_useful_c4_star",
+}
+
+
+def _rq9_5_pool(
+    rows: Sequence[tuple[bool, bool, bool, bool, bool | None]], rank: Sequence[tuple[int, int]]
+) -> dict[str, Any]:
+    acc = [
+        Rq95Row(
+            f"{j:03d}",
+            Fraction(rank[j][0]),
+            Fraction(rank[j][1]),
+            r[1],
+            r[2],
+            r[4] is True and not r[2],
+        )
+        for j, r in enumerate(rows)
+        if r[0]
+    ]
+    return rq9_5_rule(acc)
 
 
 def h_summary(sim: Mapping[str, Any]) -> dict[str, Any]:
@@ -395,6 +452,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--cal-per-cell", type=int, default=CAL_PER_CELL)
     parser.add_argument("--clean-useful", action="store_true", help="RQ9-2 on clean Useful")
     parser.add_argument("--ns", default="40,48,60", help="comma-separated candidate counts")
+    parser.add_argument("--rq9-5", action="store_true", help="add the RQ9-5 draft summary")
     args = parser.parse_args(argv)
     ns = tuple(int(x) for x in args.ns.split(","))
     effects, p_hat = load_v1_inputs()
@@ -406,7 +464,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         workers=args.workers,
         cal_per_cell=args.cal_per_cell,
     )
-    table = summarize(sim, ns, clean_useful=args.clean_useful)
+    table = summarize(sim, ns, clean_useful=args.clean_useful, rq9_5=args.rq9_5)
     # 기본값이 아닌 설정만 적는다(기본 명령의 출력은 이전 파일과 바이트가 같다)
     extra: dict[str, Any] = {}
     if args.cal_per_cell != CAL_PER_CELL:
@@ -415,6 +473,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         extra["rq9_2_basis"] = "clean useful (definite Useful and not Severe); all Useful reported"
     if ns != (40, 48, 60):
         extra["ns"] = list(ns)
+    if args.rq9_5:
+        extra["rq9_5"] = "draft: C5 vs the size-matched strict mean gate C4* (report 2026-11-05-02)"
     result = {
         "settings": {
             "pools": args.pools,
