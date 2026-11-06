@@ -1,0 +1,8 @@
+# Ticket 009b cell-level gate C5 confirmatory rerun preregistration (fixed before any proposer call)
+# The preregistered text is the whole committed file preregistration/ticket-009b.txt.
+# Range: the whole file, as UTF-8 bytes, with no normalization.
+sha256: a4c09894f7a551e33cd592bdd769e563f0cb6aeb21ce6ba07531003852d0aa09
+file: preregistration/ticket-009b.txt
+range: whole file (UTF-8 bytes)
+lines: 459
+recorded_at: 2026-11-06T21:30:10+09:00
