@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-011",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-7cc65dc77aca",
+    "case-d0381038211e",
+    "case-e279d09e28af",
+    "case-7768cb8df981",
+    "case-19f4846b46d7",
+    "case-0efbbaaddf70"
+  ],
+  "hypothesis": "Some bad outcomes came from rolling back the newest release even when that release could not have caused the incident because it arrived after the degradation began. Making rollback depend on the newest deployment preceding the regression should better match the rollback tool to the actual timeline.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

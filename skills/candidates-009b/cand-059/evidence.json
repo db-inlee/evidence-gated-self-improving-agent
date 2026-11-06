@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-059",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-13076c91b027",
+    "case-70e16aad1754",
+    "case-6ee5f1de30bb",
+    "case-7933ff7b5a24",
+    "case-966e32fee8d1",
+    "case-4b531a959472"
+  ],
+  "hypothesis": "The current skill can stop too early when a dependency is degraded, ending the investigation before the agent has gathered basic service-side context. Removing that immediate observe branch should make the agent continue to inspect load signals before taking its one disposition action.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-012",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-d8c41fa6827a",
+    "case-13726d0aa279",
+    "case-fe8d665df209",
+    "case-a38e38a12850",
+    "case-70e16aad1754",
+    "case-bb64cbf20668"
+  ],
+  "hypothesis": "Several bad rollbacks likely came from overload rather than a faulty release. Restricting rollback to cases where traffic remains near its usual level should reduce misattributing demand-driven degradation to a recent deployment.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

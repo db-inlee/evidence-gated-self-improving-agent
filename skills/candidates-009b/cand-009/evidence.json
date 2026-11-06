@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-009",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-7cc65dc77aca",
+    "case-7835592e498e",
+    "case-3c08b9d207a5",
+    "case-c6797ee97138",
+    "case-8040dc3bacf0",
+    "case-cd525042ea1d"
+  ],
+  "hypothesis": "The bad scaling case suggests the agent treated high CPU alone as sufficient reason to add capacity. Requiring higher-than-baseline traffic before scaling should avoid scaling for release-induced or non-demand regressions.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-014",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-4ccb3adc5a2a",
+    "case-e279d09e28af",
+    "case-d720d354fac4",
+    "case-e2df19da5c80",
+    "case-cd525042ea1d",
+    "case-6ee5f1de30bb"
+  ],
+  "hypothesis": "The failures show rollback being chosen before load context was gathered. Requiring traffic metrics as part of the initial confirmation should make the agent collect that context before any disposition action and reduce acting too soon.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

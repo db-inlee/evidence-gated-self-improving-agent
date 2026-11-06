@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-013",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-4b531a959472",
+    "case-e279d09e28af",
+    "case-d720d354fac4",
+    "case-13726d0aa279",
+    "case-d290ee98be46",
+    "case-4ccb3adc5a2a"
+  ],
+  "hypothesis": "Several bad rollbacks treated any recent deployment as causal even when the timing did not fit the incident. Requiring the regression to start after the deployment should reduce rolling back unrelated releases.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-033",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-6ee5f1de30bb",
+    "case-87a41fd1984f",
+    "case-210cdc1e276b",
+    "case-e2df19da5c80",
+    "case-13726d0aa279",
+    "case-11e3b6666518"
+  ],
+  "hypothesis": "The failures show the agent committing to rollback before it had gathered load context. Moving resource and traffic inspection ahead of deployment-based decision points should delay action until a common alternative explanation has been checked.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-005",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-4b531a959472",
+    "case-d0381038211e",
+    "case-13726d0aa279",
+    "case-bb64cbf20668",
+    "case-1f93afc52e34",
+    "case-d290ee98be46"
+  ],
+  "hypothesis": "Some rollbacks were likely triggered by deployments that were merely recent, not actually correlated with the start of the incident. Requiring the degradation to begin closely after the deployment should reduce rollbacking unrelated releases while preserving rollbacks for more plausibly causal changes.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-044",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-7cc65dc77aca",
+    "case-7768cb8df981",
+    "case-bb64cbf20668",
+    "case-e3c9f4e2bf37",
+    "case-d720d354fac4",
+    "case-e279d09e28af"
+  ],
+  "hypothesis": "Some bad rollbacks came from treating any recent deployment as actionable even when multiple recent releases made the cause unclear. Limiting rollback to cases with a single recent deployment should reduce reverting the wrong change.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-003",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-bb64cbf20668",
+    "case-8040dc3bacf0",
+    "case-1f93afc52e34",
+    "case-6c791234ae83",
+    "case-b9614ff869e2",
+    "case-6fbca4672f48"
+  ],
+  "hypothesis": "Some bad rollbacks were taken during obvious service-side saturation, where a deployment was present but high CPU made the release a weaker explanation for the incident. Gating rollback on non-elevated CPU should reduce misattributing load or capacity problems to recent deployments.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

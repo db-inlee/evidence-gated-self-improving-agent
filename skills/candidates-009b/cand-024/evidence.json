@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-024",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-70e16aad1754",
+    "case-13726d0aa279",
+    "case-6fbca4672f48",
+    "case-13076c91b027",
+    "case-d0381038211e",
+    "case-7768cb8df981"
+  ],
+  "hypothesis": "The failures show a rollback bias after finding a recent deployment, even though service-side saturation was visible in the metrics. Forcing a resource-usage check before rollback should reduce acting too quickly on deployment correlation alone.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-026",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-3c08b9d207a5",
+    "case-8cdc1addd2a7",
+    "case-b9614ff869e2",
+    "case-a38e38a12850",
+    "case-13076c91b027",
+    "case-7835592e498e"
+  ],
+  "hypothesis": "The failures show actions being taken before load context was gathered. Adding an explicit traffic check near the start should make the agent collect that context before choosing a disposition.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

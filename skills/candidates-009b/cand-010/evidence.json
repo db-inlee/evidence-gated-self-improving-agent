@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-010",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-d8c41fa6827a",
+    "case-cbea81921e34",
+    "case-210cdc1e276b",
+    "case-6ee5f1de30bb",
+    "case-8040dc3bacf0",
+    "case-32ea8a41522b"
+  ],
+  "hypothesis": "The failures show the agent taking rollback before gathering load context. Adding a mandatory traffic-metrics check earlier should reduce acting too soon by forcing one more relevant observation before any disposition action.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

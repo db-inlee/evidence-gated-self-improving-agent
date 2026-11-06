@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-000",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-13726d0aa279",
+    "case-fe8d665df209",
+    "case-e2df19da5c80",
+    "case-13076c91b027",
+    "case-d0381038211e",
+    "case-1f93afc52e34"
+  ],
+  "hypothesis": "The agent rolled back after seeing a recent deployment and healthy dependencies without first determining whether a traffic change could explain the regression. Adding an explicit traffic check should reduce acting too early and better separate load-related issues from deployment-caused regressions.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

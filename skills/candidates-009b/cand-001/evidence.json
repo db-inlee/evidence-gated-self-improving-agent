@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-001",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-6fbca4672f48",
+    "case-fe8d665df209",
+    "case-7835592e498e",
+    "case-7cc65dc77aca",
+    "case-32ea8a41522b",
+    "case-7933ff7b5a24"
+  ],
+  "hypothesis": "Some incorrect rollbacks happened because the agent treated any recent deployment as causal, even when the deployment occurred after the regression began. Requiring the deployment to predate the regression should reduce misattribution and avoid rolling back unrelated changes.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

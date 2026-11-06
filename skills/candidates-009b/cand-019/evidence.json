@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-019",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-19f4846b46d7",
+    "case-13726d0aa279",
+    "case-7768cb8df981",
+    "case-4ccb3adc5a2a",
+    "case-70e16aad1754",
+    "case-1cce6b8d38f0"
+  ],
+  "hypothesis": "The agent appears biased toward rollback once it sees a recent deployment. Checking dependencies first may reduce that bias and make it less likely to act too quickly on release correlation alone.",
+  "expected_effect": {
+    "cd": "none",
+    "es": "up"
+  }
+}

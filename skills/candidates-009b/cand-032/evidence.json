@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-032",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-7933ff7b5a24",
+    "case-cbea81921e34",
+    "case-7835592e498e",
+    "case-8040dc3bacf0",
+    "case-d0381038211e",
+    "case-a40b8345e23f"
+  ],
+  "hypothesis": "Some bad actions came from reacting to saturation signals without first establishing whether user demand actually changed. Making the final investigation step explicitly frame traffic as a baseline comparison should improve load-vs-release attribution and reduce inappropriate interventions.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

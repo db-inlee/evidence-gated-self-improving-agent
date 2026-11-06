@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-022",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-a38e38a12850",
+    "case-7933ff7b5a24",
+    "case-bb64cbf20668",
+    "case-b9614ff869e2",
+    "case-11e3b6666518",
+    "case-6c791234ae83"
+  ],
+  "hypothesis": "The repeated bad outcomes come from an overly eager rollback path that treats deployment recency as enough to intervene. Removing that step should reduce incorrect rollback decisions and push the agent to gather more context before taking a disposition action.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

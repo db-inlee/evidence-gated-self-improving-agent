@@ -1,0 +1,267 @@
+{
+ "stage": "after the POOL-009b freeze, before any Dev-B or Oracle run",
+ "labeled_by": "Claude (Claude Code), by reading each pool candidate's S0 diff; no gate or oracle value existed",
+ "method": "one group per change intent, as in plans/ticket-009b-dedupe-groups.json (commit d443e7e): same condition or signal, same action and same place in the skill; a different signal or a different place is a different group",
+ "labeled_at": "2026-11-07",
+ "n_groups": 29,
+ "n_ideas_read": 29,
+ "pool_sha256": "6f4a9a90f619dd8ef51f394d988d06eeb2a9c4536fb0056e2263903ba4aef239",
+ "groups": {
+  "B01": {
+   "label": "insert a traffic check step after the dependency check",
+   "calls": [
+    0,
+    10
+   ],
+   "t009_group": "O07"
+  },
+  "B02": {
+   "label": "rollback guard: the deployment preceded the regression (incl. a do-not-roll-back step when it came after)",
+   "calls": [
+    1,
+    5,
+    11,
+    13,
+    20,
+    23
+   ],
+   "t009_group": "G3"
+  },
+  "B03": {
+   "label": "step 6 replaced: scale when CPU usage is high",
+   "calls": [
+    2
+   ],
+   "t009_group": "O03"
+  },
+  "B04": {
+   "label": "rollback guard: CPU usage not elevated",
+   "calls": [
+    3
+   ],
+   "t009_group": "G1"
+  },
+  "B05": {
+   "label": "step 4 replaced: multiple recent deployments -> observe (rollback rule removed)",
+   "calls": [
+    6
+   ],
+   "t009_group": "O71"
+  },
+  "B06": {
+   "label": "insert: traffic elevated and CPU high -> scale",
+   "calls": [
+    7
+   ],
+   "t009_group": "O35"
+  },
+  "B07": {
+   "label": "step 4 replaced: inspect resource usage or traffic instead of rolling back",
+   "calls": [
+    8,
+    24,
+    47,
+    60
+   ],
+   "t009_group": "G6"
+  },
+  "B08": {
+   "label": "step 6 replaced: scale only when request rate is above baseline, else observe",
+   "calls": [
+    9
+   ],
+   "t009_group": "O77"
+  },
+  "B09": {
+   "label": "rollback guard: traffic near baseline",
+   "calls": [
+    12
+   ],
+   "t009_group": "G4"
+  },
+  "B10": {
+   "label": "step 1: confirm with traffic metrics too",
+   "calls": [
+    14
+   ],
+   "t009_group": "O06"
+  },
+  "B11": {
+   "label": "step 6: CPU usage high (traffic normal) -> observe",
+   "calls": [
+    15,
+    43
+   ],
+   "t009_group": null
+  },
+  "B12": {
+   "label": "insert: CPU usage high -> check traffic before any action",
+   "calls": [
+    17
+   ],
+   "t009_group": null
+  },
+  "B13": {
+   "label": "step 5: dependency outage must start before the regression",
+   "calls": [
+    18
+   ],
+   "t009_group": "O10"
+  },
+  "B14": {
+   "label": "reorder: check dependency health before deployments",
+   "calls": [
+    19
+   ],
+   "t009_group": null
+  },
+  "B15": {
+   "label": "delete the rollback rule",
+   "calls": [
+    22
+   ],
+   "t009_group": "O04"
+  },
+  "B16": {
+   "label": "insert: complete every observation step before acting",
+   "calls": [
+    25
+   ],
+   "t009_group": null
+  },
+  "B17": {
+   "label": "step 2 replaced by 'check traffic metrics' (drops the deployment check)",
+   "calls": [
+    26
+   ],
+   "t009_group": "O32"
+  },
+  "B18": {
+   "label": "step 5: dependency degraded -> inspect traffic before no action",
+   "calls": [
+    27
+   ],
+   "t009_group": null
+  },
+  "B19": {
+   "label": "step 6 replaced: compare current traffic to baseline",
+   "calls": [
+    32
+   ],
+   "t009_group": null
+  },
+  "B20": {
+   "label": "reorder: inspect resource usage and traffic first",
+   "calls": [
+    33
+   ],
+   "t009_group": null
+  },
+  "B21": {
+   "label": "insert: re-check service metrics before acting",
+   "calls": [
+    35,
+    38
+   ],
+   "t009_group": null
+  },
+  "B22": {
+   "label": "step 2: review resource usage before deployments",
+   "calls": [
+    37
+   ],
+   "t009_group": null
+  },
+  "B23": {
+   "label": "step 6: otherwise, without a single cause, observe",
+   "calls": [
+    39
+   ],
+   "t009_group": "O43"
+  },
+  "B24": {
+   "label": "rollback guard: only one recent deployment",
+   "calls": [
+    44
+   ],
+   "t009_group": "G2"
+  },
+  "B25": {
+   "label": "rollback guard: exactly one deployment and it preceded the regression",
+   "calls": [
+    45
+   ],
+   "t009_group": "G2+G3"
+  },
+  "B26": {
+   "label": "insert: request rate below baseline -> observe",
+   "calls": [
+    46
+   ],
+   "t009_group": null
+  },
+  "B27": {
+   "label": "insert: regression before the latest deployment and CPU high -> scale",
+   "calls": [
+    52
+   ],
+   "t009_group": null
+  },
+  "B28": {
+   "label": "step 2: check traffic metrics before deployments",
+   "calls": [
+    57
+   ],
+   "t009_group": "O36"
+  },
+  "B29": {
+   "label": "delete the dependency-degraded observe rule",
+   "calls": [
+    59
+   ],
+   "t009_group": null
+  }
+ },
+ "call_sha256": {
+  "0": "092062ccfeefda4491c5069cbae66f7a37bfec5f08195b832fb9024e66e705c4",
+  "1": "24a504206b4a1911abdb75132873a56de2be62dbcf7fc877c48c9587a0bed00b",
+  "2": "8b3763f94882b943abd9a373724faa8d2234742fa74402fe9681c9dc6045e796",
+  "3": "fe07c7021e9b8ea252a39cb24b0e016a4823ab36f527d4606784538388cc5c25",
+  "5": "665713b12f730f96531e13245156d7093bd290a7300b394394b081db0d472b23",
+  "6": "e5b8d4d9ba63191ea8696f5e0047f0e83e36e6dc6ef49f046998b31ea07f96cb",
+  "7": "96bb9a179907c36ae0a0663a4e7467f307ab9f6c0d83a12010c2697c9b51d5c6",
+  "8": "c5f781bcf503085435dd5f0fd1895e6c6657c182c9cb1ce7adf43e3a01f0b95d",
+  "9": "ad36176e863c5f7bd1431b019b155330face4437884ccc8f18c960b2893acd82",
+  "10": "c6a234a57e1b7f7df6d6408d8cd686f2afd96a56c360f693a72848b2c0f84e87",
+  "11": "8b4982ae8b23c1ab9623fbf5d152ba50b90c85a6aae81c1b2b61bc766266979c",
+  "12": "bd29a73352db26c990d9192250c3884bbd96ddd316f1dbb9971d1691b0e5cfe4",
+  "13": "e982a8cdef789a306a6e0cb82c9c2af3d68ed130d3b77854266b82ad2bd7cced",
+  "14": "3092b05e51586c4d0fd70a41a57c318568aaaa035d6806799f75ad1165decb4b",
+  "15": "b4018f8e65df33a2a769e2a218db6b6bc9b5c31ff3ead4f69e6adc48473d4819",
+  "17": "d236f76bc4f3a5d6aee0287e2ccce374bb49ced47ab6f4e4095720a237d39cc2",
+  "18": "09b25c6e2292c1b31d9f4a5e06dad7edc7d4d58a06b65dfdb871b7dab6982ab1",
+  "19": "0f072e247cef2c123b126c6f301f29232124c5f773dd1aea516f69d46b1642bd",
+  "20": "4800b5aa9db55a1b2e3406c733ad85883747d3cf9b251d1a353e88e0f4256dee",
+  "22": "e5d6a4995b7802c301c6ffd6d3562bfc80d7874ea92c271d3fe783e5c046c7bc",
+  "23": "98e2ee72824712332eeebe71b96178aac68264fb70ade29839abf2b6f6d03242",
+  "24": "b78c20928f0bdb537bd3af3a8032b6f7309096361c025fd976eea1916c4d1c2b",
+  "25": "4203610a282308bae282776ae3ab2a6d8e4e5f45ca4e34d513ee207273766014",
+  "26": "9186a64005dca6f977c867c7b9dda3811d0f0d1557500c45abf292e78a1c486b",
+  "27": "4825a257ae935c5ef39e05adbb93f9370258d7b62a17d64a73628726482526ad",
+  "32": "9ec72d26aeeba3f951f6cf5a197a3479daf6db5af4eef45e5360bc176f317424",
+  "33": "1dc634f7f8e3734c11a2ad6369bb7b76e2cbab91026b3ac3b8e3d2552135ae72",
+  "35": "5e02ec19869eaf03232d7ee5b0bccb2210a915aeda1014ea2eed5ad38d4dbe80",
+  "37": "939c6db37092f199e13362bc88c46493b53e996d149caa4dfb09f1ba639f0fbe",
+  "38": "38eaa19887b957e8dfe2931f71adc4534dafe3952ce51a46a2539deee2b3ad22",
+  "39": "b53ab982f405a66208dd71ee0f2024be2d90990100015ca4c6c006e9fe220d0e",
+  "43": "329b70bae915db79ee914b3aa6ea6b678c569e3365f98063ce26121469f8da20",
+  "44": "ffc70fe701561d7f84deb6044fc583ce24b74d7b3767817f37f70eef942ca617",
+  "45": "c105ce3387c95f8fa47c9b21ca698f6e222639f4dc00a822b4888aa8aeac6cc2",
+  "46": "059d906866361740b4fbc909b61379b7d80b45b24c16117dc9e0c9917ae8a98e",
+  "47": "defd5bc052a93ed9802f8c9b4eb57dacd4d9bbb484bbdd3ae618301f1769d0b4",
+  "52": "6fa72351aa58814130059d4dd99bde7ed1a1925f9422615c899d79d252b47a6e",
+  "57": "e80c2c05ac9903d57cda36ec34e4aacad79b901434a99a6814e25e79c1e621d1",
+  "59": "36429a46b8096c70565de893737fec4a1c7f209e8e0d6f70297796b45294e10b",
+  "60": "b506ce1230f26c05b75c8cd83dabde4a46468830459b7b5b47ae44f79fb304a2"
+ }
+}

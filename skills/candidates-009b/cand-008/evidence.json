@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-008",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-85510b944cf5",
+    "case-4b531a959472",
+    "case-70e16aad1754",
+    "case-a38e38a12850",
+    "case-d0381038211e",
+    "case-cd525042ea1d"
+  ],
+  "hypothesis": "The failed cases show the agent rolling back as soon as it saw a recent deployment and healthy dependencies, without first gathering load-related context. Making rollback wait until resource and traffic inspection should reduce acting too early and surface overload patterns before taking a disposition action.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

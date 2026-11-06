@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-002",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-11e3b6666518",
+    "case-32ea8a41522b",
+    "case-d0381038211e",
+    "case-0efbbaaddf70",
+    "case-13726d0aa279",
+    "case-c6797ee97138"
+  ],
+  "hypothesis": "Several bad rollbacks showed very high CPU, which is more consistent with a capacity problem than a bad release. Explicitly preferring scaling when CPU is high should reduce choosing rollback for load-driven incidents.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

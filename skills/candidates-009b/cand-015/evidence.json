@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-015",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-19f4846b46d7",
+    "case-4ccb3adc5a2a",
+    "case-cd525042ea1d",
+    "case-7cc65dc77aca",
+    "case-7933ff7b5a24",
+    "case-1cce6b8d38f0"
+  ],
+  "hypothesis": "Some failed rollbacks showed strong service-side saturation without clear evidence of demand growth, which makes a bad release less certain as the cause. Diverting those cases to monitoring should reduce unnecessary rollbacks when high CPU is not explained by increased traffic.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

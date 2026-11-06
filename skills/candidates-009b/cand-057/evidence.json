@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-057",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-a40b8345e23f",
+    "case-966e32fee8d1",
+    "case-8cdc1addd2a7",
+    "case-bb64cbf20668",
+    "case-8040dc3bacf0",
+    "case-1f93afc52e34"
+  ],
+  "hypothesis": "The agent appears to anchor on deployment recency and act before considering whether load changed. Moving the traffic check ahead of deployment lookup should slow that path and reduce early actions taken without basic demand context.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

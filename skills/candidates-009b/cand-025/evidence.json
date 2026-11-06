@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-025",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-13726d0aa279",
+    "case-87a41fd1984f",
+    "case-210cdc1e276b",
+    "case-e2df19da5c80",
+    "case-a38e38a12850",
+    "case-6ee5f1de30bb"
+  ],
+  "hypothesis": "The failures show the agent acting before finishing its own investigation path. Adding an explicit requirement to finish all observation steps before any action should prevent early rollback decisions and improve action safety.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

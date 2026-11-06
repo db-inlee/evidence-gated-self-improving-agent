@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-045",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-3c08b9d207a5",
+    "case-a38e38a12850",
+    "case-6c791234ae83",
+    "case-8040dc3bacf0",
+    "case-6fbca4672f48",
+    "case-cd525042ea1d"
+  ],
+  "hypothesis": "Some bad rollbacks came from ambiguous release attribution when multiple recent deployments existed or when the visible recent deployment did not clearly fit the incident timeline. Restricting rollback to a single pre-regression deployment should make the rollback action more causally targeted.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "down"
+  }
+}

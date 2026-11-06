@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-052",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-8040dc3bacf0",
+    "case-4ccb3adc5a2a",
+    "case-fe8d665df209",
+    "case-d720d354fac4",
+    "case-0efbbaaddf70",
+    "case-6fbca4672f48"
+  ],
+  "hypothesis": "Some bad rollbacks occurred when the service was already degraded before the newest deployment, making that rollback target unlikely to be causal while high CPU pointed to saturation instead. Adding a scale path for that specific mismatch should reduce reverting unrelated releases.",
+  "expected_effect": {
+    "cd": "none",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-027",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-8040dc3bacf0",
+    "case-cd525042ea1d",
+    "case-13726d0aa279",
+    "case-a38e38a12850",
+    "case-32ea8a41522b",
+    "case-966e32fee8d1"
+  ],
+  "hypothesis": "The current skill can stop too early on the dependency path by treating any dependency issue as sufficient reason to only monitor. Requiring a traffic check first should reduce early disposition decisions and improve confidence that waiting is appropriate.",
+  "expected_effect": {
+    "cd": "none",
+    "es": "up"
+  }
+}

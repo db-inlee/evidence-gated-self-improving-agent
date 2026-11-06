@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-039",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-87a41fd1984f",
+    "case-3c08b9d207a5",
+    "case-6fbca4672f48",
+    "case-32ea8a41522b",
+    "case-d0381038211e",
+    "case-1f93afc52e34"
+  ],
+  "hypothesis": "The failures suggest the agent sometimes forces an intervention even when the available signals do not clearly identify one cause. Adding an explicit ambiguity fallback should reduce unsupported scaling or rollback decisions when the investigation remains inconclusive.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-007",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-cd525042ea1d",
+    "case-e2df19da5c80",
+    "case-32ea8a41522b",
+    "case-13726d0aa279",
+    "case-70e16aad1754",
+    "case-7768cb8df981"
+  ],
+  "hypothesis": "Several bad rollbacks look more like demand-driven saturation than release regressions. Adding a scale path only when both load and CPU are elevated should steer those cases away from rollback while being narrower than reacting to either signal alone.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-047",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-b9614ff869e2",
+    "case-210cdc1e276b",
+    "case-13076c91b027",
+    "case-19f4846b46d7",
+    "case-d8c41fa6827a",
+    "case-e3c9f4e2bf37"
+  ],
+  "hypothesis": "Several bad rollbacks happened when the service already looked saturated, so treating a recent deployment as immediately actionable was too aggressive. Deferring the rollback path when CPU is elevated should reduce misattributing overload symptoms to a release and push the agent to gather load context first.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

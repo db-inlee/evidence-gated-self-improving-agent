@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-018",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-d8c41fa6827a",
+    "case-4ccb3adc5a2a",
+    "case-b9614ff869e2",
+    "case-d720d354fac4",
+    "case-1cce6b8d38f0",
+    "case-7cc65dc77aca"
+  ],
+  "hypothesis": "The current skill assumes any unhealthy dependency explains the incident, even when the dependency problem begins after the service degradation. Requiring the dependency issue to start earlier than the service regression should reduce misattributing the cause and choosing observation when the service itself is more likely at fault.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

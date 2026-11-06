@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-017",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-cd525042ea1d",
+    "case-7768cb8df981",
+    "case-a38e38a12850",
+    "case-3c08b9d207a5",
+    "case-7cc65dc77aca",
+    "case-13726d0aa279"
+  ],
+  "hypothesis": "The failed cases often included high CPU, but the agent acted without first determining whether load had changed. Adding a traffic check specifically when CPU is high should reduce acting too early in overload-like situations.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

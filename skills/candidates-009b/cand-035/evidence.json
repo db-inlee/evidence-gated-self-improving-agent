@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-035",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-85510b944cf5",
+    "case-210cdc1e276b",
+    "case-8cdc1addd2a7",
+    "case-6c791234ae83",
+    "case-d720d354fac4",
+    "case-e279d09e28af"
+  ],
+  "hypothesis": "The agent is acting on an initial snapshot and then committing to rollback without validating that the degradation is still present after gathering context. A second service-metrics check before acting should reduce hasty interventions on transient or less-certain incidents.",
+  "expected_effect": {
+    "cd": "none",
+    "es": "up"
+  }
+}

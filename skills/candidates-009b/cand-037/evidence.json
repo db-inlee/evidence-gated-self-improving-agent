@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-037",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-1f93afc52e34",
+    "case-a38e38a12850",
+    "case-e279d09e28af",
+    "case-0efbbaaddf70",
+    "case-11e3b6666518",
+    "case-3c08b9d207a5"
+  ],
+  "hypothesis": "The failures suggest the agent becomes anchored on deployment recency and acts before considering whether the service itself looks saturated. Making resource usage an explicit review step before deployment lookup should slow that path and reduce hasty rollback decisions.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-060",
+  "failure_type": "PREMATURE_ACTION",
+  "source_cases": [
+    "case-19f4846b46d7",
+    "case-13726d0aa279",
+    "case-e279d09e28af",
+    "case-d290ee98be46",
+    "case-8cdc1addd2a7",
+    "case-a38e38a12850"
+  ],
+  "hypothesis": "The failures show the agent committing to rollback before collecting demand context. Forcing a traffic check at the deployment decision point should delay action until a common non-release explanation has been examined.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

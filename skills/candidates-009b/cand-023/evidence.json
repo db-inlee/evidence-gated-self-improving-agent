@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-023",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-13076c91b027",
+    "case-d290ee98be46",
+    "case-87a41fd1984f",
+    "case-4b531a959472",
+    "case-4ccb3adc5a2a",
+    "case-b9614ff869e2"
+  ],
+  "hypothesis": "Several bad rollbacks happened because the agent used the rollback action even when the latest deployment could not have caused the incident timeline. Adding a rule that blocks rollback when the newest deployment is later than the regression should reduce reverting unrelated changes.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "up"
+  }
+}

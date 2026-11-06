@@ -1,0 +1,702 @@
+{
+  "ticket": "009b",
+  "source": "runs/proposer-009b",
+  "calls": 61,
+  "pool_size": 40,
+  "n_go": 25,
+  "go": true,
+  "stop_basis": "pool reached 40",
+  "last_session_reason": "limit",
+  "last_session_end": "2026-11-06T14:12:02+00:00",
+  "format_errors": 0,
+  "invalid": 0,
+  "proposer_duplicates": 21,
+  "cost_usd": 2.672052,
+  "ledger_lines": {
+    "ok": 61
+  },
+  "response_models": {
+    "counts": {
+      "gpt-5.4-2026-03-05": 61
+    },
+    "same_as_009": true,
+    "model_009": "gpt-5.4-2026-03-05"
+  },
+  "preregistration": {
+    "tag": "t009b-prereg",
+    "sha256_file": "a4c09894f7a551e33cd592bdd769e563f0cb6aeb21ce6ba07531003852d0aa09"
+  },
+  "run_options": {
+    "previous": "valid",
+    "dedupe": "word",
+    "dedupe_threshold": 0.55,
+    "stop_after_idle": 25
+  },
+  "proposer_config": {
+    "model": "gpt-5.4",
+    "max_completion_tokens": 8000,
+    "input_usd_per_mtok": 2.5,
+    "output_usd_per_mtok": 15.0,
+    "temperature": null,
+    "reasoning_effort": "low",
+    "budget_usd": 5.0,
+    "cases_per_call": 6,
+    "min_per_stratum": 2,
+    "max_retries": 3,
+    "max_format_error_rate": 0.05,
+    "retry_wait_s": 2.0,
+    "chars_per_token_estimate": 3.0,
+    "base_url": "https://api.openai.com/v1",
+    "timeout_s": 180.0,
+    "prompt_sha256": "58ffd9f0b92c4d063adb75ddaaa8477a2c381b772ec70a0a7dbdd54f2336e2c6",
+    "sample_rule": "random.Random('proposer-sample:<call_index>'), stratified",
+    "endpoint": "chat/completions"
+  },
+  "duplicate_rule": {
+    "name": "W (word change set)",
+    "threshold": 0.55
+  },
+  "candidates": [
+    {
+      "name": "cand-000",
+      "group": "proposer",
+      "skill_id": "6a26c655fca2",
+      "skill_path": "skills/candidates-009b/cand-000/SKILL.md",
+      "call_index": 0,
+      "hypothesis": "The agent rolled back after seeing a recent deployment and healthy dependencies without first determining whether a traffic change could explain the regression. Adding an explicit traffic check should reduce acting too early and better separate load-related issues from deployment-caused regressions.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-001",
+      "group": "proposer",
+      "skill_id": "feadcd2b391b",
+      "skill_path": "skills/candidates-009b/cand-001/SKILL.md",
+      "call_index": 1,
+      "hypothesis": "Some incorrect rollbacks happened because the agent treated any recent deployment as causal, even when the deployment occurred after the regression began. Requiring the deployment to predate the regression should reduce misattribution and avoid rolling back unrelated changes.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-001"
+      ],
+      "t009_duplicates": [
+        1
+      ]
+    },
+    {
+      "name": "cand-002",
+      "group": "proposer",
+      "skill_id": "c7668916d085",
+      "skill_path": "skills/candidates-009b/cand-002/SKILL.md",
+      "call_index": 2,
+      "hypothesis": "Several bad rollbacks showed very high CPU, which is more consistent with a capacity problem than a bad release. Explicitly preferring scaling when CPU is high should reduce choosing rollback for load-driven incidents.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-011"
+      ],
+      "t009_duplicates": [
+        3
+      ]
+    },
+    {
+      "name": "cand-003",
+      "group": "proposer",
+      "skill_id": "1060da3dba2d",
+      "skill_path": "skills/candidates-009b/cand-003/SKILL.md",
+      "call_index": 3,
+      "hypothesis": "Some bad rollbacks were taken during obvious service-side saturation, where a deployment was present but high CPU made the release a weaker explanation for the incident. Gating rollback on non-elevated CPU should reduce misattributing load or capacity problems to recent deployments.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-005"
+      ],
+      "t009_duplicates": [
+        5,
+        9,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        33,
+        34,
+        37,
+        38,
+        40,
+        41,
+        42,
+        45,
+        47,
+        49,
+        50,
+        51,
+        55,
+        57,
+        59,
+        60,
+        61,
+        62,
+        66,
+        69,
+        70,
+        72,
+        74,
+        75,
+        76,
+        78
+      ]
+    },
+    {
+      "name": "cand-005",
+      "group": "proposer",
+      "skill_id": "d55756f7153e",
+      "skill_path": "skills/candidates-009b/cand-005/SKILL.md",
+      "call_index": 5,
+      "hypothesis": "Some rollbacks were likely triggered by deployments that were merely recent, not actually correlated with the start of the incident. Requiring the degradation to begin closely after the deployment should reduce rollbacking unrelated releases while preserving rollbacks for more plausibly causal changes.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-006",
+      "group": "proposer",
+      "skill_id": "66348a2222cc",
+      "skill_path": "skills/candidates-009b/cand-006/SKILL.md",
+      "call_index": 6,
+      "hypothesis": "Some bad rollbacks happened when more than one recent deployment made release attribution ambiguous. Avoiding rollback in that ambiguous case should reduce choosing the wrong intervention based on an uncertain causal link.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-007",
+      "group": "proposer",
+      "skill_id": "6cf931a8ab08",
+      "skill_path": "skills/candidates-009b/cand-007/SKILL.md",
+      "call_index": 7,
+      "hypothesis": "Several bad rollbacks look more like demand-driven saturation than release regressions. Adding a scale path only when both load and CPU are elevated should steer those cases away from rollback while being narrower than reacting to either signal alone.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-008",
+      "group": "proposer",
+      "skill_id": "1767203c3d9a",
+      "skill_path": "skills/candidates-009b/cand-008/SKILL.md",
+      "call_index": 8,
+      "hypothesis": "The failed cases show the agent rolling back as soon as it saw a recent deployment and healthy dependencies, without first gathering load-related context. Making rollback wait until resource and traffic inspection should reduce acting too early and surface overload patterns before taking a disposition action.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-009",
+      "group": "proposer",
+      "skill_id": "d47b464c7e9d",
+      "skill_path": "skills/candidates-009b/cand-009/SKILL.md",
+      "call_index": 9,
+      "hypothesis": "The bad scaling case suggests the agent treated high CPU alone as sufficient reason to add capacity. Requiring higher-than-baseline traffic before scaling should avoid scaling for release-induced or non-demand regressions.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-010",
+      "group": "proposer",
+      "skill_id": "218f02e35d9e",
+      "skill_path": "skills/candidates-009b/cand-010/SKILL.md",
+      "call_index": 10,
+      "hypothesis": "The failures show the agent taking rollback before gathering load context. Adding a mandatory traffic-metrics check earlier should reduce acting too soon by forcing one more relevant observation before any disposition action.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-000"
+      ],
+      "t009_duplicates": [
+        7
+      ]
+    },
+    {
+      "name": "cand-011",
+      "group": "proposer",
+      "skill_id": "410ecd7a1314",
+      "skill_path": "skills/candidates-009b/cand-011/SKILL.md",
+      "call_index": 11,
+      "hypothesis": "Some bad outcomes came from rolling back the newest release even when that release could not have caused the incident because it arrived after the degradation began. Making rollback depend on the newest deployment preceding the regression should better match the rollback tool to the actual timeline.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "cand-012",
+      "group": "proposer",
+      "skill_id": "23cd69d1a0d1",
+      "skill_path": "skills/candidates-009b/cand-012/SKILL.md",
+      "call_index": 12,
+      "hypothesis": "Several bad rollbacks likely came from overload rather than a faulty release. Restricting rollback to cases where traffic remains near its usual level should reduce misattributing demand-driven degradation to a recent deployment.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": [
+        0
+      ]
+    },
+    {
+      "name": "cand-013",
+      "group": "proposer",
+      "skill_id": "e4361336fbf2",
+      "skill_path": "skills/candidates-009b/cand-013/SKILL.md",
+      "call_index": 13,
+      "hypothesis": "Several bad rollbacks treated any recent deployment as causal even when the timing did not fit the incident. Requiring the regression to start after the deployment should reduce rolling back unrelated releases.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-014",
+      "group": "proposer",
+      "skill_id": "9680dca8de51",
+      "skill_path": "skills/candidates-009b/cand-014/SKILL.md",
+      "call_index": 14,
+      "hypothesis": "The failures show rollback being chosen before load context was gathered. Requiring traffic metrics as part of the initial confirmation should make the agent collect that context before any disposition action and reduce acting too soon.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-014"
+      ],
+      "t009_duplicates": [
+        6
+      ]
+    },
+    {
+      "name": "cand-015",
+      "group": "proposer",
+      "skill_id": "0d2accf2a6bb",
+      "skill_path": "skills/candidates-009b/cand-015/SKILL.md",
+      "call_index": 15,
+      "hypothesis": "Some failed rollbacks showed strong service-side saturation without clear evidence of demand growth, which makes a bad release less certain as the cause. Diverting those cases to monitoring should reduce unnecessary rollbacks when high CPU is not explained by increased traffic.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-017",
+      "group": "proposer",
+      "skill_id": "c7d7ef363d25",
+      "skill_path": "skills/candidates-009b/cand-017/SKILL.md",
+      "call_index": 17,
+      "hypothesis": "The failed cases often included high CPU, but the agent acted without first determining whether load had changed. Adding a traffic check specifically when CPU is high should reduce acting too early in overload-like situations.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-018",
+      "group": "proposer",
+      "skill_id": "42b74daa5047",
+      "skill_path": "skills/candidates-009b/cand-018/SKILL.md",
+      "call_index": 18,
+      "hypothesis": "The current skill assumes any unhealthy dependency explains the incident, even when the dependency problem begins after the service degradation. Requiring the dependency issue to start earlier than the service regression should reduce misattributing the cause and choosing observation when the service itself is more likely at fault.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-019",
+      "group": "proposer",
+      "skill_id": "3d1eabdef2c1",
+      "skill_path": "skills/candidates-009b/cand-019/SKILL.md",
+      "call_index": 19,
+      "hypothesis": "The agent appears biased toward rollback once it sees a recent deployment. Checking dependencies first may reduce that bias and make it less likely to act too quickly on release correlation alone.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-020",
+      "group": "proposer",
+      "skill_id": "ecb9d450aa91",
+      "skill_path": "skills/candidates-009b/cand-020/SKILL.md",
+      "call_index": 20,
+      "hypothesis": "Some bad rollbacks were caused by treating any recent deployment as causal even when it happened after the service was already degraded. Requiring the deployment to come before the regression should prevent rollbacking unrelated releases.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-022",
+      "group": "proposer",
+      "skill_id": "2f144cd8f28c",
+      "skill_path": "skills/candidates-009b/cand-022/SKILL.md",
+      "call_index": 22,
+      "hypothesis": "The repeated bad outcomes come from an overly eager rollback path that treats deployment recency as enough to intervene. Removing that step should reduce incorrect rollback decisions and push the agent to gather more context before taking a disposition action.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-003"
+      ],
+      "t009_duplicates": [
+        4,
+        22
+      ]
+    },
+    {
+      "name": "cand-023",
+      "group": "proposer",
+      "skill_id": "b64ca354cea4",
+      "skill_path": "skills/candidates-009b/cand-023/SKILL.md",
+      "call_index": 23,
+      "hypothesis": "Several bad rollbacks happened because the agent used the rollback action even when the latest deployment could not have caused the incident timeline. Adding a rule that blocks rollback when the newest deployment is later than the regression should reduce reverting unrelated changes.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-024",
+      "group": "proposer",
+      "skill_id": "f13dbdec95a7",
+      "skill_path": "skills/candidates-009b/cand-024/SKILL.md",
+      "call_index": 24,
+      "hypothesis": "The failures show a rollback bias after finding a recent deployment, even though service-side saturation was visible in the metrics. Forcing a resource-usage check before rollback should reduce acting too quickly on deployment correlation alone.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-025",
+      "group": "proposer",
+      "skill_id": "93241e0a1984",
+      "skill_path": "skills/candidates-009b/cand-025/SKILL.md",
+      "call_index": 25,
+      "hypothesis": "The failures show the agent acting before finishing its own investigation path. Adding an explicit requirement to finish all observation steps before any action should prevent early rollback decisions and improve action safety.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-026",
+      "group": "proposer",
+      "skill_id": "481b514d163e",
+      "skill_path": "skills/candidates-009b/cand-026/SKILL.md",
+      "call_index": 26,
+      "hypothesis": "The failures show actions being taken before load context was gathered. Adding an explicit traffic check near the start should make the agent collect that context before choosing a disposition.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": [
+        32
+      ]
+    },
+    {
+      "name": "cand-027",
+      "group": "proposer",
+      "skill_id": "42f688f99a44",
+      "skill_path": "skills/candidates-009b/cand-027/SKILL.md",
+      "call_index": 27,
+      "hypothesis": "The current skill can stop too early on the dependency path by treating any dependency issue as sufficient reason to only monitor. Requiring a traffic check first should reduce early disposition decisions and improve confidence that waiting is appropriate.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-032",
+      "group": "proposer",
+      "skill_id": "f166176a4757",
+      "skill_path": "skills/candidates-009b/cand-032/SKILL.md",
+      "call_index": 32,
+      "hypothesis": "Some bad actions came from reacting to saturation signals without first establishing whether user demand actually changed. Making the final investigation step explicitly frame traffic as a baseline comparison should improve load-vs-release attribution and reduce inappropriate interventions.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-033",
+      "group": "proposer",
+      "skill_id": "583bf83a9cd9",
+      "skill_path": "skills/candidates-009b/cand-033/SKILL.md",
+      "call_index": 33,
+      "hypothesis": "The failures show the agent committing to rollback before it had gathered load context. Moving resource and traffic inspection ahead of deployment-based decision points should delay action until a common alternative explanation has been checked.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-035",
+      "group": "proposer",
+      "skill_id": "bbd0e73dec79",
+      "skill_path": "skills/candidates-009b/cand-035/SKILL.md",
+      "call_index": 35,
+      "hypothesis": "The agent is acting on an initial snapshot and then committing to rollback without validating that the degradation is still present after gathering context. A second service-metrics check before acting should reduce hasty interventions on transient or less-certain incidents.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-037",
+      "group": "proposer",
+      "skill_id": "9a90b708a699",
+      "skill_path": "skills/candidates-009b/cand-037/SKILL.md",
+      "call_index": 37,
+      "hypothesis": "The failures suggest the agent becomes anchored on deployment recency and acts before considering whether the service itself looks saturated. Making resource usage an explicit review step before deployment lookup should slow that path and reduce hasty rollback decisions.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-038",
+      "group": "proposer",
+      "skill_id": "ab34b90cab29",
+      "skill_path": "skills/candidates-009b/cand-038/SKILL.md",
+      "call_index": 38,
+      "hypothesis": "The agent is acting on an initial snapshot and then committing to a disposition after gathering context without revalidating that the problem is still ongoing. A second service-metrics check just before the decision should reduce hasty actions on transient or already-improving incidents.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-039",
+      "group": "proposer",
+      "skill_id": "971f00a5e8ae",
+      "skill_path": "skills/candidates-009b/cand-039/SKILL.md",
+      "call_index": 39,
+      "hypothesis": "The failures suggest the agent sometimes forces an intervention even when the available signals do not clearly identify one cause. Adding an explicit ambiguity fallback should reduce unsupported scaling or rollback decisions when the investigation remains inconclusive.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-043",
+      "group": "proposer",
+      "skill_id": "f05826a15e0c",
+      "skill_path": "skills/candidates-009b/cand-043/SKILL.md",
+      "call_index": 43,
+      "hypothesis": "High CPU by itself is ambiguous and can reflect several causes, so treating it as a reason to add capacity can produce the wrong action. Defaulting to monitoring in that case should reduce unsupported scaling decisions.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-044",
+      "group": "proposer",
+      "skill_id": "6f4998ce001d",
+      "skill_path": "skills/candidates-009b/cand-044/SKILL.md",
+      "call_index": 44,
+      "hypothesis": "Some bad rollbacks came from treating any recent deployment as actionable even when multiple recent releases made the cause unclear. Limiting rollback to cases with a single recent deployment should reduce reverting the wrong change.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": [
+        13
+      ]
+    },
+    {
+      "name": "cand-045",
+      "group": "proposer",
+      "skill_id": "0e41be65915a",
+      "skill_path": "skills/candidates-009b/cand-045/SKILL.md",
+      "call_index": 45,
+      "hypothesis": "Some bad rollbacks came from ambiguous release attribution when multiple recent deployments existed or when the visible recent deployment did not clearly fit the incident timeline. Restricting rollback to a single pre-regression deployment should make the rollback action more causally targeted.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-046",
+      "group": "proposer",
+      "skill_id": "a08e8450be0c",
+      "skill_path": "skills/candidates-009b/cand-046/SKILL.md",
+      "call_index": 46,
+      "hypothesis": "Some bad rollback decisions may happen during demand drop or upstream routing changes, where a recent deployment is coincidental rather than causal. Adding an observe path for below-baseline traffic should reduce unnecessary rollback when the service is handling less load, not more.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-047",
+      "group": "proposer",
+      "skill_id": "7159bbdd21f6",
+      "skill_path": "skills/candidates-009b/cand-047/SKILL.md",
+      "call_index": 47,
+      "hypothesis": "Several bad rollbacks happened when the service already looked saturated, so treating a recent deployment as immediately actionable was too aggressive. Deferring the rollback path when CPU is elevated should reduce misattributing overload symptoms to a release and push the agent to gather load context first.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-052",
+      "group": "proposer",
+      "skill_id": "8a9cd90e3659",
+      "skill_path": "skills/candidates-009b/cand-052/SKILL.md",
+      "call_index": 52,
+      "hypothesis": "Some bad rollbacks occurred when the service was already degraded before the newest deployment, making that rollback target unlikely to be causal while high CPU pointed to saturation instead. Adding a scale path for that specific mismatch should reduce reverting unrelated releases.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-057",
+      "group": "proposer",
+      "skill_id": "f8c9b554522e",
+      "skill_path": "skills/candidates-009b/cand-057/SKILL.md",
+      "call_index": 57,
+      "hypothesis": "The agent appears to anchor on deployment recency and act before considering whether load changed. Moving the traffic check ahead of deployment lookup should slow that path and reduce early actions taken without basic demand context.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-059",
+      "group": "proposer",
+      "skill_id": "6298a89af034",
+      "skill_path": "skills/candidates-009b/cand-059/SKILL.md",
+      "call_index": 59,
+      "hypothesis": "The current skill can stop too early when a dependency is degraded, ending the investigation before the agent has gathered basic service-side context. Removing that immediate observe branch should make the agent continue to inspect load signals before taking its one disposition action.",
+      "control_duplicates": [],
+      "v1_duplicates": [],
+      "t009_duplicates": []
+    },
+    {
+      "name": "cand-060",
+      "group": "proposer",
+      "skill_id": "3c9353977c42",
+      "skill_path": "skills/candidates-009b/cand-060/SKILL.md",
+      "call_index": 60,
+      "hypothesis": "The failures show the agent committing to rollback before collecting demand context. Forcing a traffic check at the deployment decision point should delay action until a common non-release explanation has been examined.",
+      "control_duplicates": [],
+      "v1_duplicates": [
+        "cand-012"
+      ],
+      "t009_duplicates": []
+    },
+    {
+      "name": "mixed-scale-on-traffic",
+      "group": "control",
+      "skill_id": "11e977272617",
+      "skill_path": "skills/controls/mixed-scale-on-traffic/SKILL.md"
+    },
+    {
+      "name": "neg-rollback-any",
+      "group": "control",
+      "skill_id": "d21ec9d34946",
+      "skill_path": "skills/controls/neg-rollback-any/SKILL.md"
+    },
+    {
+      "name": "neg-skip-metrics",
+      "group": "control",
+      "skill_id": "681f45168c34",
+      "skill_path": "skills/controls/neg-skip-metrics/SKILL.md"
+    },
+    {
+      "name": "neg-timing-shortcut",
+      "group": "control",
+      "skill_id": "e78f11923007",
+      "skill_path": "skills/controls/neg-timing-shortcut/SKILL.md"
+    },
+    {
+      "name": "neutral-rephrase",
+      "group": "control",
+      "skill_id": "d9f06d518efc",
+      "skill_path": "skills/controls/neutral-rephrase/SKILL.md"
+    },
+    {
+      "name": "pos-timing-only",
+      "group": "control",
+      "skill_id": "881e3c9e9087",
+      "skill_path": "skills/controls/pos-timing-only/SKILL.md"
+    },
+    {
+      "name": "pos-traffic-check",
+      "group": "control",
+      "skill_id": "e0fd0c34db25",
+      "skill_path": "skills/controls/pos-traffic-check/SKILL.md"
+    }
+  ],
+  "files": {
+    "skills/candidates-009b/cand-000/SKILL.md": "6a26c655fca2aff3fe6a02dba1429dab7218950771bfe2ce34451508f744875f",
+    "skills/candidates-009b/cand-000/evidence.json": "641722d535c66bc4214638adea5306042e3fe910bafa20851c653269e65851ec",
+    "skills/candidates-009b/cand-001/SKILL.md": "feadcd2b391b6f1f97483e2d21315a7fbd210684216b8cc16375c684d09e228b",
+    "skills/candidates-009b/cand-001/evidence.json": "49f1b3a8708d1869a086b8426b4a6f0ccfe6b7ea1237c52e95a1386d74bab286",
+    "skills/candidates-009b/cand-002/SKILL.md": "c7668916d085ed7bb8e26deb4e834774771b1845bb23513025d602af82612f5d",
+    "skills/candidates-009b/cand-002/evidence.json": "6110e72a0b6bc4f065a985eaf6be93638b3fafeea43fa1a87b711a83ef2355c2",
+    "skills/candidates-009b/cand-003/SKILL.md": "1060da3dba2dd7c30696e0c5bb9244966b00f2f91072203457726081f74c0c27",
+    "skills/candidates-009b/cand-003/evidence.json": "802ff7b477acbc9a87b7382208845247f10ccbc574e50710dd2caf0ce0b43d35",
+    "skills/candidates-009b/cand-005/SKILL.md": "d55756f7153eb5be4c55ef08c11f2d1cd6ec1699e9626f51cc018405d3c50109",
+    "skills/candidates-009b/cand-005/evidence.json": "ec798fbbd965583e14f7d7fcf70bc13669fb1b15661240bb7800f256a5d61c8c",
+    "skills/candidates-009b/cand-006/SKILL.md": "66348a2222cc5716a7f588607babfa422593822dc63927a402c6e90aa9d8ed45",
+    "skills/candidates-009b/cand-006/evidence.json": "07f67cd8a661906f9561ed0d628564208c5db81fc64ee2f7000f7f893ba2e51c",
+    "skills/candidates-009b/cand-007/SKILL.md": "6cf931a8ab0830a2b4d4f057af9068e798cc4fc148778865f4ae28e99a2e735a",
+    "skills/candidates-009b/cand-007/evidence.json": "457c304a1aa6d62cc4d44754a94688460bf11d3a1acf7a87b1b0bd34a8c7b201",
+    "skills/candidates-009b/cand-008/SKILL.md": "1767203c3d9ae26e299b100949a071904e11638071de0a4b8b41c197ba0b0021",
+    "skills/candidates-009b/cand-008/evidence.json": "0120399628c3c856a438d83d045dffdeeb57ab815ed1450d29b1f52d3d0d87c3",
+    "skills/candidates-009b/cand-009/SKILL.md": "d47b464c7e9de3ca629a97dcabe6aaaa486b76fb9156fa594cc9f1dd72da2d65",
+    "skills/candidates-009b/cand-009/evidence.json": "f57560a5624887a6198015b4c374fb3bd11e8648211b8f721bc19abfd85d1e4f",
+    "skills/candidates-009b/cand-010/SKILL.md": "218f02e35d9ecfde064fde45ac31cbf5e89b3fb1284ae52277db19e43e9b1a67",
+    "skills/candidates-009b/cand-010/evidence.json": "aaf5fae08d2036b2ef6ce164d5ce17e88da4c8a49213c10836fac0bb09ca5a4a",
+    "skills/candidates-009b/cand-011/SKILL.md": "410ecd7a1314a7437b9c4325815adf55f48ffa5ffb11c27a0a3b4518ac928c14",
+    "skills/candidates-009b/cand-011/evidence.json": "5713ead8ecad2bf2be758193e36dd2ade104dc58809c4101a5ce70013933ae28",
+    "skills/candidates-009b/cand-012/SKILL.md": "23cd69d1a0d1c995ae294af466880aba7b0b6de09dfcaeb309ee08810e96d576",
+    "skills/candidates-009b/cand-012/evidence.json": "3feb2fc0248449180afa4dd850f99754b06f34dc2ef7ac3b256c2f1d36a20839",
+    "skills/candidates-009b/cand-013/SKILL.md": "e4361336fbf226ae2e130a9ad21400fb81a453ee531343ea507fcf391fedf71d",
+    "skills/candidates-009b/cand-013/evidence.json": "7a94fd93f41709e26a5e229190bfd55b7d01b1c41f89dcf4fa0e0b38396a5afb",
+    "skills/candidates-009b/cand-014/SKILL.md": "9680dca8de5175a25e831b058ff98518c39f4ce7aa035f83ee039ffc5a61c7ae",
+    "skills/candidates-009b/cand-014/evidence.json": "d0fef701fecc66ba6bf5c1c4cc0093a97ae459fb9dd50b16831627ba9b65e59c",
+    "skills/candidates-009b/cand-015/SKILL.md": "0d2accf2a6bb592a74c3f8279fe7d3472352007af89fadd1342ab4059fc914a8",
+    "skills/candidates-009b/cand-015/evidence.json": "933bb62e46159a6f478e3a9b90ee02f44446324724acb178b2c85f0abcc2dab2",
+    "skills/candidates-009b/cand-017/SKILL.md": "c7d7ef363d25874c90f5d372588457af6ea8aca1bcf80a24117dbe67ff8e8344",
+    "skills/candidates-009b/cand-017/evidence.json": "df7e1ebdc44236e715d56db27b438ac7289f9af8efd9ed929b4d0f574ab5a07d",
+    "skills/candidates-009b/cand-018/SKILL.md": "42b74daa50477423f460a084bf662831431ccd58d704a1cce9e3a7c00bab9a7d",
+    "skills/candidates-009b/cand-018/evidence.json": "74fd7a5f3c9146541304753b80734e7c52c9c25b7d4586088b2a00635639e34f",
+    "skills/candidates-009b/cand-019/SKILL.md": "3d1eabdef2c13e8c2e92a0ab2ca91cd0a5f063c1d161d06ccc9121b382217a2e",
+    "skills/candidates-009b/cand-019/evidence.json": "235939d54bcbbbd691e8950cf1ec7dd71da32dde00e86a24a486fc6578527d71",
+    "skills/candidates-009b/cand-020/SKILL.md": "ecb9d450aa9152bc74ede46eaff29437b0360872d3e5df2bcc9e0f972fbe5976",
+    "skills/candidates-009b/cand-020/evidence.json": "c4b8b81f99e448d02a2c67996bcd9c883daae9d61c3052f6fe854b12f668bf8a",
+    "skills/candidates-009b/cand-022/SKILL.md": "2f144cd8f28cb127e7cb96cb5fffcca0d91349c8e17f83ca469c6f5c5bf25de6",
+    "skills/candidates-009b/cand-022/evidence.json": "f08d3ab84c7c29668b410e2e3fc19774efe14ba79dad2cfd1981571ad075afcf",
+    "skills/candidates-009b/cand-023/SKILL.md": "b64ca354cea45d57a6237c941f23ff37b2dceec6270f0f49341ce2c2c40dfe7d",
+    "skills/candidates-009b/cand-023/evidence.json": "805e4fe609c07b8cb755d0d482e6546bafb9c9e413821d76b7a866457c9bfdd4",
+    "skills/candidates-009b/cand-024/SKILL.md": "f13dbdec95a75b947890e91c0a7e42bf3816be84591757cc96fa6cb3c7bb96c3",
+    "skills/candidates-009b/cand-024/evidence.json": "d2c241d3b6b1302ac60e8e8aa7ac9074a7cdc974c0f8e461d0abc0d0f8b7afb5",
+    "skills/candidates-009b/cand-025/SKILL.md": "93241e0a1984911e7946e1ca754ce33c939302a54f1287cbbb3a2dfaa5b99d66",
+    "skills/candidates-009b/cand-025/evidence.json": "29051664bff49f5308b26e0a2c5632f03e5633c751d36a06f2eab6487bbee182",
+    "skills/candidates-009b/cand-026/SKILL.md": "481b514d163e738e0b8fd179a5d7eed5d92e5f6f06c6c670ff538fbd83e72b72",
+    "skills/candidates-009b/cand-026/evidence.json": "76efdd05b77f93e57d325a4c27abc03a78991f47de28a4c713a466b8062d7dfd",
+    "skills/candidates-009b/cand-027/SKILL.md": "42f688f99a44b8d7e987ff6e243a503dae594c48eca152293d8200d6dbbaa3b2",
+    "skills/candidates-009b/cand-027/evidence.json": "1a7ea7a1e55e39d52574a756ae5287ffe1e7d149a4bfd815dcee7e428f9d6e29",
+    "skills/candidates-009b/cand-032/SKILL.md": "f166176a4757db4de6897ab4761ca5334e8e8ae7ed6b21f6bde8faf526e2050a",
+    "skills/candidates-009b/cand-032/evidence.json": "a486ab3d508b92981bd525b570f0df72fc85cb7e69cbd0fa46e0f1ec52b19a1a",
+    "skills/candidates-009b/cand-033/SKILL.md": "583bf83a9cd9486548f6e3e47b0226cd3f38244f2e7ab468860da4ba24825ed8",
+    "skills/candidates-009b/cand-033/evidence.json": "59d7055613556a55d3ad4dbc1d178495bfe6611f0a3a09187ca055e1743f7679",
+    "skills/candidates-009b/cand-035/SKILL.md": "bbd0e73dec798e32216d2a56c4a687f734ad3ba95b34668fef7efe1c06ce4cca",
+    "skills/candidates-009b/cand-035/evidence.json": "226f0c1863890d28c0e7584302d5fe436dc6ee8ee4d817bef4f9d5a720903d23",
+    "skills/candidates-009b/cand-037/SKILL.md": "9a90b708a6998abf008cdec9d10db602024dbf401407cb962ac4e4dbfc2a0d4c",
+    "skills/candidates-009b/cand-037/evidence.json": "ac3874cb779c6c2de2f2d960c33ab80b74a51a84689abe4f18c0ab900f5c322e",
+    "skills/candidates-009b/cand-038/SKILL.md": "ab34b90cab29f6e102c05cc1a3e46c782b0ab4fe099cb17b1dd3d6f5896693e1",
+    "skills/candidates-009b/cand-038/evidence.json": "98c074bb19e29c0578c26ea735147ad9e71d04a6ab6b0c23429f35912d82ec44",
+    "skills/candidates-009b/cand-039/SKILL.md": "971f00a5e8aef56ed2a9782fa4b57cfa3199c6d5b62bebc9c65e029ed4811990",
+    "skills/candidates-009b/cand-039/evidence.json": "cccbae04c9987d3d278bc5064e63c7649f0099492355507cc5d5a1f3120a53d8",
+    "skills/candidates-009b/cand-043/SKILL.md": "f05826a15e0cc8bc08de30b54a4a692a60012245f6e04b26e1e16ec858afe92a",
+    "skills/candidates-009b/cand-043/evidence.json": "83b0c09eacaefbf92071a9459b30b1fcb9afa256820b7dce09fb9013c2a6e6f2",
+    "skills/candidates-009b/cand-044/SKILL.md": "6f4998ce001d8c6a1d9e66f8cf38ba525a4ceae7215846745016125fc16f128b",
+    "skills/candidates-009b/cand-044/evidence.json": "e832bcebba7e4750bafdb463b62714506e981e26fc678f8b147020d14c688482",
+    "skills/candidates-009b/cand-045/SKILL.md": "0e41be65915aa40f570318b77d98c0c5253b3e29cdebae2bc409e55064b6349f",
+    "skills/candidates-009b/cand-045/evidence.json": "31f2dddaa062d6d5d2437c25fa18909ef07c365b689c728143e302b09c9b4e1b",
+    "skills/candidates-009b/cand-046/SKILL.md": "a08e8450be0c0db28e818422905a8dc75daf7c67e280f8bfaca172c032270697",
+    "skills/candidates-009b/cand-046/evidence.json": "c1a54ef3daf3c8ea7df753aed71fb1649e96b37d52c492a0e1495b5b91a12db4",
+    "skills/candidates-009b/cand-047/SKILL.md": "7159bbdd21f6d015756227ba64aa74e1ca91e9194838a53e58617c8d45bc8708",
+    "skills/candidates-009b/cand-047/evidence.json": "46e72a1ace45b1a167d4fb38ca17f9e8fb16647170c7a6752a0624079e7f7beb",
+    "skills/candidates-009b/cand-052/SKILL.md": "8a9cd90e36599394577bbe50c6959dd12f04428fbf6eac003acc60f7136fa3b0",
+    "skills/candidates-009b/cand-052/evidence.json": "d63af154a8682f778f4b2a83cf8190221ced36baaae5152743caa8075b650b3d",
+    "skills/candidates-009b/cand-057/SKILL.md": "f8c9b554522e9e7d3234af5aceb5af100a2635da1566ad286049d39c33050213",
+    "skills/candidates-009b/cand-057/evidence.json": "1b885ddf98b3419fa0f6892488754d137d68a25242699c3287a75889c50e8c2c",
+    "skills/candidates-009b/cand-059/SKILL.md": "6298a89af0344fa11dbbb0e560ed24f5d98a53b08907766415f4b9a2d7d6f26a",
+    "skills/candidates-009b/cand-059/evidence.json": "eb294241c7ee0a1fc209fadb7a69edfe6977ba54c8b6bb05b4fc438956a95c43",
+    "skills/candidates-009b/cand-060/SKILL.md": "3c9353977c42c1946e7bd7bb0f4e79718b017e4ad7ee16b93bce6f33cec55323",
+    "skills/candidates-009b/cand-060/evidence.json": "ca13dc4f749a2d2a4dc7a5c5724dd461dcf237ca16f04dcb7f1add66f06050b3"
+  }
+}

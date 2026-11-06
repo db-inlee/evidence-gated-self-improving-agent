@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-046",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-d720d354fac4",
+    "case-8cdc1addd2a7",
+    "case-6c791234ae83",
+    "case-e2df19da5c80",
+    "case-1cce6b8d38f0",
+    "case-19f4846b46d7"
+  ],
+  "hypothesis": "Some bad rollback decisions may happen during demand drop or upstream routing changes, where a recent deployment is coincidental rather than causal. Adding an observe path for below-baseline traffic should reduce unnecessary rollback when the service is handling less load, not more.",
+  "expected_effect": {
+    "cd": "up",
+    "es": "none"
+  }
+}

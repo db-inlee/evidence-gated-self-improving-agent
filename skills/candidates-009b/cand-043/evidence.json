@@ -1,0 +1,17 @@
+{
+  "candidate_id": "cand-043",
+  "failure_type": "WRONG_INTERVENTION",
+  "source_cases": [
+    "case-7cc65dc77aca",
+    "case-a38e38a12850",
+    "case-cbea81921e34",
+    "case-3c08b9d207a5",
+    "case-e2df19da5c80",
+    "case-19f4846b46d7"
+  ],
+  "hypothesis": "High CPU by itself is ambiguous and can reflect several causes, so treating it as a reason to add capacity can produce the wrong action. Defaulting to monitoring in that case should reduce unsupported scaling decisions.",
+  "expected_effect": {
+    "cd": "down",
+    "es": "up"
+  }
+}
