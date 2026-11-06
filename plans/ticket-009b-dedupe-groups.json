@@ -1,0 +1,260 @@
+{
+ "purpose": "Ticket 009b section 2: idea groups of the 80 Ticket 009 proposer candidates, fixed before computing any property of the new duplicate rule",
+ "labeled_by": "Claude (Claude Code), by reading each candidate's S0 diff; report 2026-11-05-06 section 3.4",
+ "labeled_at": "2026-11-05",
+ "rules": "G1-G6 edit S0 step 4; O* are single-candidate groups (the 11 'other' candidates, each its own idea)",
+ "source_manifest": {
+  "path": "results/ticket-009/proposer-calls-manifest.json",
+  "sha256": "b2e5e759e613e66ec427f7bf56e526644fd3acab9859e331cc4cba749620da28"
+ },
+ "not_in_pool": "these 80 candidates are never added to the 009b pool (ticket 009b principle 3)",
+ "groups": {
+  "G1": {
+   "label": "rollback guard: CPU or resource usage not elevated",
+   "calls": [
+    5,
+    9,
+    11,
+    12,
+    14,
+    15,
+    16,
+    17,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    33,
+    34,
+    37,
+    38,
+    40,
+    41,
+    42,
+    45,
+    47,
+    49,
+    50,
+    51,
+    53,
+    55,
+    57,
+    59,
+    60,
+    61,
+    62,
+    66,
+    68,
+    69,
+    70,
+    72,
+    74,
+    75,
+    76,
+    78
+   ]
+  },
+  "G2": {
+   "label": "rollback guard: only one recent deployment",
+   "calls": [
+    8,
+    13,
+    19,
+    21,
+    23,
+    44,
+    46,
+    48,
+    52,
+    58,
+    63,
+    64,
+    65
+   ]
+  },
+  "G3": {
+   "label": "rollback guard: deployment preceded the regression",
+   "calls": [
+    1,
+    2,
+    54,
+    56,
+    67,
+    73,
+    79
+   ]
+  },
+  "G4": {
+   "label": "rollback guard: traffic unchanged or not elevated",
+   "calls": [
+    0,
+    39
+   ]
+  },
+  "G5": {
+   "label": "step 4 replaced: scale when traffic is above baseline",
+   "calls": [
+    20,
+    22
+   ]
+  },
+  "G6": {
+   "label": "step 4 replaced: inspect resource usage before changing",
+   "calls": [
+    18
+   ]
+  },
+  "O03": {
+   "label": "step 6: scale when CPU usage is high",
+   "calls": [
+    3
+   ]
+  },
+  "O04": {
+   "label": "delete the rollback rule",
+   "calls": [
+    4
+   ]
+  },
+  "O06": {
+   "label": "step 1: confirm with traffic metrics too",
+   "calls": [
+    6
+   ]
+  },
+  "O07": {
+   "label": "insert a 'check traffic metrics' step",
+   "calls": [
+    7
+   ]
+  },
+  "O10": {
+   "label": "step 5: dependency issue must start no later than the regression",
+   "calls": [
+    10
+   ]
+  },
+  "O32": {
+   "label": "step 2 replaced by 'check traffic metrics' (drops the deployment check)",
+   "calls": [
+    32
+   ]
+  },
+  "O35": {
+   "label": "step 6: scale when resource usage and traffic show saturation",
+   "calls": [
+    35
+   ]
+  },
+  "O36": {
+   "label": "insert 'check traffic metrics before deployments' step",
+   "calls": [
+    36
+   ]
+  },
+  "O43": {
+   "label": "step 6: otherwise observe without changing the service",
+   "calls": [
+    43
+   ]
+  },
+  "O71": {
+   "label": "insert: multiple recent deployments -> observe",
+   "calls": [
+    71
+   ]
+  },
+  "O77": {
+   "label": "insert: do not scale unless traffic is above baseline",
+   "calls": [
+    77
+   ]
+  }
+ },
+ "call_sha256": {
+  "0": "3ac60ed7b5c7a776621454ba3647ea4a81bbed259d1961e6343576ad0900ee64",
+  "1": "f42c1147f046d32f92205663464bf6b01cce45f1fde6c6977aaf932ce414e6f3",
+  "2": "ee3aa46ae1854867ea9dc79a9a27349570a58ff9283803a4eb7b6d860de4775b",
+  "3": "6563a5409858df076a963ce646027c60197dfa0dcc514b7b99e6dcfc08be0099",
+  "4": "c4d029ee79a08c24030a655191d7dfd84fd514638a86bf361eeecbbdeab12b08",
+  "5": "e205790014d7e58e6eaf99176d60b3ebde402896749ba6e40cfb98b006d03b8c",
+  "6": "6c8a50ca597373d90e8d765a09cc4b4918768761c59458c94c74c8fe18a96d4f",
+  "7": "483c8a18c2fadfbc421a62cf0ba68c6c1671ae0a8c9c381f187339b6d9a9486b",
+  "8": "55faf3c41e71d32fda5839d7d44f7b6da9e820efd7e86a14876d44afcb85caf3",
+  "9": "8c4e54275cf72718ed750bf0ba1905068a8fde2f5db3d14b314b2e8ab9e43c98",
+  "10": "494c6ae874917a462d600dcc5bd904750edc96eed2965d36454b5b8124de468b",
+  "11": "814ef922e7535cc062fb842c915fa55974b1fad2c5fdec03a62795bbba759080",
+  "12": "a56436d396463619bc915a8f95a609d70ac482bfadcf301c5fc57ee50055c96b",
+  "13": "247401b4ffb759f91de41cba30c8835a33a8269761f8ef9e98f37de3ace0c041",
+  "14": "782a1dea045739d1ed7d03f92e9c224cf834734b27df41a119d3f54b2e7c6f3d",
+  "15": "b96ce0c300cc019d054440c5271d55c36dd436f730bf9ecc1b4e508a9ce5c9ad",
+  "16": "a4b3b4a7bccdf8473566b54f23ee145906ecdbdd8064e1a70b2dac5a46b2fcb6",
+  "17": "8afd514b88bf5e553d8bd275a81acfcfbedce32a620803f8f8d5f89762720702",
+  "18": "c22fde9728d64f51337fe10ae5fe4d0d98956124aa48e1352365801b7d3e8cba",
+  "19": "421438eec87578e8f3f129e8566df7089cca9072487b04481bfadd596a91c634",
+  "20": "1b3357bc1835365f582422fb88b5bbe2be3dd062ad78eeb1f9eeaedb343fb19b",
+  "21": "6a2099f7bd99d5412efc10750a73b8b30f1896aef45a37be80e14a78a9128a66",
+  "22": "331dce8e10881534b285747d542f21a7d6eead67f5508aa8218253984e6ea893",
+  "23": "db6da0824a85f3864b0f55d416a661c2c0cdc201c9570ee306df9f0860bbce50",
+  "24": "22ff348020960b99b65d659410c5aa72e33c6cfb376549714ee7f7c065701d04",
+  "25": "ec1bff4795c90ff6aa219fdfbcfd4125df338965561ddf716dfe326768524c5e",
+  "26": "94a455a435f15b4970346bfdb81a6df2c5aa362d9ba5c9c70b2f9e3ee03d692d",
+  "27": "7455e020881a808293835dec6a739fd44619120e99e6570e93c5a42b3902906b",
+  "28": "25561489f0d8150d84f1bb66038b93704cc4c2e1423af284cc6b2812cc83b266",
+  "29": "d88247dd04768dbc8dca29f5031a8deefedd39ca09f58caa0582896ba38f6661",
+  "30": "95993971c18d9b9585ad4170b7c96e1fbb7976029e5050f14723474e757ec9b8",
+  "31": "f469bb864944b06a12754dd31dee03060b847ea11a5d0edb54b87a4d0814f2ba",
+  "32": "ff8f75dc9a8e0f3fcad33102cdc629e7d3d208f916c7161624cdddcd314dd091",
+  "33": "de29ea72145839be02e0ec5b199d1c618ee5328685f4cfdcd87c594089a182c0",
+  "34": "edd124391c3844b8510c2e14d56dc310f111f2a8278e9458b3480404f10a5753",
+  "35": "609b20a36e1fa62a2bf19ac2ad3468321a7c8dd96157b2c97c452fb60a2a4b3f",
+  "36": "75703f2026c878fad9ba26f2df1eb61e806df8e98823ab0558107c41c5e94781",
+  "37": "8730e7b3c2b04dbab7aae1457734261c923351122a611acb8a4bb5ae65676a56",
+  "38": "d161c35236f9163c2a9ef3b4911e2112ec5d9e4dd7f605be9bbd409531648239",
+  "39": "5390da48d57cec6a04a40587256897e5c92400d3cc198bbe5b8ae6a8f047384a",
+  "40": "95b56dbc2e70a974c1a1cf6e4828e67def7b0bec85a5e8fd83e1db8d46445ce6",
+  "41": "3e106e9a52f2ea94e1c5ee321ba0cce22746f9b1f9337ea17332fe16eb7c0f38",
+  "42": "083a8fafc85dd64a470cb1a851dcc197e3f63c5c9ce28d0c73a68c224c3c9e8a",
+  "43": "80afcb6858b12821397720ad5520f1e44ab611fa702278636a86ecdd054f63db",
+  "44": "27b354843012f1635c6ad3dafe8deca527b17a68619e9c70dd46aeeefcf38afa",
+  "45": "505f217235a8898a5de74d8c6351159321ea3e26e874d0c783681f6face0c7ed",
+  "46": "d7fceddafbc4fdc04e727afd660a5303ec63f2a02609af348bd583eb9f23a1ec",
+  "47": "a5448a52cd8eecacdfe3e140f6a8e5720297abe783ccd6bf664ec3bec6029fdc",
+  "48": "b3efda121efcefed7fd3f237f05180f3bfa5c29e5584d0a4743e0d5151d0ae2c",
+  "49": "48a1015497d769fab20d2f50a67a9bb749c2146628e02246c9b5d1c745441245",
+  "50": "89f4a0001c8b7ccd51a0c6ed19da4e2f7267e870ad04749b5b315ddd011d18db",
+  "51": "25676bd7c246514d2981a220e857f368ee10685f32f2f7657c79fa5c35abc414",
+  "52": "e98f966e7c184f8c1bccc58927feb061568a57480b4ad201cc390f45ea27d0db",
+  "53": "071e747dee346444d02c236f84ac8148d608cb30e11a66dcd5fa9b30c13dd77b",
+  "54": "7fee7337876b6a4e79615c139221ae3068e006bb41882756186bbd8240247245",
+  "55": "f51fd6333bab7b85a2fc33ab10825fc9293e9391965cca2191586fe833e13e03",
+  "56": "b9381063d7021a5e9a72af94e9d0ea6a50c740faebbef0d196e81fe04b7e39db",
+  "57": "1838edaaf1e319db384ca08697a0b9c3bfd7276ff67018c0345f2df92729b628",
+  "58": "65de820e4b282b28215c675bd46c90bf488700ada975600c13df38d48a3796e7",
+  "59": "8571054a86a3e7b3c15fc138e23e0cfde0a3c6ec783b74d8c774e3472b1383aa",
+  "60": "23a6638985b751dbef84baed87f336092b98e06026b9082399869b632c197da6",
+  "61": "c3d472b17ab38f802101e45bd7533b868b3f9c3222858a155063e980609c9f6b",
+  "62": "d9b0e273e657b650904ab0dad37f951292f596690f040196791066f9a2ef49af",
+  "63": "05ca252638493ac278887c15f03a6171703d4f3a47c2cbec5c44dc4dbaaab331",
+  "64": "5b6de4a0cacea2c2c44e6ba668d6f139b4cc87ce94203902ee14b05084281055",
+  "65": "d50f1eac65a6b698ebe0fc4aede359676ed515e4a03629fccd9ab073c5efc4c1",
+  "66": "f01a23d956a168c5ec9e7c6c724c2bc516ce7a99ab5a3306296c11055e228ca6",
+  "67": "12757c96271d1a7b72108d2f7fbe8b2084bbe55a6e800c9c7146887be0211eab",
+  "68": "64d8c767d41fcc9219930f4439f01f2e977d4e5a69af74c2729f3dc5cb60996f",
+  "69": "34cdadcbf54e3d46fad53b6c1efca2585888f7ce78fb46d61352a1e554e25909",
+  "70": "1ed0b15ad2f0b7a47c769393ebadbb4be4a544cb5228aafecb8844e2d549f283",
+  "71": "031b77e1a4d17cf661f74dfbeed7d910f5562d8701d3285392c332d5485f13f0",
+  "72": "8d6ea2fcd12cefea9c2cae70c64bc190f008475d5753c4b0b4b293662f162ada",
+  "73": "98d44a70f098486191c5ed9ea8af4d0d13d68c6ab465477c661725138cb4b9b8",
+  "74": "7c6a7fa033770c2e45bc1708c673367a8ac0798105fcd573198e72b61391e8e9",
+  "75": "75fa30b05d330d00c0e72f89820f88c4fc0310b7afdd4a31a2794559a1afe9fa",
+  "76": "e288b6c56992e062ab79ef8cf1f676b4a07c05de9734c885a1501e1af4b3abfb",
+  "77": "fc07e05b291dffc35d265b7309dd9b38a74391421e7cb2457b826b80a6c15b05",
+  "78": "b70023531c0bd6d1abec6afc57be9f116cd9fb17c1d586ebd7ee5104dcacccbd",
+  "79": "2e0a30328e0d5720870344b1dd5fda06f734f22c832c231285c791b3be4cf436"
+ }
+}
