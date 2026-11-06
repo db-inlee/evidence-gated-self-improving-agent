@@ -41,12 +41,15 @@ from evidencegate.t009.run_plan import PHASES, plan_path
 _HHMM = re.compile(r"^([01]\d|2[0-3]):([0-5]\d)$")
 
 
-def session_log(phase: str) -> str:
-    return f"ticket009/{phase}/sessions.jsonl"
+LOG_DIR = "ticket009"
 
 
-def default_stop_file(runs_dir: Path, phase: str) -> Path:
-    return runs_dir / "ticket009" / phase / "STOP"
+def session_log(phase: str, log_dir: str = LOG_DIR) -> str:
+    return f"{log_dir}/{phase}/sessions.jsonl"
+
+
+def default_stop_file(runs_dir: Path, phase: str, log_dir: str = LOG_DIR) -> Path:
+    return runs_dir / log_dir / phase / "STOP"
 
 
 def next_stop_at(hhmm: str, now: datetime) -> datetime:
@@ -95,7 +98,15 @@ def main(
     now: Callable[[], datetime] | None = None,
     out: TextIO = sys.stdout,
     err: TextIO = sys.stderr,
+    plan_file: Path | None = None,
+    log_dir: str = LOG_DIR,
+    preflight_factory: Callable[[argparse.Namespace, Path], Callable[[Policy], list[Check]]]
+    | None = None,
 ) -> int:
+    """plan_file(root 기준)·log_dir·preflight_factory는 Ticket 009b가 쓰는 선택 인자다.
+
+    기본값이면 009와 같다(계획 `plans/ticket-009-<단계>-plan.json`, 기록 `runs/ticket009/<단계>/`,
+    009 점검)."""
     parser = argparse.ArgumentParser(prog="evidencegate-t009-bench")
     parser.add_argument("command", choices=("run", "status", "preflight"))
     parser.add_argument("--phase", choices=PHASES, required=True)
@@ -109,7 +120,7 @@ def main(
     parser.add_argument("--ollama-url", default=bench_runner.DEFAULT_OLLAMA_URL)
     args = parser.parse_args(argv)
 
-    plan_file = args.root / plan_path(args.phase)
+    plan_file = args.root / (plan_file or plan_path(args.phase))
     blocks = list(plan) if plan is not None else list(load_plan(plan_file))
     sha = plan_sha256 or hashlib.sha256(plan_file.read_bytes()).hexdigest()
     clock = now or (lambda: datetime.now().astimezone())
@@ -118,9 +129,9 @@ def main(
     except ValueError as error:
         print(f"error: {error}", file=err)
         return 1
-    stop_file = args.stop_file or default_stop_file(args.runs_dir, args.phase)
+    stop_file = args.stop_file or default_stop_file(args.runs_dir, args.phase, log_dir)
     version = ollama_version or server_version(args.ollama_url)
-    log_name = session_log(args.phase)
+    log_name = session_log(args.phase, log_dir)
 
     status_policy = policy_factory() if policy_factory else bench_runner._StatusPolicy()
     print(
@@ -158,7 +169,8 @@ def main(
     return bench_runner.main(
         [args.command, *passthrough],
         policy_factory=policy_factory,
-        preflight=preflight or default_preflight,
+        preflight=preflight
+        or (preflight_factory(args, plan_file) if preflight_factory else default_preflight),
         probe=probe,
         plan=blocks,
         session_log=log_name,
