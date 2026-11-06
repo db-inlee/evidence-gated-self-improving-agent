@@ -5,7 +5,7 @@
 
 import io
 import json
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -130,11 +130,15 @@ def test_default_stop_file_stops_at_the_next_block(tmp_path: Path) -> None:
 
 
 def test_stop_at_flag_stops_after_the_time(tmp_path: Path) -> None:
-    # 21:00에 시작, --stop-at 20:59는 다음 날 20:59. 21:00 이후 시각은 지나지 않았으므로 끝까지 돈다
-    code, _ = run_cli(tmp_path, ["--stop-at", "20:59"])
+    # 지금보다 1분 앞의 HH:MM은 다음 날 그 시각이다. 그 시각은 지나지 않았으므로 끝까지 돈다.
+    # stop_at 계산은 주입한 now를 쓰지만, 블록 경계의 시각 비교는 v1 실행기의 실제 시계를 쓴다.
+    # 그래서 now를 실제 현재 시각으로 둔다(고정 날짜면 그 날짜가 지난 뒤 실패한다).
+    now = datetime.now(SEOUL).replace(second=0, microsecond=0)
+    earlier = now - timedelta(minutes=1)
+    code, _ = run_cli(tmp_path, ["--stop-at", earlier.strftime("%H:%M")], now=lambda: now)
     assert code == 0 and sessions(tmp_path)[-1]["reason"] == "plan_done"
     start = next(e for e in sessions(tmp_path) if e["event"] == "session_start")
-    assert start["stop_at"].startswith("2026-11-06T20:59")
+    assert start["stop_at"].startswith((earlier + timedelta(days=1)).strftime("%Y-%m-%dT%H:%M"))
 
 
 def test_a_version_change_between_blocks_stops_the_run(tmp_path: Path) -> None:
