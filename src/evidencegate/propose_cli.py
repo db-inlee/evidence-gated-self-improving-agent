@@ -14,20 +14,30 @@
 (`control_duplicates`). 이전 hypothesis 목록에는 풀에 남는 후보(`in_pool`)만 넣는다.
 `--max-total-calls`는 폴더 전체 호출 수 상한, `--stop-when-pool`은 풀 크기가 목표에 닿으면 더
 부르지 않는다. 실행 끝에 요약 줄을 출력한다.
+
+선택 인자(Ticket 009b, 기본값이면 v1과 같다):
+- `--previous valid`: 이전 hypothesis 목록에 유효 후보 전부(중복으로 빠진 후보 포함)를 넣는다.
+  정규화한 skill_md가 앞선 유효 후보와 같으면 한 번만 넣는다. 기본 `pool`은 풀에 남는 후보만.
+- `--dedupe word --dedupe-threshold t`: 중복 판정을 D1(`candidate_dedupe.is_duplicate_words`)로
+  한다. 통제 후보 표시에도 같은 판정을 쓴다. 기본 `v1`(줄 토큰, 0.6)일 때는 임계값을 받지 않는다.
+- `--stop-after-idle N`: 폴더의 최근 N회 연속 호출에서 풀에 새 후보가 없으면 더 부르지 않는다.
+- `--quota-message 문구`(여러 번): 429 메시지에 이 문구가 있으면 잔액 부족으로 멈춘다.
+- 기본값이 아닌 앞의 셋(`previous`, `dedupe`, `stop_after_idle`)은 `<out-dir>/run_options.json`에
+  적는다. 폴더의 기록과 다른 값으로 이어 부르면 거부한다(기본값끼리는 파일을 만들지 않는다).
 """
 
 import argparse
 import json
 import sys
 from collections import Counter
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
 from typing import Any, TextIO
 
 import httpx
 
-from evidencegate.candidate_checks import validate_proposer_candidate
-from evidencegate.candidate_dedupe import is_duplicate
+from evidencegate.candidate_checks import normalize_lines, validate_proposer_candidate
+from evidencegate.candidate_dedupe import is_duplicate, is_duplicate_words
 from evidencegate.proposer import (
     DEFAULT_BASE_URL,
     Proposer,
@@ -46,6 +56,14 @@ DEFAULT_SKILL = Path("skills/S0/SKILL.md")
 DEFAULT_LEDGER = Path("runs/proposer/ledger.jsonl")
 DEFAULT_CONTROLS = Path("skills/controls")
 DEFAULT_MAX_COMPLETION_TOKENS = 8000
+RUN_OPTIONS_FILE = "run_options.json"
+# 기본값(v1 동작). 이것과 다를 때만 run_options.json을 쓴다.
+DEFAULT_RUN_OPTIONS: dict[str, Any] = {
+    "previous": "pool",
+    "dedupe": "v1",
+    "dedupe_threshold": None,
+    "stop_after_idle": None,
+}
 # 한 출력 폴더 안에서 같아야 하는 proposer_config 항목
 FIXED_CONFIG_FIELDS = (
     "model",
@@ -106,12 +124,70 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--stop-when-pool", type=int, default=None, help="no more calls once the pool has N"
     )
+    p.add_argument("--previous", choices=("pool", "valid"), default="pool")
+    p.add_argument("--dedupe", choices=("v1", "word"), default="v1")
+    p.add_argument("--dedupe-threshold", type=float, default=None)
+    p.add_argument(
+        "--stop-after-idle", type=int, default=None, help="no more calls after N idle calls"
+    )
+    p.add_argument("--quota-message", action="append", default=None, dest="quota_messages")
     return parser
+
+
+def _run_options(args: argparse.Namespace) -> dict[str, Any]:
+    return {
+        "previous": args.previous,
+        "dedupe": args.dedupe,
+        "dedupe_threshold": args.dedupe_threshold,
+        "stop_after_idle": args.stop_after_idle,
+    }
+
+
+def _options_problem(options: dict[str, Any], out_dir: Path) -> str | None:
+    threshold = options["dedupe_threshold"]
+    if options["dedupe"] == "word" and threshold is None:
+        return "--dedupe word needs --dedupe-threshold"
+    if options["dedupe"] == "v1" and threshold is not None:
+        return "--dedupe-threshold goes with --dedupe word only"
+    if threshold is not None and not 0 < threshold <= 1:
+        return f"--dedupe-threshold must be in (0, 1], got {threshold}"
+    path = out_dir / RUN_OPTIONS_FILE
+    recorded = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+    has_results = out_dir.exists() and any(out_dir.glob("call-*.json"))
+    if recorded is None and has_results and options != DEFAULT_RUN_OPTIONS:
+        return f"{out_dir} holds results made with the default run_options; use another --out-dir"
+    if recorded is not None and recorded != options:
+        return f"{out_dir} holds results with run_options {recorded}; use the same options"
+    return None
+
+
+def _is_valid(record: dict[str, Any]) -> bool:
+    return record["candidate"] is not None and record.get("invalid_reasons") == []
+
+
+def _idle_calls(results: Sequence[dict[str, Any]]) -> int:
+    """마지막 풀 후보 뒤의 호출 수(풀 후보가 없으면 전체 호출 수)."""
+    idle = 0
+    for record in results:
+        idle = 0 if record.get("in_pool") else idle + 1
+    return idle
 
 
 def _propose(
     args: argparse.Namespace, client: httpx.Client | None, out: TextIO, err: TextIO
 ) -> int:
+    options = _run_options(args)
+    problem = _options_problem(options, args.out_dir)
+    if problem is not None:
+        print(f"error: {problem}", file=err)
+        return 1
+    threshold = options["dedupe_threshold"]
+
+    def duplicate(a: str, b: str, s0: str) -> bool:
+        if threshold is None:
+            return is_duplicate(a, b, s0)
+        return is_duplicate_words(a, b, s0, threshold)
+
     config = ProposerConfig(
         model=args.model,
         max_completion_tokens=args.max_completion_tokens,
@@ -131,6 +207,7 @@ def _propose(
         s0_text=s0_text,
         ledger_path=args.ledger,
         client=client,
+        quota_messages=tuple(args.quota_messages or ()),
     )
     proposer_config = proposer.proposer_config()
     previous = _load_results(args.out_dir)
@@ -150,8 +227,20 @@ def _propose(
         for path in sorted(args.controls_dir.glob("*/SKILL.md"))
     }
     pool = [s for s in previous if s.get("in_pool")]
-    # 이전 hypothesis 목록에는 풀에 남는 후보만 넣는다(티켓 §4·§5)
-    hypotheses = [str(s["candidate"]["evidence"]["hypothesis"]) for s in pool]
+    # 이전 hypothesis 목록: 기본은 풀에 남는 후보만(티켓 §4·§5), --previous valid면 유효 후보 전부
+    # (정규화한 skill_md가 같으면 한 번)
+    listed = pool if options["previous"] == "pool" else [s for s in previous if _is_valid(s)]
+    hypotheses: list[str] = []
+    seen: list[list[str]] = []
+    for s in listed:
+        lines = normalize_lines(s["candidate"]["skill_md"])
+        if options["previous"] == "valid" and lines in seen:
+            continue
+        seen.append(lines)
+        hypotheses.append(str(s["candidate"]["evidence"]["hypothesis"]))
+    if options != DEFAULT_RUN_OPTIONS:
+        args.out_dir.mkdir(parents=True, exist_ok=True)
+        (args.out_dir / RUN_OPTIONS_FILE).write_text(json.dumps(options, indent=2) + "\n")
     results = list(previous)
     next_index = max((s["call_index"] for s in previous), default=-1) + 1
 
@@ -161,6 +250,10 @@ def _propose(
             break
         if args.stop_when_pool is not None and len(pool) >= args.stop_when_pool:
             print(f"pool reached {args.stop_when_pool}; no more calls", file=out)
+            break
+        idle_limit = options["stop_after_idle"]
+        if idle_limit is not None and _idle_calls(results) >= idle_limit:
+            print(f"no new pool candidate in the last {idle_limit} calls; no more calls", file=out)
             break
         max_cost = proposer.max_next_call_cost(call_index, hypotheses)
         print(f"call {call_index}: max cost ${max_cost:.4f}", file=out)
@@ -182,9 +275,12 @@ def _propose(
             if reasons:
                 status = f"{candidate.candidate_id} invalid ({', '.join(reasons)})"
             else:
-                status = _dedupe(record, candidate.skill_md, pool, controls, s0_text)
+                status = _dedupe(record, candidate.skill_md, pool, controls, s0_text, duplicate)
                 if record["in_pool"]:
                     pool.append(record)
+                lines = normalize_lines(candidate.skill_md)
+                if record["in_pool"] if options["previous"] == "pool" else lines not in seen:
+                    seen.append(lines)
                     hypotheses.append(str(candidate.evidence["hypothesis"]))
         _save(args.out_dir, record)
         results.append(record)
@@ -203,14 +299,15 @@ def _dedupe(
     pool: Sequence[dict[str, Any]],
     controls: dict[str, str],
     s0_text: str,
+    duplicate: Callable[[str, str, str], bool] = is_duplicate,
 ) -> str:
     """유효한 후보의 중복 판정을 record에 적고 상태 문구를 돌려준다."""
     candidate_id = record["candidate"]["evidence"]["candidate_id"]
     for earlier in pool:  # 먼저 생성된 후보를 남긴다
-        if is_duplicate(skill_md, earlier["candidate"]["skill_md"], s0_text):
+        if duplicate(skill_md, earlier["candidate"]["skill_md"], s0_text):
             record["duplicate_of"] = earlier["candidate"]["evidence"]["candidate_id"]
             return f"{candidate_id} duplicate of {record['duplicate_of']}"
-    marked = [name for name, text in controls.items() if is_duplicate(skill_md, text, s0_text)]
+    marked = [name for name, text in controls.items() if duplicate(skill_md, text, s0_text)]
     record["control_duplicates"] = marked
     record["in_pool"] = True
     if marked:

@@ -221,9 +221,13 @@ class Proposer:
         s0_text: str,
         ledger_path: Path,
         client: httpx.Client | None = None,
+        quota_messages: Sequence[str] = (),
     ) -> None:
         _auth_headers()  # 키가 없으면 여기서 멈춘다(키 값은 보관하지 않음)
         self.config = config
+        # 429 응답의 메시지에 이 문구가 있으면(대소문자 무시) 코드가 없어도 잔액 부족으로 멈춘다.
+        # 기본 빈 값이면 v1과 같다(Ticket 009b §4의 3). proposer_config에는 들어가지 않는다.
+        self._quota_messages = tuple(m.lower() for m in quota_messages)
         self._cases = list(cases)
         self._s0_text = s0_text
         self._ledger_path = ledger_path
@@ -298,7 +302,7 @@ class Proposer:
                 return self._handle_success(call_index, attempt, response.json(), shown, elapsed)
             message = _error_message(response)
             code = _error_code(response)
-            if status == 429 and code == "insufficient_quota":
+            if status == 429 and (code == "insufficient_quota" or self._is_quota(message)):
                 self._log(call_index, attempt, "quota", error=message)
                 raise ProposerStopped(redact(f"insufficient quota or balance: {message}"))
             if status in (401, 403):
@@ -371,6 +375,9 @@ class Proposer:
                     result,
                 )
         return result
+
+    def _is_quota(self, message: str) -> bool:
+        return any(m in message.lower() for m in self._quota_messages)
 
     def _wait_or_stop(self, attempt: int, message: str) -> None:
         if attempt >= self.config.max_retries:

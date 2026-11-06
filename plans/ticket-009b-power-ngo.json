@@ -1,0 +1,992 @@
+{
+  "h": {
+    "35": {
+      "achieved_false_rejection_median": 0.033,
+      "h_median": 0.14285714285714285,
+      "h_p05": 0.14285714285714285,
+      "h_p95": 0.17142857142857143
+    },
+    "70": {
+      "achieved_false_rejection_median": 0.0385,
+      "h_median": 0.11428571428571428,
+      "h_p05": 0.1,
+      "h_p95": 0.15714285714285714
+    },
+    "null_label_rate": {
+      "local_harm": 0.167205,
+      "n": 200000,
+      "severe": 0.000475
+    }
+  },
+  "settings": {
+    "boot": 2000,
+    "calibration_per_cell": 70,
+    "candidates_per_pool": 60,
+    "inputs": {
+      "analysis": "results/ticket-005/analysis.json",
+      "oracle_s0": "runs/oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl"
+    },
+    "ns": [
+      20,
+      25,
+      30,
+      35,
+      40
+    ],
+    "null_candidates_per_pool": 200,
+    "pools": 1000,
+    "rq9_2_basis": "clean useful (definite Useful and not Severe); all Useful reported",
+    "rq9_5": "draft: C5 vs the size-matched strict mean gate C4* (report 2026-11-05-02)",
+    "sim_seed": 20261104
+  },
+  "table": {
+    "dev_b_35_shrink_0.5": {
+      "20": {
+        "median_c4_accepted": 6.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 1.0,
+        "median_filtered": 2.0,
+        "median_m": 4.0,
+        "median_severe_c4_star": 2.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 3.0,
+        "rq9_1": {
+          "direction_only": 625,
+          "not_supported": 26,
+          "supported": 154,
+          "undecidable": 195
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 77,
+          "supported": 42,
+          "undecidable": 881
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 703,
+          "supported": 63,
+          "undecidable": 234
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 486,
+          "supported": 500,
+          "undecidable": 14
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 114,
+          "supported": 724,
+          "undecidable": 162
+        },
+        "rq9_5_with_test": {
+          "direction_only": 692,
+          "not_supported": 114,
+          "supported": 32,
+          "undecidable": 162
+        }
+      },
+      "25": {
+        "median_c4_accepted": 8.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 2.0,
+        "median_filtered": 3.0,
+        "median_m": 5.0,
+        "median_severe_c4_star": 3.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 4.0,
+        "rq9_1": {
+          "direction_only": 585,
+          "not_supported": 19,
+          "supported": 259,
+          "undecidable": 137
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 89,
+          "supported": 56,
+          "undecidable": 855
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 759,
+          "supported": 61,
+          "undecidable": 180
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 381,
+          "supported": 612,
+          "undecidable": 7
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 91,
+          "supported": 801,
+          "undecidable": 108
+        },
+        "rq9_5_with_test": {
+          "direction_only": 725,
+          "not_supported": 91,
+          "supported": 76,
+          "undecidable": 108
+        }
+      },
+      "30": {
+        "median_c4_accepted": 9.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 2.0,
+        "median_filtered": 3.0,
+        "median_m": 6.0,
+        "median_severe_c4_star": 3.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 4.0,
+        "rq9_1": {
+          "direction_only": 531,
+          "not_supported": 16,
+          "supported": 362,
+          "undecidable": 91
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 108,
+          "supported": 67,
+          "undecidable": 825
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 808,
+          "supported": 66,
+          "undecidable": 126
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 300,
+          "supported": 696,
+          "undecidable": 4
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 83,
+          "supported": 852,
+          "undecidable": 65
+        },
+        "rq9_5_with_test": {
+          "direction_only": 703,
+          "not_supported": 83,
+          "supported": 149,
+          "undecidable": 65
+        }
+      },
+      "35": {
+        "median_c4_accepted": 11.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 3.0,
+        "median_filtered": 4.0,
+        "median_m": 7.0,
+        "median_severe_c4_star": 4.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 5.0,
+        "rq9_1": {
+          "direction_only": 484,
+          "not_supported": 13,
+          "supported": 437,
+          "undecidable": 66
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 123,
+          "supported": 70,
+          "undecidable": 807
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 844,
+          "supported": 58,
+          "undecidable": 98
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 233,
+          "supported": 765,
+          "undecidable": 2
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 67,
+          "supported": 889,
+          "undecidable": 44
+        },
+        "rq9_5_with_test": {
+          "direction_only": 674,
+          "not_supported": 67,
+          "supported": 215,
+          "undecidable": 44
+        }
+      },
+      "40": {
+        "median_c4_accepted": 12.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 3.0,
+        "median_filtered": 4.0,
+        "median_m": 8.0,
+        "median_severe_c4_star": 4.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 6.0,
+        "rq9_1": {
+          "direction_only": 403,
+          "not_supported": 14,
+          "supported": 532,
+          "undecidable": 51
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 137,
+          "supported": 82,
+          "undecidable": 781
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 878,
+          "supported": 54,
+          "undecidable": 68
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 174,
+          "supported": 826,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 64,
+          "supported": 906,
+          "undecidable": 30
+        },
+        "rq9_5_with_test": {
+          "direction_only": 603,
+          "not_supported": 64,
+          "supported": 303,
+          "undecidable": 30
+        }
+      }
+    },
+    "dev_b_35_shrink_1.0": {
+      "20": {
+        "median_c4_accepted": 13.0,
+        "median_clean_useful_c4_star": 1.0,
+        "median_clean_useful_c5": 2.0,
+        "median_d": 3.0,
+        "median_filtered": 5.0,
+        "median_m": 7.0,
+        "median_severe_c4_star": 4.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 7.0,
+        "rq9_1": {
+          "direction_only": 395,
+          "not_supported": 3,
+          "supported": 592,
+          "undecidable": 10
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 83,
+          "supported": 783,
+          "undecidable": 134
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 929,
+          "supported": 63,
+          "undecidable": 8
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 100,
+          "supported": 900,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 57,
+          "supported": 938,
+          "undecidable": 5
+        },
+        "rq9_5_with_test": {
+          "direction_only": 765,
+          "not_supported": 57,
+          "supported": 173,
+          "undecidable": 5
+        }
+      },
+      "25": {
+        "median_c4_accepted": 16.0,
+        "median_clean_useful_c4_star": 2.0,
+        "median_clean_useful_c5": 3.0,
+        "median_d": 4.0,
+        "median_filtered": 7.0,
+        "median_m": 9.0,
+        "median_severe_c4_star": 5.0,
+        "median_severe_c5": 2.0,
+        "median_severe_in_c4": 8.0,
+        "rq9_1": {
+          "direction_only": 266,
+          "not_supported": 1,
+          "supported": 730,
+          "undecidable": 3
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 79,
+          "supported": 841,
+          "undecidable": 80
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 940,
+          "supported": 57,
+          "undecidable": 3
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 56,
+          "supported": 944,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 24,
+          "supported": 975,
+          "undecidable": 1
+        },
+        "rq9_5_with_test": {
+          "direction_only": 661,
+          "not_supported": 24,
+          "supported": 314,
+          "undecidable": 1
+        }
+      },
+      "30": {
+        "median_c4_accepted": 19.0,
+        "median_clean_useful_c4_star": 2.0,
+        "median_clean_useful_c5": 3.0,
+        "median_d": 5.0,
+        "median_filtered": 8.0,
+        "median_m": 10.0,
+        "median_severe_c4_star": 6.0,
+        "median_severe_c5": 2.0,
+        "median_severe_in_c4": 10.0,
+        "rq9_1": {
+          "direction_only": 153,
+          "not_supported": 2,
+          "supported": 845,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 85,
+          "supported": 863,
+          "undecidable": 52
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 963,
+          "supported": 37,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 29,
+          "supported": 971,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 14,
+          "supported": 986,
+          "undecidable": 0
+        },
+        "rq9_5_with_test": {
+          "direction_only": 483,
+          "not_supported": 14,
+          "supported": 503,
+          "undecidable": 0
+        }
+      },
+      "35": {
+        "median_c4_accepted": 22.0,
+        "median_clean_useful_c4_star": 2.0,
+        "median_clean_useful_c5": 4.0,
+        "median_d": 6.0,
+        "median_filtered": 9.0,
+        "median_m": 12.0,
+        "median_severe_c4_star": 7.0,
+        "median_severe_c5": 3.0,
+        "median_severe_in_c4": 12.0,
+        "rq9_1": {
+          "direction_only": 93,
+          "not_supported": 0,
+          "supported": 907,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 90,
+          "supported": 872,
+          "undecidable": 38
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 973,
+          "supported": 27,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 16,
+          "supported": 984,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 8,
+          "supported": 992,
+          "undecidable": 0
+        },
+        "rq9_5_with_test": {
+          "direction_only": 361,
+          "not_supported": 8,
+          "supported": 631,
+          "undecidable": 0
+        }
+      },
+      "40": {
+        "median_c4_accepted": 25.0,
+        "median_clean_useful_c4_star": 2.0,
+        "median_clean_useful_c5": 4.0,
+        "median_d": 7.0,
+        "median_filtered": 11.0,
+        "median_m": 14.0,
+        "median_severe_c4_star": 8.0,
+        "median_severe_c5": 3.0,
+        "median_severe_in_c4": 13.0,
+        "rq9_1": {
+          "direction_only": 62,
+          "not_supported": 0,
+          "supported": 938,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 89,
+          "supported": 883,
+          "undecidable": 28
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 983,
+          "supported": 17,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 9,
+          "supported": 991,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 1,
+          "supported": 999,
+          "undecidable": 0
+        },
+        "rq9_5_with_test": {
+          "direction_only": 269,
+          "not_supported": 1,
+          "supported": 730,
+          "undecidable": 0
+        }
+      }
+    },
+    "dev_b_70_shrink_0.5": {
+      "20": {
+        "median_c4_accepted": 9.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 2.0,
+        "median_filtered": 3.0,
+        "median_m": 5.0,
+        "median_severe_c4_star": 2.0,
+        "median_severe_c5": 0.0,
+        "median_severe_in_c4": 3.0,
+        "rq9_1": {
+          "direction_only": 480,
+          "not_supported": 5,
+          "supported": 419,
+          "undecidable": 96
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 94,
+          "supported": 49,
+          "undecidable": 857
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 778,
+          "supported": 24,
+          "undecidable": 198
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 451,
+          "supported": 548,
+          "undecidable": 1
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 68,
+          "supported": 855,
+          "undecidable": 77
+        },
+        "rq9_5_with_test": {
+          "direction_only": 722,
+          "not_supported": 68,
+          "supported": 133,
+          "undecidable": 77
+        }
+      },
+      "25": {
+        "median_c4_accepted": 11.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 3.0,
+        "median_filtered": 4.0,
+        "median_m": 6.0,
+        "median_severe_c4_star": 3.0,
+        "median_severe_c5": 0.0,
+        "median_severe_in_c4": 5.0,
+        "rq9_1": {
+          "direction_only": 355,
+          "not_supported": 5,
+          "supported": 582,
+          "undecidable": 58
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 107,
+          "supported": 63,
+          "undecidable": 830
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 828,
+          "supported": 23,
+          "undecidable": 149
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 349,
+          "supported": 651,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 47,
+          "supported": 907,
+          "undecidable": 46
+        },
+        "rq9_5_with_test": {
+          "direction_only": 661,
+          "not_supported": 47,
+          "supported": 246,
+          "undecidable": 46
+        }
+      },
+      "30": {
+        "median_c4_accepted": 13.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 4.0,
+        "median_filtered": 5.0,
+        "median_m": 8.0,
+        "median_severe_c4_star": 4.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 5.0,
+        "rq9_1": {
+          "direction_only": 257,
+          "not_supported": 5,
+          "supported": 697,
+          "undecidable": 41
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 126,
+          "supported": 70,
+          "undecidable": 804
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 872,
+          "supported": 23,
+          "undecidable": 105
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 265,
+          "supported": 735,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 32,
+          "supported": 936,
+          "undecidable": 32
+        },
+        "rq9_5_with_test": {
+          "direction_only": 560,
+          "not_supported": 32,
+          "supported": 376,
+          "undecidable": 32
+        }
+      },
+      "35": {
+        "median_c4_accepted": 15.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 4.0,
+        "median_filtered": 6.0,
+        "median_m": 9.0,
+        "median_severe_c4_star": 5.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 6.0,
+        "rq9_1": {
+          "direction_only": 176,
+          "not_supported": 3,
+          "supported": 784,
+          "undecidable": 37
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 143,
+          "supported": 73,
+          "undecidable": 784
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 905,
+          "supported": 14,
+          "undecidable": 81
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 199,
+          "supported": 801,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 22,
+          "supported": 950,
+          "undecidable": 28
+        },
+        "rq9_5_with_test": {
+          "direction_only": 441,
+          "not_supported": 22,
+          "supported": 509,
+          "undecidable": 28
+        }
+      },
+      "40": {
+        "median_c4_accepted": 17.0,
+        "median_clean_useful_c4_star": 0.0,
+        "median_clean_useful_c5": 0.0,
+        "median_d": 5.0,
+        "median_filtered": 6.0,
+        "median_m": 10.0,
+        "median_severe_c4_star": 5.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 7.0,
+        "rq9_1": {
+          "direction_only": 123,
+          "not_supported": 3,
+          "supported": 845,
+          "undecidable": 29
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 162,
+          "supported": 85,
+          "undecidable": 753
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 930,
+          "supported": 15,
+          "undecidable": 55
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 158,
+          "supported": 842,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 15,
+          "supported": 965,
+          "undecidable": 20
+        },
+        "rq9_5_with_test": {
+          "direction_only": 349,
+          "not_supported": 15,
+          "supported": 616,
+          "undecidable": 20
+        }
+      }
+    },
+    "dev_b_70_shrink_1.0": {
+      "20": {
+        "median_c4_accepted": 14.0,
+        "median_clean_useful_c4_star": 1.0,
+        "median_clean_useful_c5": 2.0,
+        "median_d": 3.0,
+        "median_filtered": 8.0,
+        "median_m": 6.0,
+        "median_severe_c4_star": 4.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 8.0,
+        "rq9_1": {
+          "direction_only": 214,
+          "not_supported": 5,
+          "supported": 776,
+          "undecidable": 5
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 196,
+          "supported": 697,
+          "undecidable": 107
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 946,
+          "supported": 50,
+          "undecidable": 4
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 58,
+          "supported": 942,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 33,
+          "supported": 962,
+          "undecidable": 5
+        },
+        "rq9_5_with_test": {
+          "direction_only": 683,
+          "not_supported": 33,
+          "supported": 279,
+          "undecidable": 5
+        }
+      },
+      "25": {
+        "median_c4_accepted": 18.0,
+        "median_clean_useful_c4_star": 1.0,
+        "median_clean_useful_c5": 3.0,
+        "median_d": 4.0,
+        "median_filtered": 10.0,
+        "median_m": 8.0,
+        "median_severe_c4_star": 5.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 10.0,
+        "rq9_1": {
+          "direction_only": 115,
+          "not_supported": 1,
+          "supported": 882,
+          "undecidable": 2
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 216,
+          "supported": 722,
+          "undecidable": 62
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 959,
+          "supported": 39,
+          "undecidable": 2
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 27,
+          "supported": 973,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 21,
+          "supported": 978,
+          "undecidable": 1
+        },
+        "rq9_5_with_test": {
+          "direction_only": 483,
+          "not_supported": 21,
+          "supported": 495,
+          "undecidable": 1
+        }
+      },
+      "30": {
+        "median_c4_accepted": 21.0,
+        "median_clean_useful_c4_star": 2.0,
+        "median_clean_useful_c5": 3.0,
+        "median_d": 5.0,
+        "median_filtered": 11.0,
+        "median_m": 10.0,
+        "median_severe_c4_star": 6.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 12.0,
+        "rq9_1": {
+          "direction_only": 51,
+          "not_supported": 1,
+          "supported": 947,
+          "undecidable": 1
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 211,
+          "supported": 746,
+          "undecidable": 43
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 975,
+          "supported": 25,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 12,
+          "supported": 988,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 6,
+          "supported": 993,
+          "undecidable": 1
+        },
+        "rq9_5_with_test": {
+          "direction_only": 321,
+          "not_supported": 6,
+          "supported": 672,
+          "undecidable": 1
+        }
+      },
+      "35": {
+        "median_c4_accepted": 25.0,
+        "median_clean_useful_c4_star": 2.0,
+        "median_clean_useful_c5": 4.0,
+        "median_d": 6.0,
+        "median_filtered": 13.0,
+        "median_m": 11.0,
+        "median_severe_c4_star": 7.0,
+        "median_severe_c5": 1.0,
+        "median_severe_in_c4": 14.0,
+        "rq9_1": {
+          "direction_only": 23,
+          "not_supported": 0,
+          "supported": 977,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 213,
+          "supported": 757,
+          "undecidable": 30
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 983,
+          "supported": 17,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 5,
+          "supported": 995,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 2,
+          "supported": 998,
+          "undecidable": 0
+        },
+        "rq9_5_with_test": {
+          "direction_only": 200,
+          "not_supported": 2,
+          "supported": 798,
+          "undecidable": 0
+        }
+      },
+      "40": {
+        "median_c4_accepted": 28.0,
+        "median_clean_useful_c4_star": 2.5,
+        "median_clean_useful_c5": 4.0,
+        "median_d": 7.0,
+        "median_filtered": 15.0,
+        "median_m": 13.0,
+        "median_severe_c4_star": 8.0,
+        "median_severe_c5": 2.0,
+        "median_severe_in_c4": 16.0,
+        "rq9_1": {
+          "direction_only": 13,
+          "not_supported": 0,
+          "supported": 987,
+          "undecidable": 0
+        },
+        "rq9_2": {
+          "direction_only": 0,
+          "not_supported": 212,
+          "supported": 767,
+          "undecidable": 21
+        },
+        "rq9_2_all_useful": {
+          "direction_only": 0,
+          "not_supported": 992,
+          "supported": 8,
+          "undecidable": 0
+        },
+        "rq9_3": {
+          "direction_only": 0,
+          "not_supported": 4,
+          "supported": 996,
+          "undecidable": 0
+        },
+        "rq9_5": {
+          "direction_only": 0,
+          "not_supported": 1,
+          "supported": 999,
+          "undecidable": 0
+        },
+        "rq9_5_with_test": {
+          "direction_only": 130,
+          "not_supported": 1,
+          "supported": 869,
+          "undecidable": 0
+        }
+      }
+    }
+  }
+}
