@@ -10,6 +10,8 @@
   S0 x t009_dev_b 반복 0, S0 x t009_oracle 반복 0~4.
   순서는 v1 `PLAN_ORDER_SEED`로 섞는다(009와 같음).
 - 계획 파일 `plans/ticket-009b-main-plan.json`과 `.sha256`. 이미 있는 파일과 다르면 거부한다.
+- 순서(티켓 §4의 4): POOL 동결 → 묶음 파일 작성·검사(`pool_freeze check-groups`) → 이 계획 동결.
+  묶음 파일이 없거나, 검사 뒤 바뀌었거나, 지금 풀과 맞지 않으면 계획 동결을 거부한다.
 """
 
 import argparse
@@ -23,11 +25,20 @@ from evidencegate.analysis import REPO_ROOT
 from evidencegate.preflight import Check
 from evidencegate.run_plan import Block, plan_bytes
 from evidencegate.t009.run_plan import PoolEntry, build_main_plan
-from evidencegate.t009b.settings import POOL_PATH
+from evidencegate.t009b.pool_freeze import groups_ready
+from evidencegate.t009b.settings import POOL_GROUPS_PATH, POOL_PATH
 
 PLAN_PATH = Path("plans/ticket-009b-main-plan.json")
+GROUPS_PATH = POOL_GROUPS_PATH
 
-__all__ = ["PLAN_PATH", "POOL_PATH", "build_main_plan_009b", "check_plan_009b", "main"]
+__all__ = [
+    "GROUPS_PATH",
+    "PLAN_PATH",
+    "POOL_PATH",
+    "build_main_plan_009b",
+    "check_plan_009b",
+    "main",
+]
 
 
 def load_pool_009b(root: Path) -> list[PoolEntry]:
@@ -67,6 +78,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=REPO_ROOT)
     args = parser.parse_args(argv)
     out: Path = args.root / PLAN_PATH
+    problems = groups_ready(args.root)
+    if problems:
+        for problem in problems:
+            print(f"error: {problem}", file=sys.stderr)
+        print("error: the pool groups are not ready; no plan was written", file=sys.stderr)
+        return 1
     try:
         plan = build_main_plan_009b(args.root)
     except (FileNotFoundError, ValueError) as error:

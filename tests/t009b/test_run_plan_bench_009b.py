@@ -1,5 +1,6 @@
 """Ticket 009b 본 실행 계획과 실행기(§5의 4). 009의 계획 형식·실행기를 009b 풀·경로로 쓴다."""
 
+import hashlib
 import io
 import json
 import shutil
@@ -17,6 +18,7 @@ from evidencegate.skills import Skill, load_skill
 from evidencegate.t009.run_plan import PoolEntry, build_main_plan
 from evidencegate.t009.splits import split_cases
 from evidencegate.t009b import bench as b009b
+from evidencegate.t009b import pool_freeze
 from evidencegate.t009b import run_plan as rp
 from opsworld.agent_env import AgentEnv
 
@@ -40,11 +42,32 @@ def pool_root(tmp_path: Path) -> Path:
                 "group": group,
                 "skill_id": load_skill(root / path).skill_id,
                 "skill_path": path,
+                **({"call_index": i} if group == "proposer" else {}),
             }
         )
     pool = root / rp.POOL_PATH
     pool.parent.mkdir(parents=True)
     pool.write_text(json.dumps({"candidates": entries}))
+    calls = root / "runs/proposer-009b/pool"
+    calls.mkdir(parents=True)
+    for i in (0, 1):
+        (calls / f"call-{i:03d}.json").write_text(json.dumps({"call_index": i}))
+    groups = {
+        "stage": pool_freeze.GROUPS_STAGE,
+        "labeled_by": "Claude (test)",
+        "method": "one group per change intent",
+        "n_groups": 2,
+        "n_ideas_read": 2,
+        "pool_sha256": hashlib.sha256(pool.read_bytes()).hexdigest(),
+        "groups": {"A": {"label": "a", "calls": [0]}, "B": {"label": "b", "calls": [1]}},
+        "call_sha256": {
+            str(i): hashlib.sha256((calls / f"call-{i:03d}.json").read_bytes()).hexdigest()
+            for i in (0, 1)
+        },
+    }
+    (root / "plans").mkdir()
+    (root / rp.GROUPS_PATH).write_text(json.dumps(groups))
+    assert pool_freeze.main(["check-groups", "--root", str(root)]) == 0
     return root
 
 
@@ -56,7 +79,10 @@ def test_paths_are_the_009b_paths() -> None:
 def test_main_plan_uses_the_009_block_rules_with_the_009b_pool(tmp_path: Path) -> None:
     root = pool_root(tmp_path)
     plan = rp.build_main_plan_009b(root)
-    pool = [PoolEntry(**c) for c in json.loads((root / rp.POOL_PATH).read_text())["candidates"]]
+    pool = [
+        PoolEntry(c["name"], c["group"], c["skill_id"], c["skill_path"])
+        for c in json.loads((root / rp.POOL_PATH).read_text())["candidates"]
+    ]
     assert plan == build_main_plan(pool, root)
     # proposer 2개 x (Dev-B, Oracle) + 통제 1개 x Oracle + S0 Dev-B 1 + S0 Oracle 5
     assert len(plan) == 2 * 2 + 1 + 1 + 5
