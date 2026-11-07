@@ -4,6 +4,12 @@ A self-improving tool-using agent can rewrite its own operating procedure: it fa
 
 This README reports results. Every result value in it is generated from the two result files, the run summary, the release manifest, the E1 definition and the design constants (see *Fixed procedure* and *Reproduce*); none was typed by hand.
 
+## Status
+
+- The study reported in the rest of this README is complete.
+- A follow-up confirmatory study of a cell-level admission gate is pre-registered and running. Its results will be added to this README when it finishes.
+- An earlier attempt at the follow-up stopped before any evaluation run, because its candidate pool fell short of the pre-registered target. The candidate-generation procedure was revised and pre-registered again before any new proposer call. Pre-registrations: [`preregistration/ticket-009.txt`](preregistration/ticket-009.txt) (earlier attempt) and [`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt) (current).
+
 ## Problem
 
 An agent that edits its own skill file needs an admission rule: when is an edit trusted enough to keep? The obvious rules compare the edited skill with the old one on some set of tasks and keep the edit if it does better. These rules can fail in at least three ways: an edit can look better on the failures it was written from and not elsewhere; it can raise the share of right answers while lowering the share of right answers reached with the required evidence; and it can raise the average while hurting a part of the task distribution. EvidenceGate measures how often each of a few simple and bootstrap-based rules keeps edits that are harmful, unsupported, or harmful only in part of the task distribution.
@@ -211,8 +217,8 @@ Self-improving agents keep an edit after testing it in some way. The Darwin Göd
 
 ## Future work
 
-- **Cell-level gates.** A gate that also requires every cell estimate on Dev-B to stay above a noise bound derived from S0-vs-S0 calibration runs (not from the oracle's τ), tested on a new candidate pool.
-- **A larger, new candidate pool,** so that locally harmful candidates are frequent enough to compare gates.
+- **Cell-level gates (in progress, see Status).** A gate that also requires every cell estimate on Dev-B to stay above a noise bound derived from S0-vs-S0 calibration runs (not from the oracle's τ), tested on a new candidate pool. Pre-registered in [`preregistration/ticket-009.txt`](preregistration/ticket-009.txt) and [`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt).
+- **A larger, new candidate pool (in progress, see Status),** so that locally harmful candidates are frequent enough to compare gates. The new pool is frozen under [`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt).
 - **A stronger L3,** one that is confirmed harder for S0 before the gates are re-scored.
 - An ALFWorld pilot ended No-Go: the base rate was near the floor, per-cell noise was large and episodes were long. An exploratory diagnostic pointed to the missing command list as the main cause of the floor. A retry would provide the list and reduce per-cell noise, or would move to an environment with checkable evidence such as AppWorld or τ²-bench.
 
@@ -244,18 +250,23 @@ uv run python -m evidencegate.writeup_render render # this README from writeup/R
 uv run python -m evidencegate.writeup_render check  # numbers, keys, placement, banned phrases
 ```
 
-Re-running the analyses is possible (`scripts/run_analysis.sh`, `scripts/run_l3_analysis.sh`), but each refuses to overwrite its result. Re-running the policy needs a local [Ollama](https://ollama.com) server with the same model digest; the commands are in `scripts/gate_benchmark.sh` and `scripts/l3_benchmark.sh`. Displayed values are rounded half up from exact fractions, so the last digit can differ from the float formatting in `results/*/analysis.md`.
+Re-running the analyses is possible (`scripts/run_analysis.sh`, `scripts/run_l3_analysis.sh`), but each refuses to overwrite its result. Re-running the policy needs a local [Ollama](https://ollama.com) server with the same model digest; the commands are in `scripts/gate_benchmark.sh` and `scripts/l3_benchmark.sh`. Displayed values are rounded half up from exact fractions, so the last digit can differ from the `float` fields in `results/ticket-005/analysis.json` and `results/ticket-006/analysis.json`.
 
 ## Layout
 
 ```
 src/opsworld/       the simulator: state, generator (L1, L2, L3), tools, predicates, actions, grader
 src/evidencegate/   agent policy, runners, proposer, pool, gates, oracle, metrics, analyses, write-up tools
-results/            the two analysis results (JSON, sha256, Markdown)
+  t009/             follow-up study code: splits, calibration thresholds, power checks, run plans, proposer entry
+  t009b/            follow-up study, current attempt: duplicate rule, proposer entry, pool freeze, preflight, analysis
+results/            ticket-005/, ticket-006/: the analysis results of the reported study (JSON and sha256)
+                    ticket-009/: calibration thresholds h and delta (JSON and sha256), proposer call manifest
 writeup/            README template, inputs (run summary, E1 definition, release manifest), generated values, tables and figures
-plans/              the frozen run plans and their sha256
-preregistration/    hashes and copies of the pre-registered plans
-skills/             initial skill S0, controls and the frozen candidates
+plans/              frozen run plans and their sha256 (reported study; follow-up calibration, Dev-A and main runs),
+                    follow-up power checks, duplicate-rule groups and properties, pool idea groups
+preregistration/    pre-registered texts and their sha256: Ticket 004 section 7.8, Ticket 006 L3,
+                    Ticket 009 and Ticket 009b
+skills/             initial skill S0, controls and the frozen candidates (reported study; follow-up in candidates-009b/)
 scripts/            run, analysis and probe scripts
 tests/
 ```
