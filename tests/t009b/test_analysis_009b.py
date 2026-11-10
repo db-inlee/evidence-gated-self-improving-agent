@@ -289,8 +289,10 @@ def test_frozen_inputs_pass_and_missing_records_are_refused(tmp_path: Path) -> N
     """
     with pytest.raises(FileNotFoundError, match="no records"):
         an.load_inputs(ROOT, tmp_path / "runs")
+    out = ROOT / an.OUT_PATH
+    before = out.read_bytes() if out.exists() else None  # 009b 결과 커밋 뒤에는 있다
     assert an.main(["--root", str(ROOT), "--runs-dir", str(tmp_path / "runs")]) == 1
-    assert not (ROOT / an.OUT_PATH).exists()
+    assert (out.read_bytes() if out.exists() else None) == before  # 아무것도 쓰지 않는다
 
 
 def test_frozen_input_changes_are_refused(tmp_path: Path) -> None:
