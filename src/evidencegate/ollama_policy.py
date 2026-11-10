@@ -15,6 +15,10 @@ LangGraph `StateGraph`로 도구 호출 루프를 만들고, LLM 호출은 `http
 
 LLM이 읽는 텍스트(지침, 재촉 문구)는 영어로 쓰고 정답 단서를 넣지 않는다. 바꾸면
 `instructions_sha256`이 바뀌어 config_id가 달라진다.
+
+하네스(Ticket 010, 선택 필드 `OllamaSettings.harness`): 도구 순서·도구 설명은 LLM에 보내는 도구
+정의에만, 표시 방식은 tool 메시지에만 적용한다(`evidencegate.harness`). 기본값이면 `config`와 요청
+본문이 지금과 바이트까지 같고, 아니면 `config["harness"]`가 더해진다.
 """
 
 import hashlib
@@ -28,6 +32,7 @@ from typing import Any, TypedDict
 import httpx
 from langgraph.graph import END, START, StateGraph
 
+from evidencegate.harness import DEFAULT_RENDERER, HarnessText, apply_tool_specs, render
 from evidencegate.machine import Machine
 from evidencegate.policy import (
     PolicyTrace,
@@ -74,6 +79,7 @@ class OllamaSettings:
     # 병렬 실행(Ticket 004 §1). 둘 다 1이면 config에 넣지 않아 순차 config_id가 그대로다.
     concurrency: int = 1  # 클라이언트가 동시에 돌리는 에피소드 수
     server_num_parallel: int = 1  # 서버 OLLAMA_NUM_PARALLEL 선언값(API로 확인할 수 없음)
+    harness: HarnessText | None = None  # Ticket 010. None이거나 모두 기본값이면 지금과 같다
 
     def __post_init__(self) -> None:
         if self.concurrency < 1 or self.server_num_parallel < 1:
@@ -162,6 +168,9 @@ class OllamaPolicy:
         }
         if s.parallel is not None:
             self.config["parallel"] = s.parallel
+        harness = s.harness.config() if s.harness is not None else None
+        if harness is not None:
+            self.config["harness"] = harness
 
     @classmethod
     def connect(
@@ -187,7 +196,8 @@ class OllamaPolicy:
 
     def run(self, env: AgentEnv, skill: Skill, alert: str, llm_seed: int) -> PolicyTrace:
         s = self.settings
-        tools = [_ollama_tool(spec) for spec in env.tool_specs()]
+        tools = [_ollama_tool(spec) for spec in apply_tool_specs(env.tool_specs(), s.harness)]
+        renderer = s.harness.observation_renderer if s.harness is not None else DEFAULT_RENDERER
 
         def llm_node(state: _LoopState) -> dict[str, Any]:
             start = time.perf_counter()
@@ -232,7 +242,7 @@ class OllamaPolicy:
             for raw in state["pending_calls"]:
                 name, result, turn = _execute(env, raw)
                 turns.append(turn)
-                messages.append(_tool_message(name, result))
+                messages.append(_tool_message(name, result, renderer))
                 consecutive_errors = consecutive_errors + 1 if turn.format_error else 0
                 if env.closed:
                     stop_reason = StopReason.ACTION
@@ -435,8 +445,10 @@ def _execute(env: AgentEnv, raw: dict[str, Any]) -> tuple[str, dict[str, Any], T
     return name, result, turn
 
 
-def _tool_message(name: str, result: dict[str, Any]) -> dict[str, Any]:
-    message: dict[str, Any] = {"role": "tool", "content": json.dumps(result, sort_keys=True)}
+def _tool_message(
+    name: str, result: dict[str, Any], renderer: str = DEFAULT_RENDERER
+) -> dict[str, Any]:
+    message: dict[str, Any] = {"role": "tool", "content": render(result, renderer)}
     if name != UNPARSED_TOOL:
         message["tool_name"] = name
     return message
