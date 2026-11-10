@@ -4,9 +4,12 @@
 같은 입력이면 같은 바이트다(같은 환경, matplotlib 고정 버전).
 """
 
+import base64
 import hashlib
+import io
 import json
 import re
+import sys
 from fractions import Fraction
 from pathlib import Path
 from typing import Any
@@ -262,6 +265,21 @@ def test_build_writes_every_file_deterministically(tmp_path: Path, values: dict[
         assert a[name] == hashlib.sha256((tmp_path / "a" / name).read_bytes()).hexdigest()
 
 
+# 그림 안의 래스터(F2 열지도와 색 막대)는 PNG로 들어간다. PNG 압축(zlib) 결과는 플랫폼마다 다르다
+# (2026-11-10 첫 CI, ubuntu: f2_cd.svg의 IDAT 압축 바이트와 그 해시로 만든 image id만 다르고, 풀린
+# 픽셀·글자·좌표는 같았다). 그래서 바이트 비교는 기록된 환경(macOS)에서만 하고, 모든 플랫폼에서는
+# 아래 두 테스트로 그림의 입력 데이터와 PNG 압축을 뺀 SVG 내용을 비교한다.
+DATA_FILES = tuple(name for name in FILES if not name.endswith((".svg", ".pdf")))
+SVG_FILES = tuple(name for name in FILES if name.endswith(".svg"))
+PNG_DATA = re.compile(r'data:image/png;base64,([A-Za-z0-9+/=\s]+?)"')
+IMAGE_ID = re.compile(r'id="image[0-9a-f]+"')
+
+
+@pytest.mark.skipif(
+    sys.platform != "darwin",
+    reason="byte-identical figures need the recorded environment (macOS): PNG compression of the "
+    "embedded rasters differs by platform; figure data and decoded pixels are checked everywhere",
+)
 def test_committed_artifacts_equal_a_rebuild(tmp_path: Path, values: dict[str, Any]) -> None:
     build_artifacts(values, tmp_path)
     manifest = (GENERATED / "artifacts.sha256").read_text().splitlines()
@@ -274,6 +292,44 @@ def test_committed_artifacts_equal_a_rebuild(tmp_path: Path, values: dict[str, A
         committed = (GENERATED / name).read_bytes()
         assert committed == (tmp_path / name).read_bytes(), name
         assert recorded[name] == hashlib.sha256(committed).hexdigest()
+
+
+def test_committed_figure_data_and_tables_equal_a_rebuild(
+    tmp_path: Path, values: dict[str, Any]
+) -> None:
+    """모든 플랫폼: 그림 입력 값(figures.json), 표(tables.json), LaTeX 조각이 바이트까지 같다."""
+    build_artifacts(values, tmp_path)
+    assert "figures.json" in DATA_FILES and "tables.json" in DATA_FILES
+    for name in DATA_FILES:
+        assert (GENERATED / name).read_bytes() == (tmp_path / name).read_bytes(), name
+
+
+def svg_without_png_compression(svg: str) -> tuple[str, list[Any]]:
+    """PNG 자료를 풀린 픽셀 배열로 바꾸고, PNG 바이트의 해시인 image id를 지운 SVG."""
+    import matplotlib.image as mpimg
+
+    pixels = [
+        mpimg.imread(io.BytesIO(base64.b64decode(re.sub(r"\s", "", m))))
+        for m in PNG_DATA.findall(svg)
+    ]
+    text = IMAGE_ID.sub('id="image"', PNG_DATA.sub('data:image/png;base64,"', svg))
+    return text, pixels
+
+
+def test_committed_svgs_equal_a_rebuild_apart_from_png_compression(
+    tmp_path: Path, values: dict[str, Any]
+) -> None:
+    """모든 플랫폼: SVG의 글자·좌표·도형이 같고, 안에 든 래스터는 픽셀까지 같다."""
+    import numpy as np
+
+    build_artifacts(values, tmp_path)
+    for name in SVG_FILES:
+        committed, committed_px = svg_without_png_compression((GENERATED / name).read_text())
+        rebuilt, rebuilt_px = svg_without_png_compression((tmp_path / name).read_text())
+        assert committed == rebuilt, name
+        assert len(committed_px) == len(rebuilt_px), name
+        for a, b in zip(committed_px, rebuilt_px, strict=True):
+            assert a.shape == b.shape and np.array_equal(a, b), name
 
 
 def test_main_refuses_values_that_do_not_match_their_hash(tmp_path: Path) -> None:
