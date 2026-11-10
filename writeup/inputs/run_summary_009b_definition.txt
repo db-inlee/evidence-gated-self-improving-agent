@@ -1,0 +1,135 @@
+Run summary 009b definition (Ticket 011 section 6 step 3), fixed before the file is generated
+==========================================================================================
+
+Status: run logs, not part of any analysis. Operational numbers for the README (follow-up study,
+harness probe limitations). They never enter a verdict. No new runs, no re-analysis.
+
+Honesty note: several of these numbers were already seen before this definition was written
+(the 009 shortfall and the 009b proposer numbers are stored in committed files; the same-seed
+agreement 575/600 was computed once in report 2026-11-10-02; the 009b session log was read while
+the run was in progress). This definition fixes how each value is read or counted. It is not a
+blind definition, and no value is tuned after this commit.
+
+Output: writeup/inputs/run_summary_009b.json and run_summary_009b.json.sha256 ("sha256  name").
+Sorted keys, no generation time; the same inputs give the same bytes. The generator only reads
+its inputs and refuses to write if a pinned input sha256 below differs. It writes no CD, no ES
+and no action kinds.
+
+Kinds for writeup/generated/values.json: every counted or read value is "run"; every input path,
+sha256, commit, tag and free-text status is "provenance".
+
+Shared rule (same as the v1 run summary, src/evidencegate/run_summary.py, unchanged):
+- An episode runs from started_at to started_at + duration_s.
+- An idle span is a stretch of at least IDLE_GAP_S = 60 s (evidencegate.eval_constants) with no
+  episode running, after merging overlapping episodes (function idle_gaps).
+- Records are read with EpisodeStore(path, repair=False). Times are reported in UTC, seconds.
+
+---------------------------------------------------------------------------------------------
+A. Ticket 009 candidate pool (closed at the pool stage)
+---------------------------------------------------------------------------------------------
+Input: results/ticket-009/proposer-calls-manifest.json (committed in 32d6560)
+       pinned sha256 b2e5e759e613e66ec427f7bf56e526644fd3acab9859e331cc4cba749620da28
+Values (read, not recomputed):
+  t009.pool.calls          = summary.calls                                  run
+  t009.pool.size           = summary.pool                                   run
+  t009.pool.target         = evidencegate.t009.propose.POOL_TARGET          run
+                             (must equal the target in the "status" text; else refuse)
+  t009.pool.duplicates     = summary.proposer_duplicates                    run
+  t009.pool.cost_usd       = summary.cost_usd                               run
+  t009.pool.server_errors  = summary.ledger_lines.server_error              run
+  t009.pool.status         = status (free text)                             provenance
+  t009.pool.tags           = preregistration.tags                           provenance
+Not read: runs/proposer-009/ledger.jsonl (the proposer ledger is never read, as in v1).
+
+---------------------------------------------------------------------------------------------
+B. Ticket 009b main run sessions (Dev-B and Oracle)
+---------------------------------------------------------------------------------------------
+Inputs:
+- plans/ticket-009b-main-plan.json, pinned sha256
+  4aaab082e8aa773a84c6978e4ada41ae1cf4ade69379252be05d4f7e5e9737c7
+- runs/ticket009b/main/sessions.jsonl, pinned sha256
+  d34bd28e05d6714695c631961f4ad45d098e6eeb74fe9715545eecc6b17adfb5
+- The episode stores of the plan blocks:
+  runs/<split>/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/<skill_id>.jsonl, keeping only the
+  records whose (skill_id, split, repeat, case) is in the plan (as bench_runner._plan_records).
+  The kept records must number exactly the plan's "episodes"; else refuse. The sha256 of every
+  store read is written to the output "inputs".
+Values:
+  Per session, in log order, with session_summary (v1 function, unchanged):
+    t009b.main.sessions.<i>.start, .end                                     provenance
+    t009b.main.sessions.<i>.duration_s, .reason, .blocks_run, .episodes_run,
+      .episodes_failed, .server_errors, .probe_ratio                        run
+    (.reason is the session_end reason text, e.g. plan_done, stop_file, a power-check message)
+  t009b.main.server_error_events (count of "server_error" events in the log)  run
+  Over the kept records, with record_summary (v1, unchanged; S0 and candidates by name from
+  skills/candidates-009b/POOL-009b.json, controls by name, S0 as "S0"):
+    episodes, episodes_by_skill, format_error_episodes, format_errors_total, no_disposition,
+    stop_reasons, tool_calls (mean/min/max/counts), policy_time_mean_s, first_start, last_end,
+    wall_s                                                                  run
+  Over the kept records, with idle_gaps (v1, unchanged):
+    count, total_s, longest_s, first_start, last_end, active_s              run
+  Idle span list (new, same span rule): every idle span as {start, end, length_s, where}, where
+    "where" is "in_session" if the span lies inside one session's [start, end] and
+    "between_sessions" otherwise (a span that crosses a session boundary counts as
+    between_sessions). Counts and total length per "where".                 run
+  No cause is attached to a span (the records do not say why a span happened; machine power
+  logs are not an input).
+
+---------------------------------------------------------------------------------------------
+C. Ticket 009b proposer
+---------------------------------------------------------------------------------------------
+Input: skills/candidates-009b/POOL-009b.json (frozen in 4c3b532), pinned sha256
+       6f4a9a90f619dd8ef51f394d988d06eeb2a9c4536fb0056e2263903ba4aef239
+       (= POOL-009b.json.sha256)
+Values (read, not recomputed):
+  t009b.proposer.calls                = calls                               run
+  t009b.proposer.pool_size            = pool_size                           run
+  t009b.proposer.target               = evidencegate.t009b.settings.POOL_TARGET   run
+  t009b.proposer.n_go                 = n_go (must equal settings.N_GO)     run
+  t009b.proposer.go                   = go                                  run
+  t009b.proposer.duplicates           = proposer_duplicates                 run
+  t009b.proposer.format_errors        = format_errors                       run
+  t009b.proposer.invalid              = invalid                             run
+  t009b.proposer.cost_usd             = cost_usd                            run
+  t009b.proposer.budget_usd           = proposer_config.budget_usd          run
+  t009b.proposer.stop_basis           = stop_basis (free text)              provenance
+  t009b.proposer.last_session_reason  = last_session_reason                 provenance
+  t009b.proposer.last_session_end     = last_session_end                    provenance
+  t009b.proposer.response_model       = the single key of response_models.counts
+                                        (refuse if more than one)           provenance
+Not read: runs/proposer-009b/ledger.jsonl and runs/proposer-009b/sessions.jsonl.
+
+---------------------------------------------------------------------------------------------
+D. Same-seed disposition agreement (sequential against two concurrent episodes)
+---------------------------------------------------------------------------------------------
+Source correction: these records are the v1 calibration runs (Ticket 004/005), not the Ticket 009
+calibration. The 009 calibration was run only with two concurrent episodes, so it has no
+sequential counterpart. Earlier text that called this "the 009 calibration" was wrong.
+Inputs:
+- sequential: runs/calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/bf65e569ae37.jsonl
+  pinned sha256 150336a014bad3fc487da66ff15ae89b2acce6ef949b3379722ca01d285e37c9
+- concurrent 2: runs/calibration/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl
+  pinned sha256 1041e046ca3acf62839cf2a21db99d885bd9b962692dd510c0814bd4f50d8158
+Case set: evidencegate.t009.splits.CALIBRATION_V1 (seeds 900,000 to 900,019, families x L1/L2)
+          x repeats evidencegate.eval_constants.S0_ORACLE_REPEATS (0 to 4): 600 pairs.
+Checks (refuse on failure): both stores hold every pair key; for every pair the llm_seed is equal;
+the two policy_config values differ only in the "parallel" key. Records outside the case set are
+ignored and counted.
+Values:
+  same_seed.pairs              number of pairs (600)                        run
+  same_seed.same_disposition   pairs with equal action (no action counts as one value)   run
+  same_seed.same_tool_sequence pairs with an equal ordered list of turn tool names        run
+  same_seed.ignored            records outside the case set, per store      run
+  same_seed.configs            the two config_ids                           provenance
+Not computed: agreement between repeats with different seeds (not needed by the ticket).
+
+---------------------------------------------------------------------------------------------
+Left out (cannot be defined from fixed inputs)
+---------------------------------------------------------------------------------------------
+- The number of seeds used by the independent 009b re-review: it is stated only in a local
+  report (reports/ are outside git) and comes from a separate session's own script. The README
+  states the re-review without that number.
+- The cause of any 009b idle span (for example, the machine sleeping): no input records it.
+- Anything from the proposer ledgers (never read).
+- Ticket 010 probe numbers: they come from results/ticket-010/probe.json directly, not from
+  this file.
