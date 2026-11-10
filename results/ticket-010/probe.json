@@ -1,0 +1,508 @@
+{
+  "decision": {
+    "fields": [],
+    "moved": [],
+    "p0_different": 60,
+    "verdict": "reconsider"
+  },
+  "engine": {
+    "model": "gpt-oss:20b",
+    "model_digest": "f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe",
+    "ollama_version": "0.40.3",
+    "options": {
+      "num_ctx": 8192,
+      "temperature": 0.7
+    },
+    "quantization": "MXFP4",
+    "seed_rule": "derive_llm_seed(family, incident_seed, repeat): sha256, first 8 bytes mod 2^31",
+    "think": "low"
+  },
+  "probe_plan_sha256": "3445aed9d9adcb006d15d35b4df9374673bde8f38bf6369bd891a5c65c6ac0ce",
+  "rule": {
+    "episodes": 60,
+    "k": 8,
+    "m": 3,
+    "min_fields": 2,
+    "p0_min": 50,
+    "text": "변형 하나가 움직였다 = Dev-A 60개 중 처분이 S0와 다른 에피소드가 8개 이상. 진행 = P1~P6 중 3개 이상이 움직였고, 움직인 변형이 필드 두 종류 이상(도구 순서·도구 설명·표시 방식)에 걸쳐 있음. 그렇지 않으면 본 실행 전에 방향을 다시 정한다. P0(max_tool_calls 3)는 동작 확인용이고 판정 집계에 넣지 않는다. P0에서 처분이 S0와 다른 에피소드가 50개 미만이면 하네스 적용을 의심하고 탐침 판정을 내지 않은 채 멈춘다."
+  },
+  "s0": {
+    "format_error_episodes": 0,
+    "mean_tool_calls": 4.0,
+    "sequences": {
+      "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 38,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 2
+    },
+    "stop_reasons": {
+      "action": 60
+    },
+    "traffic_episodes": 0
+  },
+  "s0_config_id": "7c66ee5bf13c",
+  "s0_records": "t009_dev_a/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl",
+  "s0_records_sha256": "6d68923dd27ec65ffddb96be03f6a33b8331f569138f75b3c4565b586b3d1dd3",
+  "stage": "dev_a_knob_probe",
+  "ticket": "010",
+  "variants": [
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": -10,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": -8,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": -10,
+          "es_diff": -10,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": -10,
+          "es_diff": -10,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "51a6405aa551",
+      "different_disposition": 60,
+      "different_tool_set": 60,
+      "episodes": 60,
+      "field": "control",
+      "format_error_episodes": 0,
+      "harness": null,
+      "judged": false,
+      "max_tool_calls": 3,
+      "mean_tool_calls": 3.0,
+      "moved": false,
+      "name": "P0",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health": 60
+      },
+      "stop_reasons": {
+        "max_steps": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "7d2a55d298d8",
+      "different_disposition": 1,
+      "different_tool_set": 1,
+      "episodes": 60,
+      "field": "tool_order",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_traffic_metrics",
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 4.0,
+      "moved": false,
+      "name": "P1",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 39,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 1
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "0f4797766552",
+      "different_disposition": 5,
+      "different_tool_set": 5,
+      "episodes": 60,
+      "field": "tool_order",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_service_metrics",
+          "get_dependency_health",
+          "get_recent_deployments",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 4.0,
+      "moved": false,
+      "name": "P2",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 37,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 3
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "f6ebaa6169ae",
+      "different_disposition": 5,
+      "different_tool_set": 5,
+      "episodes": 60,
+      "field": "tool_descriptions",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {
+          "get_traffic_metrics": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed."
+        },
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 4.0,
+      "moved": false,
+      "name": "P3",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 37,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 3
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "d2d566afa573",
+      "different_disposition": 5,
+      "different_tool_set": 5,
+      "episodes": 60,
+      "field": "tool_descriptions",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {
+          "get_dependency_health": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself."
+        },
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 4.0,
+      "moved": false,
+      "name": "P4",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 35,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 5
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "45d7ef25ce2a",
+      "different_disposition": 5,
+      "different_tool_set": 5,
+      "episodes": 60,
+      "field": "observation_renderer",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "key_value_lines",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 4.0,
+      "moved": false,
+      "name": "P5",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 37,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 3
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 2,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        }
+      },
+      "config_id": "e7da9d046fc9",
+      "different_disposition": 3,
+      "different_tool_set": 3,
+      "episodes": 60,
+      "field": "observation_renderer",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_compact",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 4.0,
+      "moved": false,
+      "name": "P6",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 20,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 39,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 1
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 0
+    }
+  ]
+}
