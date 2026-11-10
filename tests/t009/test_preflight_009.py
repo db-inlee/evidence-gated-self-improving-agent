@@ -1,17 +1,42 @@
-"""Ticket 009 세션 시작 점검(티켓 원칙 2·9, §4.1)."""
+"""Ticket 009 세션 시작 점검(티켓 원칙 2·9, §4.1).
+
+engine 점검의 기준(v1 S0 Dev-A 기록의 정책 설정)은 실제 `runs/`가 아니라 임시 폴더의 가짜 기준 기록
+한 줄에서 읽는다(Ticket 011 §5: 기록 없는 clone·CI에서도 점검 논리를 시험한다). 가짜 기록의 설정은
+v1 기록과 같은 값(`REFERENCE`, content_id 7c66ee5bf13c)이다.
+"""
 
 import shutil
 from pathlib import Path
 from typing import Any
 
+from evidencegate.eval_constants import CONFIG_ID, POLICY_ID, S0_SKILL_ID, TOOL_SPEC_ID
+from evidencegate.ids import content_id
 from evidencegate.machine import Machine
+from evidencegate.policy import PolicyTrace, StopReason
 from evidencegate.preflight import reference_policy_config
 from evidencegate.run_plan import plan_bytes
+from evidencegate.runner import EpisodeKey, EpisodeRecord
+from evidencegate.store import EpisodeStore
 from evidencegate.t009.preflight import EXPECTED_OLLAMA_VERSION, run_preflight_009
 from evidencegate.t009.run_plan import build_calibration_plan
 
 ROOT = Path(__file__).resolve().parents[2]
-RUNS = ROOT / "runs"
+# tests/test_preflight.py의 REFERENCE(v1 S0 Dev-A 기록의 정책 설정)와 같은 값
+REFERENCE: dict[str, Any] = {
+    "type": "ollama",
+    "model": "gpt-oss:20b",
+    "model_digest": "f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe",
+    "quantization": "MXFP4",
+    "ollama_version": "0.40.3",
+    "instructions_sha256": "332b776ce67826fba8829790fc46090df243c2f9f38602e1c8c72faea4bfaed3",
+    "options": {"temperature": 0.7, "num_ctx": 8192},
+    "think": "low",
+    "stop": {"max_tool_calls": 8, "max_consecutive_text_turns": 2},
+    "format_error_policy": {"feedback": "error_as_tool_result", "max_consecutive_format_errors": 3},
+    "seed_rule": "derive_llm_seed(family, incident_seed, repeat): sha256, first 8 bytes mod 2^31",
+    "machine": {"hw_model": "Mac15,3", "chip": "Apple M3"},
+    "parallel": {"client_concurrency": 2, "server_num_parallel": 2},
+}
 GOOD_POWER = {
     "pmset -g batt": "Now drawing from 'AC Power'\n",
     "ioreg": '"AppleClamshellState" = No\n',
@@ -27,6 +52,32 @@ def runner(outputs: dict[str, str]) -> Any:
         return next(v for k, v in outputs.items() if cmd.startswith(k))
 
     return run
+
+
+def fake_runs(base: Path) -> Path:
+    """v1 S0 Dev-A 기록 자리(`runs/dev_a/…`)에 REFERENCE 설정의 기록 한 줄."""
+    runs = base / "runs"
+    store = EpisodeStore.for_run(
+        runs,
+        suite="dev_a",
+        policy_id=POLICY_ID,
+        config_id=CONFIG_ID,
+        tool_spec_id=TOOL_SPEC_ID,
+        skill_id=S0_SKILL_ID,
+    )
+    key = EpisodeKey(POLICY_ID, CONFIG_ID, TOOL_SPEC_ID, S0_SKILL_ID, "bad_deployment", 1, 0)
+    trace = PolicyTrace((), 0, StopReason.ACTION)
+    record = EpisodeRecord(
+        key, REFERENCE, 0, True, True, "observe_only", (), (),
+        trace, "2026-10-15T00:00:00+00:00", 1.0,
+    )  # fmt: skip
+    store.append(record)
+    return runs
+
+
+def test_the_fake_reference_is_the_v1_engine(tmp_path: Path) -> None:
+    assert content_id(REFERENCE) == CONFIG_ID == "7c66ee5bf13c"
+    assert reference_policy_config(fake_runs(tmp_path)) == REFERENCE
 
 
 def setup(tmp_path: Path) -> tuple[Path, Path]:
@@ -46,11 +97,12 @@ def setup(tmp_path: Path) -> tuple[Path, Path]:
 
 def checks(tmp_path: Path, **kw: Any) -> dict[str, Any]:
     root, plan = setup(tmp_path)
-    config = kw.pop("config", None) or reference_policy_config(RUNS)
+    runs = fake_runs(tmp_path)
+    config = kw.pop("config", None) or reference_policy_config(runs)
     result = run_preflight_009(
         root=root,
         code_root=ROOT,
-        runs_dir=RUNS,
+        runs_dir=runs,
         current_config=config,
         machine=kw.pop("machine", Machine(hw_model="Mac15,3", chip="Apple M3")),
         phase="calibration",
@@ -81,7 +133,7 @@ def test_all_checks_pass_with_the_v1_engine() -> None:
 
 
 def test_a_different_ollama_version_fails(tmp_path: Path) -> None:
-    config = dict(reference_policy_config(RUNS))
+    config = dict(REFERENCE)
     config["ollama_version"] = "0.41.0"
     result = checks(tmp_path, config=config)
     assert not result["ollama_version"].ok and not result["engine"].ok

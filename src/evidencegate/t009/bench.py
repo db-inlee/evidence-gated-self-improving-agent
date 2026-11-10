@@ -135,7 +135,7 @@ def main(
 
     status_policy = policy_factory() if policy_factory else bench_runner._StatusPolicy()
     print(
-        f"phase {args.phase}, plan sha256 {sha[:12]}, remaining: "
+        f"phase {args.phase}, plan sha256 {sha[:12]}, done: "
         f"{bench_runner.status_line(blocks, args.runs_dir, status_policy, log_name)}",
         file=out,
         flush=True,

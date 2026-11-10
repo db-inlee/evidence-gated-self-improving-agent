@@ -5,6 +5,7 @@
 
 import io
 import json
+import re
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -117,7 +118,8 @@ def test_run_logs_to_the_phase_session_file_with_start_fields(tmp_path: Path) ->
     assert start["phase"] == "calibration" and start["plan_sha256"] == "f" * 64
     assert start["ollama_version"] == "0.40.3" and start["stop_at"] is None
     assert sessions(tmp_path)[-1]["reason"] == "plan_done"
-    assert "remaining" in out  # 시작 전에 남은 블록과 예상 시간을 출력
+    # 시작 전에 끝난 에피소드·블록 수와 예상 시간을 출력한다(값은 끝난 수라 "done")
+    assert re.search(r"plan sha256 \w{12}, done: \d+/\d+ episodes", out) and "remaining" not in out
 
 
 def test_default_stop_file_stops_at_the_next_block(tmp_path: Path) -> None:

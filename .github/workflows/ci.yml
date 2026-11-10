@@ -1,0 +1,34 @@
+# Ticket 011 §5: tests, lint, format and type checks without an LLM, the network or runs/.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # Full history and tags: tests check fixed commits and pre-registration tags.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - name: Install (locked, dev and writeup groups)
+        run: uv sync --locked
+      - name: pytest
+        run: uv run pytest
+      - name: ruff check
+        run: uv run ruff check .
+      - name: ruff format
+        run: uv run ruff format --check .
+      - name: mypy
+        run: uv run mypy

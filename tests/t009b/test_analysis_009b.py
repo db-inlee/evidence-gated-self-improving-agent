@@ -282,10 +282,15 @@ def test_output_is_written_once(tmp_path: Path) -> None:
         an.write_once(out, data)
 
 
+@pytest.mark.skipif(
+    not (ROOT / "runs" / "proposer-009b" / "pool").exists(),
+    reason="needs runs/ (the pool groups check the frozen proposer call files)",
+)
 def test_frozen_inputs_pass_and_missing_records_are_refused(tmp_path: Path) -> None:
     """저장소의 동결 파일 점검은 통과하고, 기록 폴더가 비어 있으면 거부한다.
 
-    실제 기록은 읽지 않는다(빈 tmp 폴더를 준다).
+    동결 점검(`groups_ready`)이 `runs/proposer-009b/pool`의 호출 파일 sha256을 보므로, 그 기록이
+    없는 clone에서는 건너뛴다(Ticket 011 §5). 에피소드 기록은 읽지 않는다(빈 tmp 폴더를 준다).
     """
     with pytest.raises(FileNotFoundError, match="no records"):
         an.load_inputs(ROOT, tmp_path / "runs")

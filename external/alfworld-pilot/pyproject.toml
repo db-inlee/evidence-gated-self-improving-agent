@@ -6,7 +6,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "alfworld==0.4.2",
     # Ticket 008 원칙 2 예외: evidencegate.exact만 import한다(수정하지 않음).
-    "opsworld",
+    "evidencegate",
 ]
 
 [tool.uv]
@@ -14,7 +14,7 @@ dependencies = [
 python-preference = "only-managed"
 
 [tool.uv.sources]
-opsworld = { path = "../..", editable = true }
+evidencegate = { path = "../..", editable = true }
 
 [dependency-groups]
 dev = [

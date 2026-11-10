@@ -1,7 +1,7 @@
 [project]
-name = "opsworld"
+name = "evidencegate"
 version = "0.0.0"
-description = "EvidenceGate OpsWorld: deterministic synthetic incident world and evidence grader"
+description = "EvidenceGate: pre-registered tests of the rules a self-improving agent uses to keep its own edits, in a deterministic synthetic incident world (OpsWorld)"
 license = "MIT"
 requires-python = ">=3.12,<3.13"
 dependencies = [
