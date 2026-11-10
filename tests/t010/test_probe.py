@@ -4,6 +4,7 @@
 임시 폴더에 가짜로 만들고, 탐침이 그 파일을 열기만 하는지(바이트·수정 시각 그대로) 확인한다.
 """
 
+import ast
 import hashlib
 import io
 import json
@@ -165,6 +166,64 @@ def test_decision_numbers_are_the_approved_ones() -> None:
     rule = pr.DECISION_RULE
     for phrase in ("8개 이상", "3개 이상", "두 종류 이상", "50개 미만", "판정 집계에 넣지 않는다"):
         assert phrase in rule
+
+
+FIXED_NUMBERS = {
+    "EPISODES": 60,
+    "MOVED_MIN_EPISODES": 8,
+    "MOVED_MIN_VARIANTS": 3,
+    "MOVED_MIN_FIELDS": 2,
+    "P0_MIN_EPISODES": 50,
+    "FORMAT_ANOMALY_BLOCKS": 3,
+    "S0_MAX_TOOL_CALLS": 8,
+    "P0_MAX_TOOL_CALLS": 3,
+}
+
+
+def source_literals(path: Path) -> dict[str, Any]:
+    """모듈 소스의 최상위 `이름 = 숫자 리터럴` 대입(바이트코드 캐시를 거치지 않는다)."""
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    out: dict[str, Any] = {}
+    for node in tree.body:
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and isinstance(node.value, ast.Constant)
+            and isinstance(node.value.value, int)
+        ):
+            out[node.targets[0].id] = node.value.value
+    return out
+
+
+def test_loaded_numbers_and_rule_match_the_source_and_the_approved_values() -> None:
+    # 2026-11-10 탐침: 변이 검사 복구가 같은 초·같은 크기여서 .pyc(P0_MIN_EPISODES 49)가 유효로
+    # 남았다. 불러온 값을 소스 리터럴·승인 값과 함께 비교해 낡은 바이트코드도 잡는다.
+    source = source_literals(Path(pr.__file__))
+    for name, approved in FIXED_NUMBERS.items():
+        assert source[name] == approved, f"source {name}"
+        assert getattr(pr, name) == approved, f"loaded {name} (stale bytecode?)"
+    rule = pr.DECISION_RULE
+    assert "50개 미만이면" in rule and "49개" not in rule
+    assert re.findall(r"(\d+)개 미만", rule) == ["50"]
+    assert re.findall(r"(\d+)개 이상", rule) == ["8", "3"]
+    assert "max_tool_calls 3" in rule and "Dev-A 60개" in rule
+
+
+def test_result_rule_carries_the_approved_numbers() -> None:
+    rows = [record(c, "observe_only", [*S0_TOOLS, "observe_only"]) for c in DEV_A]
+    configs = {v.name: pr.offline_policy(v, REFERENCE).config for v in pr.VARIANTS}
+    s0 = [replace(r, policy_config=REFERENCE) for r in rows]
+    records = {n: [replace(r, policy_config=c) for r in rows] for n, c in configs.items()}
+    rule = pr.build_result(s0, records, "f" * 64)["rule"]
+    assert (rule["k"], rule["m"], rule["min_fields"], rule["p0_min"], rule["episodes"]) == (
+        8,
+        3,
+        2,
+        50,
+        60,
+    )
+    assert rule["text"] == pr.DECISION_RULE and "50개 미만" in rule["text"]
 
 
 def test_s0_records_are_the_009_dev_a_file() -> None:
