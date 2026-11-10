@@ -1,0 +1,328 @@
+{
+  "notes": [
+    "Run logs, not part of any analysis; definition in writeup/inputs/run_summary_009b_definition.txt (values were read or counted as it fixes).",
+    "An idle span is a stretch of at least 60 s with no episode running; no cause is attached to a span.",
+    "Same-seed agreement uses the v1 calibration runs (sequential against two concurrent episodes), not the Ticket 009 calibration.",
+    "The proposer ledgers are not read."
+  ],
+  "provenance": {
+    "definition": {
+      "path": "writeup/inputs/run_summary_009b_definition.txt",
+      "sha256": "8b3462ab36855446c81fc6704bcdaf94ecd2eebafc6dc2269d7384bf5f6e18f5"
+    },
+    "inputs": {
+      "plans/ticket-009b-main-plan.json": "4aaab082e8aa773a84c6978e4ada41ae1cf4ade69379252be05d4f7e5e9737c7",
+      "results/ticket-009/proposer-calls-manifest.json": "b2e5e759e613e66ec427f7bf56e526644fd3acab9859e331cc4cba749620da28",
+      "runs/calibration/ollama__gpt-oss__20b__24bf38dea859/e9b4996f7529/bf65e569ae37.jsonl": "150336a014bad3fc487da66ff15ae89b2acce6ef949b3379722ca01d285e37c9",
+      "runs/calibration/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "1041e046ca3acf62839cf2a21db99d885bd9b962692dd510c0814bd4f50d8158",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/0d2accf2a6bb.jsonl": "266fb65cfb0e0a9e20f206a11cee0fea6201880601e27eeb2722b403e29c7ea6",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/0e41be65915a.jsonl": "c191fea7b4c02ae93ab4295dd6086514c768267e5657643d0be9cdc02d71b517",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/1060da3dba2d.jsonl": "7cd159ba39417749b783531deae3b6366b7bd509c47c88a6b87a56be0cd66c5f",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/1767203c3d9a.jsonl": "44d19c170132738d0c9136be4d41244eb9b4e78c11f259e2fe9e4cd1d9f173cf",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "a184887ef2a48883f9902fb1ed3a60144c2c4fd0a680c5167756c9e14813a9d2",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/23cd69d1a0d1.jsonl": "524093dd563b0a7c35c5439428faa62d27ab6b7c3f05cbf0041b8658f9504962",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "dd2d4f62de963840a5c3fe677019d2a9fbbac6686ab24e47015efc89e2b43b4d",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "8cef3397b3a2106e39d330229d3b9603e8c79a1467930afe93d7a94b8946abc2",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3d1eabdef2c1.jsonl": "926164fca5db8cab925ff47671eae5b4de34bf86735d2ca98c8f8fedaabcd49a",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/410ecd7a1314.jsonl": "c5465acdceda48f2a9f6bf18e09303e07bb300e012bff171e20db13300ad8027",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/42b74daa5047.jsonl": "12ec0c0aabe72c55993be00b29781f241b582e628414e41fd69b193a587ba481",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/42f688f99a44.jsonl": "6df4e67ca727f25cf2ca4005d6c4be13cb95d6dfcec66e7f22ef1f2d0490a740",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/481b514d163e.jsonl": "75edd044f947d99e7feda2816060cb6d59e7105d6e2f4bee829d54b7a6a515e7",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/583bf83a9cd9.jsonl": "c68403a1b9f5cd2789d26a84c258cb026007d9d153468a7f630062ece2a4229e",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6298a89af034.jsonl": "e94621259acc87c9061c6037a5c101fc3b9be8204e44944321cbf276d30f0c4e",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/66348a2222cc.jsonl": "16106fa08b8f1127156cc914be26d2dfeee27fa45bb0ca50762cc83d761cd5bf",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6a26c655fca2.jsonl": "58dfe61c82e998e1a3519026115415c7afddb3434db782fc4dc66fb8119a318a",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6cf931a8ab08.jsonl": "9ad836a4e9539a6935cbc1aa7d8671acccbea3ba5c6ff20b4e567962a0aa3108",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6f4998ce001d.jsonl": "660d232e36898175fc7c93230332180b5043a381e5a21b502cf533597ebad6c2",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/7159bbdd21f6.jsonl": "80a58e8716a9e69d2f710be791913c82f0ab7e902e08c85b70c3e2c6a57180a8",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/8a9cd90e3659.jsonl": "d5aa82d34c725ea02c44442a5dd10a041aa919eeb5ab4115ee250dc5e40b9e75",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/93241e0a1984.jsonl": "5242dc810144776b9c0252a12073d85e978ec57b475b5e018db3adc884785935",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "247a999c3cea1ca35ae20b39351375a8d4d7bc948d28e56f337923753d17fae4",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/971f00a5e8ae.jsonl": "61f1e24af49e33863db843e7aa1ec5129c784e27a5847b4e1ba63f4a1fc3aa3e",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9a90b708a699.jsonl": "ded4430023b07d1b2814cac31f075b3746d9761600d7255ba49650d08490d477",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/a08e8450be0c.jsonl": "d8fdfe716d1b3400cf7796b9922d77a720e99218f877beb57e93f88276cd9cb7",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ab34b90cab29.jsonl": "67d170c601a07173af495e53631a02a3634e7db828bf44654fa8ea07a5373066",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/b64ca354cea4.jsonl": "594c0815162d6dcf41f79da12d38cb4d5182de70093448be4800773e37aae2c8",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bbd0e73dec79.jsonl": "b1dc0cbaee3f19c233cc6c88e664b41e73c4b775bd0271dc59a08d40fc1f112e",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "df58b148dd6bc2589d8928df28534f364d2272de7b2b5753d0c433390e1ce2d8",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/c7668916d085.jsonl": "ab29f3435377c7d67c19d2c314626e5ad818547c8ae5e7218875faceff451fe0",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/c7d7ef363d25.jsonl": "57489ddd7c0f57a977efba50d5f4ed448b1d8ce61263ed5e468372b139aeb0a9",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d47b464c7e9d.jsonl": "2abb7b1244af97d4d3456b882ebf5287d37a8cfc79ba330a2b92449e645d108d",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d55756f7153e.jsonl": "450f96fdf250054434f114577f3b13cb6421bc2d112dcd1303fac85e0e28f9de",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e4361336fbf2.jsonl": "fbbb40719da553ce4285113744603bd0b7eb545abd612d99ce2809b1ac6d3b2a",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ecb9d450aa91.jsonl": "b64f7d9ef83f905f8a4f37e6c52d063f33c0c375c1605ffd57c46a61430c90cb",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f05826a15e0c.jsonl": "e58dc21fbab45fd614a814f5de0df4c1319f06f62800001137fbcff0841a0bc1",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f13dbdec95a7.jsonl": "2c4b852c6e985655186c34a0ffef3241f6dfee3662f621d06cbaf45dddd25965",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f166176a4757.jsonl": "e2e6bcfde3a8939844a07f2cfb868aa6956e44cc1ce504bb6ea89d772dfda5da",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f8c9b554522e.jsonl": "c75afea6647a9d2ed68fc005238f1874249ed11e08787ad8c574442796f3a421",
+      "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "3dc7b7f2b6d9f9dc173984ea1733aad2bd0b58498b220e9a4931e02cc8eccd5f",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/0d2accf2a6bb.jsonl": "546878ad3b65d7880cd3379fa27c6c87ea27d5227ad0b0ac70a5f3ad660ae882",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/0e41be65915a.jsonl": "413cd40b4e8b1f2de2f843a527e45a18c220b76cd42991f513d50a96ac50f2c1",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/1060da3dba2d.jsonl": "ccb53acfa54d83a4b2e9635bff2fc20a1ff4fdfb0f5d2a161a801b717556745a",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/11e977272617.jsonl": "2480782e6d64b71274667c5173913fbd7ac19e0f413a087f70e7cadf70de2d23",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/1767203c3d9a.jsonl": "d89b4047eaf21b59b9ad2bcf9d189b82955e558278cd056659e71315c7a4f974",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "34e219cd84a4c4d2647b0942005f848fc3c38ede7fb56d6a8c7cbeb94979837b",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/23cd69d1a0d1.jsonl": "ba3209af4800a0bbdca51ec9df02bf85804ccdfa0789ad808e13b3a31d1a97c9",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "b11b4d6700011ac416297ce557c78af1f390492f551d73e16065405f0b62d929",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "811d7d0bf0047072a7fbddc7b64169f234c12f27d582cc875a0b030a64b3ea90",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3d1eabdef2c1.jsonl": "833d34acf20fe65a1579d08ec8ff432421979bbdbc138918a9136b8c43d3f24e",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/410ecd7a1314.jsonl": "105365cca87ec2bdc6e8d8c344eed2eae722753225193448cee76c5164578446",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/42b74daa5047.jsonl": "199a06ee23b29c53672cfe5ac0179aeef0edcf9793beea0b91707c12bb6de8d9",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/42f688f99a44.jsonl": "fe7f963dc30b818cb2ca4fb77443c0f49ec2589bd933918df9fa2dfeae750758",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/481b514d163e.jsonl": "dd141817d36551f09739123ef6c165ecffd036f9d820ac8a288a8e9ef6a7b17d",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/583bf83a9cd9.jsonl": "3803781a66a48a5d62ee6173c82963b71812469da8357ecdc9b0127bd162895b",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6298a89af034.jsonl": "760304d024876dc990c60e22dfd9c07a6b1a753cb458343b273bb3b95223f961",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/66348a2222cc.jsonl": "8f8c4816fe68b8aaed2053309992b9550df6002ec383d76396f008c90628f191",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/681f45168c34.jsonl": "0a94302cdebf12302c95a1ec82ab27a7fb9c66d4d9371066b535c0c1448318bc",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6a26c655fca2.jsonl": "c24c285f34ef3aa59a470ebaae74169e24b099c92e822c5bacffbbebe4b6298b",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6cf931a8ab08.jsonl": "941d9d290f6494ad6355376474d6ab18c78d5e8892e084056e12218a97f434c8",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6f4998ce001d.jsonl": "e391d90362599df6cf86a300d81a4c58c4917f9fd9bfea772562c52470dae97c",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/7159bbdd21f6.jsonl": "3c5f5992845c727e18db3817af74fc2309268a419a2c0eaf7307eba6740e52eb",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/881e3c9e9087.jsonl": "3fc6793f9619b7d4ebfa4154f5527ee1db34b88773dfc1988ccaf5aad01e8b4b",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/8a9cd90e3659.jsonl": "f88e84c757de5a7b528aeb73e11c1e355100df8cd9d689904213de11992c7f87",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/93241e0a1984.jsonl": "86086f609a1e738d32f7d7261b181ba87973b548440fa36cc14968a7ca713a44",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "280e6b59a542c0346e759231e856f8975d7d1c095b0e6bcc1099c4a3b5ed7ee5",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/971f00a5e8ae.jsonl": "cdda63ae10c904ca3bd974968a41249358de0dc660d7cccdd116560a487bb406",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9a90b708a699.jsonl": "d8013729dbe2aa12e0b7c04c804fc241f9d8bc15b646dac106a51bdb44f35537",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/a08e8450be0c.jsonl": "9ee185eb74167f6d6a7eae4045483ffc257659e9c98e090b896c346fc3a8c04f",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ab34b90cab29.jsonl": "f9b339ce6026545cfef810810c1a97914746a47f218e86f73471e2be789a38ad",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/b64ca354cea4.jsonl": "31024505b4992dcd0718fce38e5c13420bb33243c4482f3cae6f078aed76441f",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bbd0e73dec79.jsonl": "7a46a390c13abd5a692bc11d1ba5c88dee90fe6289948990319813571e188738",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "a863137410cfca693ca79e48e6648b6e0a4ce69bda05828966e018dccfd3c3d1",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/c7668916d085.jsonl": "34c336187cca1413c247e1361b24821df3991da0345ee496adf502476f8bfece",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/c7d7ef363d25.jsonl": "590a7d31f65ba34b72fe21ed81d118937b2c259d37cc46b798215ce1415b059e",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d21ec9d34946.jsonl": "1b8c80582636c12dda9b9ecb182c59afba12b43268d184695bf46a01ff2b5642",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d47b464c7e9d.jsonl": "34bf9ff44da64c7066518ae1f1e14fbe56e2dbc75c24d35aa1dee561bd9b657f",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d55756f7153e.jsonl": "89a51027f06abd7e3e6a271c332398762bacbdd160268340d969027fff1f2dbe",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d9f06d518efc.jsonl": "d72ebb69e9c21439de8fd37a8b04b3b248cbcde41d6d01fc2da392a1aaf6b94e",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e0fd0c34db25.jsonl": "7b99d0a3d3983a8ebd38c33b71c0010c0fdcfaa405be085a5f3a77368c4c4616",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e4361336fbf2.jsonl": "2d22a564cf81125ac32448d6339a693b691a1350dde3a649089737856ccf0f04",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e78f11923007.jsonl": "90f18543cf335683d43615920657b7261dac3502fa5d669785f5c49ff527a0f4",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ecb9d450aa91.jsonl": "e0e0fdc3d2c3a67ba97ed29dfa6440644544d5d6ea264483753990486dad17b1",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f05826a15e0c.jsonl": "346a05fdb02c55516dfaf3aa7b7893e9588f75b6119f1e3000c457a25768b9b6",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f13dbdec95a7.jsonl": "0762bdcb5e38becdcd8050d7a4b550351ec77dfb5e7bab8f2c556987202b556f",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f166176a4757.jsonl": "c85c7825cf1fbca3fa8f58c9ede789ac3a0df2466e33d0e819d378a944f108e7",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f8c9b554522e.jsonl": "4baced02b4943e6ab46954c7c8e53b0f9cdd83ce3138d7649451caa3796dca81",
+      "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "c6cb77e11a3cbc260b6f3e2b9e5a89deb3d278993b8187c6b7e017fe3c312507",
+      "runs/ticket009b/main/sessions.jsonl": "d34bd28e05d6714695c631961f4ad45d098e6eeb74fe9715545eecc6b17adfb5",
+      "skills/candidates-009b/POOL-009b.json": "6f4a9a90f619dd8ef51f394d988d06eeb2a9c4536fb0056e2263903ba4aef239"
+    },
+    "same_seed": {
+      "configs": {
+        "concurrent_2": "7c66ee5bf13c",
+        "sequential": "24bf38dea859"
+      }
+    },
+    "t009": {
+      "pool": {
+        "status": "closed at the pool stage: shortfall (pool 14 / target 40); Dev-B and Oracle were not run",
+        "tags": [
+          "t009-prereg",
+          "t009-prereg-r1"
+        ]
+      }
+    },
+    "t009b": {
+      "main": {
+        "sessions": [
+          {
+            "end": "2026-11-06T23:16:05+00:00",
+            "start": "2026-11-06T22:30:00+00:00"
+          },
+          {
+            "end": "2026-11-07T18:18:27+00:00",
+            "start": "2026-11-07T00:39:48+00:00"
+          },
+          {
+            "end": "2026-11-10T03:03:56+00:00",
+            "start": "2026-11-08T08:36:57+00:00"
+          }
+        ]
+      },
+      "proposer": {
+        "last_session_end": "2026-11-06T14:12:02+00:00",
+        "last_session_reason": "limit",
+        "response_model": "gpt-5.4-2026-03-05",
+        "stop_basis": "pool reached 40"
+      }
+    }
+  },
+  "run": {
+    "same_seed": {
+      "ignored": {
+        "concurrent_2": 0,
+        "sequential": 0
+      },
+      "pairs": 600,
+      "same_disposition": 575,
+      "same_tool_sequence": 575
+    },
+    "t009": {
+      "pool": {
+        "calls": 80,
+        "cost_usd": 2.113948,
+        "duplicates": 66,
+        "server_errors": 4,
+        "size": 14,
+        "target": 40
+      }
+    },
+    "t009b": {
+      "main": {
+        "idle": {
+          "active_s": 218799.339,
+          "count": 2,
+          "first_start": "2026-11-06T23:16:05+00:00",
+          "last_end": "2026-11-08T08:39:44+00:00",
+          "longest_s": 51677.407,
+          "min_gap_s": 60.0,
+          "total_s": 56709.171
+        },
+        "idle_spans": {
+          "by_where": {
+            "between_sessions": {
+              "count": 2,
+              "total_s": 56709.171
+            },
+            "in_session": {
+              "count": 0,
+              "total_s": 0
+            }
+          },
+          "min_gap_s": 60.0,
+          "spans": [
+            {
+              "end": "2026-11-07T00:39:57+00:00",
+              "length_s": 5031.764,
+              "start": "2026-11-06T23:16:05+00:00",
+              "where": "between_sessions"
+            },
+            {
+              "end": "2026-11-08T08:39:44+00:00",
+              "length_s": 51677.407,
+              "start": "2026-11-07T18:18:26+00:00",
+              "where": "between_sessions"
+            }
+          ]
+        },
+        "records": {
+          "episodes": 32820,
+          "episodes_by_skill": {
+            "S0": 1920,
+            "cand-000": 720,
+            "cand-001": 720,
+            "cand-002": 720,
+            "cand-003": 720,
+            "cand-005": 720,
+            "cand-006": 720,
+            "cand-007": 720,
+            "cand-008": 720,
+            "cand-009": 720,
+            "cand-010": 720,
+            "cand-011": 720,
+            "cand-012": 720,
+            "cand-013": 720,
+            "cand-014": 720,
+            "cand-015": 720,
+            "cand-017": 720,
+            "cand-018": 720,
+            "cand-019": 720,
+            "cand-020": 720,
+            "cand-022": 720,
+            "cand-023": 720,
+            "cand-024": 720,
+            "cand-025": 720,
+            "cand-026": 720,
+            "cand-027": 720,
+            "cand-032": 720,
+            "cand-033": 720,
+            "cand-035": 720,
+            "cand-037": 720,
+            "cand-038": 720,
+            "cand-039": 720,
+            "cand-043": 720,
+            "cand-044": 720,
+            "cand-045": 720,
+            "cand-046": 720,
+            "cand-047": 720,
+            "cand-052": 720,
+            "cand-057": 720,
+            "cand-059": 720,
+            "cand-060": 720,
+            "mixed-scale-on-traffic": 300,
+            "neg-rollback-any": 300,
+            "neg-skip-metrics": 300,
+            "neg-timing-shortcut": 300,
+            "neutral-rephrase": 300,
+            "pos-timing-only": 300,
+            "pos-traffic-check": 300
+          },
+          "first_start": "2026-11-06T22:30:00+00:00",
+          "format_error_episodes": {},
+          "format_errors_total": 0,
+          "last_end": "2026-11-10T03:03:56+00:00",
+          "no_disposition": 6,
+          "policy_time_mean_s": 13.319,
+          "stop_reasons": {
+            "action": 32814,
+            "no_tool_call": 6
+          },
+          "tool_calls": {
+            "counts": {
+              "2": 61,
+              "3": 1055,
+              "4": 26310,
+              "5": 5394
+            },
+            "max": 5,
+            "mean": 4.128,
+            "min": 2
+          },
+          "wall_s": 275636.257
+        },
+        "server_error_events": 0,
+        "sessions": [
+          {
+            "blocks_run": 1,
+            "duration_s": 2765.0,
+            "episodes_failed": 0,
+            "episodes_run": 420,
+            "probe_ratio": 1.3661674077079615,
+            "reason": "max_blocks",
+            "server_errors": 0
+          },
+          {
+            "blocks_run": 26,
+            "duration_s": 63519.0,
+            "episodes_failed": 0,
+            "episodes_run": 8880,
+            "probe_ratio": 1.351393991666714,
+            "reason": "power check failed after block 26: power: not on AC power",
+            "server_errors": 0
+          },
+          {
+            "blocks_run": 66,
+            "duration_s": 152819.0,
+            "episodes_failed": 0,
+            "episodes_run": 23520,
+            "probe_ratio": 1.3652914761164214,
+            "reason": "plan_done",
+            "server_errors": 0
+          }
+        ]
+      },
+      "proposer": {
+        "budget_usd": 5.0,
+        "calls": 61,
+        "cost_usd": 2.672052,
+        "duplicates": 21,
+        "format_errors": 0,
+        "go": true,
+        "invalid": 0,
+        "n_go": 25,
+        "pool_size": 40,
+        "target": 40
+      }
+    }
+  }
+}
