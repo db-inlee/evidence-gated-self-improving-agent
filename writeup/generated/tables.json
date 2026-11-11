@@ -1020,7 +1020,7 @@
         "{{t010.variants.0.name}}",
         "{{t010.variants.0.field}}",
         "{{t010.variants.0.different_disposition}} of {{t010.variants.0.episodes}}",
-        "{{t010.variants.0.moved}}",
+        "n/a (wiring check)",
         "{{t010.variants.0.different_tool_set}}",
         "{{t010.variants.0.traffic_episodes}}",
         "{{t010.variants.0.mean_tool_calls}}"

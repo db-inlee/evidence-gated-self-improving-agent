@@ -44,8 +44,12 @@ class Document:
     lang: str
 
 
-# Ticket 011 §1: 쌍 목록. 상세 문서와 한국어판은 README 재구성·한국어판 단계에서 더한다.
-DOCUMENTS: tuple[Document, ...] = (Document(TEMPLATE_PATH, README_PATH, "en"),)
+# Ticket 011 §1·§2: 쌍 목록. 한국어판은 한국어판 단계에서 더한다.
+DOCUMENTS: tuple[Document, ...] = (
+    Document(TEMPLATE_PATH, README_PATH, "en"),
+    Document(Path("writeup/study-1-mean-gates.template"), Path("docs/study-1-mean-gates.md"), "en"),
+    Document(Path("writeup/study-2-cell-gate.template"), Path("docs/study-2-cell-gate.md"), "en"),
+)
 VALUES_PATH = Path("writeup/generated/values.json")
 TABLES_PATH = Path("writeup/generated/tables.json")
 PAPER_DIR = Path("paper")

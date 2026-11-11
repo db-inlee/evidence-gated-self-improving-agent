@@ -464,16 +464,20 @@ def _t6() -> Table:
     }
 
 
-def _t7() -> Table:
+NOT_COUNTED = "n/a (wiring check)"  # 판정 집계에 들지 않는 변형(P0)의 Moved 칸
+
+
+def _t7(values: Values) -> Table:
     rows = []
     for i in range(7):
         b = f"t010.variants.{i}"
+        judged = values[f"{b}.judged"]["exact"] == "true"
         rows.append(
             [
                 _v(f"{b}.name"),
                 _v(f"{b}.field"),
                 _v(f"{b}.different_disposition") + " of " + _v(f"{b}.episodes"),
-                _v(f"{b}.moved"),
+                _v(f"{b}.moved") if judged else NOT_COUNTED,
                 _v(f"{b}.different_tool_set"),
                 _v(f"{b}.traffic_episodes"),
                 _v(f"{b}.mean_tool_calls"),
@@ -528,7 +532,7 @@ def build_tables(values: Values) -> dict[str, Table]:
         "t4": _t4(),
         "t5": _t5(),
         "t6": _t6(),
-        "t7": _t7(),
+        "t7": _t7(values),
     }
     for table in tables.values():  # 모든 자리표시자가 풀리는지 미리 확인
         for text in (table["title"], table["note"], *(c for row in table["rows"] for c in row)):

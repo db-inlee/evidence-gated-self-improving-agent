@@ -1,0 +1,60 @@
+# Cell-level gate: detailed tables
+
+These tables belong to the cell-gate study in the [README](../README.md#cell-level-gate-confirmatory-study). Every number is generated from `results/ticket-009b/analysis.json`, `results/ticket-009/thresholds.json` and the design constants; none was typed by hand. All rows are pre-registered; rows marked descriptive carry no verdict of the study.
+
+## Gate metrics on ES
+
+Counts over the candidates each gate accepted on ES, scored on the Oracle split (proposer candidates).
+
+| Gate | Accepted | Severe | Local harm | Harmful | Unsupported | Useful | Clean Useful | Gain | False rejection |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| C2 | {{t009b.metrics.C2.es.accepted.count}} | {{t009b.metrics.C2.es.severe.successes}}/{{t009b.metrics.C2.es.severe.n}} | {{t009b.metrics.C2.es.local_harm.successes}}/{{t009b.metrics.C2.es.local_harm.n}} | {{t009b.metrics.C2.es.harmful.successes}}/{{t009b.metrics.C2.es.harmful.n}} | {{t009b.metrics.C2.es.unsupported.successes}}/{{t009b.metrics.C2.es.unsupported.n}} | {{t009b.metrics.C2.es.useful.successes}}/{{t009b.metrics.C2.es.useful.n}} | {{t009b.metrics.C2.es.clean_useful.successes}}/{{t009b.metrics.C2.es.clean_useful.n}} | {{t009b.metrics.C2.es.gain}} | {{t009b.metrics.C2.es.false_rejection.successes}}/{{t009b.metrics.C2.es.false_rejection.n}} |
+| C4 | {{t009b.metrics.C4.es.accepted.count}} | {{t009b.metrics.C4.es.severe.successes}}/{{t009b.metrics.C4.es.severe.n}} | {{t009b.metrics.C4.es.local_harm.successes}}/{{t009b.metrics.C4.es.local_harm.n}} | {{t009b.metrics.C4.es.harmful.successes}}/{{t009b.metrics.C4.es.harmful.n}} | {{t009b.metrics.C4.es.unsupported.successes}}/{{t009b.metrics.C4.es.unsupported.n}} | {{t009b.metrics.C4.es.useful.successes}}/{{t009b.metrics.C4.es.useful.n}} | {{t009b.metrics.C4.es.clean_useful.successes}}/{{t009b.metrics.C4.es.clean_useful.n}} | {{t009b.metrics.C4.es.gain}} | {{t009b.metrics.C4.es.false_rejection.successes}}/{{t009b.metrics.C4.es.false_rejection.n}} |
+| C5 | {{t009b.metrics.C5.es.accepted.count}} | {{t009b.metrics.C5.es.severe.successes}}/{{t009b.metrics.C5.es.severe.n}} | {{t009b.metrics.C5.es.local_harm.successes}}/{{t009b.metrics.C5.es.local_harm.n}} | {{t009b.metrics.C5.es.harmful.successes}}/{{t009b.metrics.C5.es.harmful.n}} | {{t009b.metrics.C5.es.unsupported.successes}}/{{t009b.metrics.C5.es.unsupported.n}} | {{t009b.metrics.C5.es.useful.successes}}/{{t009b.metrics.C5.es.useful.n}} | {{t009b.metrics.C5.es.clean_useful.successes}}/{{t009b.metrics.C5.es.clean_useful.n}} | {{t009b.metrics.C5.es.gain}} | {{t009b.metrics.C5.es.false_rejection.successes}}/{{t009b.metrics.C5.es.false_rejection.n}} |
+| C5′ | {{t009b.metrics.C5p.es.accepted.count}} | {{t009b.metrics.C5p.es.severe.successes}}/{{t009b.metrics.C5p.es.severe.n}} | {{t009b.metrics.C5p.es.local_harm.successes}}/{{t009b.metrics.C5p.es.local_harm.n}} | {{t009b.metrics.C5p.es.harmful.successes}}/{{t009b.metrics.C5p.es.harmful.n}} | {{t009b.metrics.C5p.es.unsupported.successes}}/{{t009b.metrics.C5p.es.unsupported.n}} | {{t009b.metrics.C5p.es.useful.successes}}/{{t009b.metrics.C5p.es.useful.n}} | {{t009b.metrics.C5p.es.clean_useful.successes}}/{{t009b.metrics.C5p.es.clean_useful.n}} | {{t009b.metrics.C5p.es.gain}} | {{t009b.metrics.C5p.es.false_rejection.successes}}/{{t009b.metrics.C5p.es.false_rejection.n}} |
+| C4\* | {{t009b.metrics.C4star.es.accepted.count}} | {{t009b.metrics.C4star.es.severe.successes}}/{{t009b.metrics.C4star.es.severe.n}} | {{t009b.metrics.C4star.es.local_harm.successes}}/{{t009b.metrics.C4star.es.local_harm.n}} | {{t009b.metrics.C4star.es.harmful.successes}}/{{t009b.metrics.C4star.es.harmful.n}} | {{t009b.metrics.C4star.es.unsupported.successes}}/{{t009b.metrics.C4star.es.unsupported.n}} | {{t009b.metrics.C4star.es.useful.successes}}/{{t009b.metrics.C4star.es.useful.n}} | {{t009b.metrics.C4star.es.clean_useful.successes}}/{{t009b.metrics.C4star.es.clean_useful.n}} | {{t009b.metrics.C4star.es.gain}} | {{t009b.metrics.C4star.es.false_rejection.successes}}/{{t009b.metrics.C4star.es.false_rejection.n}} |
+
+On ES, C4 and C5 accepted the same candidates, so the cell condition removed nothing; no gate accepted a candidate with Severe Local Harm on ES.
+
+## Budget curve (descriptive, CD)
+
+Each row recomputes the gates on stratified Dev-B subsamples of N = {{design.budget_ns}} incidents, the same sizes as in the mean-gate study ({{t009b.budget_curve.24.cd.n_resample}} resamples each), and on the full Dev-B ({{design.t009b.dev_b_size}}, one evaluation). Values are means over resamples: the share of proposer candidates accepted, the number of Severe candidates accepted, and the differences C4 minus C5.
+
+| Dev-B size | Accepted C2 | Accepted C4 | Accepted C5 | Severe in C4 | Severe in C5 | Severe, C4 − C5 | Useful, C4 − C5 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| smallest subsample | {{t009b.budget_curve.24.cd.acceptance.C2.mean}} | {{t009b.budget_curve.24.cd.acceptance.C4.mean}} | {{t009b.budget_curve.24.cd.acceptance.C5.mean}} | {{t009b.budget_curve.24.cd.severe_c4.mean}} | {{t009b.budget_curve.24.cd.severe_c5.mean}} | {{t009b.budget_curve.24.cd.severe_diff.mean}} | {{t009b.budget_curve.24.cd.useful_diff.mean}} |
+| second subsample | {{t009b.budget_curve.48.cd.acceptance.C2.mean}} | {{t009b.budget_curve.48.cd.acceptance.C4.mean}} | {{t009b.budget_curve.48.cd.acceptance.C5.mean}} | {{t009b.budget_curve.48.cd.severe_c4.mean}} | {{t009b.budget_curve.48.cd.severe_c5.mean}} | {{t009b.budget_curve.48.cd.severe_diff.mean}} | {{t009b.budget_curve.48.cd.useful_diff.mean}} |
+| third subsample | {{t009b.budget_curve.96.cd.acceptance.C2.mean}} | {{t009b.budget_curve.96.cd.acceptance.C4.mean}} | {{t009b.budget_curve.96.cd.acceptance.C5.mean}} | {{t009b.budget_curve.96.cd.severe_c4.mean}} | {{t009b.budget_curve.96.cd.severe_c5.mean}} | {{t009b.budget_curve.96.cd.severe_diff.mean}} | {{t009b.budget_curve.96.cd.useful_diff.mean}} |
+| fourth subsample | {{t009b.budget_curve.204.cd.acceptance.C2.mean}} | {{t009b.budget_curve.204.cd.acceptance.C4.mean}} | {{t009b.budget_curve.204.cd.acceptance.C5.mean}} | {{t009b.budget_curve.204.cd.severe_c4.mean}} | {{t009b.budget_curve.204.cd.severe_c5.mean}} | {{t009b.budget_curve.204.cd.severe_diff.mean}} | {{t009b.budget_curve.204.cd.useful_diff.mean}} |
+| full Dev-B ({{design.t009b.dev_b_size}}) | {{t009b.budget_curve.420.cd.acceptance.C2.mean}} | {{t009b.budget_curve.420.cd.acceptance.C4.mean}} | {{t009b.budget_curve.420.cd.acceptance.C5.mean}} | {{t009b.budget_curve.420.cd.severe_c4.mean}} | {{t009b.budget_curve.420.cd.severe_c5.mean}} | {{t009b.budget_curve.420.cd.severe_diff.mean}} | {{t009b.budget_curve.420.cd.useful_diff.mean}} |
+
+## Thresholds h, δ and τ
+
+h(n_c) and δ(N) come from S0-vs-S0 calibration runs ({{t009.thresholds.settings.cases_per_cell}} incidents per cell, repeats {{t009.thresholds.settings.repeats}}); τ_cell is the oracle threshold per cell.
+
+| Metric | h({{design.t009b.h_n}}) | False rejection of h | δ({{design.t009b.delta_n}}) |
+| --- | --- | --- | --- |
+| CD | {{t009b.h.cd.70.h}} | {{t009b.h.cd.70.achieved_false_rejection}} | {{t009b.delta.cd.420}} |
+| ES | {{t009b.h.es.70.h}} | {{t009b.h.es.70.achieved_false_rejection}} | {{t009b.delta.es.420}} |
+
+τ_cell on CD by cell: bad_deployment/L1 {{t009b.tau.cd.bad_deployment/L1}}, bad_deployment/L2 {{t009b.tau.cd.bad_deployment/L2}}, dependency_failure/L1 {{t009b.tau.cd.dependency_failure/L1}}, dependency_failure/L2 {{t009b.tau.cd.dependency_failure/L2}}, traffic_spike/L1 {{t009b.tau.cd.traffic_spike/L1}}, traffic_spike/L2 {{t009b.tau.cd.traffic_spike/L2}}.
+
+## Controls (Oracle only)
+
+Hand-written controls with labels fixed before measurement. *Check* compares the oracle effect estimate with the label.
+
+| Control | Label | CD Δ | CD check | ES Δ | ES check |
+| --- | --- | --- | --- | --- | --- |
+| mixed-scale-on-traffic | {{t009b.controls.mixed-scale-on-traffic.cd.prior}} | {{t009b.controls.mixed-scale-on-traffic.cd.delta}} | {{t009b.controls.mixed-scale-on-traffic.cd.check}} | {{t009b.controls.mixed-scale-on-traffic.es.delta}} | {{t009b.controls.mixed-scale-on-traffic.es.check}} |
+| neg-rollback-any | {{t009b.controls.neg-rollback-any.cd.prior}} | {{t009b.controls.neg-rollback-any.cd.delta}} | {{t009b.controls.neg-rollback-any.cd.check}} | {{t009b.controls.neg-rollback-any.es.delta}} | {{t009b.controls.neg-rollback-any.es.check}} |
+| neg-skip-metrics | {{t009b.controls.neg-skip-metrics.cd.prior}} | {{t009b.controls.neg-skip-metrics.cd.delta}} | {{t009b.controls.neg-skip-metrics.cd.check}} | {{t009b.controls.neg-skip-metrics.es.delta}} | {{t009b.controls.neg-skip-metrics.es.check}} |
+| neg-timing-shortcut | {{t009b.controls.neg-timing-shortcut.cd.prior}} | {{t009b.controls.neg-timing-shortcut.cd.delta}} | {{t009b.controls.neg-timing-shortcut.cd.check}} | {{t009b.controls.neg-timing-shortcut.es.delta}} | {{t009b.controls.neg-timing-shortcut.es.check}} |
+| neutral-rephrase | {{t009b.controls.neutral-rephrase.cd.prior}} | {{t009b.controls.neutral-rephrase.cd.delta}} | {{t009b.controls.neutral-rephrase.cd.check}} | {{t009b.controls.neutral-rephrase.es.delta}} | {{t009b.controls.neutral-rephrase.es.check}} |
+| pos-timing-only | {{t009b.controls.pos-timing-only.cd.prior}} | {{t009b.controls.pos-timing-only.cd.delta}} | {{t009b.controls.pos-timing-only.cd.check}} | {{t009b.controls.pos-timing-only.es.delta}} | {{t009b.controls.pos-timing-only.es.check}} |
+| pos-traffic-check | {{t009b.controls.pos-traffic-check.cd.prior}} | {{t009b.controls.pos-traffic-check.cd.delta}} | {{t009b.controls.pos-traffic-check.cd.check}} | {{t009b.controls.pos-traffic-check.es.delta}} | {{t009b.controls.pos-traffic-check.es.check}} |
+
+Fitness of the oracle (pre-registered F) asks whether some control moves the L1 and L2 cells of one family apart, by opposite signs beyond τ or by a large size gap, so that per-cell scoring can matter. CD: {{t009b.fitness.cd.fit}} (sign rule met: {{t009b.fitness.cd.sign_met}}, size rule met: {{t009b.fitness.cd.size_met}}); ES: {{t009b.fitness.es.fit}} (sign rule met: {{t009b.fitness.es.sign_met}}, size rule met: {{t009b.fitness.es.size_met}}).
+
+## Null label rates (planning estimate)
+
+For a candidate with no effect, the planning simulation gave a Local Harm label rate of {{t009b.null_label_rate_plan.local_harm}} and a Severe Local Harm rate of {{t009b.null_label_rate_plan.severe}}. Because τ_cell equals ε, Local Harm is broad; Severe is the primary label.

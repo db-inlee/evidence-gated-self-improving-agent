@@ -17,6 +17,7 @@ import pytest
 
 from evidencegate.writeup_render import (
     BANNED,
+    DOCUMENTS,
     Violation,
     check_rendered,
     check_source,
@@ -264,6 +265,8 @@ def write_repo(tmp_path: Path, template: str, readme: str | None = None) -> Path
             (REPO_ROOT / "writeup" / "generated" / name).read_bytes()
         )
     (root / "writeup" / "README.template").write_text(template)
+    for doc in DOCUMENTS[1:]:  # 등록된 상세 문서 템플릿은 저장소 것을 그대로 쓴다
+        (root / doc.template).write_bytes((REPO_ROOT / doc.template).read_bytes())
     if readme is not None:
         (root / "README.md").write_text(readme)
     return root

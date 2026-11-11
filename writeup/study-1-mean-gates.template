@@ -1,0 +1,23 @@
+# Mean-based gates: detailed tables
+
+These tables belong to the mean-gate study in the [README](../README.md#mean-based-gates-earlier-study). Every number is generated from the committed result files; none was typed by hand.
+
+## Pre-registered metrics per gate
+
+**T2. Pre-registered metrics per gate (proposer candidates).**
+
+{{table:t2}}
+
+## Exploratory: E1 tables
+
+*Exploratory.* E1 is defined in the README, exploratory finding (b): the mean of the three L2 cell estimates, fixed before computing it.
+
+{{table:e1}}
+
+{{table:e1_family}}
+
+## Appendix: E1 for controls and on ES
+
+*Exploratory.*
+
+{{table:e1_appendix}}

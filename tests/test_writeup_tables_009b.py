@@ -128,8 +128,17 @@ def test_t7_has_one_row_per_probe_variant_and_the_s0_row(
     found = set(keys(tables["t7"]))
     for i in range(7):
         for f in ("different_disposition", "different_tool_set", "traffic_episodes",
-                  "mean_tool_calls", "moved"):  # fmt: skip
+                  "mean_tool_calls"):  # fmt: skip
             assert f"t010.variants.{i}.{f}" in found, (i, f)
+    # 판정 집계에 들지 않는 변형(P0, judged = false)은 Moved 칸에 "n/a (wiring check)"
+    for i in range(7):
+        judged = values[f"t010.variants.{i}.judged"]["exact"] == "true"
+        moved_cell = rows[i][3]
+        if judged:
+            assert moved_cell == "{{" + f"t010.variants.{i}.moved" + "}}", i
+        else:
+            assert moved_cell == "n/a (wiring check)", i
+    assert values["t010.variants.0.judged"]["exact"] == "false"
     assert "t010.decision.verdict" in found
 
 
@@ -175,8 +184,16 @@ def test_names_with_numbers_outside_the_list_are_refused(values: dict[str, Any],
 # 문서 쌍 목록 -----------------------------------------------------------------------------------
 
 
-def test_documents_register_only_the_english_readme_for_now() -> None:
-    expected = (wr.Document(Path("writeup/README.template"), Path("README.md"), "en"),)
+def test_documents_are_the_readme_and_the_two_study_pages() -> None:
+    expected = (
+        wr.Document(Path("writeup/README.template"), Path("README.md"), "en"),
+        wr.Document(
+            Path("writeup/study-1-mean-gates.template"), Path("docs/study-1-mean-gates.md"), "en"
+        ),
+        wr.Document(
+            Path("writeup/study-2-cell-gate.template"), Path("docs/study-2-cell-gate.md"), "en"
+        ),
+    )
     assert expected == wr.DOCUMENTS
 
 
