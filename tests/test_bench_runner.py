@@ -261,11 +261,16 @@ def test_with_two_workers_at_most_the_in_flight_episode_runs_after_the_stop(tmp_
 
 
 def test_a_success_resets_the_consecutive_failure_count(tmp_path: Path) -> None:
-    """실패, 실패, 성공, 실패, 실패, 성공 ... 은 멈추지 않는다."""
+    """실패, 실패, 성공, 실패, 실패, 성공 ... 은 멈추지 않는다.
+
+    끝나는 순서가 이 순서여야 하므로 한 작업자로 돈다(동시 2에서는 끝나는 순서가 바뀌어 연속
+    실패 3이 되는 간헐 실패가 있었다, 2026-11-11).
+    """
     dev_a = split_cases("dev_a")[:6]
     failing = {dev_a[i][2] for i in (0, 1, 3, 4)}
     plan = [block(0, "cand-000", CAND, "skills/candidates/cand-000/SKILL.md", "dev_a", 0, 6)]
-    summary = run(tmp_path, plan, FakePolicy(fail=lambda seed, attempt: seed in failing))
+    policy = FakePolicy(fail=lambda seed, attempt: seed in failing)
+    summary = run(tmp_path, plan, policy, workers=1)
     assert (summary.episodes_run, summary.episodes_failed) == (2, 4)
 
 
