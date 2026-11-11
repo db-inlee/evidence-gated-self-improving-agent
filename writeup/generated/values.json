@@ -2559,6 +2559,16 @@
     "exact": "741ba9d43092be4214e6550fbc0e5ab87ad717e7618e9b338220484b034b407d",
     "kind": "provenance"
   },
+  "hash.records_archive_009b": {
+    "display": "285835d6738465102b1b46c030b072da56a6f14ddee79ee7a0174916384734a9",
+    "exact": "285835d6738465102b1b46c030b072da56a6f14ddee79ee7a0174916384734a9",
+    "kind": "provenance"
+  },
+  "hash.records_archive_010_probe": {
+    "display": "b03be8c15ce67235f0a36d4f0a29e54fd95d993434e79bf2bc83c86a1f108f1b",
+    "exact": "b03be8c15ce67235f0a36d4f0a29e54fd95d993434e79bf2bc83c86a1f108f1b",
+    "kind": "provenance"
+  },
   "hash.run_summary": {
     "display": "f5616fa3d49481f79d844aa028a34ea7d06869c589235d335c0da16b719474a9",
     "exact": "f5616fa3d49481f79d844aa028a34ea7d06869c589235d335c0da16b719474a9",
@@ -2737,6 +2747,56 @@
   "release.secret_patterns": {
     "display": "10",
     "exact": "10",
+    "kind": "run"
+  },
+  "release.t009b.archive": {
+    "display": "evidencegate-records-009b.tar.gz",
+    "exact": "evidencegate-records-009b.tar.gz",
+    "kind": "provenance"
+  },
+  "release.t009b.archive_bytes": {
+    "display": "9380722",
+    "exact": "9380722",
+    "kind": "run"
+  },
+  "release.t009b.file_count": {
+    "display": "239",
+    "exact": "239",
+    "kind": "run"
+  },
+  "release.t009b.secret_hits": {
+    "display": "0",
+    "exact": "0",
+    "kind": "run"
+  },
+  "release.t009b.secret_patterns": {
+    "display": "11",
+    "exact": "11",
+    "kind": "run"
+  },
+  "release.t010_probe.archive": {
+    "display": "evidencegate-records-010-probe.tar.gz",
+    "exact": "evidencegate-records-010-probe.tar.gz",
+    "kind": "provenance"
+  },
+  "release.t010_probe.archive_bytes": {
+    "display": "114711",
+    "exact": "114711",
+    "kind": "run"
+  },
+  "release.t010_probe.file_count": {
+    "display": "8",
+    "exact": "8",
+    "kind": "run"
+  },
+  "release.t010_probe.secret_hits": {
+    "display": "0",
+    "exact": "0",
+    "kind": "run"
+  },
+  "release.t010_probe.secret_patterns": {
+    "display": "11",
+    "exact": "11",
     "kind": "run"
   },
   "run.same_seed.ignored.concurrent_2": {

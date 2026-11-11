@@ -1,0 +1,69 @@
+{
+  "archive": "evidencegate-records-010-probe.tar.gz",
+  "archive_bytes": 114711,
+  "archive_sha256": "b03be8c15ce67235f0a36d4f0a29e54fd95d993434e79bf2bc83c86a1f108f1b",
+  "excluded": [],
+  "files": [
+    {
+      "bytes": 228538,
+      "path": "t010_probe/ollama__gpt-oss__20b__0f4797766552/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "4eab0c20fb089efc1f93bc9b4ec08da77a73f6f67e711cdcbd6c2a1ab4630b41"
+    },
+    {
+      "bytes": 228880,
+      "path": "t010_probe/ollama__gpt-oss__20b__45d7ef25ce2a/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "de5f94ac4f8ff3bd122451d9103010e0d242eab1f4bfb05c9af1c65012b4a5ee"
+    },
+    {
+      "bytes": 191537,
+      "path": "t010_probe/ollama__gpt-oss__20b__51a6405aa551/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "ad9aaded2984034c4f1d82bf3566af9470b61d26836b26061b24edb402d0515c"
+    },
+    {
+      "bytes": 228671,
+      "path": "t010_probe/ollama__gpt-oss__20b__7d2a55d298d8/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "999b024c52cfeb61c4955c18afcdbfa8b2e781e7f605b71b2e3987631f046353"
+    },
+    {
+      "bytes": 241175,
+      "path": "t010_probe/ollama__gpt-oss__20b__d2d566afa573/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "ca6a5a5e9984f6f13020e7822e0169ffec79a4444f37891420f696eae7782967"
+    },
+    {
+      "bytes": 229043,
+      "path": "t010_probe/ollama__gpt-oss__20b__e7da9d046fc9/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "07ae24cf6590001e76339a3f60b3a06cbed88dfc1bb25497925f90af8765fee5"
+    },
+    {
+      "bytes": 236924,
+      "path": "t010_probe/ollama__gpt-oss__20b__f6ebaa6169ae/e9b4996f7529/bf65e569ae37.jsonl",
+      "sha256": "0e26efdc5ddf7a882d500cb832e002fe5213f711a7efe70a619f392d7c7164ca"
+    },
+    {
+      "bytes": 5775,
+      "path": "ticket010/probe/sessions.jsonl",
+      "sha256": "2f68e52dcd4b547bb8af819af3b1e14f15ca0a59cfa3d7be9c61394c7afe390d"
+    }
+  ],
+  "included": [
+    "t010_probe",
+    "ticket010/probe/sessions.jsonl"
+  ],
+  "secret_scan": {
+    "checked": [
+      "api_key_field",
+      "aws_key",
+      "bearer_token",
+      "email",
+      "github_token",
+      "home_path",
+      "openai_env",
+      "openai_key",
+      "private_key",
+      "slack_token",
+      "secret_names"
+    ],
+    "hits": 0,
+    "patterns": 11
+  }
+}
