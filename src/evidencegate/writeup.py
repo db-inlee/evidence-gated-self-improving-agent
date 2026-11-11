@@ -26,13 +26,14 @@ import json
 import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from decimal import Decimal
 from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
 from evidencegate import eval_constants as c
-from evidencegate import splits
+from evidencegate import release_009b, splits
 from evidencegate.analysis import REPO_ROOT, load_pool
 from evidencegate.run_summary import summary_bytes
 from evidencegate.t009 import splits as t009_splits
@@ -48,6 +49,7 @@ DEFAULT_OUT = Path("writeup/generated/values.json")
 T005_PLAN = Path("plans/ticket-005-plan.json")
 
 # 후속 연구 입력(Ticket 011 §1). 결과 파일은 읽기만 한다.
+RELEASE_MANIFESTS_009B = release_009b.MANIFESTS  # 압축본마다 매니페스트(있는 것만 편다)
 T009B_PATH = Path("results/ticket-009b/analysis.json")
 T009B_SIDECAR = Path("results/ticket-009b/analysis.json.sha256")
 T010_PATH = Path("results/ticket-010/probe.json")
@@ -423,6 +425,7 @@ class FollowUp:
     thresholds: dict[str, Any]
     run_009b: dict[str, Any]
     preregistration_009_sha256: str
+    releases: dict[str, dict[str, Any]] = dataclass_field(default_factory=dict)  # 있는 매니페스트만
 
 
 def _file_sha(path: Path) -> str:
@@ -462,9 +465,43 @@ def load_follow_up(root: Path) -> FollowUp:
     prereg_009 = _file_sha(root / PREREG_009_PATH)
     if recorded_sha256(root / PREREG_009_SHA_PATH) != prereg_009:
         raise ValueError(f"{PREREG_009_PATH} sha256 {prereg_009} does not match its record")
+    releases = {
+        key: json.loads((root / rel).read_text(encoding="utf-8"))
+        for key, rel in RELEASE_MANIFESTS_009B.items()
+        if (root / rel).exists()
+    }
     return FollowUp(
-        data["t009b"], data["t010"], data["t009_thresholds"], data["run_summary_009b"], prereg_009
+        data["t009b"],
+        data["t010"],
+        data["t009_thresholds"],
+        data["run_summary_009b"],
+        prereg_009,
+        releases,
     )
+
+
+RELEASE_HASH_KEYS = {
+    "t009b": "hash.records_archive_009b",
+    "t010_probe": "hash.records_archive_010_probe",
+}
+
+
+def follow_up_release_values(manifests: Mapping[str, Mapping[str, Any]]) -> dict[str, Value]:
+    """009b·010 탐침 압축본 매니페스트(있는 것만)의 이름·해시·크기·파일 수·비밀 검사 결과."""
+    out: dict[str, Value] = {}
+    for key, m in manifests.items():
+        digest = m["archive_sha256"]
+        out[RELEASE_HASH_KEYS[key]] = {"exact": digest, "display": digest, "kind": "provenance"}
+        out[f"release.{key}.archive"] = {
+            "exact": m["archive"],
+            "display": m["archive"],
+            "kind": "provenance",
+        }
+        out[f"release.{key}.archive_bytes"] = _leaf(m["archive_bytes"], "run")
+        out[f"release.{key}.file_count"] = _leaf(len(m["files"]), "run")
+        out[f"release.{key}.secret_hits"] = _leaf(m["secret_scan"]["hits"], "run")
+        out[f"release.{key}.secret_patterns"] = _leaf(m["secret_scan"]["patterns"], "run")
+    return out
 
 
 def _design_009b_values() -> dict[str, Value]:
@@ -519,6 +556,7 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
         **flatten_result("provenance", provenance, kind="provenance"),
         **_design_009b_values(),
         "derived.t009b.cluster_groups": _leaf(groups, "derived"),
+        **follow_up_release_values(f.releases),
         **{k: {"exact": v, "display": v, "kind": "provenance"} for k, v in hashes.items()},
     }
 
