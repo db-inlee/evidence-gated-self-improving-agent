@@ -117,10 +117,12 @@ def test_names_and_identifiers_are_allowed(values: dict[str, Any], text: str) ->
     assert check_source(f"## Design\n\n{text}\n", "md", values) == []
 
 
-def test_ticket_names_are_allowed_only_up_to_the_closed_ticket_008(
+def test_ticket_names_are_allowed_only_up_to_the_closed_ticket_010(
     values: dict[str, Any],
 ) -> None:
-    assert "number" in rules(check_source("## Design\n\nTicket 009 is next.\n", "md", values))
+    """Ticket 011(정리)은 README가 말할 이유가 없어 허용하지 않는다(Ticket 011 §1)."""
+    assert check_source("## Design\n\nTicket 009b and Ticket 010 are closed.\n", "md", values) == []
+    assert "number" in rules(check_source("## Design\n\nTicket 011 is next.\n", "md", values))
 
 
 def test_numbered_lists_and_headings_are_allowed(values: dict[str, Any]) -> None:

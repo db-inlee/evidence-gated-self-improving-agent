@@ -2,6 +2,8 @@
 
     uv run python -m evidencegate.writeup_artifacts
 
+- 표 T4~T7(Ticket 011 §1): T4 009b 사전 등록 판정(RQ9-1~5, 기술용 행 표시), T5 게이트별 지표(CD,
+  C2·C4·C5·C5p·C4star), T6 6.6 군집 민감도, T7 010 탐침(exploratory 값만). 형식은 T1~T3과 같다.
 - 표 T1~T3: 칸은 템플릿 문자열이고 숫자는 자리표시자 `{{키}}`로만 들어간다. 템플릿에 자리표시자
   밖의 숫자는 이름(C1, L2, RQ-L3-0, Ticket 005 등)뿐이다(테스트로 확인). `tables.json`에 템플릿을,
   `t1.tex`~`t3.tex`에 LaTeX 조각을 쓴다. README 표는 렌더 때 `table_md`로 만든다(`.md` 파일을 쓰지
@@ -39,10 +41,29 @@ VALUES_PATH = Path("writeup/generated/values.json")
 OUT_DIR = Path("writeup/generated")
 PLACEHOLDER = re.compile(r"\{\{([^{}]+)\}\}")
 NEGATIVE_NUMBER = re.compile(r"(?<![\w$])-(?=\d)")
-# 자리표시자 밖에 올 수 있는 숫자 섞인 이름(Ticket 007 §1 허용 목록 중 표에 쓰는 것)
-ALLOWED_NAME = re.compile(
-    r"\b(?:RQ-L3-[0-3]|RQ[1-3]|C[1-4]|L[1-3]|S0|Ticket 00[4-7]|T[1-3]|F[1-4])\b"
+# 자리표시자 밖에 올 수 있는 숫자 섞인 이름(Ticket 007 §1, Ticket 011 §1). writeup_render도
+# 이 목록을 그대로 쓴다(두 목록이 같은지 테스트).
+# Ticket 011, h(70), δ(420), 2x2 표 이름은 넣지 않는다.
+NAME_PATTERNS: tuple[str, ...] = (
+    r"\bRQ-L3-[0-3]\b",
+    r"\bRQ9-[1-5]\b",
+    r"\bRQ[1-3]\b",
+    r"\bC[1-5]\b",  # C5 prime, C4 star의 C5·C4도 지운다
+    r"\bL[1-3]\b",
+    r"\bS0\b",
+    r"\bE1\b",  # 탐색 계산의 이름
+    r"\bT[1-7]\b",
+    r"\bF[1-4]\b",
+    r"\bP[0-6]\b",  # 010 탐침 변형
+    r"\bTicket 00[1-8]\b",  # 008: 닫힌 ALFWorld 파일럿(2026-11-04)
+    r"\bTicket 009b?\b",
+    r"\bTicket 010\b",
+    r"\bticket-00[1-8]\b",
+    r"\bticket-009b?\b",
+    r"\bticket-010\b",
+    r"\bcand-\d{3}\b",
 )
+ALLOWED_NAME = re.compile("|".join(f"(?:{p})" for p in NAME_PATTERNS))
 METRICS = (("cd", "CD"), ("es", "ES"))
 GATES = ("C1", "C2", "C3", "C4")
 FAMILIES = ("bad_deployment", "dependency_failure", "traffic_spike")
@@ -279,8 +300,236 @@ def _e1_tables(values: Values) -> dict[str, Table]:
     }
 
 
+def _rate(base: str) -> str:
+    return _v(f"{base}.successes") + "/" + _v(f"{base}.n")
+
+
+def _afkn(base: str) -> str:
+    return ", ".join(f"{f} {_v(f'{base}.{f}')}" for f in ("a", "f", "k", "n"))
+
+
+def _rq9_5_counts(base: str) -> str:
+    """사전 등록 6.5의 m, d, s1(C5만의 Severe), s2(C4*만의 Severe). 칸에 숫자 이름을 쓰지 않는다."""
+    return (
+        f"admitted {_v(base + '.m')}, set difference {_v(base + '.d')}, "
+        f"Severe in C5 only {_v(base + '.s1')}, in C4* only {_v(base + '.s2')}"
+    )
+
+
+def _t4() -> Table:
+    rq = "t009b.rq"
+    s1s2 = _rq9_5_counts(f"{rq}.rq9_5")
+    rows = [
+        [
+            "RQ9-1",
+            "C4-accepted candidates: Severe Local Harm among those C5 rejects and those it keeps "
+            "(one-sided Fisher test)",
+            _afkn(f"{rq}.rq9_1"),
+            "p = " + _v(f"{rq}.rq9_1.p"),
+            _v(f"{rq}.rq9_1.verdict"),
+        ],
+        [
+            "RQ9-1 (descriptive)",
+            "the same table with the Local Harm label",
+            _afkn(f"{rq}.rq9_1_local_harm"),
+            "p = " + _v(f"{rq}.rq9_1_local_harm.p"),
+            _v(f"{rq}.rq9_1_local_harm.verdict"),
+        ],
+        [
+            "RQ9-2",
+            "clean Useful C4 candidates that C5 rejects",
+            _v(f"{rq}.rq9_2.u") + " of " + _v(f"{rq}.rq9_2.useful_c4"),
+            "",
+            _v(f"{rq}.rq9_2.verdict"),
+        ],
+        [
+            "RQ9-2 (descriptive)",
+            "all Useful C4 candidates that C5 rejects",
+            _v(f"{rq}.rq9_2_all_useful.u") + " of " + _v(f"{rq}.rq9_2_all_useful.useful_c4"),
+            "",
+            _v(f"{rq}.rq9_2_all_useful.verdict"),
+        ],
+        [
+            "RQ9-3",
+            "Severe among C4-accepted candidates, Clopper\u2013Pearson interval",
+            _v(f"{rq}.rq9_3.k") + "/" + _v(f"{rq}.rq9_3.n"),
+            _v(f"{rq}.rq9_3.interval"),
+            _v(f"{rq}.rq9_3.verdict"),
+        ],
+        [
+            "RQ9-3 (descriptive)",
+            "the same for C2",
+            _v(f"{rq}.rq9_3_c2.k") + "/" + _v(f"{rq}.rq9_3_c2.n"),
+            _v(f"{rq}.rq9_3_c2.interval"),
+            _v(f"{rq}.rq9_3_c2.verdict"),
+        ],
+        [
+            "RQ9-5",
+            "C5 against the strict mean gate C4* that admits as many candidates "
+            "(hypergeometric test on the set difference)",
+            s1s2,
+            "p = " + _v(f"{rq}.rq9_5.p"),
+            _v(f"{rq}.rq9_5.verdict"),
+        ],
+        [
+            "RQ9-5 (descriptive)",
+            "count rule: Severe admitted by C5 and by C4*",
+            "C5 " + _v(f"{rq}.rq9_5.severe_c5") + ", C4* " + _v(f"{rq}.rq9_5.severe_c4_star"),
+            "",
+            _v(f"{rq}.rq9_5.verdict_count"),
+        ],
+    ]
+    return {
+        "id": "t4",
+        "title": "Pre-registered verdicts (Ticket 009b, proposer candidates, CD)",
+        "note": "Verdict categories as recorded in the result file. Rows marked descriptive were "
+        "pre-registered as descriptive companions and are not verdicts of the study.",
+        "columns": ["Question", "Scope", "Counts", "Test", "Verdict"],
+        "rows": rows,
+    }
+
+
+T5_GATES = (("C2", "C2"), ("C4", "C4"), ("C5", "C5"), ("C5\u2032", "C5p"), ("C4*", "C4star"))
+T5_RATES = (
+    ("Severe", "severe"),
+    ("Local harm", "local_harm"),
+    ("Harmful", "harmful"),
+    ("Unsupported", "unsupported"),
+    ("Useful", "useful"),
+    ("Clean Useful", "clean_useful"),
+)
+
+
+def _t5() -> Table:
+    rows = []
+    for label, key in T5_GATES:
+        base = f"t009b.metrics.{key}.cd"
+        rows.append(
+            [
+                label,
+                _v(f"{base}.accepted.count"),
+                *(_rate(f"{base}.{m}") for _, m in T5_RATES),
+                _v(f"{base}.gain"),
+                _rate(f"{base}.false_rejection"),
+            ]
+        )
+    return {
+        "id": "t5",
+        "title": "Pre-registered metrics per gate (Ticket 009b, proposer candidates, CD)",
+        "note": "Counts over the candidates each gate accepted, scored on the Oracle split. "
+        "C5\u2032 and C4* are the comparison gates of the pre-registration.",
+        "columns": ["Gate", "Accepted", *(name for name, _ in T5_RATES), "Gain", "False rejection"],
+        "rows": rows,
+    }
+
+
+def _t6() -> Table:
+    cs = "t009b.cluster_sensitivity"
+    s1s2 = _rq9_5_counts(f"{cs}.rq9_5")
+    rows = [
+        ["Representatives (one per idea group)", _v("derived.t009b.cluster_groups"), "", ""],
+        [
+            "RQ9-1 on the representatives (sensitivity verdict)",
+            _afkn(f"{cs}.rq9_1"),
+            "p = " + _v(f"{cs}.rq9_1.p"),
+            _v(f"{cs}.rq9_1.verdict"),
+        ],
+        [
+            "RQ9-3 on the representatives (descriptive)",
+            _v(f"{cs}.rq9_3.k") + "/" + _v(f"{cs}.rq9_3.n"),
+            _v(f"{cs}.rq9_3.interval"),
+            _v(f"{cs}.rq9_3.verdict"),
+        ],
+        [
+            "RQ9-5 on the representatives (descriptive)",
+            s1s2,
+            "p = " + _v(f"{cs}.rq9_5.p"),
+            _v(f"{cs}.rq9_5.verdict"),
+        ],
+        [
+            "Sensitivity verdict differs from the main verdict",
+            _v(f"{cs}.differs_from_main"),
+            "",
+            "",
+        ],
+    ]
+    return {
+        "id": "t6",
+        "title": "Pre-registered cluster sensitivity "
+        "(Ticket 009b, one representative per idea group)",
+        "note": "The main verdicts stay those of the full pool; this table repeats them on the "
+        "earliest candidate of each idea group.",
+        "columns": ["Quantity", "Counts", "Test", "Verdict"],
+        "rows": rows,
+    }
+
+
+def _t7() -> Table:
+    rows = []
+    for i in range(7):
+        b = f"t010.variants.{i}"
+        rows.append(
+            [
+                _v(f"{b}.name"),
+                _v(f"{b}.field"),
+                _v(f"{b}.different_disposition") + " of " + _v(f"{b}.episodes"),
+                _v(f"{b}.moved"),
+                _v(f"{b}.different_tool_set"),
+                _v(f"{b}.traffic_episodes"),
+                _v(f"{b}.mean_tool_calls"),
+            ]
+        )
+    rows.append(
+        [
+            "S0",
+            "baseline (Dev-A records)",
+            "",
+            "",
+            "",
+            _v("t010.s0.traffic_episodes"),
+            _v("t010.s0.mean_tool_calls"),
+        ]
+    )
+    return {
+        "id": "t7",
+        "title": "Harness knob probe on Dev-A (Ticket 010, exploratory)",
+        "note": "Exploratory. A variant moved if at least "
+        + _v("t010.rule.k")
+        + " of "
+        + _v("t010.rule.episodes")
+        + " dispositions differed from S0; the rule fixed before the run asked for "
+        + _v("t010.rule.m")
+        + " moved variants. P0 caps tool calls at "
+        + _v("t010.variants.0.max_tool_calls")
+        + " as a wiring check and is not counted; it needed "
+        + _v("t010.rule.p0_min")
+        + ". Decision: "
+        + _v("t010.decision.verdict")
+        + ".",
+        "columns": [
+            "Variant",
+            "Field",
+            "Dispositions differing from S0",
+            "Moved",
+            "Tool set differs",
+            "Traffic tool called",
+            "Mean tool calls",
+        ],
+        "rows": rows,
+    }
+
+
 def build_tables(values: Values) -> dict[str, Table]:
-    tables = {"t1": _t1(), "t2": _t2(), "t3": _t3(), **_e1_tables(values)}
+    tables = {
+        "t1": _t1(),
+        "t2": _t2(),
+        "t3": _t3(),
+        **_e1_tables(values),
+        "t4": _t4(),
+        "t5": _t5(),
+        "t6": _t6(),
+        "t7": _t7(),
+    }
     for table in tables.values():  # 모든 자리표시자가 풀리는지 미리 확인
         for text in (table["title"], table["note"], *(c for row in table["rows"] for c in row)):
             fill(text, values)

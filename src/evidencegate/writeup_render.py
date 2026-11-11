@@ -1,7 +1,7 @@
 """원고 렌더러와 검사 도구 (Ticket 007 §1 검사 1~4).
 
-    uv run python -m evidencegate.writeup_render render   # writeup/README.template → README.md
-    uv run python -m evidencegate.writeup_render check    # 템플릿·README·paper/*.tex 검사
+    uv run python -m evidencegate.writeup_render render   # DOCUMENTS 템플릿 → 출력(지금 README.md)
+    uv run python -m evidencegate.writeup_render check    # 템플릿·출력·paper/*.tex 검사
 
 자리표시자: Markdown 원본은 `{{키}}`와 `{{table:t1}}`, LaTeX 원본은 `\\R{키}`. 키는
 `writeup/generated/values.json`에 있어야 한다.
@@ -28,10 +28,24 @@ from pathlib import Path
 from typing import Any
 
 from evidencegate.analysis import REPO_ROOT
+from evidencegate.writeup_artifacts import NAME_PATTERNS as NAME_PATTERNS
 from evidencegate.writeup_artifacts import build_tables, fill, table_md
 
 TEMPLATE_PATH = Path("writeup/README.template")
 README_PATH = Path("README.md")
+
+
+@dataclass(frozen=True)
+class Document:
+    """렌더·검사하는 문서 하나: 템플릿, 출력(저장소 기준), 언어(en/ko)."""
+
+    template: Path
+    output: Path
+    lang: str
+
+
+# Ticket 011 §1: 쌍 목록. 상세 문서와 한국어판은 README 재구성·한국어판 단계에서 더한다.
+DOCUMENTS: tuple[Document, ...] = (Document(TEMPLATE_PATH, README_PATH, "en"),)
 VALUES_PATH = Path("writeup/generated/values.json")
 TABLES_PATH = Path("writeup/generated/tables.json")
 PAPER_DIR = Path("paper")
@@ -57,30 +71,18 @@ BANNED_RE = re.compile(
 )
 EXPLORATORY_SECTION = re.compile(r"exploratory|appendix", re.IGNORECASE)
 
-# 자리표시자 밖에 올 수 있는 숫자 섞인 이름과 식별자(Ticket 007 §1 허용 목록)
-ALLOWED_PATTERNS = tuple(
-    re.compile(p)
-    for p in (
-        r"\b10\.\d{4,9}/[^\s,;)]+",  # DOI
-        r"\b\d{4}\.\d{4,5}(?:v\d+)?\b",  # arXiv ID
-        r"\bRQ-L3-[0-3]\b",
-        r"\bRQ[1-3]\b",
-        r"\bC[1-4]\b",
-        r"\bL[1-3]\b",
-        r"\bS0\b",
-        r"\bE1\b",  # 탐색 계산의 이름
-        r"\bsha256\b",  # 해시 알고리즘 이름
-        r"\bT[1-3]\b",
-        r"\bF[1-4]\b",
-        r"\bTicket 00[1-8]\b",  # 008: 닫힌 ALFWorld 파일럿(2026-11-04)
-        r"\bticket-00[1-8]\b",
-        r"\bcand-\d{3}\b",
-        r"\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,64}\b",  # 커밋·파일 해시
-        r"\b20(?:1[5-9]|2[0-6])\b",  # 연도
-        r"§\s*\d+(?:-\d+)*",
-        r"\bSection\s+\d+(?:\.\d+)*",
-    )
+# 자리표시자 밖에 올 수 있는 숫자 섞인 이름(`NAME_PATTERNS`, 표 검사와 같은 목록)과 식별자
+# (Ticket 007 §1, Ticket 011 §1 허용 목록)
+OTHER_PATTERNS: tuple[str, ...] = (
+    r"\b10\.\d{4,9}/[^\s,;)]+",  # DOI
+    r"\b\d{4}\.\d{4,5}(?:v\d+)?\b",  # arXiv ID
+    r"\bsha256\b",  # 해시 알고리즘 이름
+    r"\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,64}\b",  # 커밋·파일 해시
+    r"\b20(?:1[5-9]|2[0-6])\b",  # 연도
+    r"§\s*\d+(?:-\d+)*",
+    r"\bSection\s+\d+(?:\.\d+)*",
 )
+ALLOWED_PATTERNS = tuple(re.compile(p) for p in (*NAME_PATTERNS, *OTHER_PATTERNS))
 MD_LINE_START = (re.compile(r"^\s*\d+[.)]\s"), re.compile(r"^#{1,6}\s+\d+(?:\.\d+)*\.?\s"))
 MD_PLACEHOLDER = re.compile(r"\{\{([^{}]+)\}\}")
 TEX_PLACEHOLDER = re.compile(r"\\R\{([^{}]+)\}")
@@ -295,35 +297,38 @@ def main(argv: Sequence[str] | None = None) -> int:
     except (ValueError, OSError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
-    template_path = root / TEMPLATE_PATH
-    readme_path = root / README_PATH
-
     if args.command == "render":
-        if not template_path.exists():
-            print(f"error: no template at {template_path}", file=sys.stderr)
-            return 1
-        readme_path.write_text(
-            render_markdown(template_path.read_text(encoding="utf-8"), values, tables),
-            encoding="utf-8",
-        )
-        print(f"rendered {readme_path.relative_to(root)}")
+        for doc in DOCUMENTS:
+            template_path = root / doc.template
+            if not template_path.exists():
+                print(f"error: no template at {template_path}", file=sys.stderr)
+                return 1
+            out = root / doc.output
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(
+                render_markdown(template_path.read_text(encoding="utf-8"), values, tables),
+                encoding="utf-8",
+            )
+            print(f"rendered {doc.output}")
         return 0
 
     failed = False
-    if template_path.exists():
+    for doc in DOCUMENTS:
+        template_path, out = root / doc.template, root / doc.output
+        if not template_path.exists():
+            print(f"note: no template at {doc.template}; {doc.output} checks skipped")
+            continue
         template = template_path.read_text(encoding="utf-8")
         found = check_source(template, "md", values)
         _report(template_path, root, found)
         _notes(template_path, root, quoted_segments(template, "md"))
         rendered = render_markdown(template, values, tables)
         found_rendered = check_rendered(rendered)
-        _report(readme_path, root, found_rendered)
-        mismatch = not readme_path.exists() or readme_path.read_text(encoding="utf-8") != rendered
+        _report(out, root, found_rendered)
+        mismatch = not out.exists() or out.read_text(encoding="utf-8") != rendered
         if mismatch:
-            print(f"{README_PATH}: readme: differs from the rendered template", file=sys.stderr)
-        failed = bool(found or found_rendered or mismatch)
-    else:
-        print(f"note: no template at {TEMPLATE_PATH}; README checks skipped")
+            print(f"{doc.output}: readme: differs from the rendered template", file=sys.stderr)
+        failed = failed or bool(found or found_rendered or mismatch)
     paper = root / PAPER_DIR
     for tex in sorted(paper.rglob("*.tex")) if paper.exists() else []:
         source = tex.read_text(encoding="utf-8")

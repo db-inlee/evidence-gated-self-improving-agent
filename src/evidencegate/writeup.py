@@ -12,6 +12,12 @@
   곳에만 둔다(소수 3자리 half-up, 비율 k/n, 구간 [a, b], 판정 범주는 영어 문구).
 - E1은 `writeup/inputs/e1_definition.txt`(커밋 185d69c)의 정의 그대로다. L2 세 칸 Δ의 평균이고,
   판정·구간·임계값은 쓰지 않는다.
+- 후속 연구(Ticket 011 §1, 선택 인자 `follow_up`): 009b 결과(`t009b.`, result), 010 탐침(`t010.`,
+  exploratory), 009 h·δ(`t009.thresholds.`, result), 실행 요약 009b(`run.`은 run, `provenance.`은
+  provenance, 입력 목록은 v1처럼 펴지 않음), 설계 상수(`design.t009b.`), 묶음 수(`derived.t009b.`),
+  해시·커밋. 입력 sha256이 고정값·옆 `.sha256`과 다르거나 009b 결과의 사전 등록·h·δ 해시가 다르면
+  멈춘다. `follow_up`이 없으면 v1 값만 낸다(v1 키·값·표시는 그대로).
+- p값(키 끝이 `.p`인 분수)은 정확한 분수로 표시한다. v1 값에는 그런 키가 없다.
 """
 
 import argparse
@@ -19,6 +25,7 @@ import hashlib
 import json
 import sys
 from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 from decimal import Decimal
 from fractions import Fraction
 from pathlib import Path
@@ -28,6 +35,9 @@ from evidencegate import eval_constants as c
 from evidencegate import splits
 from evidencegate.analysis import REPO_ROOT, load_pool
 from evidencegate.run_summary import summary_bytes
+from evidencegate.t009 import splits as t009_splits
+from evidencegate.t009.preflight import recorded_sha256
+from evidencegate.t009b import settings as t009b_settings
 
 T005_PATH = Path("results/ticket-005/analysis.json")
 T006_PATH = Path("results/ticket-006/analysis.json")
@@ -36,6 +46,27 @@ E1_DEFINITION_PATH = Path("writeup/inputs/e1_definition.txt")
 RELEASE_MANIFEST_PATH = Path("writeup/inputs/release_manifest.json")
 DEFAULT_OUT = Path("writeup/generated/values.json")
 T005_PLAN = Path("plans/ticket-005-plan.json")
+
+# 후속 연구 입력(Ticket 011 §1). 결과 파일은 읽기만 한다.
+T009B_PATH = Path("results/ticket-009b/analysis.json")
+T009B_SIDECAR = Path("results/ticket-009b/analysis.json.sha256")
+T010_PATH = Path("results/ticket-010/probe.json")
+T009_THRESHOLDS_PATH = t009b_settings.THRESHOLDS_PATH
+RUN_SUMMARY_009B_PATH = Path("writeup/inputs/run_summary_009b.json")
+RUN_SUMMARY_009B_SIDECAR = Path("writeup/inputs/run_summary_009b.json.sha256")
+PREREG_009B_PATH = t009b_settings.PREREG_FILE
+PREREG_009_PATH = Path("preregistration/ticket-009.txt")
+PREREG_009_SHA_PATH = Path("preregistration/ticket-009.sha256")
+T009B_ANALYSIS_SHA256 = "21c87f2798fa032e3ce627029e8b01c7629cb9b73215aeac1b3742f36d3cdafe"
+T010_PROBE_SHA256 = "f907489e277e3e3fd3d237d5e61d71554b2f1176bf81d53d62a0bc254835158c"
+T009_THRESHOLDS_SHA256 = t009b_settings.THRESHOLDS_SHA256
+RUN_SUMMARY_009B_SHA256 = "ff203e7e926de66210d5f25852fb20909830905537db22f55b4d778aa78a326f"
+FOLLOW_UP_INPUTS: dict[str, tuple[Path, str]] = {
+    "t009b": (T009B_PATH, T009B_ANALYSIS_SHA256),
+    "t010": (T010_PATH, T010_PROBE_SHA256),
+    "t009_thresholds": (T009_THRESHOLDS_PATH, T009_THRESHOLDS_SHA256),
+    "run_summary_009b": (RUN_SUMMARY_009B_PATH, RUN_SUMMARY_009B_SHA256),
+}
 
 KINDS = ("result", "derived", "exploratory", "design", "run", "provenance")
 DECIMALS = 3
@@ -51,6 +82,20 @@ COMMITS = {
     "t005_results": "38ea84e",
     "t006_results": "528c054",
     "e1_definition": "185d69c",
+}
+
+# 연구 ② 고정 절차 커밋(README 고정 절차 표). git에 있고 그 파일을 바꿨는지는 테스트가 확인한다.
+COMMITS_009B = {
+    "t009_preregistration": "20de478",  # 태그 t009-prereg-r1
+    "t009_thresholds": "4716c65",
+    "t009_closed": "32d6560",  # 태그 ticket-009-closed
+    "t009b_preregistration": "12a36fd",  # 태그 t009b-prereg
+    "t009b_pool": "4c3b532",
+    "t009b_groups": "4c3b532",
+    "t009b_plan": "7b17c8b",
+    "t009b_analysis_code": "94fa123",
+    "t009b_results": "adb9939",  # 태그 ticket-009b-closed
+    "t010_probe": "cd76a4e",  # 태그 ticket-010-closed
 }
 
 VERDICT_EN = {
@@ -70,6 +115,7 @@ VERDICT_EN = {
     "changed": "changed",
     "as_expected": "as expected",
     "unexpected": "unexpected",
+    "direction_only": "direction only",
 }
 
 Value = dict[str, str]
@@ -133,6 +179,10 @@ def flatten_result(prefix: str, obj: object, kind: str = "result") -> dict[str, 
     out: dict[str, Value] = {}
 
     def walk(key: str, node: object) -> None:
+        if _is_fraction(node) and key.endswith(".p"):  # p값: 정확한 분수(v1에는 없는 키)
+            assert isinstance(node, dict)
+            out[key] = {"exact": str(node["exact"]), "display": str(node["exact"]), "kind": kind}
+            return
         if _is_fraction(node) or not isinstance(node, dict | list):
             out[key] = _leaf(node, kind)
             return
@@ -362,6 +412,118 @@ def _release_values(release: Mapping[str, Any]) -> dict[str, Value]:
 
 
 # ---------------------------------------------------------------------------
+# 후속 연구(Ticket 011 §1)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class FollowUp:
+    t009b: dict[str, Any]
+    t010: dict[str, Any]
+    thresholds: dict[str, Any]
+    run_009b: dict[str, Any]
+    preregistration_009_sha256: str
+
+
+def _file_sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def check_t009b_inputs(analysis: Mapping[str, Any], *, root: Path) -> None:
+    """009b 결과가 기록한 사전 등록·h·δ 해시가 지금 파일·고정값과 같은가."""
+    inputs = analysis["inputs"]
+    prereg = _file_sha(root / PREREG_009B_PATH)
+    if inputs["preregistration"] != prereg:
+        raise ValueError(
+            f"009b analysis names preregistration {inputs['preregistration']}, file is {prereg}"
+        )
+    if inputs["thresholds"] != T009_THRESHOLDS_SHA256:
+        raise ValueError(
+            f"009b analysis names thresholds {inputs['thresholds']}, fixed {T009_THRESHOLDS_SHA256}"
+        )
+
+
+def load_follow_up(root: Path) -> FollowUp:
+    """입력 네 개의 고정 sha256, 옆 .sha256 두 개, 009b 입력 해시, 009 사전 등록 해시를 확인한다."""
+    data: dict[str, Any] = {}
+    for name, (rel, expected) in FOLLOW_UP_INPUTS.items():
+        actual = _file_sha(root / rel)
+        if actual != expected:
+            raise ValueError(f"{rel} sha256 {actual} does not match the fixed {expected}")
+        data[name] = json.loads((root / rel).read_text(encoding="utf-8"))
+    for sidecar, expected in (
+        (T009B_SIDECAR, T009B_ANALYSIS_SHA256),
+        (RUN_SUMMARY_009B_SIDECAR, RUN_SUMMARY_009B_SHA256),
+    ):
+        recorded = (root / sidecar).read_text().split()[0]
+        if recorded != expected:
+            raise ValueError(f"{sidecar} sidecar records {recorded}, fixed {expected}")
+    check_t009b_inputs(data["t009b"], root=root)
+    prereg_009 = _file_sha(root / PREREG_009_PATH)
+    if recorded_sha256(root / PREREG_009_SHA_PATH) != prereg_009:
+        raise ValueError(f"{PREREG_009_PATH} sha256 {prereg_009} does not match its record")
+    return FollowUp(
+        data["t009b"], data["t010"], data["t009_thresholds"], data["run_summary_009b"], prereg_009
+    )
+
+
+def _design_009b_values() -> dict[str, Value]:
+    cells = len(t009_splits.LEVELS) * len(FAMILIES)
+    dev_a, dev_b, oracle = (t009_splits.DEV_A[2], t009_splits.DEV_B[2], t009_splits.ORACLE[2])
+    design: dict[str, object] = {
+        "cells": cells,
+        "dev_a_per_cell": dev_a,
+        "dev_a_size": dev_a * cells,
+        "dev_b_per_cell": dev_b,
+        "dev_b_size": dev_b * cells,
+        "oracle_per_cell": oracle,
+        "oracle_size": oracle * cells,
+        "calibration_per_cell": t009_splits.CALIBRATION_V1_PER_CELL
+        + t009_splits.CALIBRATION_ADD[2],
+        "s0_oracle_repeats": len(c.S0_ORACLE_REPEATS),
+        # h(n_c)는 Dev-B 칸 크기에서, δ(N)은 Dev-B 전체 크기에서 쓴다(사전 등록 009b)
+        "h_n": dev_b,
+        "delta_n": dev_b * cells,
+        "pool_target": t009b_settings.POOL_TARGET,
+        "n_go": t009b_settings.N_GO,
+        "stop_after_idle": t009b_settings.STOP_AFTER_IDLE,
+        "max_calls": t009b_settings.MAX_CALLS,
+        "budget_usd": t009b_settings.BUDGET_USD,
+        "dedupe_threshold": t009b_settings.DEDUPE_THRESHOLD,
+    }
+    return {f"design.t009b.{key}": _leaf(value, "design") for key, value in design.items()}
+
+
+def _follow_up_values(f: FollowUp) -> dict[str, Value]:
+    run = f.run_009b
+    provenance = {k: v for k, v in run["provenance"].items() if k != "inputs"}
+    inputs = f.t009b["inputs"]
+    hashes = {
+        "hash.t009b_analysis": T009B_ANALYSIS_SHA256,
+        "hash.t010_probe": T010_PROBE_SHA256,
+        "hash.t009_thresholds": T009_THRESHOLDS_SHA256,
+        "hash.run_summary_009b": RUN_SUMMARY_009B_SHA256,
+        "hash.preregistration_009b": inputs["preregistration"],
+        "hash.preregistration_009": f.preregistration_009_sha256,
+        "hash.t009b_pool": inputs["pool"],
+        "hash.t009b_plan": inputs["plan"],
+        "hash.t009b_groups": inputs["groups"],
+        **{f"commit.{k}": v for k, v in COMMITS_009B.items()},
+    }
+    groups = len(f.t009b["cluster_sensitivity"]["representatives"])
+    return {
+        **flatten_result("t009b", f.t009b),
+        **flatten_result("t010", f.t010, kind="exploratory"),
+        **flatten_result("t009.thresholds", f.thresholds),
+        **flatten_result("run", run["run"], kind="run"),
+        **flatten_result("provenance", provenance, kind="provenance"),
+        **_design_009b_values(),
+        "derived.t009b.cluster_groups": _leaf(groups, "derived"),
+        **{k: {"exact": v, "display": v, "kind": "provenance"} for k, v in hashes.items()},
+    }
+
+
+# ---------------------------------------------------------------------------
 # 전체
 # ---------------------------------------------------------------------------
 
@@ -384,6 +546,7 @@ def build_values(
     root: Path = REPO_ROOT,
     *,
     release: Mapping[str, Any],
+    follow_up: FollowUp | None = None,
 ) -> dict[str, Value]:
     for group, by_m in t005["metrics"].items():
         for m, by_gate in by_m.items():
@@ -402,6 +565,12 @@ def build_values(
         **_provenance(t005, t006, run),
         **_release_values(release),
     }
+    if follow_up is not None:
+        extra = _follow_up_values(follow_up)
+        clash = sorted(set(extra) & set(values))
+        if clash:
+            raise ValueError(f"follow-up keys clash with v1 keys: {clash[:3]}")
+        values |= extra
     return dict(sorted(values.items()))
 
 
@@ -429,6 +598,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         recorded = run_path.with_name(run_path.name + ".sha256").read_text().split()[0]
         if hashlib.sha256(run_path.read_bytes()).hexdigest() != recorded:
             raise ValueError(f"{run_path} sha256 does not match its record {recorded}")
+        follow_up = load_follow_up(root)
     except (ValueError, OSError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
@@ -438,6 +608,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         json.loads(run_path.read_text(encoding="utf-8")),
         root,
         release=json.loads((root / RELEASE_MANIFEST_PATH).read_text(encoding="utf-8")),
+        follow_up=follow_up,
     )
     data = values_bytes(values)
     out.parent.mkdir(parents=True, exist_ok=True)

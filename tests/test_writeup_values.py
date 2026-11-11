@@ -21,6 +21,7 @@ from evidencegate.writeup import (
     e1_rows,
     e1_summary,
     flatten_result,
+    load_follow_up,
     main,
     values_bytes,
 )
@@ -267,7 +268,7 @@ def load_inputs() -> tuple[Any, Any, Any, Any]:
 @pytest.fixture(scope="module")
 def values() -> dict[str, dict[str, str]]:
     t005, t006, run, release = load_inputs()
-    return build_values(t005, t006, run, release=release)
+    return build_values(t005, t006, run, release=release, follow_up=load_follow_up(REPO_ROOT))
 
 
 def test_every_value_has_exact_display_and_a_known_kind(values: dict[str, Any]) -> None:
@@ -317,7 +318,7 @@ def test_e1_values_use_the_ticket_005_l2_cells(values: dict[str, Any]) -> None:
 
 def test_build_is_deterministic(values: dict[str, Any]) -> None:
     t005, t006, run, release = load_inputs()
-    again = build_values(t005, t006, run, release=release)
+    again = build_values(t005, t006, run, release=release, follow_up=load_follow_up(REPO_ROOT))
     assert values_bytes(again) == values_bytes(values)
 
 

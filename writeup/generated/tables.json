@@ -810,5 +810,285 @@
       ]
     ],
     "title": "Pre-registered metric: Local Harm Acceptance Rate (proposer candidates)"
+  },
+  "t4": {
+    "columns": [
+      "Question",
+      "Scope",
+      "Counts",
+      "Test",
+      "Verdict"
+    ],
+    "id": "t4",
+    "note": "Verdict categories as recorded in the result file. Rows marked descriptive were pre-registered as descriptive companions and are not verdicts of the study.",
+    "rows": [
+      [
+        "RQ9-1",
+        "C4-accepted candidates: Severe Local Harm among those C5 rejects and those it keeps (one-sided Fisher test)",
+        "a {{t009b.rq.rq9_1.a}}, f {{t009b.rq.rq9_1.f}}, k {{t009b.rq.rq9_1.k}}, n {{t009b.rq.rq9_1.n}}",
+        "p = {{t009b.rq.rq9_1.p}}",
+        "{{t009b.rq.rq9_1.verdict}}"
+      ],
+      [
+        "RQ9-1 (descriptive)",
+        "the same table with the Local Harm label",
+        "a {{t009b.rq.rq9_1_local_harm.a}}, f {{t009b.rq.rq9_1_local_harm.f}}, k {{t009b.rq.rq9_1_local_harm.k}}, n {{t009b.rq.rq9_1_local_harm.n}}",
+        "p = {{t009b.rq.rq9_1_local_harm.p}}",
+        "{{t009b.rq.rq9_1_local_harm.verdict}}"
+      ],
+      [
+        "RQ9-2",
+        "clean Useful C4 candidates that C5 rejects",
+        "{{t009b.rq.rq9_2.u}} of {{t009b.rq.rq9_2.useful_c4}}",
+        "",
+        "{{t009b.rq.rq9_2.verdict}}"
+      ],
+      [
+        "RQ9-2 (descriptive)",
+        "all Useful C4 candidates that C5 rejects",
+        "{{t009b.rq.rq9_2_all_useful.u}} of {{t009b.rq.rq9_2_all_useful.useful_c4}}",
+        "",
+        "{{t009b.rq.rq9_2_all_useful.verdict}}"
+      ],
+      [
+        "RQ9-3",
+        "Severe among C4-accepted candidates, Clopper–Pearson interval",
+        "{{t009b.rq.rq9_3.k}}/{{t009b.rq.rq9_3.n}}",
+        "{{t009b.rq.rq9_3.interval}}",
+        "{{t009b.rq.rq9_3.verdict}}"
+      ],
+      [
+        "RQ9-3 (descriptive)",
+        "the same for C2",
+        "{{t009b.rq.rq9_3_c2.k}}/{{t009b.rq.rq9_3_c2.n}}",
+        "{{t009b.rq.rq9_3_c2.interval}}",
+        "{{t009b.rq.rq9_3_c2.verdict}}"
+      ],
+      [
+        "RQ9-5",
+        "C5 against the strict mean gate C4* that admits as many candidates (hypergeometric test on the set difference)",
+        "admitted {{t009b.rq.rq9_5.m}}, set difference {{t009b.rq.rq9_5.d}}, Severe in C5 only {{t009b.rq.rq9_5.s1}}, in C4* only {{t009b.rq.rq9_5.s2}}",
+        "p = {{t009b.rq.rq9_5.p}}",
+        "{{t009b.rq.rq9_5.verdict}}"
+      ],
+      [
+        "RQ9-5 (descriptive)",
+        "count rule: Severe admitted by C5 and by C4*",
+        "C5 {{t009b.rq.rq9_5.severe_c5}}, C4* {{t009b.rq.rq9_5.severe_c4_star}}",
+        "",
+        "{{t009b.rq.rq9_5.verdict_count}}"
+      ]
+    ],
+    "title": "Pre-registered verdicts (Ticket 009b, proposer candidates, CD)"
+  },
+  "t5": {
+    "columns": [
+      "Gate",
+      "Accepted",
+      "Severe",
+      "Local harm",
+      "Harmful",
+      "Unsupported",
+      "Useful",
+      "Clean Useful",
+      "Gain",
+      "False rejection"
+    ],
+    "id": "t5",
+    "note": "Counts over the candidates each gate accepted, scored on the Oracle split. C5′ and C4* are the comparison gates of the pre-registration.",
+    "rows": [
+      [
+        "C2",
+        "{{t009b.metrics.C2.cd.accepted.count}}",
+        "{{t009b.metrics.C2.cd.severe.successes}}/{{t009b.metrics.C2.cd.severe.n}}",
+        "{{t009b.metrics.C2.cd.local_harm.successes}}/{{t009b.metrics.C2.cd.local_harm.n}}",
+        "{{t009b.metrics.C2.cd.harmful.successes}}/{{t009b.metrics.C2.cd.harmful.n}}",
+        "{{t009b.metrics.C2.cd.unsupported.successes}}/{{t009b.metrics.C2.cd.unsupported.n}}",
+        "{{t009b.metrics.C2.cd.useful.successes}}/{{t009b.metrics.C2.cd.useful.n}}",
+        "{{t009b.metrics.C2.cd.clean_useful.successes}}/{{t009b.metrics.C2.cd.clean_useful.n}}",
+        "{{t009b.metrics.C2.cd.gain}}",
+        "{{t009b.metrics.C2.cd.false_rejection.successes}}/{{t009b.metrics.C2.cd.false_rejection.n}}"
+      ],
+      [
+        "C4",
+        "{{t009b.metrics.C4.cd.accepted.count}}",
+        "{{t009b.metrics.C4.cd.severe.successes}}/{{t009b.metrics.C4.cd.severe.n}}",
+        "{{t009b.metrics.C4.cd.local_harm.successes}}/{{t009b.metrics.C4.cd.local_harm.n}}",
+        "{{t009b.metrics.C4.cd.harmful.successes}}/{{t009b.metrics.C4.cd.harmful.n}}",
+        "{{t009b.metrics.C4.cd.unsupported.successes}}/{{t009b.metrics.C4.cd.unsupported.n}}",
+        "{{t009b.metrics.C4.cd.useful.successes}}/{{t009b.metrics.C4.cd.useful.n}}",
+        "{{t009b.metrics.C4.cd.clean_useful.successes}}/{{t009b.metrics.C4.cd.clean_useful.n}}",
+        "{{t009b.metrics.C4.cd.gain}}",
+        "{{t009b.metrics.C4.cd.false_rejection.successes}}/{{t009b.metrics.C4.cd.false_rejection.n}}"
+      ],
+      [
+        "C5",
+        "{{t009b.metrics.C5.cd.accepted.count}}",
+        "{{t009b.metrics.C5.cd.severe.successes}}/{{t009b.metrics.C5.cd.severe.n}}",
+        "{{t009b.metrics.C5.cd.local_harm.successes}}/{{t009b.metrics.C5.cd.local_harm.n}}",
+        "{{t009b.metrics.C5.cd.harmful.successes}}/{{t009b.metrics.C5.cd.harmful.n}}",
+        "{{t009b.metrics.C5.cd.unsupported.successes}}/{{t009b.metrics.C5.cd.unsupported.n}}",
+        "{{t009b.metrics.C5.cd.useful.successes}}/{{t009b.metrics.C5.cd.useful.n}}",
+        "{{t009b.metrics.C5.cd.clean_useful.successes}}/{{t009b.metrics.C5.cd.clean_useful.n}}",
+        "{{t009b.metrics.C5.cd.gain}}",
+        "{{t009b.metrics.C5.cd.false_rejection.successes}}/{{t009b.metrics.C5.cd.false_rejection.n}}"
+      ],
+      [
+        "C5′",
+        "{{t009b.metrics.C5p.cd.accepted.count}}",
+        "{{t009b.metrics.C5p.cd.severe.successes}}/{{t009b.metrics.C5p.cd.severe.n}}",
+        "{{t009b.metrics.C5p.cd.local_harm.successes}}/{{t009b.metrics.C5p.cd.local_harm.n}}",
+        "{{t009b.metrics.C5p.cd.harmful.successes}}/{{t009b.metrics.C5p.cd.harmful.n}}",
+        "{{t009b.metrics.C5p.cd.unsupported.successes}}/{{t009b.metrics.C5p.cd.unsupported.n}}",
+        "{{t009b.metrics.C5p.cd.useful.successes}}/{{t009b.metrics.C5p.cd.useful.n}}",
+        "{{t009b.metrics.C5p.cd.clean_useful.successes}}/{{t009b.metrics.C5p.cd.clean_useful.n}}",
+        "{{t009b.metrics.C5p.cd.gain}}",
+        "{{t009b.metrics.C5p.cd.false_rejection.successes}}/{{t009b.metrics.C5p.cd.false_rejection.n}}"
+      ],
+      [
+        "C4*",
+        "{{t009b.metrics.C4star.cd.accepted.count}}",
+        "{{t009b.metrics.C4star.cd.severe.successes}}/{{t009b.metrics.C4star.cd.severe.n}}",
+        "{{t009b.metrics.C4star.cd.local_harm.successes}}/{{t009b.metrics.C4star.cd.local_harm.n}}",
+        "{{t009b.metrics.C4star.cd.harmful.successes}}/{{t009b.metrics.C4star.cd.harmful.n}}",
+        "{{t009b.metrics.C4star.cd.unsupported.successes}}/{{t009b.metrics.C4star.cd.unsupported.n}}",
+        "{{t009b.metrics.C4star.cd.useful.successes}}/{{t009b.metrics.C4star.cd.useful.n}}",
+        "{{t009b.metrics.C4star.cd.clean_useful.successes}}/{{t009b.metrics.C4star.cd.clean_useful.n}}",
+        "{{t009b.metrics.C4star.cd.gain}}",
+        "{{t009b.metrics.C4star.cd.false_rejection.successes}}/{{t009b.metrics.C4star.cd.false_rejection.n}}"
+      ]
+    ],
+    "title": "Pre-registered metrics per gate (Ticket 009b, proposer candidates, CD)"
+  },
+  "t6": {
+    "columns": [
+      "Quantity",
+      "Counts",
+      "Test",
+      "Verdict"
+    ],
+    "id": "t6",
+    "note": "The main verdicts stay those of the full pool; this table repeats them on the earliest candidate of each idea group.",
+    "rows": [
+      [
+        "Representatives (one per idea group)",
+        "{{derived.t009b.cluster_groups}}",
+        "",
+        ""
+      ],
+      [
+        "RQ9-1 on the representatives (sensitivity verdict)",
+        "a {{t009b.cluster_sensitivity.rq9_1.a}}, f {{t009b.cluster_sensitivity.rq9_1.f}}, k {{t009b.cluster_sensitivity.rq9_1.k}}, n {{t009b.cluster_sensitivity.rq9_1.n}}",
+        "p = {{t009b.cluster_sensitivity.rq9_1.p}}",
+        "{{t009b.cluster_sensitivity.rq9_1.verdict}}"
+      ],
+      [
+        "RQ9-3 on the representatives (descriptive)",
+        "{{t009b.cluster_sensitivity.rq9_3.k}}/{{t009b.cluster_sensitivity.rq9_3.n}}",
+        "{{t009b.cluster_sensitivity.rq9_3.interval}}",
+        "{{t009b.cluster_sensitivity.rq9_3.verdict}}"
+      ],
+      [
+        "RQ9-5 on the representatives (descriptive)",
+        "admitted {{t009b.cluster_sensitivity.rq9_5.m}}, set difference {{t009b.cluster_sensitivity.rq9_5.d}}, Severe in C5 only {{t009b.cluster_sensitivity.rq9_5.s1}}, in C4* only {{t009b.cluster_sensitivity.rq9_5.s2}}",
+        "p = {{t009b.cluster_sensitivity.rq9_5.p}}",
+        "{{t009b.cluster_sensitivity.rq9_5.verdict}}"
+      ],
+      [
+        "Sensitivity verdict differs from the main verdict",
+        "{{t009b.cluster_sensitivity.differs_from_main}}",
+        "",
+        ""
+      ]
+    ],
+    "title": "Pre-registered cluster sensitivity (Ticket 009b, one representative per idea group)"
+  },
+  "t7": {
+    "columns": [
+      "Variant",
+      "Field",
+      "Dispositions differing from S0",
+      "Moved",
+      "Tool set differs",
+      "Traffic tool called",
+      "Mean tool calls"
+    ],
+    "id": "t7",
+    "note": "Exploratory. A variant moved if at least {{t010.rule.k}} of {{t010.rule.episodes}} dispositions differed from S0; the rule fixed before the run asked for {{t010.rule.m}} moved variants. P0 caps tool calls at {{t010.variants.0.max_tool_calls}} as a wiring check and is not counted; it needed {{t010.rule.p0_min}}. Decision: {{t010.decision.verdict}}.",
+    "rows": [
+      [
+        "{{t010.variants.0.name}}",
+        "{{t010.variants.0.field}}",
+        "{{t010.variants.0.different_disposition}} of {{t010.variants.0.episodes}}",
+        "{{t010.variants.0.moved}}",
+        "{{t010.variants.0.different_tool_set}}",
+        "{{t010.variants.0.traffic_episodes}}",
+        "{{t010.variants.0.mean_tool_calls}}"
+      ],
+      [
+        "{{t010.variants.1.name}}",
+        "{{t010.variants.1.field}}",
+        "{{t010.variants.1.different_disposition}} of {{t010.variants.1.episodes}}",
+        "{{t010.variants.1.moved}}",
+        "{{t010.variants.1.different_tool_set}}",
+        "{{t010.variants.1.traffic_episodes}}",
+        "{{t010.variants.1.mean_tool_calls}}"
+      ],
+      [
+        "{{t010.variants.2.name}}",
+        "{{t010.variants.2.field}}",
+        "{{t010.variants.2.different_disposition}} of {{t010.variants.2.episodes}}",
+        "{{t010.variants.2.moved}}",
+        "{{t010.variants.2.different_tool_set}}",
+        "{{t010.variants.2.traffic_episodes}}",
+        "{{t010.variants.2.mean_tool_calls}}"
+      ],
+      [
+        "{{t010.variants.3.name}}",
+        "{{t010.variants.3.field}}",
+        "{{t010.variants.3.different_disposition}} of {{t010.variants.3.episodes}}",
+        "{{t010.variants.3.moved}}",
+        "{{t010.variants.3.different_tool_set}}",
+        "{{t010.variants.3.traffic_episodes}}",
+        "{{t010.variants.3.mean_tool_calls}}"
+      ],
+      [
+        "{{t010.variants.4.name}}",
+        "{{t010.variants.4.field}}",
+        "{{t010.variants.4.different_disposition}} of {{t010.variants.4.episodes}}",
+        "{{t010.variants.4.moved}}",
+        "{{t010.variants.4.different_tool_set}}",
+        "{{t010.variants.4.traffic_episodes}}",
+        "{{t010.variants.4.mean_tool_calls}}"
+      ],
+      [
+        "{{t010.variants.5.name}}",
+        "{{t010.variants.5.field}}",
+        "{{t010.variants.5.different_disposition}} of {{t010.variants.5.episodes}}",
+        "{{t010.variants.5.moved}}",
+        "{{t010.variants.5.different_tool_set}}",
+        "{{t010.variants.5.traffic_episodes}}",
+        "{{t010.variants.5.mean_tool_calls}}"
+      ],
+      [
+        "{{t010.variants.6.name}}",
+        "{{t010.variants.6.field}}",
+        "{{t010.variants.6.different_disposition}} of {{t010.variants.6.episodes}}",
+        "{{t010.variants.6.moved}}",
+        "{{t010.variants.6.different_tool_set}}",
+        "{{t010.variants.6.traffic_episodes}}",
+        "{{t010.variants.6.mean_tool_calls}}"
+      ],
+      [
+        "S0",
+        "baseline (Dev-A records)",
+        "",
+        "",
+        "",
+        "{{t010.s0.traffic_episodes}}",
+        "{{t010.s0.mean_tool_calls}}"
+      ]
+    ],
+    "title": "Harness knob probe on Dev-A (Ticket 010, exploratory)"
   }
 }
