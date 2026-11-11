@@ -4,7 +4,7 @@ English · [한국어](README.ko.md)
 
 [![CI](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml)
 
-A self-improving agent can rewrite its own procedure and then needs a rule for which edits to keep. EvidenceGate tests such admission rules in a deterministic synthetic incident world: the rules are pre-registered, the candidate edits are frozen before evaluation, and every decision is scored against a hidden root cause on held-out incidents. Three studies use it: mean-based gates, a cell-level gate (confirmatory), and an exploratory probe of harness edits.
+A self-improving agent can rewrite its own procedure and then needs a rule for which edits to keep. EvidenceGate tests such admission rules in a deterministic synthetic incident world: the rules are pre-registered, the candidate edits are frozen before evaluation, and every decision is scored against a hidden root cause on held-out incidents. The candidate edits in both gate studies are edits to the agent's skill file. Three studies use it: mean-based gates, a cell-level gate (confirmatory), and an exploratory probe of harness edits.
 
 Every number in this README is generated from committed result files, run summaries and design constants (see *Reproduce*); none was typed by hand.
 
