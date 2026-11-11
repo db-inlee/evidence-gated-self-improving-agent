@@ -1,0 +1,91 @@
+# EvidenceGate — 자기개선 에이전트는 자기 수정을 언제 받아들여야 하나
+
+[English](README.md) · 한국어
+
+[![CI](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml)
+
+자기개선 에이전트는 자기 절차를 고친 뒤 어떤 수정을 남길지 정하는 규칙이 필요하다. EvidenceGate는 이 채택 규칙을 결정적인 합성 장애 세계에서 시험한다. 규칙은 미리 등록하고, 후보 수정은 평가 전에 동결하고, 모든 결정은 따로 둔 장애에서 숨은 근본 원인으로 채점한다. 이 문서는 영어 README의 요약이다. 모든 숫자는 결과 파일에서 렌더하며 손으로 쓰지 않았다.
+
+## 세 연구 요약
+
+1. **평균 게이트** (Ticket 004 ~ Ticket 006). 사전 등록 질문은 대부분 지지되지 않았거나 일부만 지지되었다. 탐색 분석에서는 평균 차이를 보는 게이트가 한 칸을 해치는 수정을 받아들였다.
+2. **칸 게이트, 확증 연구** (Ticket 009, Ticket 009b). 이 테스트베드에서 C4 게이트가 받아들인 후보 {{t009b.rq.rq9_1.n}}개 중 칸 게이트(C5)가 {{t009b.rq.rq9_1.f}}개를 걸렀고, 그중 {{t009b.rq.rq9_1.a}}개가 Severe Local Harm이었다. 남긴 {{t009b.metrics.C5.cd.accepted.count}}개 중 Severe는 {{t009b.metrics.C5.cd.severe.successes}}개다(단측 Fisher p = {{t009b.rq.rq9_1.p}}, RQ9-1 판정 {{t009b.rq.rq9_1.verdict}}). 깨끗한 Useful 후보는 {{t009b.rq.rq9_2.useful_c4}}개 중 {{t009b.rq.rq9_2.u}}개를 잃었다. 같은 수를 받는 엄격한 평균 게이트(C4*)보다 Severe를 적게 받았다(RQ9-5 판정 {{t009b.rq.rq9_5.verdict}}).
+3. **하네스 탐침** (Ticket 010, 탐색). 도구 순서, 도구 설명, 도구 출력 표시를 바꿔도 스킬을 따르는 에이전트의 처분은 같은 seed 실행 사이의 흔들림 이상으로 바뀌지 않았다.
+
+## 용어 대응
+
+판정 범주는 결과 파일의 영어 표시를 그대로 쓴다.
+
+| 영어 표시 | 뜻 |
+| --- | --- |
+| supported | 지지 |
+| partially supported | 일부 지지 |
+| direction only | 방향만 일치 |
+| not supported | 지지 안 됨 |
+| undecidable | 판정 불가 |
+| reconsider | 방향 재검토(탐침 판정) |
+
+## 설계 한눈에
+
+| 항목 | 내용 |
+| --- | --- |
+| 세계 | OpsWorld. 장애마다 family(`bad_deployment`, `dependency_failure`, `traffic_spike`)와 숨은 근본 원인, 정답 조치가 하나씩 있다. 같은 `(family, seed, level)`이면 같은 장애다. |
+| 칸 | family × level. 결과는 전체와 칸별로 본다. |
+| 에이전트 | 로컬 LLM(`{{design.policy_id}}`)이 스킬 파일을 따른다. 초기 스킬(S0)은 일부러 불완전하다. |
+| CD | Correct Disposition. 고른 조치가 숨은 근본 원인과 맞는다. 주 지표다. |
+| ES | Evidence-Safe. CD이고, 그 조치에 필요한 증거를 조치 전에 관측했다. |
+| C1 | Dev-A에서 후보 평균이 S0 평균보다 크다. |
+| C2 | Dev-B에서 평균 짝 차이가 음수가 아니다. |
+| C3 | Dev-B 평균 차이가 δ(N)보다 크다(보조). |
+| C4 | 칸 층화 paired bootstrap의 아래 백분위수가 양수이고, 평균 차이가 δ(N)보다 크다. |
+| C5 | C4 조건에 더해 Dev-B의 모든 칸 차이가 −h(n_c) 이상이다. h와 δ는 S0 대 S0 보정 실행에서 계산한다(오라클 τ가 아님). |
+| C5′, C4* | C5′ 게이트는 C2 조건에 같은 칸 조건을 더한다. C4* 게이트는 C4 후보를 Dev-B 평균 차이 순으로 C5 게이트와 같은 수만큼 받는다. |
+| Severe Local Harm | 어떤 칸에서 오라클 구간의 상한이 −τ_cell보다 작다. 주 결과 라벨이다. |
+| 깨끗한 Useful | 확정 Useful(오라클 구간 하한이 ε보다 큼)이고 Severe가 아니다. |
+| 제안 모델 | OpenAI 모델({{run.t004.model}})이 Dev-A의 S0 실패 사례만 보고 스킬 수정 하나와 근거 카드를 낸다. 수정은 기계 검사와 중복 판정을 거친다. |
+| 분할(칸 게이트 연구) | Dev-A {{design.t009b.dev_a_size}}개는 제안 모델의 입력, Dev-B {{design.t009b.dev_b_size}}개(칸당 {{design.t009b.dev_b_per_cell}}개)는 게이트 판정, Oracle {{design.t009b.oracle_size}}개(칸당 {{design.t009b.oracle_per_cell}}개)는 사후 채점에 쓴다. Oracle의 S0 결과는 {{design.t009b.s0_oracle_repeats}}회 실행의 다수결이다. |
+| 고정 절차 | 사전 등록, 후보 풀 동결, 실행 계획, 분석 코드는 각각 그것이 정하는 단계를 돌리기 전에 커밋했다. 결과는 한 번 커밋하고 고치지 않았다. 커밋과 파일 해시(sha256)는 영어 README의 표에 있다. |
+
+## 확증 연구 결과: 칸 게이트
+
+앞선 시도(Ticket 009)는 Dev-B와 Oracle 실행 전에 멈췄다. 호출 {{run.t009.pool.calls}}회 뒤에도 풀이 목표 {{run.t009.pool.target}}개 중 {{run.t009.pool.size}}개에 그쳤다. 제안 모델이 같은 수정을 되풀이했고, 중복 규칙이 서로 다른 수정을 합쳤다. 피드백 규칙과 중복 규칙을 고쳐 다시 사전 등록했다.
+
+고친 절차로 한 두 번째 시도에서는 호출 {{run.t009b.proposer.calls}}회로 후보 {{run.t009b.proposer.pool_size}}개를 모았다. 후보는 아이디어 묶음 {{derived.t009b.cluster_groups}}개로 나뉜다. CD 기준 결과는 다음과 같다.
+
+| 항목 | 값 | 판정 |
+| --- | --- | --- |
+| RQ9-1: C5 게이트가 거른 후보 쪽에 Severe 비율이 더 높은가(단측 Fisher) | a {{t009b.rq.rq9_1.a}}, f {{t009b.rq.rq9_1.f}}, k {{t009b.rq.rq9_1.k}}, n {{t009b.rq.rq9_1.n}}, p = {{t009b.rq.rq9_1.p}} | {{t009b.rq.rq9_1.verdict}} |
+| RQ9-2: 깨끗한 Useful 손실 | {{t009b.rq.rq9_2.u}} / {{t009b.rq.rq9_2.useful_c4}} | {{t009b.rq.rq9_2.verdict}} |
+| RQ9-3: C4 채택 중 Severe(Clopper–Pearson 구간) | {{t009b.rq.rq9_3.k}}/{{t009b.rq.rq9_3.n}}, {{t009b.rq.rq9_3.interval}} | {{t009b.rq.rq9_3.verdict}} |
+| RQ9-5: 같은 수를 받는 C4* 게이트와 비교 | 차집합 검정 p = {{t009b.rq.rq9_5.p}}; Severe 채택 C5 {{t009b.rq.rq9_5.severe_c5}}, C4* {{t009b.rq.rq9_5.severe_c4_star}}(기술용) | {{t009b.rq.rq9_5.verdict}} |
+| 채택 수 중 Severe | C4 {{t009b.metrics.C4.cd.severe.successes}}/{{t009b.metrics.C4.cd.accepted.count}}, C5 {{t009b.metrics.C5.cd.severe.successes}}/{{t009b.metrics.C5.cd.accepted.count}}, C4* {{t009b.metrics.C4star.cd.severe.successes}}/{{t009b.metrics.C4star.cd.accepted.count}} | |
+| 평균 이득 | C4 {{t009b.metrics.C4.cd.gain}}, C5 {{t009b.metrics.C5.cd.gain}}, C4* {{t009b.metrics.C4star.cd.gain}} | |
+
+- RQ9-5 비교는 RQ9-1 표와 같은 C4 후보 안에서 이루어진다. RQ9-1 판정과 독립된 근거가 아니다.
+- ES에서는 칸 조건이 아무것도 거르지 않았다(C4 게이트 {{t009b.metrics.C4.es.accepted.count}}개, C5 게이트 {{t009b.metrics.C5.es.accepted.count}}개).
+- 아이디어 묶음마다 대표 하나만 남긴 민감도 분석(Section 6.6)에서도 RQ9-1 판정은 {{t009b.cluster_sensitivity.rq9_1.verdict}}였다. 주 판정은 아니다.
+- 본 실행은 에피소드 {{run.t009b.main.records.episodes}}개, 세션 {{run.t009b.main.sessions.count}}개였다. 세션 안에서 멈춘 구간은 {{run.t009b.main.idle_spans.by_where.in_session.count}}개다.
+
+## 하네스 탐침 (Exploratory)
+
+이 절은 모두 탐색이다. Dev-A 장애만 썼다. 판정 기준은 실행 전에 정했지만 사전 등록 파일은 아니다.
+
+- 변형 여섯 개(P1~P6)는 도구 순서, 도구 설명, 도구 출력 표시 중 하나를 바꿨다.
+- S0 기록과 처분이 다른 에피소드 수는 P1~P6 순서로 {{t010.variants.1.different_disposition}}, {{t010.variants.2.different_disposition}}, {{t010.variants.3.different_disposition}}, {{t010.variants.4.different_disposition}}, {{t010.variants.5.different_disposition}}, {{t010.variants.6.different_disposition}}개다({{t010.variants.1.episodes}}개 중). 움직였다고 볼 기준 {{t010.rule.k}}개에 못 미쳤다. 판정은 {{t010.decision.verdict}}다.
+- 같은 seed라도 순차 실행과 동시 {{design.run_workers}} 실행을 비교하면 {{run.same_seed.pairs}}쌍 중 {{run.same_seed.same_disposition}}쌍만 처분이 같았다(평균 게이트 연구의 보정 기록). 그래서 아무것도 바꾸지 않아도 몇 개의 차이는 생긴다.
+- 트래픽 도구를 맨 앞에 두어도(P1) 에이전트는 그 도구를 부르지 않았다({{t010.variants.1.episodes}}개 중 {{t010.variants.1.traffic_episodes}}개).
+- P0 변형은 도구 호출을 {{t010.variants.0.max_tool_calls}}회로 제한한 동작 확인용이다. 처분을 {{t010.variants.0.episodes}}개 중 {{t010.decision.p0_different}}개 바꿨고, 판정에는 넣지 않았다.
+
+## 한계
+
+- 합성 환경 하나, 정책 하나, 초기 스킬 하나에서 나온 결과다.
+- 설계, 아이디어 묶음, 분석 코드, 보고를 같은 모델(Claude)이 했다. 결과가 나온 뒤에는 맥락 없는 새 세션이 판정 규칙을 다시 적용하고 Severe 라벨을 원 기록에서 따로 다시 계산했다. 같은 모델이므로 독립 검토는 아니다.
+- 후보와 S0 기록은 LLM seed를 공유한다. 같은 seed라도 결과가 같지는 않다.
+- 칸 게이트 연구는 두 번째 시도다. 중복 규칙은 앞선 시도의 후보 {{run.t009.pool.calls}}개를 읽은 뒤 정했다. 그 후보들은 Dev-B와 Oracle에서 돌리지 않았다.
+- 아이디어 묶음은 Claude가 나눴다. 잘게 나눌수록 민감도 분석이 덜 보수적이 된다.
+- τ_cell이 ε와 같아 Local Harm 라벨이 넓다. 효과가 없는 후보도 {{t009b.null_label_rate_plan.local_harm}}의 비율로 이 라벨을 받는다(계획 단계 추정). 그래서 Severe를 주 라벨로 쓴다.
+
+## 더 읽기
+
+- 영어 README: [`README.md`](README.md). 전체 설계, 표 T1~T7, 그림, 재현 방법이 있다.
+- 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md)

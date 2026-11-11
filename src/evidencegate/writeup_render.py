@@ -13,7 +13,8 @@
 - placement: kind = exploratory 값은 제목에 Exploratory 또는 Appendix가 들어간 절 안에서만.
 - banned: 금지 표현(단어 경계, 대소문자 무시). 용어 허용 목록은 `Evidence-Safe` 하나이고, 큰따옴표
   안 원문 인용은 뺀다. 렌더 결과에도 같은 검사를 한다. 뺀 인용구는 check가 파일·줄과 함께 모두
-  `note:`로 낸다(우회 통로가 되지 않게, 실패는 아님).
+  `note:`로 낸다(우회 통로가 되지 않게, 실패는 아님). 한국어 문서(`lang="ko"`)는 `BANNED_KO`를 부분
+  문자열로 더 찾고, 허용 용어는 `Evidence-Safe`와 "확증 연구"다(Ticket 011 §3).
 README.md는 템플릿 렌더 결과와 바이트까지 같아야 한다.
 """
 
@@ -44,11 +45,12 @@ class Document:
     lang: str
 
 
-# Ticket 011 §1·§2: 쌍 목록. 한국어판은 한국어판 단계에서 더한다.
+# Ticket 011 §1~§3: 쌍 목록. 한국어판(lang="ko")은 한국어 금지 표현도 검사한다.
 DOCUMENTS: tuple[Document, ...] = (
     Document(TEMPLATE_PATH, README_PATH, "en"),
     Document(Path("writeup/study-1-mean-gates.template"), Path("docs/study-1-mean-gates.md"), "en"),
     Document(Path("writeup/study-2-cell-gate.template"), Path("docs/study-2-cell-gate.md"), "en"),
+    Document(Path("writeup/README.ko.template"), Path("README.ko.md"), "ko"),
 )
 VALUES_PATH = Path("writeup/generated/values.json")
 TABLES_PATH = Path("writeup/generated/tables.json")
@@ -70,6 +72,34 @@ BANNED = (
     "never",
 )
 ALLOWED_TERMS = ("Evidence-Safe",)
+# Ticket 011 §3: 한국어 금지 표현(보고서 2026-11-10-06 6.3 초안 그대로). 조사가 붙으므로
+# 단어 경계 없이 부분 문자열로 찾고, 한국어 문서에는 영어 목록도 함께 적용한다.
+BANNED_KO = (
+    "진짜 효과",
+    "참 효과",
+    "실제 효과",
+    "증명",
+    "입증",
+    "보장",
+    "확증했다",
+    "최초",
+    "처음으로",
+    "유의미",
+    "통계적으로 유의",
+    "유의하게",
+    "강건",
+    "견고",
+    "안전",
+    "항상",
+    "결코",
+    "절대로",
+    "반드시",
+    "획기적",
+    "압도적",
+    "명백히",
+    "확실히",
+)
+ALLOWED_TERMS_KO = ("Evidence-Safe", "확증 연구")
 BANNED_RE = re.compile(
     r"\b(?:" + "|".join(p.replace(" ", r"\s+") for p in BANNED) + r")\b", re.IGNORECASE
 )
@@ -160,13 +190,19 @@ def quoted_segments(text: str, fmt: str) -> list[tuple[int, str]]:
 # ---------------------------------------------------------------------------
 
 
-def _banned_in(line: str) -> list[str]:
-    for term in ALLOWED_TERMS:
+def _banned_in(line: str, lang: str = "en") -> list[str]:
+    for term in ALLOWED_TERMS_KO if lang == "ko" else ALLOWED_TERMS:
         line = line.replace(term, "")
-    return [m.group(0) for m in BANNED_RE.finditer(_strip_quotes(line))]
+    bare = _strip_quotes(line)
+    found = [m.group(0) for m in BANNED_RE.finditer(bare)]
+    if lang == "ko":
+        found += [phrase for phrase in BANNED_KO for _ in range(bare.count(phrase))]
+    return found
 
 
-def check_source(text: str, fmt: str, values: Mapping[str, Mapping[str, str]]) -> list[Violation]:
+def check_source(
+    text: str, fmt: str, values: Mapping[str, Mapping[str, str]], lang: str = "en"
+) -> list[Violation]:
     if fmt not in ("md", "tex"):
         raise ValueError(f"unknown format {fmt!r}")
     lines = _md_lines(text) if fmt == "md" else _tex_lines(text)
@@ -223,7 +259,7 @@ def check_source(text: str, fmt: str, values: Mapping[str, Mapping[str, str]]) -
                 out.append(Violation("placement", number, key))
 
         bare = placeholder.sub("", line)
-        for word in _banned_in(bare):
+        for word in _banned_in(bare, lang):
             out.append(Violation("banned", number, word))
         if fmt == "tex":
             bare = TEX_DIMENSION.sub("", bare)
@@ -237,11 +273,11 @@ def check_source(text: str, fmt: str, values: Mapping[str, Mapping[str, str]]) -
     return out
 
 
-def check_rendered(text: str) -> list[Violation]:
+def check_rendered(text: str, lang: str = "en") -> list[Violation]:
     """렌더 결과의 금지 표현(값의 표시 문구까지 포함). 코드는 보지 않는다."""
     out = []
     for number, line in enumerate(_md_lines(text), start=1):
-        for word in _banned_in(line):
+        for word in _banned_in(line, lang):
             out.append(Violation("banned", number, word))
     return out
 
@@ -323,11 +359,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"note: no template at {doc.template}; {doc.output} checks skipped")
             continue
         template = template_path.read_text(encoding="utf-8")
-        found = check_source(template, "md", values)
+        found = check_source(template, "md", values, doc.lang)
         _report(template_path, root, found)
         _notes(template_path, root, quoted_segments(template, "md"))
         rendered = render_markdown(template, values, tables)
-        found_rendered = check_rendered(rendered)
+        found_rendered = check_rendered(rendered, doc.lang)
         _report(out, root, found_rendered)
         mismatch = not out.exists() or out.read_text(encoding="utf-8") != rendered
         if mismatch:

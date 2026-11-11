@@ -1,5 +1,7 @@
 # EvidenceGate — when should a self-improving agent keep its own edits?
 
+English · [한국어](README.ko.md)
+
 [![CI](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml)
 
 A self-improving agent can rewrite its own procedure and then needs a rule for which edits to keep. EvidenceGate tests such admission rules in a deterministic synthetic incident world: the rules are pre-registered, the candidate edits are frozen before evaluation, and every decision is scored against a hidden root cause on held-out incidents. Three studies use it: mean-based gates, a cell-level gate (confirmatory), and an exploratory probe of harness edits.
@@ -10,7 +12,7 @@ Every number in this README is generated from committed result files, run summar
 
 1. **Mean-based gates** (Ticket 004 to Ticket 006). Most pre-registered questions were not supported or only partly supported (T1). In the exploratory analysis, gates that judge the mean difference admitted edits that hurt one part of the task.
 2. **Cell-level gate, confirmatory** (Ticket 009, Ticket 009b). In this testbed, C4 accepted 22 proposer candidates on CD; the cell-level gate C5 filtered out 9 of them, and 9 of those 9 had Severe Local Harm. Of the 13 it kept, 2 did (one-sided Fisher p = 1/9044; RQ9-1 supported). C5 lost 0 of 7 clean Useful candidates, and admitted fewer Severe candidates than a strict mean gate that admits as many (RQ9-5 supported, p = 1/252; Severe admitted 2 against 7).
-3. **Harness knob probe** (Ticket 010, exploratory). Reordering the tools, rewording a tool description and changing how tool output is shown did not change what the skill-following agent decided, in this testbed.
+3. **Harness knob probe** (Ticket 010, exploratory). Reordering the tools, rewording a tool description and changing how tool output is shown changed the skill-following agent's dispositions no more than same-seed runs already vary, in this testbed.
 
 ## Problem
 

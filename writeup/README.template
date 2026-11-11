@@ -1,5 +1,7 @@
 # EvidenceGate — when should a self-improving agent keep its own edits?
 
+English · [한국어](README.ko.md)
+
 [![CI](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml)
 
 A self-improving agent can rewrite its own procedure and then needs a rule for which edits to keep. EvidenceGate tests such admission rules in a deterministic synthetic incident world: the rules are pre-registered, the candidate edits are frozen before evaluation, and every decision is scored against a hidden root cause on held-out incidents. Three studies use it: mean-based gates, a cell-level gate (confirmatory), and an exploratory probe of harness edits.
@@ -10,7 +12,7 @@ Every number in this README is generated from committed result files, run summar
 
 1. **Mean-based gates** (Ticket 004 to Ticket 006). Most pre-registered questions were not supported or only partly supported (T1). In the exploratory analysis, gates that judge the mean difference admitted edits that hurt one part of the task.
 2. **Cell-level gate, confirmatory** (Ticket 009, Ticket 009b). In this testbed, C4 accepted {{t009b.rq.rq9_1.n}} proposer candidates on CD; the cell-level gate C5 filtered out {{t009b.rq.rq9_1.f}} of them, and {{t009b.rq.rq9_1.a}} of those {{t009b.rq.rq9_1.f}} had Severe Local Harm. Of the {{t009b.metrics.C5.cd.accepted.count}} it kept, {{t009b.metrics.C5.cd.severe.successes}} did (one-sided Fisher p = {{t009b.rq.rq9_1.p}}; RQ9-1 {{t009b.rq.rq9_1.verdict}}). C5 lost {{t009b.rq.rq9_2.u}} of {{t009b.rq.rq9_2.useful_c4}} clean Useful candidates, and admitted fewer Severe candidates than a strict mean gate that admits as many (RQ9-5 {{t009b.rq.rq9_5.verdict}}, p = {{t009b.rq.rq9_5.p}}; Severe admitted {{t009b.rq.rq9_5.severe_c5}} against {{t009b.rq.rq9_5.severe_c4_star}}).
-3. **Harness knob probe** (Ticket 010, exploratory). Reordering the tools, rewording a tool description and changing how tool output is shown did not change what the skill-following agent decided, in this testbed.
+3. **Harness knob probe** (Ticket 010, exploratory). Reordering the tools, rewording a tool description and changing how tool output is shown changed the skill-following agent's dispositions no more than same-seed runs already vary, in this testbed.
 
 ## Problem
 

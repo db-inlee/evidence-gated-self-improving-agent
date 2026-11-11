@@ -184,7 +184,7 @@ def test_names_with_numbers_outside_the_list_are_refused(values: dict[str, Any],
 # 문서 쌍 목록 -----------------------------------------------------------------------------------
 
 
-def test_documents_are_the_readme_and_the_two_study_pages() -> None:
+def test_documents_are_the_readmes_and_the_two_study_pages() -> None:
     expected = (
         wr.Document(Path("writeup/README.template"), Path("README.md"), "en"),
         wr.Document(
@@ -193,6 +193,7 @@ def test_documents_are_the_readme_and_the_two_study_pages() -> None:
         wr.Document(
             Path("writeup/study-2-cell-gate.template"), Path("docs/study-2-cell-gate.md"), "en"
         ),
+        wr.Document(Path("writeup/README.ko.template"), Path("README.ko.md"), "ko"),
     )
     assert expected == wr.DOCUMENTS
 
