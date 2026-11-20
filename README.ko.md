@@ -89,3 +89,4 @@
 
 - 영어 README: [`README.md`](README.md). 전체 설계, 표 T1~T7, 그림, 재현 방법이 있다.
 - 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md)
+- 기록 압축본: GitHub 릴리스 [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11)에 세 개(평균 게이트 연구, 셀 게이트 연구, 하네스 탐침)가 있다. 저장소 루트에서 풀면 `runs/` 아래에 기록이 생긴다.

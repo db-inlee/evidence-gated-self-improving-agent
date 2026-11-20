@@ -295,11 +295,21 @@ uv run ruff check . && uv run ruff format --check .
 uv run mypy
 ```
 
-The analysis inputs of the mean-gate study (episode records of every split, the L3 check and the session logs; 99 files, secret scan with 0 hits; the proposer's call ledger is not included) will be published as `evidencegate-records.tar.gz` once it is attached to a GitHub release of this repository. Check and unpack it at the repository root:
+The episode records are attached to the GitHub release [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11), as three archives, each with a `.sha256` file:
+
+- `evidencegate-records.tar.gz`: the mean-gate study (episode records of every split, the L3 check and the session logs; 99 files, secret scan with 0 hits; the proposer's call ledger is not included).
+- `evidencegate-records-009b.tar.gz`: the cell-gate study (calibration, Dev-A, Dev-B and Oracle records, the session logs, the proposer's input export and its call outputs; 239 files, secret scan with 0 hits; the proposer ledgers and the proposer session log are not included).
+- `evidencegate-records-010-probe.tar.gz`: the harness probe (probe records and session log; 8 files, secret scan with 0 hits).
+
+Check and unpack them at the repository root. Each creates its own folders under `runs/`; their paths do not overlap.
 
 ```bash
-shasum -a 256 evidencegate-records.tar.gz   # expect 741ba9d43092be4214e6550fbc0e5ab87ad717e7618e9b338220484b034b407d
-tar -xzf evidencegate-records.tar.gz        # creates runs/
+shasum -a 256 evidencegate-records.tar.gz              # expect 741ba9d43092be4214e6550fbc0e5ab87ad717e7618e9b338220484b034b407d
+shasum -a 256 evidencegate-records-009b.tar.gz        # expect 285835d6738465102b1b46c030b072da56a6f14ddee79ee7a0174916384734a9
+shasum -a 256 evidencegate-records-010-probe.tar.gz   # expect b03be8c15ce67235f0a36d4f0a29e54fd95d993434e79bf2bc83c86a1f108f1b
+tar -xzf evidencegate-records.tar.gz
+tar -xzf evidencegate-records-009b.tar.gz
+tar -xzf evidencegate-records-010-probe.tar.gz
 ```
 
 The result files and run summaries can then be checked and the write-up values regenerated:

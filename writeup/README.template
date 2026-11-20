@@ -244,11 +244,21 @@ uv run ruff check . && uv run ruff format --check .
 uv run mypy
 ```
 
-The analysis inputs of the mean-gate study (episode records of every split, the L3 check and the session logs; {{release.file_count}} files, secret scan with {{release.secret_hits}} hits; the proposer's call ledger is not included) will be published as `{{release.archive}}` once it is attached to a GitHub release of this repository. Check and unpack it at the repository root:
+The episode records are attached to the GitHub release [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11), as three archives, each with a `.sha256` file:
+
+- `{{release.archive}}`: the mean-gate study (episode records of every split, the L3 check and the session logs; {{release.file_count}} files, secret scan with {{release.secret_hits}} hits; the proposer's call ledger is not included).
+- `{{release.t009b.archive}}`: the cell-gate study (calibration, Dev-A, Dev-B and Oracle records, the session logs, the proposer's input export and its call outputs; {{release.t009b.file_count}} files, secret scan with {{release.t009b.secret_hits}} hits; the proposer ledgers and the proposer session log are not included).
+- `{{release.t010_probe.archive}}`: the harness probe (probe records and session log; {{release.t010_probe.file_count}} files, secret scan with {{release.t010_probe.secret_hits}} hits).
+
+Check and unpack them at the repository root. Each creates its own folders under `runs/`; their paths do not overlap.
 
 ```bash
-shasum -a 256 {{release.archive}}   # expect {{hash.records_archive}}
-tar -xzf {{release.archive}}        # creates runs/
+shasum -a 256 {{release.archive}}              # expect {{hash.records_archive}}
+shasum -a 256 {{release.t009b.archive}}        # expect {{hash.records_archive_009b}}
+shasum -a 256 {{release.t010_probe.archive}}   # expect {{hash.records_archive_010_probe}}
+tar -xzf {{release.archive}}
+tar -xzf {{release.t009b.archive}}
+tar -xzf {{release.t010_probe.archive}}
 ```
 
 The result files and run summaries can then be checked and the write-up values regenerated:
