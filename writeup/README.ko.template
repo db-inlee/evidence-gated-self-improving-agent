@@ -4,13 +4,13 @@
 
 [![CI](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml)
 
-자기개선 에이전트는 자기 절차를 고친 뒤 어떤 수정을 남길지 정하는 규칙이 필요하다. EvidenceGate는 이 채택 규칙을 결정적인 합성 장애 세계에서 시험한다. 규칙은 미리 등록하고, 후보 수정은 평가 전에 동결하고, 모든 결정은 따로 둔 장애에서 숨은 근본 원인으로 채점한다. 이 문서는 영어 README의 요약이다. 모든 숫자는 결과 파일에서 렌더하며 손으로 쓰지 않았다.
+자기개선 에이전트는 자기 절차를 고친 뒤 어떤 수정을 남길지 정하는 규칙이 필요하다. EvidenceGate는 이 채택 규칙을 결정적인 합성 장애 세계에서 시험한다. 결정은 숨은 근본 원인으로 채점한다. 게이트 연구는 규칙을 사전 등록하고 모든 채택 결정을 따로 둔 장애에서 채점한다. 두 하네스 탐침은 탐색이며 Dev-A 장애만 썼다. 이 문서는 영어 README의 요약이다. 모든 숫자는 결과 파일, 실행 요약, 설계 상수에서 렌더하며 손으로 쓰지 않았다.
 
 ## 세 연구 요약
 
 1. **평균 게이트** (Ticket 004 ~ Ticket 006). 사전 등록 질문은 대부분 지지되지 않았거나 일부만 지지되었다. 탐색 분석에서는 평균 차이를 보는 게이트가 한 셀을 해치는 수정을 받아들였다.
-2. **셀 게이트, 확증 연구** (Ticket 009, Ticket 009b). 이 테스트베드에서 C4 게이트가 받아들인 후보 {{t009b.rq.rq9_1.n}}개 중 셀 게이트(C5)가 {{t009b.rq.rq9_1.f}}개를 걸렀고, 그중 {{t009b.rq.rq9_1.a}}개가 Severe Local Harm이었다. 남긴 {{t009b.metrics.C5.cd.accepted.count}}개 중 Severe는 {{t009b.metrics.C5.cd.severe.successes}}개다(단측 Fisher p = {{t009b.rq.rq9_1.p}}, RQ9-1 판정 {{t009b.rq.rq9_1.verdict}}). 깨끗한 Useful 후보는 {{t009b.rq.rq9_2.useful_c4}}개 중 {{t009b.rq.rq9_2.u}}개를 잃었다. 같은 수를 받는 엄격한 평균 게이트(C4*)보다 Severe를 적게 받았다(RQ9-5 판정 {{t009b.rq.rq9_5.verdict}}).
-3. **하네스 탐침 두 번** (Ticket 010, Ticket 012, 탐색). 초기 스킬로 한 번, 조사 순서를 에이전트에 맡기는 열린 스킬로 한 번 도구 순서, 도구 설명, 도구 출력 표시를 바꿔 봤지만, 에이전트의 처분은 두 번 모두 같은 seed 실행 사이의 흔들림 이상으로 바뀌지 않았다.
+2. **셀 게이트, 확증 연구** (Ticket 009, Ticket 009b). 이 테스트베드에서 C4 게이트가 받아들인 후보 {{t009b.rq.rq9_1.n}}개 중 셀 게이트(C5)가 {{t009b.rq.rq9_1.f}}개를 걸렀고, 그중 {{t009b.rq.rq9_1.a}}개가 Severe Local Harm이었다. 남긴 {{t009b.metrics.C5.cd.accepted.count}}개 중 Severe는 {{t009b.metrics.C5.cd.severe.successes}}개다(단측 Fisher p = {{t009b.rq.rq9_1.p}}, RQ9-1 판정 {{t009b.rq.rq9_1.verdict}}). 깨끗한 Useful 후보는 {{t009b.rq.rq9_2.useful_c4}}개 중 {{t009b.rq.rq9_2.u}}개를 잃었다. 같은 수를 받는 엄격한 평균 게이트(C4*)보다 Severe를 적게 받았다(RQ9-5 판정 {{t009b.rq.rq9_5.verdict}}). Useful 후보 전체로 세면 C5 게이트는 {{t009b.rq.rq9_2_all_useful.useful_c4}}개 중 {{t009b.rq.rq9_2_all_useful.u}}개를 걸렀고(기술용), 평균 이득은 C4* 게이트가 더 높았다({{t009b.metrics.C4star.cd.gain}} 대 {{t009b.metrics.C5.cd.gain}}).
+3. **하네스 탐침 두 번** (Ticket 010, Ticket 012, 탐색). 초기 스킬로 한 번, 조사 순서를 에이전트에 맡기는 열린 스킬로 한 번 도구 순서, 도구 설명, 도구 출력 표시를 바꿔 봤지만, 두 번 모두 같은 seed 흔들림에서 정한 기준 k에 닿은 변형은 없었다.
 
 ## 용어 대응
 
@@ -38,7 +38,7 @@
 | C2 | Dev-B에서 평균 짝 차이가 음수가 아니다. |
 | C3 | Dev-B 평균 차이가 δ(N)보다 크다(보조). |
 | C4 | 셀 층화 paired bootstrap의 아래 백분위수가 양수이고, 평균 차이가 δ(N)보다 크다. |
-| C5 | C4 조건에 더해 Dev-B의 모든 셀 차이가 −h(n_c) 이상이다. h와 δ는 S0 대 S0 보정 실행에서 계산한다(오라클 τ가 아님). |
+| C5 | C4 게이트가 받아들이고, Dev-B의 모든 셀 차이가 −h(n_c) 이상이면 받아들인다. n_c는 셀당 장애 수다(CD에서 h({{design.t009b.h_n}}) = {{t009b.h.cd.70.h}}). h와 δ는 S0 대 S0 보정 실행에서 계산한다(오라클 τ가 아님). |
 | C5′, C4* | C5′ 게이트는 C2 조건에 같은 셀 조건을 더한다. C4* 게이트는 C4 후보를 Dev-B 평균 차이 순으로 C5 게이트와 같은 수만큼 받는다. |
 | Severe Local Harm | 어떤 셀에서 오라클 구간의 상한이 −τ_cell보다 작다. 주 결과 라벨이다. |
 | 깨끗한 Useful | 확정 Useful(오라클 구간 하한이 ε보다 큼)이고 Severe가 아니다. |
@@ -61,33 +61,34 @@
 | 채택 수 중 Severe | C4 {{t009b.metrics.C4.cd.severe.successes}}/{{t009b.metrics.C4.cd.accepted.count}}, C5 {{t009b.metrics.C5.cd.severe.successes}}/{{t009b.metrics.C5.cd.accepted.count}}, C4* {{t009b.metrics.C4star.cd.severe.successes}}/{{t009b.metrics.C4star.cd.accepted.count}} | |
 | 평균 이득 | C4 {{t009b.metrics.C4.cd.gain}}, C5 {{t009b.metrics.C5.cd.gain}}, C4* {{t009b.metrics.C4star.cd.gain}} | |
 
+- a, f, k, n: C4 게이트가 받아들인 후보 n개 중 C5 게이트가 f개를 걸렀다. n개 중 k개가 Severe Local Harm이고, 그중 a개가 거른 f개 안에 있다.
 - RQ9-5 비교는 RQ9-1 표와 같은 C4 후보 안에서 이루어진다. RQ9-1 판정과 독립된 근거가 아니다.
 - ES에서는 셀 조건이 아무것도 거르지 않았다(C4 게이트 {{t009b.metrics.C4.es.accepted.count}}개, C5 게이트 {{t009b.metrics.C5.es.accepted.count}}개).
-- 아이디어 묶음마다 대표 하나만 남긴 민감도 분석(Section 6.6)에서도 RQ9-1 판정은 {{t009b.cluster_sensitivity.rq9_1.verdict}}였다. 주 판정은 아니다.
+- 아이디어 묶음마다 대표 하나만 남긴 민감도 분석(셀 게이트 사전 등록([`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt))의 Section 6.6)에서도 RQ9-1 판정은 {{t009b.cluster_sensitivity.rq9_1.verdict}}였다. 주 판정은 아니다.
 - 본 실행은 에피소드 {{run.t009b.main.records.episodes}}개, 세션 {{run.t009b.main.sessions.count}}개였다. 세션 안에서 멈춘 구간은 {{run.t009b.main.idle_spans.by_where.in_session.count}}개다.
 
 ## 하네스 탐침 두 번 (Exploratory)
 
-이 절은 모두 탐색이다. 두 탐침 모두 Dev-A 장애만 썼고, 하네스 수정에 대한 사전 등록은 없었다. 변형 여섯 개(P1~P6)는 두 탐침에서 같고, 도구 순서, 도구 설명, 도구 출력 표시 중 하나를 바꾼다. P0 변형은 도구 호출 수를 제한한 동작 확인용이며 판정에 넣지 않는다.
+이 절은 모두 탐색이다. 두 탐침 모두 Dev-A 장애만 썼고, 하네스 수정에 대한 사전 등록은 없었다. 변형 여섯 개(P1~P6)는 두 탐침에서 같고, 도구 순서, 도구 설명, 도구 출력 표시 중 하나를 바꾼다. P0 변형은 도구 호출 수를 제한하며 판정에 넣지 않는다. 하네스 필드 자체가 모델에 닿는지는 모델에 보내는 요청을 보는 테스트로 확인한다.
 
 ### 초기 스킬(S0) 탐침 (Ticket 010)
 
 - 판정 기준은 실행 전에 정했지만 사전 등록 파일은 아니다.
 - S0 기록과 처분이 다른 에피소드 수는 P1~P6 순서로 {{t010.variants.1.different_disposition}}, {{t010.variants.2.different_disposition}}, {{t010.variants.3.different_disposition}}, {{t010.variants.4.different_disposition}}, {{t010.variants.5.different_disposition}}, {{t010.variants.6.different_disposition}}개다({{t010.variants.1.episodes}}개 중). 움직였다고 볼 기준 {{t010.rule.k}}개에 못 미쳤다. 판정은 {{t010.decision.verdict}}다.
 - 같은 seed라도 순차 실행과 동시 {{design.run_workers}} 실행을 비교하면 {{run.same_seed.pairs}}쌍 중 {{run.same_seed.same_disposition}}쌍만 처분이 같았다(평균 게이트 연구의 보정 기록). 그래서 아무것도 바꾸지 않아도 몇 개의 차이는 생긴다.
-- 트래픽 도구를 맨 앞에 두어도(P1) 에이전트는 그 도구를 부르지 않았다({{t010.variants.1.episodes}}개 중 {{t010.variants.1.traffic_episodes}}개). 초기 스킬이 조사 단계를 정해 두어서 하네스가 끼어들 틈이 적었다.
-- P0 변형은 도구 호출을 {{t010.variants.0.max_tool_calls}}회로 제한했고, 처분을 {{t010.variants.0.episodes}}개 중 {{t010.decision.p0_different}}개 바꿨다.
+- 트래픽 도구를 맨 앞에 두어도(P1) 에이전트는 그 도구를 부르지 않았다({{t010.variants.1.episodes}}개 중 {{t010.variants.1.traffic_episodes}}개). 스킬이 조사 순서를 정해 두어 하네스가 끼어들 틈이 적다는 해석이 있을 수 있지만, 여기서 시험하지는 않았다.
+- P0 변형은 도구 호출을 {{t010.variants.0.max_tool_calls}}회로 제한했다. 기준과 다른 실행 설정이 실제로 적용되는지 보는 확인이며, 에피소드 {{t010.variants.0.episodes}}개 중 {{t010.variants.0.stop_reasons.max_steps}}개가 처분 없이 끝났다.
 
 ### 열린 스킬(S0′) 탐침 (Ticket 012)
 
 S0′ 스킬은 조치 전에 확인할 증거는 그대로 두고 조사 순서만 에이전트에 맡긴다. 기준률, k 규칙, 변형, 판정 규칙은 실행 전에 해시를 붙인 파일로 동결하고 태그를 달았다. 표는 영어 README의 T8 표다.
 
-- **기준률.** 탐침 전에 S0′ 스킬을 같은 seed로 세 번 돌렸다. 기준률 검사를 통과했고, 같은 seed 쌍 {{t012.stage0.attempts.0.disagreement.pairs}}개 중 {{t012.stage0.attempts.0.disagreement.differing}}개가 처분이 달랐다. 절차가 열리면 실행마다 더 흔들리므로, 이 흔들림에서 정한 k가 엄격해졌다({{t012.stage1.rule.episodes}}개 중 {{t012.stage1.rule.k}}개).
-- **조사.** 일부 변형은 조사를 바꿨다. 트래픽 도구를 부른 에피소드는 기준 실행 {{t012.stage1.baseline.traffic_episodes}}개, P1 변형 {{t012.stage1.variants.1.traffic_episodes}}개, P3 변형 {{t012.stage1.variants.3.traffic_episodes}}개였다({{t012.stage1.rule.episodes}}개 중).
+- **기준률과 k.** 탐침 전에 S0′ 스킬을 같은 seed로 세 번 돌렸다. 기준률 검사는 셀 {{t012.criteria.base_rate.cells}}개 중 {{t012.criteria.base_rate.cells_needed}}개 이상에서 {{t012.criteria.base_rate.per_cell}}개 중 맞힌 처분이 {{t012.criteria.base_rate.cd_successes_min}}~{{t012.criteria.base_rate.cd_successes_max}}개이기를 요구했고, {{t012.stage0.attempts.0.base_rate.in_range}}개 셀에서 맞았다. 같은 설정의 같은 seed 쌍 {{t012.stage0.attempts.0.disagreement.pairs}}개 중 {{t012.stage0.attempts.0.disagreement.differing}}개가 처분이 달랐다. 이 수는 S0 기록의 순차 대 동시 실행 비교({{run.same_seed.pairs}}쌍 중 {{run.same_seed.same_disposition}}쌍 일치)와 바로 비교할 수 없다. k는 같은 seed 불일치율의 신뢰 상한을 써서, 잡음만으로 넘을 확률이 {{t012.criteria.k_rule.tail_below}} 미만인 가장 작은 수로 정했다({{t012.stage1.rule.episodes}}개 중 {{t012.stage1.rule.k}}개).
+- **조사.** 일부 변형은 조사를 바꿨다. 트래픽 도구를 부른 에피소드는 기준 실행 {{t012.stage1.baseline.traffic_episodes}}개, 그 도구를 맨 앞에 둔 P1 변형 {{t012.stage1.variants.1.traffic_episodes}}개, P3 변형 {{t012.stage1.variants.3.traffic_episodes}}개였다({{t012.stage1.rule.episodes}}개 중).
 - **처분.** 기준 실행과 처분이 다른 에피소드 수는 P1~P6 순서로 {{t012.stage1.variants.1.different_disposition}}, {{t012.stage1.variants.2.different_disposition}}, {{t012.stage1.variants.3.different_disposition}}, {{t012.stage1.variants.4.different_disposition}}, {{t012.stage1.variants.5.different_disposition}}, {{t012.stage1.variants.6.different_disposition}}개다. k에 닿은 변형은 없다. 판정은 {{t012.stage1.decision.verdict}}다.
-- P0 변형은 도구 호출을 {{t012.stage1.variants.0.max_tool_calls}}회로 제한했고, 처분을 {{t012.stage1.variants.0.episodes}}개 중 {{t012.stage1.decision.p0_different}}개 바꿨다. 하네스는 적용되었다.
+- P0 변형은 도구 호출을 {{t012.stage1.variants.0.max_tool_calls}}회로 제한했다. 기준과 다른 실행 설정이 실제로 적용되는지 보는 확인이며, 에피소드 {{t012.stage1.variants.0.episodes}}개 중 {{t012.stage1.variants.0.stop_reasons.max_steps}}개가 처분 없이 끝났다.
 
-**결론의 범위.** 처분 하나로 끝나는 짧은 과제에서, 프롬프트 지시 밖의 약한 하네스 손잡이는 처분을 같은 seed 흔들림 이상으로 바꾸지 못했다. 실제 자기개선 시스템이 고치는 강한 손잡이에 대해서는 말하지 않는다(한계 참고).
+**결론의 범위.** 처분 하나로 끝나는 짧은 과제에서, 여기서 시험한 프롬프트 밖 하네스 설정(도구 순서, 도구 설명, 출력 형식)은 처분을 k에 닿을 만큼 바꾸지 못했다. 실제 자기개선 시스템이 고치는 강한 손잡이에 대해서는 말하지 않는다(한계 참고).
 
 ## 한계
 
@@ -95,13 +96,13 @@ S0′ 스킬은 조치 전에 확인할 증거는 그대로 두고 조사 순서
 - 설계, 아이디어 묶음, 분석 코드, 보고를 같은 모델(Claude)이 했다. 결과가 나온 뒤에는 맥락 없는 새 세션이 판정 규칙을 다시 적용하고 Severe 라벨을 원 기록에서 따로 다시 계산했다. 같은 모델이므로 독립 검토는 아니다.
 - 후보와 S0 기록은 LLM seed를 공유한다. 같은 seed라도 결과가 같지는 않다.
 - 셀 게이트 연구는 두 번째 시도다. 중복 규칙은 앞선 시도의 후보 {{run.t009.pool.calls}}개를 읽은 뒤 정했다. 그 후보들은 Dev-B와 Oracle에서 돌리지 않았다.
-- 아이디어 묶음은 Claude가 나눴다. 잘게 나눌수록 민감도 분석이 덜 보수적이 된다.
+- 아이디어 묶음은 Claude가 나눴다. 잘게 나눌수록 민감도 분석(셀 게이트 사전 등록([`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt))의 Section 6.6)이 덜 보수적이 된다.
 - τ_cell이 ε와 같아 Local Harm 라벨이 넓다. 효과가 없는 후보도 {{t009b.null_label_rate_plan.local_harm}}의 비율로 이 라벨을 받는다(계획 단계 추정). 그래서 Severe를 주 라벨로 쓴다.
 - 하네스를 좁게 정의했다. 도구 순서, 도구 설명, 도구 출력 표시만 바꿨고, 고정 지시는 빼고, 처분이나 조사 순서를 알려 주는 설명은 금지했다. 실제 자기개선 시스템이 고치는 강한 손잡이(시스템 프롬프트, 메모리, 에이전트 루프 등)는 시험하지 않았다.
-- OpsWorld 과제가 짧다. 한 에피소드는 도구 호출 네 번 안팎과 처분 하나로 끝나서 하네스가 끼어들 여지가 적다.
+- OpsWorld 과제가 짧다. 한 에피소드는 도구 호출 네 번 안팎과 처분 하나로 끝난다. 그래서 하네스가 끼어들 여지가 적다는 해석이 있을 수 있지만, 여기서 시험하지는 않았다.
 
 ## 더 읽기
 
-- 영어 README: [`README.md`](README.md). 전체 설계, 표 T1~T8, 그림, 재현 방법이 있다.
+- 영어 README: [`README.md`](README.md). 전체 설계, 표 T1, T3~T8(T2 표는 상세 문서), 그림, 재현 방법이 있다.
 - 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md)
 - 기록 압축본: GitHub 릴리스 [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11)에 세 개(평균 게이트 연구, 셀 게이트 연구, Ticket 010 하네스 탐침)가 있다. 저장소 루트에서 풀면 `runs/` 아래에 기록이 생긴다.

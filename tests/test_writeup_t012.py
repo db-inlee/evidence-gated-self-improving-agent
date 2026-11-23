@@ -67,11 +67,13 @@ def keys(table: dict[str, Any]) -> list[str]:
     return [k for t in texts for k in wa.PLACEHOLDER.findall(t)]
 
 
-def test_t8_has_the_t7_columns_and_a_baseline_row(
+def test_t8_names_its_baseline_column_and_has_a_baseline_row(
     t8: dict[str, Any], values: dict[str, Any]
 ) -> None:
     t7 = wa.build_tables(values)["t7"]
-    assert t8["columns"] == t7["columns"]
+    assert t7["columns"][2] == "Dispositions differing from S0"
+    assert t8["columns"][2] == "Dispositions differing from the S0\u2032 baseline run"
+    assert t8["columns"][:2] + t8["columns"][3:] == t7["columns"][:2] + t7["columns"][3:]
     names = [wa.fill(r[0], values) for r in t8["rows"]]
     assert names == ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "S0\u2032 (baseline run)"]
     found = set(keys(t8))
@@ -110,3 +112,23 @@ def test_a_changed_012_result_is_refused(tmp_path: Path) -> None:
     path.write_bytes(path.read_bytes() + b" ")
     with pytest.raises(ValueError, match="sha256"):
         w.load_follow_up(root)
+
+
+def test_the_012_criteria_give_the_base_rate_and_k_rule(values: dict[str, Any]) -> None:
+    assert w.FOLLOW_UP_INPUTS["t012_criteria"] == (
+        Path("plans/ticket-012-criteria.json"),
+        "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    )
+    expected = {
+        "t012.criteria.base_rate.cd_successes_min": "2",
+        "t012.criteria.base_rate.cd_successes_max": "8",
+        "t012.criteria.base_rate.per_cell": "10",
+        "t012.criteria.base_rate.cells": "6",
+        "t012.criteria.base_rate.cells_needed": "4",
+        "t012.criteria.k_rule.tail_below": "1/100",
+    }
+    for key, display in expected.items():
+        assert values[key] == {**values[key], "display": display, "kind": "exploratory"}, key
+    # 문서에 쓰는 절만 편다(금지 단어 목록 같은 나머지는 값으로 내지 않는다)
+    assert not [k for k in values if k.startswith("t012.criteria.order_ban")]
+    assert values["hash.t012_criteria"]["display"] == w.FOLLOW_UP_INPUTS["t012_criteria"][1]

@@ -4,15 +4,15 @@ English · [한국어](README.ko.md)
 
 [![CI](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/db-inlee/evidence-gated-self-improving-agent/actions/workflows/ci.yml)
 
-A self-improving agent can rewrite its own procedure and then needs a rule for which edits to keep. EvidenceGate tests such admission rules in a deterministic synthetic incident world: the rules are pre-registered, the candidate edits are frozen before evaluation, and every decision is scored against a hidden root cause on held-out incidents. The candidate edits in both gate studies are edits to the agent's skill file. Three studies use it: mean-based gates, a cell-level gate (confirmatory), and two exploratory probes of harness edits.
+A self-improving agent can rewrite its own procedure and then needs a rule for which edits to keep. EvidenceGate tests such admission rules in a deterministic synthetic incident world, scoring each decision against a hidden root cause. The gate studies pre-register their rules and score every admission decision on held-out incidents; the two harness probes are exploratory and used Dev-A only. The candidate edits in both gate studies are edits to the agent's skill file. Three studies use it: mean-based gates, a cell-level gate (confirmatory), and two exploratory probes of harness edits.
 
 Every number in this README is generated from committed result files, run summaries and design constants (see *Reproduce*); none was typed by hand.
 
 ## At a glance
 
 1. **Mean-based gates** (Ticket 004 to Ticket 006). Most pre-registered questions were not supported or only partly supported (T1). In the exploratory analysis, gates that judge the mean difference admitted edits that hurt one part of the task.
-2. **Cell-level gate, confirmatory** (Ticket 009, Ticket 009b). In this testbed, C4 accepted 22 proposer candidates on CD; the cell-level gate C5 filtered out 9 of them, and 9 of those 9 had Severe Local Harm. Of the 13 it kept, 2 did (one-sided Fisher p = 1/9044; RQ9-1 supported). C5 lost 0 of 7 clean Useful candidates, and admitted fewer Severe candidates than a strict mean gate that admits as many (RQ9-5 supported, p = 1/252; Severe admitted 2 against 7).
-3. **Harness knob probes** (Ticket 010 and Ticket 012, exploratory). In two probes, one with the initial skill and one with an open skill that leaves the investigation order to the agent, reordering the tools, rewording a tool description and changing how tool output is shown did not change the agent's dispositions beyond what same-seed runs already vary, in this testbed.
+2. **Cell-level gate, confirmatory** (Ticket 009, Ticket 009b). In this testbed, C4 accepted 22 proposer candidates on CD; the cell-level gate C5 filtered out 9 of them, and 9 of those 9 had Severe Local Harm. Of the 13 it kept, 2 had Severe Local Harm (one-sided Fisher p = 1/9044; RQ9-1 supported). C5 lost 0 of 7 clean Useful candidates, and admitted fewer Severe candidates than a strict mean gate that admits as many (RQ9-5 supported, p = 1/252; Severe admitted 2 against 7). Counting all Useful candidates, C5 rejected 5 of 13 (descriptive), and C4\* had a higher mean gain (0.129 against 0.104).
+3. **Harness knob probes** (Ticket 010 and Ticket 012, exploratory). In two probes, one with the initial skill and one with an open skill that leaves the investigation order to the agent, no variant (reordering the tools, rewording a tool description or changing how tool output is shown) reached the threshold k that was set from same-seed variation, in this testbed.
 
 ## Problem
 
@@ -73,7 +73,7 @@ All verdicts and thresholds use exact rational arithmetic; Clopper–Pearson int
 
 ### What changed
 
-- **C5** = C4, and every Dev-B cell difference is at least −h(n_c). h and δ come from S0-vs-S0 calibration runs (70 incidents per cell, 5 repeats), not from the oracle's τ. On CD, h(70) = 0.114 and δ(420) = 0.029.
+- **C5** accepts a candidate when C4 accepts it and every Dev-B cell difference is at least −h(n_c), where n_c is the number of incidents per cell (h(70) on CD = 0.114). h and δ come from S0-vs-S0 calibration runs (70 incidents per cell, 5 repeats), not from the oracle's τ. On CD, δ(420) = 0.029.
 - **C5′** = C2 with the same cell condition. **C4\*** admits as many candidates as C5: the top C4 candidates by Dev-B mean difference, with no oracle information.
 - **Severe Local Harm**, the primary label: in some cell, the upper end of the oracle interval is below −τ_cell. **Clean Useful**: confirmed Useful (the lower end of the oracle interval is above ε) and not Severe.
 - **Splits.** Dev-B has 420 incidents (70 per cell) and the Oracle 300 (50 per cell); Dev-A (60) is the proposer's input. S0 on the Oracle is the majority of 5 runs.
@@ -110,6 +110,8 @@ An earlier attempt (Ticket 009) stopped before any Dev-B or Oracle run: its pool
 | RQ9-5 | C5 against the strict mean gate C4* that admits as many candidates (hypergeometric test on the set difference) | admitted 13, set difference 5, Severe in C5 only 0, in C4* only 5 | p = 1/252 | supported |
 | RQ9-5 (descriptive) | count rule: Severe admitted by C5 and by C4* | C5 2, C4* 7 |  | supported |
 
+Of the n candidates C4 accepted, f were rejected by C5; k of the n had Severe Local Harm, a of them among the f. Rows marked descriptive apply the same rule for description only; they are not verdicts of the study.
+
 The Fisher test asks whether the candidates C5 removed were more often Severe than those it kept; random removal would not make them so. Every Useful candidate that C5 rejected was also Severe, so C5 lost no clean Useful candidate. RQ9-5 compares C5 with C4\* inside the same C4 pool, so it is not independent evidence beside RQ9-1.
 
 **T5. Pre-registered metrics per gate (proposer candidates, CD).**
@@ -122,9 +124,13 @@ The Fisher test asks whether the candidates C5 removed were more often Severe th
 | C5′ | 17 | 3/17 | 11/17 | 0/17 | 2/17 | 8/10 | 7/17 | 0.084 | 5/13 |
 | C4* | 13 | 7/13 | 11/13 | 0/13 | 0/13 | 11/11 | 5/13 | 0.129 | 2/13 |
 
-C4 and C5 had almost the same mean gain (0.106 and 0.104), while C4\* reached 0.129 with 7 Severe candidates. On ES the cell condition removed nothing: C4 accepted 27 candidates and C5 accepted 27. In the mean-gate study, the same S0 had an ES rate of 0.000 on bad_deployment, where ES cannot show a regression (see *Mean-based gates*, finding c); the cell-gate result files do not report S0's ES rate per cell. ES metrics, the budget curve, h, δ, τ and the controls are in [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md).
+Useful and Harmful are counted over candidates whose oracle label is settled; uncertain ones are left out of the denominator.
 
-### Pre-registered sensitivity analysis (Section 6.6)
+C4 and C5 had almost the same mean gain (0.106 and 0.104), while C4\* reached 0.129 with 7 Severe candidates. On ES the cell condition removed nothing: C4 accepted 27 candidates and C5 accepted 27. ES metrics, the budget curve, h, δ, τ and the controls are in [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md).
+
+From the mean-gate study (exploratory): the same S0 had an ES rate of 0.000 on bad_deployment, where ES cannot show a regression (see *Mean-based gates*, finding c); the cell-gate result files do not report S0's ES rate per cell.
+
+### Pre-registered sensitivity analysis (Section 6.6 of the cell-gate pre-registration ([`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt)))
 
 **T6. Cluster sensitivity (one representative per idea group).**
 
@@ -136,6 +142,8 @@ C4 and C5 had almost the same mean gain (0.106 and 0.104), while C4\* reached 0.
 | RQ9-5 on the representatives (descriptive) | admitted 8, set difference 3, Severe in C5 only 0, in C4* only 3 | p = 1/20 | direction only |
 | Sensitivity verdict differs from the main verdict | no |  |  |
 
+Rows marked descriptive apply the same rule for description only; they are not verdicts of the study.
+
 This is a sensitivity check, not a verdict of the study. On the representatives, RQ9-1 stays supported, and RQ9-5 is direction only.
 
 ### Run
@@ -144,7 +152,7 @@ The main run recorded 32820 episodes in 3 sessions, with 0 server errors and 0 f
 
 ## Harness knob probes (Exploratory)
 
-Everything in this section is exploratory. Both probes used Dev-A only, before any pre-registration for harness edits. Both used the same knobs: P1 lists the traffic tool at the top; P2 lists dependency health before deployments; P3 and P4 add a usage note to the traffic and dependency descriptions; P5 and P6 show tool output as key-value lines and as compact JSON. P0 limits the agent to one or a few tool calls; it checks that the harness is applied and does not count toward the decision.
+Everything in this section is exploratory. Both probes used Dev-A only, before any pre-registration for harness edits. Both used the same knobs: P1 lists the traffic tool at the top; P2 lists dependency health before deployments; P3 and P4 add a usage note to the traffic and dependency descriptions; P5 and P6 show tool output as key-value lines and as compact JSON. P0 caps the tool calls and does not count toward the decision. That the harness fields themselves reach the model is checked by tests on the request sent to the model.
 
 ### Probe with the initial skill (Ticket 010)
 
@@ -161,9 +169,9 @@ Everything in this section is exploratory. Both probes used Dev-A only, before a
 | P6 | observation_renderer | 3 of 60 | no | 3 | 0 | 4.000 |
 | S0 | baseline (Dev-A records) |  |  |  | 0 | 4.000 |
 
-P0 limits the agent to 3 tool calls; it changed 60 of 60 dispositions.
+P0 caps the tool calls at 3 (P0 checks that a run-time setting differing from the baseline takes effect: it ended 60 of 60 episodes without a disposition).
 
-No variant reached the 8 differing dispositions that counted as moving the agent. With the same seed, only 575 of 600 pairs agreed on the disposition, so a few differing episodes are expected without any change. With the traffic tool listed at the top (P1), the agent called it in 0 of 60 episodes: S0 fixes the investigation order, so the harness had little room to act. The decision rule was fixed before the run, but not in a pre-registration file.
+No variant reached the 8 differing dispositions that counted as moving the agent. With the same seed, only 575 of 600 pairs (sequential against two concurrent episodes) agreed on the disposition, so a few differing episodes are expected without any change. With the traffic tool listed at the top (P1), the agent called it in 0 of 60 episodes. One reading, not tested here, is that the skill fixes the investigation order and leaves the harness little room. The decision rule was fixed before the run, but not in a pre-registration file. Decision: reconsider.
 
 ### Probe with an open skill (Ticket 012)
 
@@ -171,7 +179,7 @@ S0′ keeps the evidence the agent must check before acting but leaves the order
 
 **T8. Harness knob probe with the open skill S0′ on Dev-A.**
 
-| Variant | Field | Dispositions differing from S0 | Moved | Tool set differs | Traffic tool called | Mean tool calls |
+| Variant | Field | Dispositions differing from the S0′ baseline run | Moved | Tool set differs | Traffic tool called | Mean tool calls |
 | --- | --- | --- | --- | --- | --- | --- |
 | P0 | control | 60 of 60 | n/a (wiring check) | 60 | 0 | 1.000 |
 | P1 | tool_order | 16 of 60 | no | 34 | 1 | 3.150 |
@@ -182,11 +190,11 @@ S0′ keeps the evidence the agent must check before acting but leaves the order
 | P6 | observation_renderer | 16 of 60 | no | 31 | 19 | 3.683 |
 | S0′ (baseline run) | baseline (Dev-A records) |  |  |  | 22 | 3.650 |
 
-- **Base rate.** Before the probe, S0′ was run three times on the same seeds. It met the base-rate check, and 16 of 120 same-seed pairs differed in disposition. With an open procedure the agent varies more from run to run, so the threshold k, set from this variation, became strict: 21 of 60 episodes.
-- **Investigation.** Some variants changed what the agent looked at. The baseline run called the traffic tool in 22 of 60 episodes; P1 in 1 and P3 in 32.
-- **Dispositions.** No variant reached k. P0 capped tool calls at 1 and changed 60 of 60 dispositions, so the harness was applied. Decision: reconsider.
+- **Base rate and k.** Before the probe, S0′ was run three times on the same seeds. The base-rate check required at least 4 of 6 cells with 2 to 8 correct dispositions out of 10 (met in 5). S0′ disagreed with itself in 16 of 120 same-setting pairs. This is not directly comparable with the 575/600 agreement between sequential and concurrent runs of S0. k is the smallest count that same-seed noise alone exceeds with probability below 1/100, using the upper confidence bound of the same-seed disagreement rate: 21 of 60 episodes.
+- **Investigation.** Some variants changed what the agent looked at. The baseline run called the traffic tool in 22 of 60 episodes; P1, which lists that tool at the top, called it in 1, and P3 in 32.
+- **Dispositions.** No variant reached k. P0 caps the tool calls at 1 (P0 checks that a run-time setting differing from the baseline takes effect: it ended 60 of 60 episodes without a disposition). Decision: reconsider.
 
-**Scope of the conclusion.** In this short task with one disposition, weak harness knobs outside the prompt's instructions did not change dispositions beyond same-seed variation. This says nothing about the stronger knobs that real self-improving systems edit (see Limitations).
+**Scope of the conclusion.** In a short task that ends in one decision, the prompt-external harness settings tested here (tool order, tool descriptions, output format) did not change dispositions enough to reach k. This says nothing about the stronger knobs that real self-improving systems edit (see Limitations).
 
 ## Mean-based gates (earlier study)
 
@@ -288,12 +296,12 @@ E1 approximates the overall CD estimate if L2-like incidents made up each whole 
 
 - **One world, one policy, one S0.** All results come from one synthetic environment, one local policy model and one initial skill.
 - **Same model throughout.** One model (Claude) designed the studies, grouped the candidate ideas, wrote the analysis code and wrote the reports. After the results, a fresh session without the earlier context re-applied the decision rules from the pre-registration and result files and recomputed the Severe labels from the raw records with its own code. That is the same model, not an independent reader.
-- **Shared seeds.** On the Oracle, a candidate shares its LLM seed with S0's repeat zero, which is one of the S0 majority votes. The same seed does not give the same run: 575 of 600 same-seed pairs agreed on the disposition.
-- **Idea groups.** Claude split the cell-gate pool into idea groups. Finer groups give more representatives, so the sensitivity check in Section 6.6 becomes less conservative.
+- **Shared seeds.** On the Oracle, a candidate shares its LLM seed with S0's repeat zero, which is one of the S0 majority votes. The same seed does not give the same run: 575 of 600 same-seed pairs (sequential against two concurrent episodes) agreed on the disposition.
+- **Idea groups.** Claude split the cell-gate pool into idea groups. Finer groups give more representatives, so the sensitivity check in Section 6.6 of the cell-gate pre-registration ([`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt)) becomes less conservative.
 - **Broad Local Harm.** τ_cell equals ε (0.050) in the cell-gate study, so the Local Harm label is broad: a candidate with no effect would get it with probability 0.167 (planning estimate), against 0.000475 for Severe Local Harm. This is why Severe is the primary label.
 - **Rerun after a shortfall.** The cell-gate study is a second attempt. Its duplicate rule was set after reading the earlier attempt's 80 candidates, which had not been run on Dev-B or the Oracle.
 - **Narrow harness.** In the harness probes, the harness was limited to tool order, tool descriptions and how tool output is shown. Fixed instructions were excluded, and descriptions could not tell the agent which disposition to take or in what order to investigate. The stronger knobs that real self-improving systems edit, such as the system prompt, memory and the agent loop, were not tested.
-- **Short task.** An OpsWorld episode takes about four tool calls and ends with one disposition, so the harness has little room to act.
+- **Short task.** An OpsWorld episode takes about four tool calls and ends with one disposition. One reading, not tested here, is that this leaves the harness little room.
 - **Study-specific limits** of the mean-gate study are listed in its section.
 
 ## Related work
@@ -320,11 +328,11 @@ uv run ruff check . && uv run ruff format --check .
 uv run mypy
 ```
 
-The episode records are attached to the GitHub release [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11), as three archives, each with a `.sha256` file:
+The episode records are attached to the GitHub release [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11), as three archives, each with a `.sha256` file. The raw records of the Ticket 012 probe are not in the release yet.
 
 - `evidencegate-records.tar.gz`: the mean-gate study (episode records of every split, the L3 check and the session logs; 99 files, secret scan with 0 hits; the proposer's call ledger is not included).
 - `evidencegate-records-009b.tar.gz`: the cell-gate study (calibration, Dev-A, Dev-B and Oracle records, the session logs, the proposer's input export and its call outputs; 239 files, secret scan with 0 hits; the proposer ledgers and the proposer session log are not included).
-- `evidencegate-records-010-probe.tar.gz`: the harness probe (probe records and session log; 8 files, secret scan with 0 hits).
+- `evidencegate-records-010-probe.tar.gz`: the earlier harness probe, Ticket 010 (probe records and session log; 8 files, secret scan with 0 hits).
 
 Check and unpack them at the repository root. Each creates its own folders under `runs/`; their paths do not overlap.
 
@@ -342,6 +350,7 @@ The result files and run summaries can then be checked and the write-up values r
 ```bash
 shasum -a 256 results/ticket-005/analysis.json results/ticket-006/analysis.json
 shasum -a 256 results/ticket-009b/analysis.json results/ticket-010/probe.json   # expect 21c87f2798fa032e3ce627029e8b01c7629cb9b73215aeac1b3742f36d3cdafe and f907489e277e3e3fd3d237d5e61d71554b2f1176bf81d53d62a0bc254835158c
+shasum -a 256 results/ticket-012/stage0.json results/ticket-012/stage1.json  # expect 9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739 and f36fdbccbd45d2055eecc1f1273f149251362094bbc01f9b97cb07a45fd497a9
 shasum -a 256 writeup/inputs/run_summary_009b.json                             # expect ff203e7e926de66210d5f25852fb20909830905537db22f55b4d778aa78a326f
 uv run python -m evidencegate.writeup              # writeup/generated/values.json
 uv run python -m evidencegate.writeup_artifacts    # tables and figures
@@ -361,9 +370,10 @@ src/evidencegate/   agent policy, runners, proposer, pool, gates, oracle, metric
   t009b/            cell-gate study, revised attempt: duplicate rule, proposer entry, pool freeze, preflight, analysis
   t010/             harness knob probe runner
   t012/             harness knob probe with the open skill: base-rate check and probe runner
-results/            ticket-005/, ticket-006/: mean-gate study; ticket-009/: thresholds h and delta, call manifest;
-                    ticket-009b/: cell-gate study; ticket-010/: harness probe (JSON and sha256);
-                    ticket-012/: harness probe with the open skill
+results/            ticket-005/, ticket-006/: mean-gate study (JSON and sha256 files);
+                    ticket-009/: thresholds h and delta (sha256 file), call manifest;
+                    ticket-009b/: cell-gate study (JSON and sha256 file);
+                    ticket-010/, ticket-012/: harness probes (JSON only; their sha256 is fixed in the write-up code)
 docs/               detailed tables of the mean-gate and cell-gate studies (rendered from writeup/)
 writeup/            templates, inputs (run summaries, definitions, release manifest), generated values, tables and figures
 plans/              frozen run plans and probe criteria and their sha256, power checks, duplicate-rule groups and properties, pool idea groups

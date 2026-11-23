@@ -2629,6 +2629,11 @@
     "exact": "f907489e277e3e3fd3d237d5e61d71554b2f1176bf81d53d62a0bc254835158c",
     "kind": "provenance"
   },
+  "hash.t012_criteria": {
+    "display": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    "exact": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    "kind": "provenance"
+  },
   "hash.t012_stage0": {
     "display": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
     "exact": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
@@ -79377,6 +79382,71 @@
   "t010.variants.count": {
     "display": "7",
     "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.criteria.base_rate.cd_successes_max": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.criteria.base_rate.cd_successes_min": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.criteria.base_rate.cells": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.criteria.base_rate.cells_needed": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.criteria.base_rate.per_cell": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.floor": {
+    "display": "25/600",
+    "exact": "25/600",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.k_max": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.pairs": {
+    "display": "120",
+    "exact": "120",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.repeats_added": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.same_config_and_seed": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.tail_below": {
+    "display": "1/100",
+    "exact": "1/100",
+    "kind": "exploratory"
+  },
+  "t012.criteria.k_rule.upper_bound": {
+    "display": "clopper_pearson_two_sided_95",
+    "exact": "clopper_pearson_two_sided_95",
     "kind": "exploratory"
   },
   "t012.stage0.attempts.0.base_rate.cells.bad_deployment/L1": {

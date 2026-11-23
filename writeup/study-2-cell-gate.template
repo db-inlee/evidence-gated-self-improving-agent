@@ -20,7 +20,7 @@ On ES, C4 and C5 accepted the same candidates, so the cell condition removed not
 
 Each row recomputes the gates on stratified Dev-B subsamples of N = {{design.budget_ns}} incidents, the same sizes as in the mean-gate study ({{t009b.budget_curve.24.cd.n_resample}} resamples each), and on the full Dev-B ({{design.t009b.dev_b_size}}, one evaluation). Values are means over resamples: the share of proposer candidates accepted, the number of Severe candidates accepted, and the differences C4 minus C5.
 
-| Dev-B size | Accepted C2 | Accepted C4 | Accepted C5 | Severe in C4 | Severe in C5 | Severe, C4 − C5 | Useful, C4 − C5 |
+| Dev-B size | Accepted C2 | Accepted C4 | Accepted C5 | Severe in C4 | Severe in C5 | Severe, C4 − C5 | Clean Useful, C4 − C5 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | smallest subsample | {{t009b.budget_curve.24.cd.acceptance.C2.mean}} | {{t009b.budget_curve.24.cd.acceptance.C4.mean}} | {{t009b.budget_curve.24.cd.acceptance.C5.mean}} | {{t009b.budget_curve.24.cd.severe_c4.mean}} | {{t009b.budget_curve.24.cd.severe_c5.mean}} | {{t009b.budget_curve.24.cd.severe_diff.mean}} | {{t009b.budget_curve.24.cd.useful_diff.mean}} |
 | second subsample | {{t009b.budget_curve.48.cd.acceptance.C2.mean}} | {{t009b.budget_curve.48.cd.acceptance.C4.mean}} | {{t009b.budget_curve.48.cd.acceptance.C5.mean}} | {{t009b.budget_curve.48.cd.severe_c4.mean}} | {{t009b.budget_curve.48.cd.severe_c5.mean}} | {{t009b.budget_curve.48.cd.severe_diff.mean}} | {{t009b.budget_curve.48.cd.useful_diff.mean}} |

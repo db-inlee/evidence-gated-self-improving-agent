@@ -20,7 +20,7 @@ On ES, C4 and C5 accepted the same candidates, so the cell condition removed not
 
 Each row recomputes the gates on stratified Dev-B subsamples of N = 24, 48, 96, 204 incidents, the same sizes as in the mean-gate study (1000 resamples each), and on the full Dev-B (420, one evaluation). Values are means over resamples: the share of proposer candidates accepted, the number of Severe candidates accepted, and the differences C4 minus C5.
 
-| Dev-B size | Accepted C2 | Accepted C4 | Accepted C5 | Severe in C4 | Severe in C5 | Severe, C4 − C5 | Useful, C4 − C5 |
+| Dev-B size | Accepted C2 | Accepted C4 | Accepted C5 | Severe in C4 | Severe in C5 | Severe, C4 − C5 | Clean Useful, C4 − C5 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | smallest subsample | 0.769 | 0.197 | 0.185 | 3.840 | 3.363 | 0.477 | 0.002 |
 | second subsample | 0.737 | 0.291 | 0.224 | 5.611 | 2.968 | 2.643 | 0.038 |

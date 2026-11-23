@@ -567,7 +567,10 @@ def _t8(values: Values) -> Table:
         + " as a wiring check and is not counted. Decision: "
         + _v("t012.stage1.decision.verdict")
         + ".",
-        "columns": _t7(values)["columns"],
+        "columns": [
+            c if i != 2 else "Dispositions differing from the S0\u2032 baseline run"
+            for i, c in enumerate(_t7(values)["columns"])
+        ],
         "rows": rows,
     }
 
