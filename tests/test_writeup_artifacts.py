@@ -249,6 +249,7 @@ FILES = (
     "t5.tex",
     "t6.tex",
     "t7.tex",
+    "t8.tex",
     "f2_cd.svg",
     "f2_cd.pdf",
     "f2_es.svg",

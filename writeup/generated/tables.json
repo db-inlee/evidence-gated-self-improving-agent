@@ -1090,5 +1090,93 @@
       ]
     ],
     "title": "Harness knob probe on Dev-A (Ticket 010, exploratory)"
+  },
+  "t8": {
+    "columns": [
+      "Variant",
+      "Field",
+      "Dispositions differing from S0",
+      "Moved",
+      "Tool set differs",
+      "Traffic tool called",
+      "Mean tool calls"
+    ],
+    "id": "t8",
+    "note": "Exploratory. A variant moved if at least {{t012.stage1.rule.k}} of {{t012.stage1.rule.episodes}} dispositions differed from the baseline run of S0′; k came from its same-seed variation. P0 caps tool calls at {{t012.stage1.variants.0.max_tool_calls}} as a wiring check and is not counted. Decision: {{t012.stage1.decision.verdict}}.",
+    "rows": [
+      [
+        "{{t012.stage1.variants.0.name}}",
+        "{{t012.stage1.variants.0.field}}",
+        "{{t012.stage1.variants.0.different_disposition}} of {{t012.stage1.variants.0.episodes}}",
+        "n/a (wiring check)",
+        "{{t012.stage1.variants.0.different_tool_set}}",
+        "{{t012.stage1.variants.0.traffic_episodes}}",
+        "{{t012.stage1.variants.0.mean_tool_calls}}"
+      ],
+      [
+        "{{t012.stage1.variants.1.name}}",
+        "{{t012.stage1.variants.1.field}}",
+        "{{t012.stage1.variants.1.different_disposition}} of {{t012.stage1.variants.1.episodes}}",
+        "{{t012.stage1.variants.1.moved}}",
+        "{{t012.stage1.variants.1.different_tool_set}}",
+        "{{t012.stage1.variants.1.traffic_episodes}}",
+        "{{t012.stage1.variants.1.mean_tool_calls}}"
+      ],
+      [
+        "{{t012.stage1.variants.2.name}}",
+        "{{t012.stage1.variants.2.field}}",
+        "{{t012.stage1.variants.2.different_disposition}} of {{t012.stage1.variants.2.episodes}}",
+        "{{t012.stage1.variants.2.moved}}",
+        "{{t012.stage1.variants.2.different_tool_set}}",
+        "{{t012.stage1.variants.2.traffic_episodes}}",
+        "{{t012.stage1.variants.2.mean_tool_calls}}"
+      ],
+      [
+        "{{t012.stage1.variants.3.name}}",
+        "{{t012.stage1.variants.3.field}}",
+        "{{t012.stage1.variants.3.different_disposition}} of {{t012.stage1.variants.3.episodes}}",
+        "{{t012.stage1.variants.3.moved}}",
+        "{{t012.stage1.variants.3.different_tool_set}}",
+        "{{t012.stage1.variants.3.traffic_episodes}}",
+        "{{t012.stage1.variants.3.mean_tool_calls}}"
+      ],
+      [
+        "{{t012.stage1.variants.4.name}}",
+        "{{t012.stage1.variants.4.field}}",
+        "{{t012.stage1.variants.4.different_disposition}} of {{t012.stage1.variants.4.episodes}}",
+        "{{t012.stage1.variants.4.moved}}",
+        "{{t012.stage1.variants.4.different_tool_set}}",
+        "{{t012.stage1.variants.4.traffic_episodes}}",
+        "{{t012.stage1.variants.4.mean_tool_calls}}"
+      ],
+      [
+        "{{t012.stage1.variants.5.name}}",
+        "{{t012.stage1.variants.5.field}}",
+        "{{t012.stage1.variants.5.different_disposition}} of {{t012.stage1.variants.5.episodes}}",
+        "{{t012.stage1.variants.5.moved}}",
+        "{{t012.stage1.variants.5.different_tool_set}}",
+        "{{t012.stage1.variants.5.traffic_episodes}}",
+        "{{t012.stage1.variants.5.mean_tool_calls}}"
+      ],
+      [
+        "{{t012.stage1.variants.6.name}}",
+        "{{t012.stage1.variants.6.field}}",
+        "{{t012.stage1.variants.6.different_disposition}} of {{t012.stage1.variants.6.episodes}}",
+        "{{t012.stage1.variants.6.moved}}",
+        "{{t012.stage1.variants.6.different_tool_set}}",
+        "{{t012.stage1.variants.6.traffic_episodes}}",
+        "{{t012.stage1.variants.6.mean_tool_calls}}"
+      ],
+      [
+        "S0′ (baseline run)",
+        "baseline (Dev-A records)",
+        "",
+        "",
+        "",
+        "{{t012.stage1.baseline.traffic_episodes}}",
+        "{{t012.stage1.baseline.mean_tool_calls}}"
+      ]
+    ],
+    "title": "Harness knob probe with the open skill S0′ (Ticket 012, exploratory)"
   }
 }

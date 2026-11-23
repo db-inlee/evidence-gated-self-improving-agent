@@ -18,6 +18,7 @@
   해시·커밋. 입력 sha256이 고정값·옆 `.sha256`과 다르거나 009b 결과의 사전 등록·h·δ 해시가 다르면
   멈춘다. `follow_up`이 없으면 v1 값만 낸다(v1 키·값·표시는 그대로).
 - p값(키 끝이 `.p`인 분수)은 정확한 분수로 표시한다. v1 값에는 그런 키가 없다.
+- Ticket 012 경로 A의 0단계·1단계 결과(`t012.stage0.`, `t012.stage1.`)는 모두 exploratory다.
 """
 
 import argparse
@@ -68,6 +69,15 @@ FOLLOW_UP_INPUTS: dict[str, tuple[Path, str]] = {
     "t010": (T010_PATH, T010_PROBE_SHA256),
     "t009_thresholds": (T009_THRESHOLDS_PATH, T009_THRESHOLDS_SHA256),
     "run_summary_009b": (RUN_SUMMARY_009B_PATH, RUN_SUMMARY_009B_SHA256),
+    # Ticket 012 경로 A(0단계·1단계, 탐색)
+    "t012_stage0": (
+        Path("results/ticket-012/stage0.json"),
+        "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
+    ),
+    "t012_stage1": (
+        Path("results/ticket-012/stage1.json"),
+        "f36fdbccbd45d2055eecc1f1273f149251362094bbc01f9b97cb07a45fd497a9",
+    ),
 }
 
 KINDS = ("result", "derived", "exploratory", "design", "run", "provenance")
@@ -425,6 +435,8 @@ class FollowUp:
     thresholds: dict[str, Any]
     run_009b: dict[str, Any]
     preregistration_009_sha256: str
+    t012_stage0: dict[str, Any] = dataclass_field(default_factory=dict)
+    t012_stage1: dict[str, Any] = dataclass_field(default_factory=dict)
     releases: dict[str, dict[str, Any]] = dataclass_field(default_factory=dict)  # 있는 매니페스트만
 
 
@@ -476,6 +488,8 @@ def load_follow_up(root: Path) -> FollowUp:
         data["t009_thresholds"],
         data["run_summary_009b"],
         prereg_009,
+        data["t012_stage0"],
+        data["t012_stage1"],
         releases,
     )
 
@@ -540,6 +554,8 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
         "hash.t010_probe": T010_PROBE_SHA256,
         "hash.t009_thresholds": T009_THRESHOLDS_SHA256,
         "hash.run_summary_009b": RUN_SUMMARY_009B_SHA256,
+        "hash.t012_stage0": FOLLOW_UP_INPUTS["t012_stage0"][1],
+        "hash.t012_stage1": FOLLOW_UP_INPUTS["t012_stage1"][1],
         "hash.preregistration_009b": inputs["preregistration"],
         "hash.preregistration_009": f.preregistration_009_sha256,
         "hash.t009b_pool": inputs["pool"],
@@ -551,6 +567,8 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
     return {
         **flatten_result("t009b", f.t009b),
         **flatten_result("t010", f.t010, kind="exploratory"),
+        **flatten_result("t012.stage0", f.t012_stage0, kind="exploratory"),
+        **flatten_result("t012.stage1", f.t012_stage1, kind="exploratory"),
         **flatten_result("t009.thresholds", f.thresholds),
         **flatten_result("run", run["run"], kind="run"),
         **flatten_result("provenance", provenance, kind="provenance"),

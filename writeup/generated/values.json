@@ -2629,6 +2629,16 @@
     "exact": "f907489e277e3e3fd3d237d5e61d71554b2f1176bf81d53d62a0bc254835158c",
     "kind": "provenance"
   },
+  "hash.t012_stage0": {
+    "display": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
+    "exact": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
+    "kind": "provenance"
+  },
+  "hash.t012_stage1": {
+    "display": "f36fdbccbd45d2055eecc1f1273f149251362094bbc01f9b97cb07a45fd497a9",
+    "exact": "f36fdbccbd45d2055eecc1f1273f149251362094bbc01f9b97cb07a45fd497a9",
+    "kind": "provenance"
+  },
   "provenance.definition.path": {
     "display": "writeup/inputs/run_summary_009b_definition.txt",
     "exact": "writeup/inputs/run_summary_009b_definition.txt",
@@ -79365,6 +79375,2441 @@
     "kind": "exploratory"
   },
   "t010.variants.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.cells.bad_deployment/L1": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.cells.bad_deployment/L2": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.cells.dependency_failure/L1": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.cells.dependency_failure/L2": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.cells.traffic_spike/L1": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.cells.traffic_spike/L2": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.in_range": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.needed": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.base_rate.pass": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.first_call_is_disposition": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.mean_tool_calls": {
+    "display": "3.650",
+    "exact": "3.65",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "13",
+    "exact": "13",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.sequences.get_service_metrics > scale_service": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.tool_call_counts.2": {
+    "display": "17",
+    "exact": "17",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.tool_call_counts.3": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.tool_call_counts.4": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.tool_call_counts.5": {
+    "display": "19",
+    "exact": "19",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0.traffic_episodes": {
+    "display": "22",
+    "exact": "22",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.first_call_is_disposition": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.mean_tool_calls": {
+    "display": "3.617",
+    "exact": "3.6166666666666667",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "11",
+    "exact": "11",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.sequences.get_service_metrics > scale_service": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.tool_call_counts.2": {
+    "display": "19",
+    "exact": "19",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.tool_call_counts.3": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.tool_call_counts.4": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.tool_call_counts.5": {
+    "display": "19",
+    "exact": "19",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun1.traffic_episodes": {
+    "display": "22",
+    "exact": "22",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.first_call_is_disposition": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.mean_tool_calls": {
+    "display": "3.650",
+    "exact": "3.65",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "14",
+    "exact": "14",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "11",
+    "exact": "11",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.sequences.get_service_metrics > scale_service": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.tool_call_counts.2": {
+    "display": "17",
+    "exact": "17",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.tool_call_counts.3": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.tool_call_counts.4": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.tool_call_counts.5": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.descriptive.t012_stage0_rerun2.traffic_episodes": {
+    "display": "24",
+    "exact": "24",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.disagreement.differing": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.disagreement.pairs": {
+    "display": "120",
+    "exact": "120",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.k.k": {
+    "display": "21",
+    "exact": "21",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.k.k_max": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.k.over_cap": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.k.p_upper": {
+    "display": "0.207",
+    "exact": "0.207478",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.k.p_used": {
+    "display": "0.207",
+    "exact": "0.207478",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.outcome": {
+    "display": "pass",
+    "exact": "pass",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.runs": {
+    "display": "t012_stage0, t012_stage0_rerun1, t012_stage0_rerun2",
+    "exact": "[t012_stage0, t012_stage0_rerun1, t012_stage0_rerun2]",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.runs.0": {
+    "display": "t012_stage0",
+    "exact": "t012_stage0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.runs.1": {
+    "display": "t012_stage0_rerun1",
+    "exact": "t012_stage0_rerun1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.runs.2": {
+    "display": "t012_stage0_rerun2",
+    "exact": "t012_stage0_rerun2",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.skill": {
+    "display": "S0_prime",
+    "exact": "S0_prime",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.0.skill_id": {
+    "display": "3665eab231d6",
+    "exact": "3665eab231d6",
+    "kind": "exploratory"
+  },
+  "t012.stage0.attempts.count": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage0.config_id": {
+    "display": "7c66ee5bf13c",
+    "exact": "7c66ee5bf13c",
+    "kind": "exploratory"
+  },
+  "t012.stage0.criteria_sha256": {
+    "display": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    "exact": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    "kind": "exploratory"
+  },
+  "t012.stage0.criteria_tag": {
+    "display": "t012-criteria",
+    "exact": "t012-criteria",
+    "kind": "exploratory"
+  },
+  "t012.stage0.engine.model": {
+    "display": "gpt-oss:20b",
+    "exact": "gpt-oss:20b",
+    "kind": "exploratory"
+  },
+  "t012.stage0.engine.model_digest": {
+    "display": "f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe",
+    "exact": "f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe",
+    "kind": "exploratory"
+  },
+  "t012.stage0.engine.ollama_version": {
+    "display": "0.40.3",
+    "exact": "0.40.3",
+    "kind": "exploratory"
+  },
+  "t012.stage0.policy_id": {
+    "display": "ollama:gpt-oss:20b",
+    "exact": "ollama:gpt-oss:20b",
+    "kind": "exploratory"
+  },
+  "t012.stage0.skill_for_stage1": {
+    "display": "S0_prime",
+    "exact": "S0_prime",
+    "kind": "exploratory"
+  },
+  "t012.stage0.stage": {
+    "display": "stage0",
+    "exact": "stage0",
+    "kind": "exploratory"
+  },
+  "t012.stage0.ticket": {
+    "display": "012",
+    "exact": "012",
+    "kind": "exploratory"
+  },
+  "t012.stage0.verdict": {
+    "display": "pass",
+    "exact": "pass",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.mean_tool_calls": {
+    "display": "3.650",
+    "exact": "3.65",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "13",
+    "exact": "13",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.sequences.get_service_metrics > scale_service": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.split": {
+    "display": "t012_stage0",
+    "exact": "t012_stage0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.baseline.traffic_episodes": {
+    "display": "22",
+    "exact": "22",
+    "kind": "exploratory"
+  },
+  "t012.stage1.criteria_sha256": {
+    "display": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    "exact": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+    "kind": "exploratory"
+  },
+  "t012.stage1.decision.fields": {
+    "display": "none",
+    "exact": "[]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.decision.fields.count": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.decision.moved": {
+    "display": "none",
+    "exact": "[]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.decision.moved.count": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.decision.p0_different": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.decision.verdict": {
+    "display": "reconsider",
+    "exact": "reconsider",
+    "kind": "exploratory"
+  },
+  "t012.stage1.rule.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.rule.k": {
+    "display": "21",
+    "exact": "21",
+    "kind": "exploratory"
+  },
+  "t012.stage1.rule.m": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.rule.min_fields": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.rule.p0_max_tool_calls": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.rule.p0_min": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "t012.stage1.stage": {
+    "display": "stage1",
+    "exact": "stage1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.stage0_sha256": {
+    "display": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
+    "exact": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
+    "kind": "exploratory"
+  },
+  "t012.stage1.ticket": {
+    "display": "012",
+    "exact": "012",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.0.problems": {
+    "display": "none",
+    "exact": "[]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.0.problems.count": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.0.text": {
+    "display": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed.",
+    "exact": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed.",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.0.tool": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.0.variant": {
+    "display": "P3",
+    "exact": "P3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.1.problems": {
+    "display": "none",
+    "exact": "[]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.1.problems.count": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.1.text": {
+    "display": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself.",
+    "exact": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself.",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.1.tool": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.1.variant": {
+    "display": "P4",
+    "exact": "P4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.tool_description_candidates.count": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.bad_deployment/L1.cd_diff": {
+    "display": "-10",
+    "exact": "-10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.bad_deployment/L1.es_diff": {
+    "display": "-6",
+    "exact": "-6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.bad_deployment/L2.cd_diff": {
+    "display": "-6",
+    "exact": "-6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.bad_deployment/L2.es_diff": {
+    "display": "-3",
+    "exact": "-3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.dependency_failure/L1.cd_diff": {
+    "display": "-8",
+    "exact": "-8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.dependency_failure/L1.es_diff": {
+    "display": "-8",
+    "exact": "-8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.dependency_failure/L2.cd_diff": {
+    "display": "-5",
+    "exact": "-5",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.dependency_failure/L2.es_diff": {
+    "display": "-5",
+    "exact": "-5",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.traffic_spike/L1.cd_diff": {
+    "display": "-8",
+    "exact": "-8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.traffic_spike/L1.es_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.traffic_spike/L2.cd_diff": {
+    "display": "-7",
+    "exact": "-7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.traffic_spike/L2.es_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.config_id": {
+    "display": "cef5ad49c460",
+    "exact": "cef5ad49c460",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.different_disposition": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.different_tool_set": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.field": {
+    "display": "control",
+    "exact": "control",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.harness": {
+    "display": "n/a",
+    "exact": "null",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.judged": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.max_tool_calls": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.mean_tool_calls": {
+    "display": "1.000",
+    "exact": "1.0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.name": {
+    "display": "P0",
+    "exact": "P0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.sequences.get_service_metrics": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.stop_reasons.max_steps": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.0.traffic_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.bad_deployment/L1.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.bad_deployment/L1.es_diff": {
+    "display": "-6",
+    "exact": "-6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.bad_deployment/L2.cd_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.bad_deployment/L2.es_diff": {
+    "display": "-3",
+    "exact": "-3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.dependency_failure/L1.cd_diff": {
+    "display": "-3",
+    "exact": "-3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.dependency_failure/L1.es_diff": {
+    "display": "-3",
+    "exact": "-3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.dependency_failure/L2.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.dependency_failure/L2.es_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.traffic_spike/L1.cd_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.traffic_spike/L1.es_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.traffic_spike/L2.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.traffic_spike/L2.es_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.config_id": {
+    "display": "7d2a55d298d8",
+    "exact": "7d2a55d298d8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.different_disposition": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.different_tool_set": {
+    "display": "34",
+    "exact": "34",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.field": {
+    "display": "tool_order",
+    "exact": "tool_order",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.observation_renderer": {
+    "display": "json_full",
+    "exact": "json_full",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_descriptions": {
+    "display": "none",
+    "exact": "{}",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order": {
+    "display": "get_traffic_metrics, get_service_metrics, get_recent_deployments, get_dependency_health, rollback_deployment, scale_service, observe_only",
+    "exact": "[get_traffic_metrics, get_service_metrics, get_recent_deployments, get_dependency_health, rollback_deployment, scale_service, observe_only]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.0": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.1": {
+    "display": "get_service_metrics",
+    "exact": "get_service_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.2": {
+    "display": "get_recent_deployments",
+    "exact": "get_recent_deployments",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.3": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.4": {
+    "display": "rollback_deployment",
+    "exact": "rollback_deployment",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.5": {
+    "display": "scale_service",
+    "exact": "scale_service",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.6": {
+    "display": "observe_only",
+    "exact": "observe_only",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.harness.tool_order.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.judged": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.max_tool_calls": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.mean_tool_calls": {
+    "display": "3.150",
+    "exact": "3.15",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.name": {
+    "display": "P1",
+    "exact": "P1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_dependency_health > observe_only": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > get_traffic_metrics > get_dependency_health > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.sequences.get_service_metrics > scale_service": {
+    "display": "22",
+    "exact": "22",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.1.traffic_episodes": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.bad_deployment/L1.cd_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.bad_deployment/L1.es_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.bad_deployment/L2.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.bad_deployment/L2.es_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.dependency_failure/L1.cd_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.dependency_failure/L1.es_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.dependency_failure/L2.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.dependency_failure/L2.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.traffic_spike/L1.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.traffic_spike/L1.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.traffic_spike/L2.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.traffic_spike/L2.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.config_id": {
+    "display": "0f4797766552",
+    "exact": "0f4797766552",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.different_disposition": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.different_tool_set": {
+    "display": "43",
+    "exact": "43",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.field": {
+    "display": "tool_order",
+    "exact": "tool_order",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.observation_renderer": {
+    "display": "json_full",
+    "exact": "json_full",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_descriptions": {
+    "display": "none",
+    "exact": "{}",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order": {
+    "display": "get_service_metrics, get_dependency_health, get_recent_deployments, get_traffic_metrics, rollback_deployment, scale_service, observe_only",
+    "exact": "[get_service_metrics, get_dependency_health, get_recent_deployments, get_traffic_metrics, rollback_deployment, scale_service, observe_only]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.0": {
+    "display": "get_service_metrics",
+    "exact": "get_service_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.1": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.2": {
+    "display": "get_recent_deployments",
+    "exact": "get_recent_deployments",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.3": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.4": {
+    "display": "rollback_deployment",
+    "exact": "rollback_deployment",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.5": {
+    "display": "scale_service",
+    "exact": "scale_service",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.6": {
+    "display": "observe_only",
+    "exact": "observe_only",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.harness.tool_order.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.judged": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.max_tool_calls": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.mean_tool_calls": {
+    "display": "3.733",
+    "exact": "3.7333333333333334",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.name": {
+    "display": "P2",
+    "exact": "P2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > observe_only": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > rollback_deployment": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > scale_service": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > observe_only": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > scale_service": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > get_recent_deployments > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > observe_only": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_dependency_health > rollback_deployment": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_traffic_metrics > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.sequences.get_service_metrics > scale_service": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.2.traffic_episodes": {
+    "display": "26",
+    "exact": "26",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.bad_deployment/L1.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.bad_deployment/L1.es_diff": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.bad_deployment/L2.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.bad_deployment/L2.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.dependency_failure/L1.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.dependency_failure/L1.es_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.dependency_failure/L2.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.dependency_failure/L2.es_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.traffic_spike/L1.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.traffic_spike/L1.es_diff": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.traffic_spike/L2.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.traffic_spike/L2.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.config_id": {
+    "display": "f6ebaa6169ae",
+    "exact": "f6ebaa6169ae",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.different_disposition": {
+    "display": "11",
+    "exact": "11",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.different_tool_set": {
+    "display": "31",
+    "exact": "31",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.field": {
+    "display": "tool_descriptions",
+    "exact": "tool_descriptions",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.observation_renderer": {
+    "display": "json_full",
+    "exact": "json_full",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_descriptions.get_traffic_metrics": {
+    "display": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed.",
+    "exact": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed.",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order": {
+    "display": "get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only",
+    "exact": "[get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.0": {
+    "display": "get_service_metrics",
+    "exact": "get_service_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.1": {
+    "display": "get_recent_deployments",
+    "exact": "get_recent_deployments",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.2": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.3": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.4": {
+    "display": "rollback_deployment",
+    "exact": "rollback_deployment",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.5": {
+    "display": "scale_service",
+    "exact": "scale_service",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.6": {
+    "display": "observe_only",
+    "exact": "observe_only",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.harness.tool_order.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.judged": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.max_tool_calls": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.mean_tool_calls": {
+    "display": "3.933",
+    "exact": "3.933333333333333",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.name": {
+    "display": "P3",
+    "exact": "P3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "14",
+    "exact": "14",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.sequences.get_service_metrics > scale_service": {
+    "display": "17",
+    "exact": "17",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.3.traffic_episodes": {
+    "display": "32",
+    "exact": "32",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.bad_deployment/L1.cd_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.bad_deployment/L1.es_diff": {
+    "display": "-4",
+    "exact": "-4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.bad_deployment/L2.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.bad_deployment/L2.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.dependency_failure/L1.cd_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.dependency_failure/L1.es_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.dependency_failure/L2.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.dependency_failure/L2.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.traffic_spike/L1.cd_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.traffic_spike/L1.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.traffic_spike/L2.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.traffic_spike/L2.es_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.config_id": {
+    "display": "d2d566afa573",
+    "exact": "d2d566afa573",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.different_disposition": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.different_tool_set": {
+    "display": "37",
+    "exact": "37",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.field": {
+    "display": "tool_descriptions",
+    "exact": "tool_descriptions",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.observation_renderer": {
+    "display": "json_full",
+    "exact": "json_full",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_descriptions.get_dependency_health": {
+    "display": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself.",
+    "exact": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself.",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order": {
+    "display": "get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only",
+    "exact": "[get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.0": {
+    "display": "get_service_metrics",
+    "exact": "get_service_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.1": {
+    "display": "get_recent_deployments",
+    "exact": "get_recent_deployments",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.2": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.3": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.4": {
+    "display": "rollback_deployment",
+    "exact": "rollback_deployment",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.5": {
+    "display": "scale_service",
+    "exact": "scale_service",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.6": {
+    "display": "observe_only",
+    "exact": "observe_only",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.harness.tool_order.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.judged": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.max_tool_calls": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.mean_tool_calls": {
+    "display": "3.233",
+    "exact": "3.2333333333333334",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.name": {
+    "display": "P4",
+    "exact": "P4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > observe_only": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > observe_only": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.sequences.get_service_metrics > scale_service": {
+    "display": "17",
+    "exact": "17",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.4.traffic_episodes": {
+    "display": "12",
+    "exact": "12",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.bad_deployment/L1.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.bad_deployment/L1.es_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.bad_deployment/L2.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.bad_deployment/L2.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.dependency_failure/L1.cd_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.dependency_failure/L1.es_diff": {
+    "display": "-2",
+    "exact": "-2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.dependency_failure/L2.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.dependency_failure/L2.es_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.traffic_spike/L1.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.traffic_spike/L1.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.traffic_spike/L2.cd_diff": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.traffic_spike/L2.es_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.config_id": {
+    "display": "45d7ef25ce2a",
+    "exact": "45d7ef25ce2a",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.different_disposition": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.different_tool_set": {
+    "display": "31",
+    "exact": "31",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.field": {
+    "display": "observation_renderer",
+    "exact": "observation_renderer",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.observation_renderer": {
+    "display": "key_value_lines",
+    "exact": "key_value_lines",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_descriptions": {
+    "display": "none",
+    "exact": "{}",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order": {
+    "display": "get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only",
+    "exact": "[get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.0": {
+    "display": "get_service_metrics",
+    "exact": "get_service_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.1": {
+    "display": "get_recent_deployments",
+    "exact": "get_recent_deployments",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.2": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.3": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.4": {
+    "display": "rollback_deployment",
+    "exact": "rollback_deployment",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.5": {
+    "display": "scale_service",
+    "exact": "scale_service",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.6": {
+    "display": "observe_only",
+    "exact": "observe_only",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.harness.tool_order.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.judged": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.max_tool_calls": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.mean_tool_calls": {
+    "display": "3.617",
+    "exact": "3.6166666666666667",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.name": {
+    "display": "P5",
+    "exact": "P5",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_dependency_health > rollback_deployment": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "13",
+    "exact": "13",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > get_recent_deployments > rollback_deployment": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.sequences.get_service_metrics > scale_service": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.5.traffic_episodes": {
+    "display": "22",
+    "exact": "22",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.bad_deployment/L1.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.bad_deployment/L1.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.bad_deployment/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.bad_deployment/L2.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.bad_deployment/L2.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.bad_deployment/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.dependency_failure/L1.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.dependency_failure/L1.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.dependency_failure/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.dependency_failure/L2.cd_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.dependency_failure/L2.es_diff": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.dependency_failure/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.traffic_spike/L1.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.traffic_spike/L1.es_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.traffic_spike/L1.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.traffic_spike/L2.cd_diff": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.traffic_spike/L2.es_diff": {
+    "display": "-1",
+    "exact": "-1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.cells.traffic_spike/L2.n": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.config_id": {
+    "display": "e7da9d046fc9",
+    "exact": "e7da9d046fc9",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.different_disposition": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.different_tool_set": {
+    "display": "31",
+    "exact": "31",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.episodes": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.field": {
+    "display": "observation_renderer",
+    "exact": "observation_renderer",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.format_error_episodes": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.observation_renderer": {
+    "display": "json_compact",
+    "exact": "json_compact",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_descriptions": {
+    "display": "none",
+    "exact": "{}",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order": {
+    "display": "get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only",
+    "exact": "[get_service_metrics, get_recent_deployments, get_dependency_health, get_traffic_metrics, rollback_deployment, scale_service, observe_only]",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.0": {
+    "display": "get_service_metrics",
+    "exact": "get_service_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.1": {
+    "display": "get_recent_deployments",
+    "exact": "get_recent_deployments",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.2": {
+    "display": "get_dependency_health",
+    "exact": "get_dependency_health",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.3": {
+    "display": "get_traffic_metrics",
+    "exact": "get_traffic_metrics",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.4": {
+    "display": "rollback_deployment",
+    "exact": "rollback_deployment",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.5": {
+    "display": "scale_service",
+    "exact": "scale_service",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.6": {
+    "display": "observe_only",
+    "exact": "observe_only",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.harness.tool_order.count": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.judged": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.max_tool_calls": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.mean_tool_calls": {
+    "display": "3.683",
+    "exact": "3.683333333333333",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.moved": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.name": {
+    "display": "P6",
+    "exact": "P6",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": {
+    "display": "14",
+    "exact": "14",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": {
+    "display": "15",
+    "exact": "15",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > get_traffic_metrics > scale_service": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.sequences.get_service_metrics > scale_service": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.stop_reasons.action": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.6.traffic_episodes": {
+    "display": "19",
+    "exact": "19",
+    "kind": "exploratory"
+  },
+  "t012.stage1.variants.count": {
     "display": "7",
     "exact": "7",
     "kind": "exploratory"

@@ -165,7 +165,7 @@ NEW_NAMES = (
     "Tables T4 to T7 and probe variants P0 to P6.",
     "Ticket 009, Ticket 009b and Ticket 010; ticket-009b and ticket-010 notes.",
 )
-FORBIDDEN = ("Ticket 011", "Ticket 012", "h(70)", "δ(420)", "a 2\u00d72 table")
+FORBIDDEN = ("Ticket 011", "Ticket 013", "h(70)", "δ(420)", "a 2\u00d72 table")
 
 
 @pytest.mark.parametrize("text", NEW_NAMES)

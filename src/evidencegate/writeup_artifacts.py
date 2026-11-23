@@ -2,6 +2,7 @@
 
     uv run python -m evidencegate.writeup_artifacts
 
+- 표 T8(Ticket 012): S0-prime 기준 1단계 탐침. T7과 같은 열, 맨 끝 행은 비교 기준 기록.
 - 표 T4~T7(Ticket 011 §1): T4 009b 사전 등록 판정(RQ9-1~5, 기술용 행 표시), T5 게이트별 지표(CD,
   C2·C4·C5·C5p·C4star), T6 6.6 군집 민감도, T7 010 탐침(exploratory 값만). 형식은 T1~T3과 같다.
 - 표 T1~T3: 칸은 템플릿 문자열이고 숫자는 자리표시자 `{{키}}`로만 들어간다. 템플릿에 자리표시자
@@ -52,12 +53,13 @@ NAME_PATTERNS: tuple[str, ...] = (
     r"\bL[1-3]\b",
     r"\bS0\b",
     r"\bE1\b",  # 탐색 계산의 이름
-    r"\bT[1-7]\b",
+    r"\bT[1-8]\b",
     r"\bF[1-4]\b",
     r"\bP[0-6]\b",  # 010 탐침 변형
     r"\bTicket 00[1-8]\b",  # 008: 닫힌 ALFWorld 파일럿(2026-11-04)
     r"\bTicket 009b?\b",
     r"\bTicket 010\b",
+    r"\bTicket 012\b",
     r"\bticket-00[1-8]\b",
     r"\bticket-009b?\b",
     r"\bticket-010\b",
@@ -523,6 +525,53 @@ def _t7(values: Values) -> Table:
     }
 
 
+def _t8(values: Values) -> Table:
+    """Ticket 012 1단계(S0-prime 기준). 열은 T7과 같고, 맨 끝 행은 비교 기준(0단계 1회째)이다."""
+    rows = []
+    for i in range(7):
+        b = f"t012.stage1.variants.{i}"
+        judged = values[f"{b}.judged"]["exact"] == "true"
+        rows.append(
+            [
+                _v(f"{b}.name"),
+                _v(f"{b}.field"),
+                _v(f"{b}.different_disposition") + " of " + _v(f"{b}.episodes"),
+                _v(f"{b}.moved") if judged else NOT_COUNTED,
+                _v(f"{b}.different_tool_set"),
+                _v(f"{b}.traffic_episodes"),
+                _v(f"{b}.mean_tool_calls"),
+            ]
+        )
+    rows.append(
+        [
+            "S0\u2032 (baseline run)",
+            "baseline (Dev-A records)",
+            "",
+            "",
+            "",
+            _v("t012.stage1.baseline.traffic_episodes"),
+            _v("t012.stage1.baseline.mean_tool_calls"),
+        ]
+    )
+    return {
+        "id": "t8",
+        "title": "Harness knob probe with the open skill S0\u2032 (Ticket 012, exploratory)",
+        "note": "Exploratory. A variant moved if at least "
+        + _v("t012.stage1.rule.k")
+        + " of "
+        + _v("t012.stage1.rule.episodes")
+        + " dispositions differed from the baseline run of S0\u2032; k came from its "
+        "same-seed variation. "
+        "P0 caps tool calls at "
+        + _v("t012.stage1.variants.0.max_tool_calls")
+        + " as a wiring check and is not counted. Decision: "
+        + _v("t012.stage1.decision.verdict")
+        + ".",
+        "columns": _t7(values)["columns"],
+        "rows": rows,
+    }
+
+
 def build_tables(values: Values) -> dict[str, Table]:
     tables = {
         "t1": _t1(),
@@ -533,6 +582,7 @@ def build_tables(values: Values) -> dict[str, Table]:
         "t5": _t5(),
         "t6": _t6(),
         "t7": _t7(values),
+        "t8": _t8(values),
     }
     for table in tables.values():  # 모든 자리표시자가 풀리는지 미리 확인
         for text in (table["title"], table["note"], *(c for row in table["rows"] for c in row)):
