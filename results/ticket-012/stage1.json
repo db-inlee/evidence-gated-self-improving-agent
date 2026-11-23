@@ -1,0 +1,564 @@
+{
+  "baseline": {
+    "format_error_episodes": 0,
+    "mean_tool_calls": 3.65,
+    "sequences": {
+      "get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": 1,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": 3,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": 13,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": 3,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 10,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 6,
+      "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 1,
+      "get_service_metrics > get_recent_deployments > rollback_deployment": 3,
+      "get_service_metrics > get_traffic_metrics > scale_service": 3,
+      "get_service_metrics > rollback_deployment": 1,
+      "get_service_metrics > scale_service": 16
+    },
+    "split": "t012_stage0",
+    "stop_reasons": {
+      "action": 60
+    },
+    "traffic_episodes": 22
+  },
+  "criteria_sha256": "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
+  "decision": {
+    "fields": [],
+    "moved": [],
+    "p0_different": 60,
+    "verdict": "reconsider"
+  },
+  "rule": {
+    "episodes": 60,
+    "k": 21,
+    "m": 3,
+    "min_fields": 2,
+    "p0_max_tool_calls": 1,
+    "p0_min": 50
+  },
+  "stage": "stage1",
+  "stage0_sha256": "9bbe3ba4ccbe572065452865ac952b40fc25b196b3da854cb6ae5036c6f34739",
+  "ticket": "012",
+  "tool_description_candidates": [
+    {
+      "problems": [],
+      "text": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed.",
+      "tool": "get_traffic_metrics",
+      "variant": "P3"
+    },
+    {
+      "problems": [],
+      "text": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself.",
+      "tool": "get_dependency_health",
+      "variant": "P4"
+    }
+  ],
+  "variants": [
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": -10,
+          "es_diff": -6,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": -6,
+          "es_diff": -3,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": -8,
+          "es_diff": -8,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": -5,
+          "es_diff": -5,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": -8,
+          "es_diff": -1,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": -7,
+          "es_diff": -2,
+          "n": 10
+        }
+      },
+      "config_id": "cef5ad49c460",
+      "different_disposition": 60,
+      "different_tool_set": 60,
+      "episodes": 60,
+      "field": "control",
+      "format_error_episodes": 0,
+      "harness": null,
+      "judged": false,
+      "max_tool_calls": 1,
+      "mean_tool_calls": 1.0,
+      "moved": false,
+      "name": "P0",
+      "sequences": {
+        "get_service_metrics": 60
+      },
+      "stop_reasons": {
+        "max_steps": 60
+      },
+      "traffic_episodes": 0
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": -6,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": -1,
+          "es_diff": -3,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": -3,
+          "es_diff": -3,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 1,
+          "es_diff": 1,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": -2,
+          "es_diff": -1,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 1,
+          "es_diff": -2,
+          "n": 10
+        }
+      },
+      "config_id": "7d2a55d298d8",
+      "different_disposition": 16,
+      "different_tool_set": 34,
+      "episodes": 60,
+      "field": "tool_order",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_traffic_metrics",
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 3.15,
+      "moved": false,
+      "name": "P1",
+      "sequences": {
+        "get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": 1,
+        "get_service_metrics > get_dependency_health > observe_only": 1,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 10,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 18,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 1,
+        "get_service_metrics > get_recent_deployments > rollback_deployment": 6,
+        "get_service_metrics > get_traffic_metrics > get_dependency_health > rollback_deployment": 1,
+        "get_service_metrics > scale_service": 22
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 1
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": -2,
+          "es_diff": -2,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 2,
+          "es_diff": 1,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": -2,
+          "es_diff": -2,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 2,
+          "es_diff": 2,
+          "n": 10
+        }
+      },
+      "config_id": "0f4797766552",
+      "different_disposition": 16,
+      "different_tool_set": 43,
+      "episodes": 60,
+      "field": "tool_order",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_service_metrics",
+          "get_dependency_health",
+          "get_recent_deployments",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 3.7333333333333334,
+      "moved": false,
+      "name": "P2",
+      "sequences": {
+        "get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > observe_only": 2,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > rollback_deployment": 6,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > scale_service": 4,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > observe_only": 3,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": 9,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > scale_service": 2,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > get_recent_deployments > rollback_deployment": 3,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > get_recent_deployments > scale_service": 1,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > observe_only": 1,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > rollback_deployment": 2,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > scale_service": 4,
+        "get_service_metrics > get_dependency_health > observe_only": 5,
+        "get_service_metrics > get_dependency_health > rollback_deployment": 4,
+        "get_service_metrics > get_recent_deployments > rollback_deployment": 1,
+        "get_service_metrics > get_traffic_metrics > get_dependency_health > scale_service": 1,
+        "get_service_metrics > get_traffic_metrics > scale_service": 2,
+        "get_service_metrics > scale_service": 10
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 26
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 3,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 0,
+          "es_diff": 2,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 1,
+          "es_diff": 1,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 1,
+          "es_diff": 1,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 2,
+          "es_diff": 4,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 2,
+          "es_diff": 2,
+          "n": 10
+        }
+      },
+      "config_id": "f6ebaa6169ae",
+      "different_disposition": 11,
+      "different_tool_set": 31,
+      "episodes": 60,
+      "field": "tool_descriptions",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {
+          "get_traffic_metrics": "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed."
+        },
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 3.933333333333333,
+      "moved": false,
+      "name": "P3",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": 9,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": 14,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": 9,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 6,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 3,
+        "get_service_metrics > get_recent_deployments > rollback_deployment": 2,
+        "get_service_metrics > scale_service": 17
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 32
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": -1,
+          "es_diff": -4,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": -1,
+          "es_diff": -1,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 2,
+          "es_diff": 2,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": -1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 2,
+          "es_diff": -2,
+          "n": 10
+        }
+      },
+      "config_id": "d2d566afa573",
+      "different_disposition": 10,
+      "different_tool_set": 37,
+      "episodes": 60,
+      "field": "tool_descriptions",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_full",
+        "tool_descriptions": {
+          "get_dependency_health": "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself."
+        },
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 3.2333333333333334,
+      "moved": false,
+      "name": "P4",
+      "sequences": {
+        "get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > rollback_deployment": 1,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > observe_only": 2,
+        "get_service_metrics > get_dependency_health > get_recent_deployments > rollback_deployment": 7,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > get_recent_deployments > rollback_deployment": 1,
+        "get_service_metrics > get_dependency_health > get_traffic_metrics > rollback_deployment": 1,
+        "get_service_metrics > get_dependency_health > observe_only": 8,
+        "get_service_metrics > get_dependency_health > rollback_deployment": 3,
+        "get_service_metrics > get_dependency_health > scale_service": 1,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": 4,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": 1,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 4,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 3,
+        "get_service_metrics > get_recent_deployments > rollback_deployment": 3,
+        "get_service_metrics > get_traffic_metrics > scale_service": 4,
+        "get_service_metrics > scale_service": 17
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 12
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 1,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": -2,
+          "es_diff": -2,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 1,
+          "es_diff": 1,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 1,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 1,
+          "es_diff": -1,
+          "n": 10
+        }
+      },
+      "config_id": "45d7ef25ce2a",
+      "different_disposition": 9,
+      "different_tool_set": 31,
+      "episodes": 60,
+      "field": "observation_renderer",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "key_value_lines",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 3.6166666666666667,
+      "moved": false,
+      "name": "P5",
+      "sequences": {
+        "get_service_metrics > get_dependency_health > get_recent_deployments > get_traffic_metrics > rollback_deployment": 1,
+        "get_service_metrics > get_dependency_health > rollback_deployment": 1,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": 4,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": 13,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": 4,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 8,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 4,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 1,
+        "get_service_metrics > get_recent_deployments > rollback_deployment": 4,
+        "get_service_metrics > scale_service": 20
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 22
+    },
+    {
+      "cells": {
+        "bad_deployment/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "bad_deployment/L2": {
+          "cd_diff": 0,
+          "es_diff": 2,
+          "n": 10
+        },
+        "dependency_failure/L1": {
+          "cd_diff": 2,
+          "es_diff": 2,
+          "n": 10
+        },
+        "dependency_failure/L2": {
+          "cd_diff": 2,
+          "es_diff": 2,
+          "n": 10
+        },
+        "traffic_spike/L1": {
+          "cd_diff": 0,
+          "es_diff": 0,
+          "n": 10
+        },
+        "traffic_spike/L2": {
+          "cd_diff": 0,
+          "es_diff": -1,
+          "n": 10
+        }
+      },
+      "config_id": "e7da9d046fc9",
+      "different_disposition": 16,
+      "different_tool_set": 31,
+      "episodes": 60,
+      "field": "observation_renderer",
+      "format_error_episodes": 0,
+      "harness": {
+        "observation_renderer": "json_compact",
+        "tool_descriptions": {},
+        "tool_order": [
+          "get_service_metrics",
+          "get_recent_deployments",
+          "get_dependency_health",
+          "get_traffic_metrics",
+          "rollback_deployment",
+          "scale_service",
+          "observe_only"
+        ]
+      },
+      "judged": true,
+      "max_tool_calls": 8,
+      "mean_tool_calls": 3.683333333333333,
+      "moved": false,
+      "name": "P6",
+      "sequences": {
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > observe_only": 2,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > rollback_deployment": 14,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > get_traffic_metrics > scale_service": 2,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > observe_only": 15,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > rollback_deployment": 7,
+        "get_service_metrics > get_recent_deployments > get_dependency_health > scale_service": 1,
+        "get_service_metrics > get_traffic_metrics > scale_service": 1,
+        "get_service_metrics > scale_service": 18
+      },
+      "stop_reasons": {
+        "action": 60
+      },
+      "traffic_episodes": 19
+    }
+  ]
+}
