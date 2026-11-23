@@ -1,0 +1,113 @@
+{
+  "base_rate": {
+    "cd_successes_max": 8,
+    "cd_successes_min": 2,
+    "cells": 6,
+    "cells_needed": 4,
+    "per_cell": 10
+  },
+  "descriptive": [
+    "first_call_is_disposition"
+  ],
+  "k_rule": {
+    "episodes": 60,
+    "floor": "25/600",
+    "k_max": 30,
+    "pairs": 120,
+    "repeats_added": 2,
+    "same_config_and_seed": true,
+    "tail_below": "1/100",
+    "upper_bound": "clopper_pearson_two_sided_95"
+  },
+  "note": "Fixed before any S0-prime run (Ticket 012 section 9 step 2). Path A only. Nothing here was measured.",
+  "order_ban": {
+    "examples": {
+      "allow": [
+        "Get baseline and current request rate (requests per second) of the service. Useful to check whether demand changed.",
+        "Get the health status of each dependency of the service and the minute any outage started (null if none). Useful to tell a problem in a dependency from a problem in the service itself.",
+        "Lists the latest deployments of the service with version and deploy time.",
+        "Shows the starting minute of an outage.",
+        "Reports CPU usage and error rate of the service.",
+        "Useful when the error rate rose.",
+        "Shows whether each dependency is healthy."
+      ],
+      "reject": [
+        "Call this tool first to confirm the degradation.",
+        "Use it before deciding on a disposition.",
+        "Then check whether demand changed.",
+        "Always call this tool when latency rises.",
+        "Begin with this tool in every incident.",
+        "Usually followed by a look at the dependencies.",
+        "Check this last, after the other evidence.",
+        "Required in every investigation.",
+        "Call it afterward to confirm the cause.",
+        "Useful afterwards, once the metrics are known.",
+        "Check the deployments beforehand.",
+        "Firstly, look at the error rate.",
+        "Subsequently compare demand with the baseline.",
+        "Initially use this tool to see the latency."
+      ]
+    },
+    "judgement": "automatic_only",
+    "known_limits": [
+      "Word-boundary matching also matches hyphenated words such as next-door (a false positive); the rule is applied as written.",
+      "Only the listed words are caught; other wordings of an order are not, and every tool description candidate is printed verbatim in the result report."
+    ],
+    "match": "word_boundary_case_insensitive",
+    "other_tool_names_banned": true,
+    "report": "every tool description candidate is printed verbatim in the result report",
+    "words": [
+      "first",
+      "then",
+      "next",
+      "before",
+      "after",
+      "last",
+      "start with",
+      "begin with",
+      "always call",
+      "must call",
+      "required",
+      "prior to",
+      "followed by",
+      "afterward",
+      "afterwards",
+      "beforehand",
+      "firstly",
+      "subsequently",
+      "initially"
+    ]
+  },
+  "probe": {
+    "m": 3,
+    "min_fields": 2,
+    "p0": {
+      "episodes": 60,
+      "max_tool_calls": 1,
+      "min_changed": 50
+    },
+    "variants": "Ticket 010 P1-P6 with S0-prime in place of S0"
+  },
+  "revision": {
+    "allowed": 1,
+    "change": "restore_per_disposition_evidence",
+    "only_if": "base_rate_fails",
+    "skill": "S0_prime_r1"
+  },
+  "skills": {
+    "S0": {
+      "path": "skills/S0/SKILL.md",
+      "skill_id": "bf65e569ae37"
+    },
+    "S0_prime": {
+      "path": "skills/S0-prime/SKILL.md",
+      "skill_id": "3665eab231d6"
+    },
+    "S0_prime_r1": {
+      "path": "skills/S0-prime-r1/SKILL.md",
+      "skill_id": "0c4fa63acf25"
+    }
+  },
+  "stage": "s0_prime_and_progress_criteria",
+  "ticket": "012"
+}
