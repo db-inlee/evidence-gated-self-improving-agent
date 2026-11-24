@@ -1,0 +1,179 @@
+{
+ "status": "frozen",
+ "tag": "t013-sim-plan",
+ "ticket": "013",
+ "stage": "simulation plan, step 2 (frozen before any simulation code or run)",
+ "purpose": "Check, without LLM calls, whether any admission rule meets the Go criteria at a Dev-B budget the project can run. This tests the statistical validity of the existing rules; it is not meant to show that C6 is better. A No-Go is a result.",
+ "decisions": "David, 2026-11-24 (scope) and 2026-11-25 (cell bounds, values, borderline rule)",
+ "notation": {
+  "p10": "share of pairs where the candidate succeeds and S0 fails (improvement)",
+  "p01": "share of pairs where the candidate fails and S0 succeeds (regression)",
+  "delta": "p10 - p01, per cell (delta_c) and as the equal-weight mean over cells (delta)"
+ },
+ "metric": "CD (correct_disposition) only. ES is not simulated: S0's ES is at the floor or the ceiling in every 009b cell (audit_013).",
+ "inputs_allowed": {
+  "rule": "Only S0 records, the Ticket 012 stage-0 records of S0-prime and the v1 public results. 009b Dev-B and Oracle candidate outcomes are not read.",
+  "s0_extreme_rates": "runs/calibration + runs/t009_calibration, S0 bf65e569ae37, 420 cases x repeats 0-4; case-level rate = mean over the five repeats",
+  "s0_prime_rates": "runs/t012_stage0, _rerun1, _rerun2, S0-prime 3665eab231d6, Dev-A 60 cases; case-level rate = mean over the three runs",
+  "empirical_effects": "results/ticket-005/analysis.json, the 12 proposer candidates, oracle CD cell effects (as in evidencegate.t009.power_sim)",
+  "existing_code": "src/evidencegate/t009/power_sim.py is extended, not replaced. Before any new condition runs, the extension must reproduce the null label rates of the 009b pre-registration section 9.1 (Local Harm 0.167, Severe 0.000475); if it does not, stop."
+ },
+ "grid": {
+  "n_c": [70, 150, 300, 600],
+  "m_c": [0.05, 0.10],
+  "m_c_note": "one margin for every cell",
+  "alpha": 0.05,
+  "cells": 6,
+  "candidates": 40
+ },
+ "simulated_data": {
+  "baseline_cases": "per cell, n_c case-level rates drawn with replacement from the cell's case-level rates of the chosen baseline",
+  "candidate_rates": "case rate + the candidate's delta_c for that cell, clipped to [0, 1]",
+  "dev_b": "S0 and each candidate run once per case (Bernoulli of the case rate); S0's run is the one every candidate is paired with",
+  "calibration": "n_c cases per cell x 5 S0 repeats, drawn like the Dev-B cases, independent of them; delta(N) and h(n_c) are computed from it with the existing functions",
+  "oracle": "50 cases per cell, S0 majority of 5 repeats against one candidate run, as in 009b; labels with the existing oracle and rq9 functions"
+ },
+ "cell_lower_bounds": {
+  "primary": "tango_score",
+  "secondary": "exact_conditional",
+  "tango_score": {
+   "rule": "Tango (1998) score interval for a paired difference of proportions; one-sided lower bound at level alpha"
+  },
+  "exact_conditional": {
+   "rule": "Condition on the observed number of discordant pairs d in the cell; one-sided exact binomial lower bound for q = p10 / (p10 + p01); the delta bound is (d / n_c) (2 q_lower - 1).",
+   "caveat": "Exact for q given d. For a margin on delta the discordance rate is a nuisance parameter, so the delta bound is approximate.",
+   "report_coverage": true
+  },
+  "percentile_bootstrap": {
+   "rule": "cell paired bootstrap percentile, as in the current code",
+   "use": "one demonstration condition only: baseline a, null_all_cells, n_c = 70, m_c = 0.05, main dependence; reported, not used for Go"
+  }
+ },
+ "baselines": {
+  "a_s0_extreme": "009b S0 structure from the S0 calibration case rates (ceiling and floor cells kept as a stress test)",
+  "b_mid_range": "S0-prime case rates from the Ticket 012 stage-0 records. Ten cases per cell, so the rates give a shape for the grid, not estimates; a Go under b needs an S0-prime baseline pilot before a confirmatory study."
+ },
+ "effects": {
+  "applies_to": "Every candidate of a simulated pool gets the scenario's effect, except in the empirical scenario, where each candidate draws one.",
+  "room_cells": "cells whose baseline mean rate is at most 0.9",
+  "loss_cell_placements": {
+   "realistic": "the cell with the highest baseline mean rate (ties: the earlier cell in evidencegate.eval_data.CELLS)",
+   "worst": "the cell with the largest baseline variance p (1 - p), p = the cell's baseline mean rate (ties: the earlier cell in evidencegate.eval_data.CELLS)",
+   "why_worst": "a loss in a near-perfect cell is the easiest to detect because its baseline noise is small, so the realistic placement alone would understate the false-accept rate",
+   "use": "every scenario with a loss cell is run with both placements; null_all_cells has no loss cell and is run once"
+  },
+  "null_all_cells": "delta_c = 0 in every cell",
+  "no_global_one_cell_minus_m": "the loss cell (each placement) delta_c = -m_c; an equal positive shift in the room cells other than the loss cell brings the target delta to 0",
+  "global_up_one_cell_minus_m": "the loss cell (each placement) delta_c = -m_c; an equal positive shift in the room cells other than the loss cell brings the target delta to +0.10",
+  "global_up_one_cell_minus_2m": "the loss cell (each placement) delta_c = -2 m_c; an equal positive shift in the room cells other than the loss cell brings the target delta to +0.10",
+  "empirical": "each candidate draws one v1 proposer candidate's cell effects with replacement",
+  "useful_representative": {
+   "shift": 0.10,
+   "baseline_rate_at_most": 0.9,
+   "other_cells": 0,
+   "rule": "delta_c = +0.10 in every cell whose baseline mean rate is at most 0.9, 0 elsewhere",
+   "role": "the scenario for the joint-power criterion of Go"
+  },
+  "realized_effects": "After clipping, each candidate's true cell deltas are recomputed from its case rates; labels use the realized values. A scenario whose target delta cannot be reached because the room cells lack room is marked infeasible for that baseline and reported.",
+  "inadmissible": "a candidate whose realized true rates give delta <= 0 or some delta_c <= -m_c (the boundary belongs to the null)",
+  "useful": "a candidate whose realized true rates give delta > 0 and every delta_c > -m_c"
+ },
+ "dependence": {
+  "note": "Each assumption is varied on its own as a sensitivity; the main condition uses the first value of each.",
+  "shared_baseline": ["one S0 draw shared by all candidates in a simulated pool", "independent S0 draw per candidate"],
+  "seed_coupling_l1_l2": ["none", "latent correlation 0.5 between the outcomes of the L1 and L2 case of one family and seed group"],
+  "idea_groups": ["each candidate independent", "the 29-group size structure of the 009b pool: candidates in a group share one effect draw (empirical scenario only)"]
+ },
+ "monte_carlo": {
+  "pools_per_condition": 2000,
+  "candidates_per_pool": 40,
+  "bootstrap_draws": 2000,
+  "seed": 0,
+  "mc_se": {
+   "formula": "For a rate estimated over R pools as p = sum_r a_r / sum_r n_r (a_r events among n_r eligible candidates in pool r): SE = sqrt( R / (R - 1) * sum_r (a_r - p * n_r)^2 ) / sum_r n_r. Pools are the independent units; candidates within a pool share the S0 draw.",
+   "binomial_check": "When every pool has the same n_r, this is close to sqrt(p (1 - p) / (R n_r)) only under independence within pools; the pool formula is the one used."
+  }
+ },
+ "gates": {
+  "C4": "as gates.gate_c4, with delta(N) from the simulated calibration (N = 6 n_c)",
+  "C5": "C4 and every cell delta_c >= -h(n_c), h from the simulated calibration (rq9.cell_threshold_h)",
+  "C6_IUT": "C4 and, in every cell, the one-sided lower bound of delta_c > -m_c; computed with each cell bound method, Go uses the primary",
+  "SAGE": {
+   "source": "arXiv 2609.36043",
+   "original_rule": "commit when Delta_lambda = w - lambda * l > 0, p_lambda = P[Bin(w + l, lambda / (1 + lambda)) >= w] < alpha, and rho = l / n_S <= tau; lambda, tau and alpha tuned on held-out data; applied repeatedly against the current incumbent",
+   "simplifications_here": [
+    "one admission round against S0 only (no incumbent updates)",
+    "lambda, tau and alpha fixed before the simulation instead of tuned",
+    "w and l are counted over all Dev-B pairs (no cells); n_S = pairs where S0 succeeds"
+   ],
+   "lambda": [1, 2],
+   "tau": 0.05,
+   "tau_note": "tau = 0.05 is our choice, fixed before the simulation; the SAGE paper tuned lambda, tau and alpha on held-out data.",
+   "alpha": 0.05
+  },
+  "SAGE_cell": {
+   "rule": "SAGE (same lambda, tau, alpha) and, in every cell, rho_c = l_c / n_S,c <= tau, with rho_c = 0 when n_S,c = 0",
+   "note": "our construction; not in the SAGE paper"
+  },
+  "credit_type": {
+   "source": "arXiv 2610.10629",
+   "original_rule": "admit when the paired 95% lower bound of the error reduction (b - c) / n, with variance (b + c) / n^2 - (b - c)^2 / n^3, is > 0, and the share of cases in C (cases the incumbent answers correctly) that the candidate gets wrong is <= epsilon = 0.005",
+   "simplifications_here": [
+    "one error kind: all Dev-B cases (the paper tests per error kind)",
+    "C = cases where S0 succeeds in the simulated Dev-B run"
+   ],
+   "epsilon": 0.005
+  },
+  "excluded": ["PACE", "GRASP", "C6 simultaneous bounds", "C4* (needs the C5 count)"]
+ },
+ "metrics": [
+  "P(accept | inadmissible), per effect scenario",
+  "share of inadmissible candidates among the accepted",
+  "Useful acceptance rate (useful_representative: joint power; empirical: among useful candidates)",
+  "acceptance rate",
+  "expected gain per proposal: mean over candidates of accept x realized delta",
+  "cost: Dev-B episodes = (candidates + 1) x cells x n_c",
+  "Oracle label uncertainty: share of candidates whose simulated oracle interval crosses a label boundary",
+  "coverage of each cell lower bound at the realized delta_c (exact_conditional and tango_score)"
+ ],
+ "decision": {
+  "unit": "a combination (baseline, gate, n_c, m_c) under the main dependence condition; for C6_IUT the cell bound is the primary",
+  "thresholds": {
+   "false_accept_at_most": 0.05,
+   "useful_joint_power_at_least": 0.7,
+   "dev_b_episodes_at_most": 75000
+  },
+  "false_accept_definition": {
+   "take": "maximum",
+   "of": "P(accept | inadmissible)",
+   "scenarios": [
+    "null_all_cells",
+    "no_global_one_cell_minus_m",
+    "global_up_one_cell_minus_m",
+    "global_up_one_cell_minus_2m"
+   ],
+   "placements": ["realistic", "worst"],
+   "infeasible": "a (baseline, scenario, placement) whose target delta cannot be reached is reported as infeasible and left out of the maximum"
+  },
+  "useful_power_definition": "P(accept) in the useful_representative scenario",
+  "point_estimate": "Go compares the Monte Carlo point estimates with the thresholds.",
+  "borderline": {
+   "mc_se_multiple": 2,
+   "rule": "A combination with any criterion point estimate within 2 MC SE of its threshold (|estimate - threshold| < 2 SE, SE by the monte_carlo.mc_se formula) is marked borderline. A borderline combination is reported but not counted toward Go."
+  },
+  "go": "In baseline a or b, at least one combination that is not borderline meets all three thresholds at once.",
+  "budget_note": "With 40 candidates and S0, Dev-B = 41 x 6 x n_c: 17220 at n_c = 70, 36900 at 150, 73800 at 300, 147600 at 600. Only n_c <= 300 fits the budget; n_c = 600 is reported for the shape only.",
+  "no_go": "Record it as the result. Keep C5. Add no new statistical method.",
+  "after_go": "confirmatory study D (new pool, new incidents, pre-registered); under baseline b, an S0-prime baseline pilot comes before D",
+  "after_no_go": "a multi-round exploratory pilot",
+  "no_changes_after_results": "Margins, budget, thresholds and scenarios are not changed after any simulation result is seen."
+ },
+ "limitations": [
+  "ES is not simulated. 009b S0's ES sits at the floor or the ceiling, but S0-prime showed both an ES improvement and an ES regression as observable in all six cells, so an ES simulation is left as follow-up work.",
+  "Baseline b is a stylized mid-range structure resampled from ten S0-prime cases per cell. It is not an estimate of S0-prime and can understate the heterogeneity between cases.",
+  "The exact unconditional bound of Chan and Zhang (1999) is not included because of its computing cost over the grid; the exact conditional bound is approximate for a margin on delta and its coverage is reported instead.",
+  "Candidate run-to-run variation is not observed in any record; candidates are simulated with the same Bernoulli noise as S0.",
+  "SAGE and the credit-type gate are simplified to one round and fixed parameters; their papers' results are not reproduced here."
+ ],
+ "open_before_freeze": []
+}
