@@ -19,7 +19,7 @@
   멈춘다. `follow_up`이 없으면 v1 값만 낸다(v1 키·값·표시는 그대로).
 - p값(키 끝이 `.p`인 분수)은 정확한 분수로 표시한다. v1 값에는 그런 키가 없다.
 - Ticket 012 경로 A의 0단계·1단계 결과(`t012.stage0.`, `t012.stage1.`)와 기준 파일의 기준률·k 규칙
-  (`t012.criteria.`)은 모두 exploratory다.
+  (`t012.criteria.`), Ticket 013 감사 요약(`audit.`)은 모두 exploratory다.
 """
 
 import argparse
@@ -83,7 +83,13 @@ FOLLOW_UP_INPUTS: dict[str, tuple[Path, str]] = {
         Path("plans/ticket-012-criteria.json"),
         "63a8f73ee8bac878c51007105036aa1bdeaed5d1f8a1678ce3893611efc5fe94",
     ),
+    # Ticket 013 1단계 감사 요약(탐색)
+    "audit_013": (
+        Path("writeup/inputs/audit_013.json"),
+        "b6c3736998aa40301421f29f99ac113b8bd27e1e472852877316871804978cb1",
+    ),
 }
+AUDIT_013_SIDECAR = Path("writeup/inputs/audit_013.json.sha256")
 # 012 기준 파일에서 문서에 쓰는 절(기준률, k 규칙)만 편다
 T012_CRITERIA_SECTIONS = ("base_rate", "k_rule")
 
@@ -445,6 +451,7 @@ class FollowUp:
     t012_stage0: dict[str, Any] = dataclass_field(default_factory=dict)
     t012_stage1: dict[str, Any] = dataclass_field(default_factory=dict)
     t012_criteria: dict[str, Any] = dataclass_field(default_factory=dict)
+    audit_013: dict[str, Any] = dataclass_field(default_factory=dict)
     releases: dict[str, dict[str, Any]] = dataclass_field(default_factory=dict)  # 있는 매니페스트만
 
 
@@ -477,6 +484,7 @@ def load_follow_up(root: Path) -> FollowUp:
     for sidecar, expected in (
         (T009B_SIDECAR, T009B_ANALYSIS_SHA256),
         (RUN_SUMMARY_009B_SIDECAR, RUN_SUMMARY_009B_SHA256),
+        (AUDIT_013_SIDECAR, FOLLOW_UP_INPUTS["audit_013"][1]),
     ):
         recorded = (root / sidecar).read_text().split()[0]
         if recorded != expected:
@@ -499,6 +507,7 @@ def load_follow_up(root: Path) -> FollowUp:
         data["t012_stage0"],
         data["t012_stage1"],
         data["t012_criteria"],
+        data["audit_013"],
         releases,
     )
 
@@ -566,6 +575,7 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
         "hash.t012_stage0": FOLLOW_UP_INPUTS["t012_stage0"][1],
         "hash.t012_stage1": FOLLOW_UP_INPUTS["t012_stage1"][1],
         "hash.t012_criteria": FOLLOW_UP_INPUTS["t012_criteria"][1],
+        "hash.audit_013": FOLLOW_UP_INPUTS["audit_013"][1],
         "hash.preregistration_009b": inputs["preregistration"],
         "hash.preregistration_009": f.preregistration_009_sha256,
         "hash.t009b_pool": inputs["pool"],
@@ -584,6 +594,7 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
             {k: f.t012_criteria[k] for k in T012_CRITERIA_SECTIONS},
             kind="exploratory",
         ),
+        **flatten_result("audit", f.audit_013["audit"], kind="exploratory"),
         **flatten_result("t009.thresholds", f.thresholds),
         **flatten_result("run", run["run"], kind="run"),
         **flatten_result("provenance", provenance, kind="provenance"),

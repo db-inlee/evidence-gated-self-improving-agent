@@ -309,6 +309,7 @@ def test_load_follow_up_picks_up_a_written_manifest(tmp_path: Path) -> None:
         *(p for p, _ in w.FOLLOW_UP_INPUTS.values()),
         w.T009B_SIDECAR,
         w.RUN_SUMMARY_009B_SIDECAR,
+        w.AUDIT_013_SIDECAR,
         w.PREREG_009B_PATH,
         w.PREREG_009_PATH,
         w.PREREG_009_SHA_PATH,

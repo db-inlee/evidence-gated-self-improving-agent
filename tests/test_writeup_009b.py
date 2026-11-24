@@ -67,6 +67,7 @@ def copy_inputs(tmp_path: Path) -> Path:
         *(p for p, _ in w.FOLLOW_UP_INPUTS.values()),
         w.T009B_SIDECAR,
         w.RUN_SUMMARY_009B_SIDECAR,
+        w.AUDIT_013_SIDECAR,
         w.PREREG_009B_PATH,
         w.PREREG_009_PATH,
         w.PREREG_009_SHA_PATH,
@@ -90,10 +91,17 @@ def test_a_changed_follow_up_input_is_refused(tmp_path: Path, name: str) -> None
         w.load_follow_up(root)
 
 
-@pytest.mark.parametrize("sidecar", ["t009b", "run_summary_009b"])
+SIDECARS = {
+    "t009b": w.T009B_SIDECAR,
+    "run_summary_009b": w.RUN_SUMMARY_009B_SIDECAR,
+    "audit_013": w.AUDIT_013_SIDECAR,
+}
+
+
+@pytest.mark.parametrize("sidecar", sorted(SIDECARS))
 def test_a_sidecar_that_differs_is_refused(tmp_path: Path, sidecar: str) -> None:
     root = copy_inputs(tmp_path)
-    rel = w.T009B_SIDECAR if sidecar == "t009b" else w.RUN_SUMMARY_009B_SIDECAR
+    rel = SIDECARS[sidecar]
     (root / rel).write_text("0" * 64 + "  x\n")
     with pytest.raises(ValueError, match="sidecar"):
         w.load_follow_up(root)

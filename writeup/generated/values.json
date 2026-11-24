@@ -1,4 +1,1999 @@
 {
+  "audit.calibration_discordance.cd.all.differ": {
+    "display": "258",
+    "exact": "258",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.all.pairs": {
+    "display": "4200",
+    "exact": "4200",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.bad_deployment/L1.differ": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.bad_deployment/L1.pairs": {
+    "display": "700",
+    "exact": "700",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.bad_deployment/L2.differ": {
+    "display": "44",
+    "exact": "44",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.bad_deployment/L2.pairs": {
+    "display": "700",
+    "exact": "700",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.dependency_failure/L1.differ": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.dependency_failure/L1.pairs": {
+    "display": "700",
+    "exact": "700",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.dependency_failure/L2.differ": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.dependency_failure/L2.pairs": {
+    "display": "700",
+    "exact": "700",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.traffic_spike/L1.differ": {
+    "display": "120",
+    "exact": "120",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.traffic_spike/L1.pairs": {
+    "display": "700",
+    "exact": "700",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.traffic_spike/L2.differ": {
+    "display": "86",
+    "exact": "86",
+    "kind": "exploratory"
+  },
+  "audit.calibration_discordance.cd.traffic_spike/L2.pairs": {
+    "display": "700",
+    "exact": "700",
+    "kind": "exploratory"
+  },
+  "audit.dev_b_pairs.candidates": {
+    "display": "40",
+    "exact": "40",
+    "kind": "exploratory"
+  },
+  "audit.dev_b_pairs.pairs": {
+    "display": "16800",
+    "exact": "16800",
+    "kind": "exploratory"
+  },
+  "audit.dev_b_pairs.same_seed": {
+    "display": "16800",
+    "exact": "16800",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.candidates": {
+    "display": "11",
+    "exact": "11",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.this_cell_only.bad_deployment/L1": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.this_cell_only.bad_deployment/L2": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.this_cell_only.dependency_failure/L1": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.this_cell_only.dependency_failure/L2": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.this_cell_only.traffic_spike/L1": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.this_cell_only.traffic_spike/L2": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.with_cell.bad_deployment/L1": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.with_cell.bad_deployment/L2": {
+    "display": "11",
+    "exact": "11",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.with_cell.dependency_failure/L1": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.with_cell.dependency_failure/L2": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.with_cell.traffic_spike/L1": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.local_harm_only.with_cell.traffic_spike/L2": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.labels.severe.candidates": {
+    "display": "14",
+    "exact": "14",
+    "kind": "exploratory"
+  },
+  "audit.labels.severe.worst_cell.closest_to_zero": {
+    "display": "-0.140",
+    "exact": "-7/50",
+    "kind": "exploratory"
+  },
+  "audit.labels.severe.worst_cell.farthest": {
+    "display": "-0.820",
+    "exact": "-41/50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L1.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L1.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L1.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L2.mixed_cases": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L2.r0_minus_majority": {
+    "display": "-0.060",
+    "exact": "-3/50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.bad_deployment/L2.single_minus_majority": {
+    "display": "-0.040",
+    "exact": "-1/25",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L1.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L1.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L1.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L2.mixed_cases": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L2.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.dependency_failure/L2.single_minus_majority": {
+    "display": "-0.004",
+    "exact": "-1/250",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L1.mixed_cases": {
+    "display": "15",
+    "exact": "15",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L1.r0_minus_majority": {
+    "display": "0.080",
+    "exact": "2/25",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L1.single_minus_majority": {
+    "display": "0.044",
+    "exact": "11/250",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L2.mixed_cases": {
+    "display": "17",
+    "exact": "17",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L2.r0_minus_majority": {
+    "display": "0.060",
+    "exact": "3/50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.cd.traffic_spike/L2.single_minus_majority": {
+    "display": "0.068",
+    "exact": "17/250",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L1.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L1.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L1.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L2.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L2.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.bad_deployment/L2.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L1.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L1.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L1.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L2.mixed_cases": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L2.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.dependency_failure/L2.single_minus_majority": {
+    "display": "-0.004",
+    "exact": "-1/250",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L1.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L1.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L1.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L2.mixed_cases": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L2.r0_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.oracle_asymmetry.es.traffic_spike/L2.single_minus_majority": {
+    "display": "0.000",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.both_directions_cells.cd": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.both_directions_cells.es": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.both_directions": {
+    "display": "no",
+    "exact": "false",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.pooled": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.runs": {
+    "display": "10, 10, 10",
+    "exact": "[10, 10, 10]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.runs.0": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.runs.1": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.runs.2": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L1.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.pooled": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.runs": {
+    "display": "6, 7, 5",
+    "exact": "[6, 7, 5]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.runs.0": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.runs.1": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.runs.2": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.bad_deployment/L2.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.pooled": {
+    "display": "25",
+    "exact": "25",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.runs": {
+    "display": "8, 8, 9",
+    "exact": "[8, 8, 9]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.runs.0": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.runs.1": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.runs.2": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L1.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.pooled": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.runs": {
+    "display": "5, 6, 5",
+    "exact": "[5, 6, 5]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.runs.0": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.runs.1": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.runs.2": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.dependency_failure/L2.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.pooled": {
+    "display": "26",
+    "exact": "26",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.runs": {
+    "display": "8, 10, 8",
+    "exact": "[8, 10, 8]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.runs.0": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.runs.1": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.runs.2": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L1.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.pooled": {
+    "display": "21",
+    "exact": "21",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.runs": {
+    "display": "7, 8, 6",
+    "exact": "[7, 8, 6]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.runs.0": {
+    "display": "7",
+    "exact": "7",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.runs.1": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.runs.2": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.cd.traffic_spike/L2.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.bad_deployment/L1.differ": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.bad_deployment/L1.pairs": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.bad_deployment/L2.differ": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.bad_deployment/L2.pairs": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.dependency_failure/L1.differ": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.dependency_failure/L1.pairs": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.dependency_failure/L2.differ": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.dependency_failure/L2.pairs": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.traffic_spike/L1.differ": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.traffic_spike/L1.pairs": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.traffic_spike/L2.differ": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.discordance.traffic_spike/L2.pairs": {
+    "display": "20",
+    "exact": "20",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.pooled": {
+    "display": "18",
+    "exact": "18",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.runs": {
+    "display": "6, 6, 6",
+    "exact": "[6, 6, 6]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.runs.0": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.runs.1": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.runs.2": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L1.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.pooled": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.runs": {
+    "display": "3, 4, 3",
+    "exact": "[3, 4, 3]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.runs.0": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.runs.1": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.runs.2": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.bad_deployment/L2.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.pooled": {
+    "display": "25",
+    "exact": "25",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.runs": {
+    "display": "8, 8, 9",
+    "exact": "[8, 8, 9]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.runs.0": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.runs.1": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.runs.2": {
+    "display": "9",
+    "exact": "9",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L1.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.pooled": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.runs": {
+    "display": "5, 6, 5",
+    "exact": "[5, 6, 5]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.runs.0": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.runs.1": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.runs.2": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.dependency_failure/L2.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.pooled": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.runs": {
+    "display": "1, 2, 1",
+    "exact": "[1, 2, 1]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.runs.0": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.runs.1": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.runs.2": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L1.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.both_directions": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.cases": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.pooled": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.pooled_of": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.runs": {
+    "display": "2, 2, 2",
+    "exact": "[2, 2, 2]",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.runs.0": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.runs.1": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.runs.2": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_prime.es.traffic_spike/L2.runs.count": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.bad_deployment/L1.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.bad_deployment/L1.correct": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.bad_deployment/L2.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.bad_deployment/L2.correct": {
+    "display": "67",
+    "exact": "67",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.dependency_failure/L1.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.dependency_failure/L1.correct": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.dependency_failure/L2.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.dependency_failure/L2.correct": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.traffic_spike/L1.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.traffic_spike/L1.correct": {
+    "display": "8",
+    "exact": "8",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.traffic_spike/L2.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.cd.traffic_spike/L2.correct": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.bad_deployment/L1.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.bad_deployment/L2.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.dependency_failure/L1.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.dependency_failure/L1.correct": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.dependency_failure/L2.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.dependency_failure/L2.correct": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.traffic_spike/L1.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.traffic_spike/L2.cases": {
+    "display": "70",
+    "exact": "70",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.dev_b.es.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.cd.ceiling": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.cd.cells": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.cd.floor": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.cd.near_ceiling": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.cd.near_floor": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.es.ceiling": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.es.cells": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.es.floor": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.es.near_ceiling": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.edges.es.near_floor": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.bad_deployment/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.bad_deployment/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.traffic_spike/L1.correct": {
+    "display": "2",
+    "exact": "2",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.cd.traffic_spike/L2.correct": {
+    "display": "1",
+    "exact": "1",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_majority.es.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.bad_deployment/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.bad_deployment/L2.correct": {
+    "display": "47",
+    "exact": "47",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.traffic_spike/L1.correct": {
+    "display": "6",
+    "exact": "6",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.0.traffic_spike/L2.correct": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.bad_deployment/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.bad_deployment/L2.correct": {
+    "display": "48",
+    "exact": "48",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.traffic_spike/L1.correct": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.1.traffic_spike/L2.correct": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.bad_deployment/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.bad_deployment/L2.correct": {
+    "display": "47",
+    "exact": "47",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.traffic_spike/L1.correct": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.2.traffic_spike/L2.correct": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.bad_deployment/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.bad_deployment/L2.correct": {
+    "display": "49",
+    "exact": "49",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.dependency_failure/L2.correct": {
+    "display": "49",
+    "exact": "49",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.traffic_spike/L1.correct": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.3.traffic_spike/L2.correct": {
+    "display": "5",
+    "exact": "5",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.bad_deployment/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.bad_deployment/L2.correct": {
+    "display": "49",
+    "exact": "49",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.traffic_spike/L1.correct": {
+    "display": "4",
+    "exact": "4",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.cd.4.traffic_spike/L2.correct": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.0.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.1.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.2.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.dependency_failure/L2.correct": {
+    "display": "49",
+    "exact": "49",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.3.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.bad_deployment/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.bad_deployment/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.bad_deployment/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.bad_deployment/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.dependency_failure/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.dependency_failure/L1.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.dependency_failure/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.dependency_failure/L2.correct": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.traffic_spike/L1.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.traffic_spike/L1.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.traffic_spike/L2.cases": {
+    "display": "50",
+    "exact": "50",
+    "kind": "exploratory"
+  },
+  "audit.s0_rates.oracle_repeats.es.4.traffic_spike/L2.correct": {
+    "display": "0",
+    "exact": "0",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.calibration.cases": {
+    "display": "420",
+    "exact": "420",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.calibration.seed_groups": {
+    "display": "210",
+    "exact": "210",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.calibration.shared_by_l1_l2": {
+    "display": "210",
+    "exact": "210",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.level_free_rule": {
+    "display": "yes",
+    "exact": "true",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.t009_dev_b.cases": {
+    "display": "420",
+    "exact": "420",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.t009_dev_b.seed_groups": {
+    "display": "210",
+    "exact": "210",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.t009_dev_b.shared_by_l1_l2": {
+    "display": "210",
+    "exact": "210",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.t009_oracle.cases": {
+    "display": "300",
+    "exact": "300",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.t009_oracle.seed_groups": {
+    "display": "150",
+    "exact": "150",
+    "kind": "exploratory"
+  },
+  "audit.seed_sharing.t009_oracle.shared_by_l1_l2": {
+    "display": "150",
+    "exact": "150",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.cases": {
+    "display": "60",
+    "exact": "60",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.cases_both_pairs_differ": {
+    "display": "3",
+    "exact": "3",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.cases_no_pair_differs": {
+    "display": "47",
+    "exact": "47",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.cases_one_pair_differs": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.differing": {
+    "display": "16",
+    "exact": "16",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.llm_seeds": {
+    "display": "30",
+    "exact": "30",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.pairs": {
+    "display": "120",
+    "exact": "120",
+    "kind": "exploratory"
+  },
+  "audit.t012_pairs.reruns_differing": {
+    "display": "10",
+    "exact": "10",
+    "kind": "exploratory"
+  },
   "commit.candidate_pool": {
     "display": "7c48a6d",
     "exact": "7c48a6d",
@@ -2528,6 +4523,11 @@
     "display": "12",
     "exact": "12",
     "kind": "exploratory"
+  },
+  "hash.audit_013": {
+    "display": "b6c3736998aa40301421f29f99ac113b8bd27e1e472852877316871804978cb1",
+    "exact": "b6c3736998aa40301421f29f99ac113b8bd27e1e472852877316871804978cb1",
+    "kind": "provenance"
   },
   "hash.e1_definition": {
     "display": "ef70f01a73260ff814993a8cf3d52ac078c0ec8f22c10baa3975d4f7bd3b5fbd",

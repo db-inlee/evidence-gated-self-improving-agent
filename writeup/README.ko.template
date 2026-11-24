@@ -100,9 +100,13 @@ S0′ 스킬은 조치 전에 확인할 증거는 그대로 두고 조사 순서
 - τ_cell이 ε와 같아 Local Harm 라벨이 넓다. 효과가 없는 후보도 {{t009b.null_label_rate_plan.local_harm}}의 비율로 이 라벨을 받는다(계획 단계 추정). 그래서 Severe를 주 라벨로 쓴다.
 - 하네스를 좁게 정의했다. 도구 순서, 도구 설명, 도구 출력 표시만 바꿨고, 고정 지시는 빼고, 처분이나 조사 순서를 알려 주는 설명은 금지했다. 실제 자기개선 시스템이 고치는 강한 손잡이(시스템 프롬프트, 메모리, 에이전트 루프 등)는 시험하지 않았다.
 - OpsWorld 과제가 짧다. 한 에피소드는 도구 호출 네 번 안팎과 처분 하나로 끝난다. 그래서 하네스가 끼어들 여지가 적다는 해석이 있을 수 있지만, 여기서 시험하지는 않았다.
+- Oracle 채점이 비대칭이다. 후보의 단일 실행을 S0 반복의 다수결과 비교하므로, 이 규칙만으로 셀 값이 ε 정도 움직인다. Severe Local Harm 라벨과 RQ9-1 판정은 그대로 둔다. Severe가 아닌 Local Harm 라벨은 제한적인 근거로 읽는다(결과 뒤 감사: [`docs/study-2-cell-gate-audit.md`](docs/study-2-cell-gate-audit.md)).
+- S0 기준선이 극단적이다. ES는 모든 셀이 바닥이나 천장이고, CD도 대부분의 셀이 그렇다. 그래서 한 셀에서 한 방향의 변화만 보이는 경우가 많다. 셀 게이트 결과는 이 구조(스트레스 시험) 아래의 결과다.
+- seed 규칙이 level을 쓰지 않는다. 같은 seed 번호의 L1 장애와 L2 장애는 같은 LLM seed를 쓰므로, 한 family의 두 셀은 seed 수준에서 묶여 있다. 그 크기는 재지 않았다.
+- RQ9-1 판정의 Fisher p는 동결된 풀 안에서 C5 게이트의 거름을 무작위 거름과 비교한 기술적 비교다. 새 후보 모집단으로 일반화할 근거가 아니다.
 
 ## 더 읽기
 
 - 영어 README: [`README.md`](README.md). 전체 설계, 표 T1, T3~T8(T2 표는 상세 문서), 그림, 재현 방법이 있다.
-- 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md)
+- 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md), 결과 뒤 감사 [`docs/study-2-cell-gate-audit.md`](docs/study-2-cell-gate-audit.md)
 - 기록 압축본: GitHub 릴리스 [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11)에 세 개(평균 게이트 연구, 셀 게이트 연구, Ticket 010 하네스 탐침)가 있다. 저장소 루트에서 풀면 `runs/` 아래에 기록이 생긴다.

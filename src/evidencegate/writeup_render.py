@@ -50,6 +50,11 @@ DOCUMENTS: tuple[Document, ...] = (
     Document(TEMPLATE_PATH, README_PATH, "en"),
     Document(Path("writeup/study-1-mean-gates.template"), Path("docs/study-1-mean-gates.md"), "en"),
     Document(Path("writeup/study-2-cell-gate.template"), Path("docs/study-2-cell-gate.md"), "en"),
+    Document(  # Ticket 013 1단계 감사(탐색)
+        Path("writeup/study-2-cell-gate-audit.template"),
+        Path("docs/study-2-cell-gate-audit.md"),
+        "en",
+    ),
     Document(Path("writeup/README.ko.template"), Path("README.ko.md"), "ko"),
 )
 VALUES_PATH = Path("writeup/generated/values.json")

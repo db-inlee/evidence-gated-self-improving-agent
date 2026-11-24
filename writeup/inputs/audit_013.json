@@ -1,0 +1,871 @@
+{
+ "audit": {
+  "calibration_discordance": {
+   "cd": {
+    "all": {
+     "differ": 258,
+     "pairs": 4200
+    },
+    "bad_deployment/L1": {
+     "differ": 0,
+     "pairs": 700
+    },
+    "bad_deployment/L2": {
+     "differ": 44,
+     "pairs": 700
+    },
+    "dependency_failure/L1": {
+     "differ": 4,
+     "pairs": 700
+    },
+    "dependency_failure/L2": {
+     "differ": 4,
+     "pairs": 700
+    },
+    "traffic_spike/L1": {
+     "differ": 120,
+     "pairs": 700
+    },
+    "traffic_spike/L2": {
+     "differ": 86,
+     "pairs": 700
+    }
+   }
+  },
+  "dev_b_pairs": {
+   "candidates": 40,
+   "pairs": 16800,
+   "same_seed": 16800
+  },
+  "labels": {
+   "local_harm_only": {
+    "candidates": 11,
+    "this_cell_only": {
+     "bad_deployment/L1": 0,
+     "bad_deployment/L2": 9,
+     "dependency_failure/L1": 0,
+     "dependency_failure/L2": 0,
+     "traffic_spike/L1": 0,
+     "traffic_spike/L2": 0
+    },
+    "with_cell": {
+     "bad_deployment/L1": 0,
+     "bad_deployment/L2": 11,
+     "dependency_failure/L1": 0,
+     "dependency_failure/L2": 2,
+     "traffic_spike/L1": 0,
+     "traffic_spike/L2": 0
+    }
+   },
+   "severe": {
+    "candidates": 14,
+    "worst_cell": {
+     "closest_to_zero": {
+      "exact": "-7/50",
+      "float": -0.14
+     },
+     "farthest": {
+      "exact": "-41/50",
+      "float": -0.82
+     }
+    }
+   }
+  },
+  "oracle_asymmetry": {
+   "cd": {
+    "bad_deployment/L1": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    },
+    "bad_deployment/L2": {
+     "cases": 50,
+     "mixed_cases": 7,
+     "r0_minus_majority": {
+      "exact": "-3/50",
+      "float": -0.06
+     },
+     "single_minus_majority": {
+      "exact": "-1/25",
+      "float": -0.04
+     }
+    },
+    "dependency_failure/L1": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    },
+    "dependency_failure/L2": {
+     "cases": 50,
+     "mixed_cases": 1,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "-1/250",
+      "float": -0.004
+     }
+    },
+    "traffic_spike/L1": {
+     "cases": 50,
+     "mixed_cases": 15,
+     "r0_minus_majority": {
+      "exact": "2/25",
+      "float": 0.08
+     },
+     "single_minus_majority": {
+      "exact": "11/250",
+      "float": 0.044
+     }
+    },
+    "traffic_spike/L2": {
+     "cases": 50,
+     "mixed_cases": 17,
+     "r0_minus_majority": {
+      "exact": "3/50",
+      "float": 0.06
+     },
+     "single_minus_majority": {
+      "exact": "17/250",
+      "float": 0.068
+     }
+    }
+   },
+   "es": {
+    "bad_deployment/L1": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    },
+    "bad_deployment/L2": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    },
+    "dependency_failure/L1": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    },
+    "dependency_failure/L2": {
+     "cases": 50,
+     "mixed_cases": 1,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "-1/250",
+      "float": -0.004
+     }
+    },
+    "traffic_spike/L1": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    },
+    "traffic_spike/L2": {
+     "cases": 50,
+     "mixed_cases": 0,
+     "r0_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     },
+     "single_minus_majority": {
+      "exact": "0",
+      "float": 0.0
+     }
+    }
+   }
+  },
+  "s0_prime": {
+   "both_directions_cells": {
+    "cd": 5,
+    "es": 6
+   },
+   "cd": {
+    "bad_deployment/L1": {
+     "both_directions": false,
+     "cases": 10,
+     "pooled": 30,
+     "pooled_of": 30,
+     "runs": [
+      10,
+      10,
+      10
+     ]
+    },
+    "bad_deployment/L2": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 18,
+     "pooled_of": 30,
+     "runs": [
+      6,
+      7,
+      5
+     ]
+    },
+    "dependency_failure/L1": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 25,
+     "pooled_of": 30,
+     "runs": [
+      8,
+      8,
+      9
+     ]
+    },
+    "dependency_failure/L2": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 16,
+     "pooled_of": 30,
+     "runs": [
+      5,
+      6,
+      5
+     ]
+    },
+    "traffic_spike/L1": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 26,
+     "pooled_of": 30,
+     "runs": [
+      8,
+      10,
+      8
+     ]
+    },
+    "traffic_spike/L2": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 21,
+     "pooled_of": 30,
+     "runs": [
+      7,
+      8,
+      6
+     ]
+    }
+   },
+   "discordance": {
+    "bad_deployment/L1": {
+     "differ": 0,
+     "pairs": 20
+    },
+    "bad_deployment/L2": {
+     "differ": 2,
+     "pairs": 20
+    },
+    "dependency_failure/L1": {
+     "differ": 1,
+     "pairs": 20
+    },
+    "dependency_failure/L2": {
+     "differ": 3,
+     "pairs": 20
+    },
+    "traffic_spike/L1": {
+     "differ": 4,
+     "pairs": 20
+    },
+    "traffic_spike/L2": {
+     "differ": 6,
+     "pairs": 20
+    }
+   },
+   "es": {
+    "bad_deployment/L1": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 18,
+     "pooled_of": 30,
+     "runs": [
+      6,
+      6,
+      6
+     ]
+    },
+    "bad_deployment/L2": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 10,
+     "pooled_of": 30,
+     "runs": [
+      3,
+      4,
+      3
+     ]
+    },
+    "dependency_failure/L1": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 25,
+     "pooled_of": 30,
+     "runs": [
+      8,
+      8,
+      9
+     ]
+    },
+    "dependency_failure/L2": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 16,
+     "pooled_of": 30,
+     "runs": [
+      5,
+      6,
+      5
+     ]
+    },
+    "traffic_spike/L1": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 4,
+     "pooled_of": 30,
+     "runs": [
+      1,
+      2,
+      1
+     ]
+    },
+    "traffic_spike/L2": {
+     "both_directions": true,
+     "cases": 10,
+     "pooled": 6,
+     "pooled_of": 30,
+     "runs": [
+      2,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  "s0_rates": {
+   "dev_b": {
+    "cd": {
+     "bad_deployment/L1": {
+      "cases": 70,
+      "correct": 70
+     },
+     "bad_deployment/L2": {
+      "cases": 70,
+      "correct": 67
+     },
+     "dependency_failure/L1": {
+      "cases": 70,
+      "correct": 70
+     },
+     "dependency_failure/L2": {
+      "cases": 70,
+      "correct": 70
+     },
+     "traffic_spike/L1": {
+      "cases": 70,
+      "correct": 8
+     },
+     "traffic_spike/L2": {
+      "cases": 70,
+      "correct": 3
+     }
+    },
+    "es": {
+     "bad_deployment/L1": {
+      "cases": 70,
+      "correct": 0
+     },
+     "bad_deployment/L2": {
+      "cases": 70,
+      "correct": 0
+     },
+     "dependency_failure/L1": {
+      "cases": 70,
+      "correct": 70
+     },
+     "dependency_failure/L2": {
+      "cases": 70,
+      "correct": 70
+     },
+     "traffic_spike/L1": {
+      "cases": 70,
+      "correct": 0
+     },
+     "traffic_spike/L2": {
+      "cases": 70,
+      "correct": 0
+     }
+    }
+   },
+   "edges": {
+    "cd": {
+     "ceiling": 4,
+     "cells": 6,
+     "floor": 0,
+     "near_ceiling": 4,
+     "near_floor": 2
+    },
+    "es": {
+     "ceiling": 2,
+     "cells": 6,
+     "floor": 4,
+     "near_ceiling": 2,
+     "near_floor": 4
+    }
+   },
+   "oracle_majority": {
+    "cd": {
+     "bad_deployment/L1": {
+      "cases": 50,
+      "correct": 50
+     },
+     "bad_deployment/L2": {
+      "cases": 50,
+      "correct": 50
+     },
+     "dependency_failure/L1": {
+      "cases": 50,
+      "correct": 50
+     },
+     "dependency_failure/L2": {
+      "cases": 50,
+      "correct": 50
+     },
+     "traffic_spike/L1": {
+      "cases": 50,
+      "correct": 2
+     },
+     "traffic_spike/L2": {
+      "cases": 50,
+      "correct": 1
+     }
+    },
+    "es": {
+     "bad_deployment/L1": {
+      "cases": 50,
+      "correct": 0
+     },
+     "bad_deployment/L2": {
+      "cases": 50,
+      "correct": 0
+     },
+     "dependency_failure/L1": {
+      "cases": 50,
+      "correct": 50
+     },
+     "dependency_failure/L2": {
+      "cases": 50,
+      "correct": 50
+     },
+     "traffic_spike/L1": {
+      "cases": 50,
+      "correct": 0
+     },
+     "traffic_spike/L2": {
+      "cases": 50,
+      "correct": 0
+     }
+    }
+   },
+   "oracle_repeats": {
+    "cd": {
+     "0": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 47
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 6
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 4
+      }
+     },
+     "1": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 48
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 3
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 5
+      }
+     },
+     "2": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 47
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 3
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 5
+      }
+     },
+     "3": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 49
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 49
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 5
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 5
+      }
+     },
+     "4": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 49
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 4
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 3
+      }
+     }
+    },
+    "es": {
+     "0": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 0
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 0
+      }
+     },
+     "1": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 0
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 0
+      }
+     },
+     "2": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 0
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 0
+      }
+     },
+     "3": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 0
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 49
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 0
+      }
+     },
+     "4": {
+      "bad_deployment/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "bad_deployment/L2": {
+       "cases": 50,
+       "correct": 0
+      },
+      "dependency_failure/L1": {
+       "cases": 50,
+       "correct": 50
+      },
+      "dependency_failure/L2": {
+       "cases": 50,
+       "correct": 50
+      },
+      "traffic_spike/L1": {
+       "cases": 50,
+       "correct": 0
+      },
+      "traffic_spike/L2": {
+       "cases": 50,
+       "correct": 0
+      }
+     }
+    }
+   }
+  },
+  "seed_sharing": {
+   "calibration": {
+    "cases": 420,
+    "seed_groups": 210,
+    "shared_by_l1_l2": 210
+   },
+   "level_free_rule": true,
+   "t009_dev_b": {
+    "cases": 420,
+    "seed_groups": 210,
+    "shared_by_l1_l2": 210
+   },
+   "t009_oracle": {
+    "cases": 300,
+    "seed_groups": 150,
+    "shared_by_l1_l2": 150
+   }
+  },
+  "t012_pairs": {
+   "cases": 60,
+   "cases_both_pairs_differ": 3,
+   "cases_no_pair_differs": 47,
+   "cases_one_pair_differs": 10,
+   "differing": 16,
+   "llm_seeds": 30,
+   "pairs": 120,
+   "reruns_differing": 10
+  }
+ },
+ "notes": [
+  "After-the-fact audit; definition in writeup/inputs/audit_013_definition.txt.",
+  "Every value was first computed in the review report of 2026-11-24, before the definition.",
+  "No committed result is re-judged; outcomes of candidates are read only from analysis.json."
+ ],
+ "provenance": {
+  "definition_sha256": "1bf214ae99731ae8b483fcdada894dd4eff692ca6f1c2707c02db0f487fdc151",
+  "inputs": {
+   "runs/calibration/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "1041e046ca3acf62839cf2a21db99d885bd9b962692dd510c0814bd4f50d8158",
+   "runs/t009_calibration/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "890c0429d3373b4eea637e0cf43bc88c1de14fb535dee90d7ac8befc66c9046a",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/0d2accf2a6bb.jsonl": "266fb65cfb0e0a9e20f206a11cee0fea6201880601e27eeb2722b403e29c7ea6",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/0e41be65915a.jsonl": "c191fea7b4c02ae93ab4295dd6086514c768267e5657643d0be9cdc02d71b517",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/1060da3dba2d.jsonl": "7cd159ba39417749b783531deae3b6366b7bd509c47c88a6b87a56be0cd66c5f",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/1767203c3d9a.jsonl": "44d19c170132738d0c9136be4d41244eb9b4e78c11f259e2fe9e4cd1d9f173cf",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/218f02e35d9e.jsonl": "a184887ef2a48883f9902fb1ed3a60144c2c4fd0a680c5167756c9e14813a9d2",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/23cd69d1a0d1.jsonl": "524093dd563b0a7c35c5439428faa62d27ab6b7c3f05cbf0041b8658f9504962",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/2f144cd8f28c.jsonl": "dd2d4f62de963840a5c3fe677019d2a9fbbac6686ab24e47015efc89e2b43b4d",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3c9353977c42.jsonl": "8cef3397b3a2106e39d330229d3b9603e8c79a1467930afe93d7a94b8946abc2",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3d1eabdef2c1.jsonl": "926164fca5db8cab925ff47671eae5b4de34bf86735d2ca98c8f8fedaabcd49a",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/410ecd7a1314.jsonl": "c5465acdceda48f2a9f6bf18e09303e07bb300e012bff171e20db13300ad8027",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/42b74daa5047.jsonl": "12ec0c0aabe72c55993be00b29781f241b582e628414e41fd69b193a587ba481",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/42f688f99a44.jsonl": "6df4e67ca727f25cf2ca4005d6c4be13cb95d6dfcec66e7f22ef1f2d0490a740",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/481b514d163e.jsonl": "75edd044f947d99e7feda2816060cb6d59e7105d6e2f4bee829d54b7a6a515e7",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/583bf83a9cd9.jsonl": "c68403a1b9f5cd2789d26a84c258cb026007d9d153468a7f630062ece2a4229e",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6298a89af034.jsonl": "e94621259acc87c9061c6037a5c101fc3b9be8204e44944321cbf276d30f0c4e",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/66348a2222cc.jsonl": "16106fa08b8f1127156cc914be26d2dfeee27fa45bb0ca50762cc83d761cd5bf",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6a26c655fca2.jsonl": "58dfe61c82e998e1a3519026115415c7afddb3434db782fc4dc66fb8119a318a",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6cf931a8ab08.jsonl": "9ad836a4e9539a6935cbc1aa7d8671acccbea3ba5c6ff20b4e567962a0aa3108",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/6f4998ce001d.jsonl": "660d232e36898175fc7c93230332180b5043a381e5a21b502cf533597ebad6c2",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/7159bbdd21f6.jsonl": "80a58e8716a9e69d2f710be791913c82f0ab7e902e08c85b70c3e2c6a57180a8",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/8a9cd90e3659.jsonl": "d5aa82d34c725ea02c44442a5dd10a041aa919eeb5ab4115ee250dc5e40b9e75",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/93241e0a1984.jsonl": "5242dc810144776b9c0252a12073d85e978ec57b475b5e018db3adc884785935",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9680dca8de51.jsonl": "247a999c3cea1ca35ae20b39351375a8d4d7bc948d28e56f337923753d17fae4",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/971f00a5e8ae.jsonl": "61f1e24af49e33863db843e7aa1ec5129c784e27a5847b4e1ba63f4a1fc3aa3e",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/9a90b708a699.jsonl": "ded4430023b07d1b2814cac31f075b3746d9761600d7255ba49650d08490d477",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/a08e8450be0c.jsonl": "d8fdfe716d1b3400cf7796b9922d77a720e99218f877beb57e93f88276cd9cb7",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ab34b90cab29.jsonl": "67d170c601a07173af495e53631a02a3634e7db828bf44654fa8ea07a5373066",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/b64ca354cea4.jsonl": "594c0815162d6dcf41f79da12d38cb4d5182de70093448be4800773e37aae2c8",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bbd0e73dec79.jsonl": "b1dc0cbaee3f19c233cc6c88e664b41e73c4b775bd0271dc59a08d40fc1f112e",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "df58b148dd6bc2589d8928df28534f364d2272de7b2b5753d0c433390e1ce2d8",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/c7668916d085.jsonl": "ab29f3435377c7d67c19d2c314626e5ad818547c8ae5e7218875faceff451fe0",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/c7d7ef363d25.jsonl": "57489ddd7c0f57a977efba50d5f4ed448b1d8ce61263ed5e468372b139aeb0a9",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d47b464c7e9d.jsonl": "2abb7b1244af97d4d3456b882ebf5287d37a8cfc79ba330a2b92449e645d108d",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/d55756f7153e.jsonl": "450f96fdf250054434f114577f3b13cb6421bc2d112dcd1303fac85e0e28f9de",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/e4361336fbf2.jsonl": "fbbb40719da553ce4285113744603bd0b7eb545abd612d99ce2809b1ac6d3b2a",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/ecb9d450aa91.jsonl": "b64f7d9ef83f905f8a4f37e6c52d063f33c0c375c1605ffd57c46a61430c90cb",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f05826a15e0c.jsonl": "e58dc21fbab45fd614a814f5de0df4c1319f06f62800001137fbcff0841a0bc1",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f13dbdec95a7.jsonl": "2c4b852c6e985655186c34a0ffef3241f6dfee3662f621d06cbaf45dddd25965",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f166176a4757.jsonl": "e2e6bcfde3a8939844a07f2cfb868aa6956e44cc1ce504bb6ea89d772dfda5da",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/f8c9b554522e.jsonl": "c75afea6647a9d2ed68fc005238f1874249ed11e08787ad8c574442796f3a421",
+   "runs/t009_dev_b/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/feadcd2b391b.jsonl": "3dc7b7f2b6d9f9dc173984ea1733aad2bd0b58498b220e9a4931e02cc8eccd5f",
+   "runs/t009_oracle/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/bf65e569ae37.jsonl": "a863137410cfca693ca79e48e6648b6e0a4ce69bda05828966e018dccfd3c3d1",
+   "runs/t012_stage0/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3665eab231d6.jsonl": "32517a7e14c9f91b4b9595845af00d8dd60f4096e993d1dc80cbb0131227b06b",
+   "runs/t012_stage0_rerun1/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3665eab231d6.jsonl": "750feffd883b3d810d69494f53b18b5083564f3ad5d12b2d14fb202a029d6e74",
+   "runs/t012_stage0_rerun2/ollama__gpt-oss__20b__7c66ee5bf13c/e9b4996f7529/3665eab231d6.jsonl": "737becc08b482bac9282d0907a8750970ccaeb87ba0de67294c757afde90b44d"
+  },
+  "t009b_analysis_sha256": "21c87f2798fa032e3ce627029e8b01c7629cb9b73215aeac1b3742f36d3cdafe"
+ }
+}

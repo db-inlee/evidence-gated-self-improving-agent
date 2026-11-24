@@ -128,7 +128,7 @@ Useful and Harmful are counted over candidates whose oracle label is settled; un
 
 C4 and C5 had almost the same mean gain (0.106 and 0.104), while C4\* reached 0.129 with 7 Severe candidates. On ES the cell condition removed nothing: C4 accepted 27 candidates and C5 accepted 27. ES metrics, the budget curve, h, δ, τ and the controls are in [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md).
 
-From the mean-gate study (exploratory): the same S0 had an ES rate of 0.000 on bad_deployment, where ES cannot show a regression (see *Mean-based gates*, finding c); the cell-gate result files do not report S0's ES rate per cell.
+From the mean-gate study (exploratory): the same S0 had an ES rate of 0.000 on bad_deployment, where ES cannot show a regression (see *Mean-based gates*, finding c); the cell-gate result files do not report S0's ES rate per cell; the audit after the results (below) does.
 
 ### Pre-registered sensitivity analysis (Section 6.6 of the cell-gate pre-registration ([`preregistration/ticket-009b.txt`](preregistration/ticket-009b.txt)))
 
@@ -149,6 +149,15 @@ This is a sensitivity check, not a verdict of the study. On the representatives,
 ### Run
 
 The main run recorded 32820 episodes in 3 sessions, with 0 server errors and 0 format errors. There were 2 idle spans of at least a minute, all between sessions (0 inside a session). The longest ran from 2026-11-07T18:18:26+00:00 to 2026-11-08T08:39:44+00:00, after the session that ended with “power check failed after block 26: power: not on AC power”. On the calibration records of the mean-gate study, 575 of 600 pairs with the same seed (sequential against two concurrent episodes) chose the same disposition.
+
+### Audit after the results (Exploratory)
+
+Everything in this subsection was looked at after the results were known. It changes no label, verdict or result file; the counting rules and every table are in [`docs/study-2-cell-gate-audit.md`](docs/study-2-cell-gate-audit.md).
+
+- **Oracle asymmetry.** On the Oracle, a candidate's single run (with the same LLM seed as S0's repeat zero) is compared with the majority of S0's 5 repeats. For a candidate that behaves exactly like S0, this rule alone moves a CD cell from -0.060 (bad_deployment/L2) to 0.080 (traffic_spike/L1), the size of ε. The Severe labels stand: the lowest cell of every Severe candidate lies between -0.140 and -0.820. Local Harm without Severe is limited evidence: of those 11 candidates, 9 are below −τ only in bad_deployment/L2, the cell with the largest negative offset.
+- **S0's cells.** S0's ES is at the floor in 4 of 6 cells and at the ceiling in 2; its CD is at the ceiling in 4 cells and near the floor in 2. A floor cell cannot show a regression and a ceiling cell cannot show an improvement. On ES, the cell condition could therefore act only in the dependency cells, which is part of why it removed nothing there. The structure is kept as a stress test.
+- **Shared LLM seeds across levels.** The seed rule ignores the level, so in 210 of the 210 Dev-B family and seed groups the L1 and the L2 incident get the same LLM seed (Oracle: 150 of 150). The two cells of a family are not independent at the seed level.
+- **Fisher p.** The RQ9-1 p (1/9044) compares C5's rejections with a random rejection of the same size inside this frozen pool. It is a description of this pool, not evidence about a new population of candidates.
 
 ## Harness knob probes (Exploratory)
 
@@ -302,6 +311,10 @@ E1 approximates the overall CD estimate if L2-like incidents made up each whole 
 - **Rerun after a shortfall.** The cell-gate study is a second attempt. Its duplicate rule was set after reading the earlier attempt's 80 candidates, which had not been run on Dev-B or the Oracle.
 - **Narrow harness.** In the harness probes, the harness was limited to tool order, tool descriptions and how tool output is shown. Fixed instructions were excluded, and descriptions could not tell the agent which disposition to take or in what order to investigate. The stronger knobs that real self-improving systems edit, such as the system prompt, memory and the agent loop, were not tested.
 - **Short task.** An OpsWorld episode takes about four tool calls and ends with one disposition. One reading, not tested here, is that this leaves the harness little room.
+- **Oracle asymmetry.** The Oracle compares a candidate's single run with the S0 majority, which alone moves a cell by about ε. Severe Local Harm and RQ9-1 are kept; Local Harm labels without Severe are limited evidence of harm (audit in [`docs/study-2-cell-gate-audit.md`](docs/study-2-cell-gate-audit.md)).
+- **A stress-test baseline.** S0 sits at the floor or the ceiling in every cell on ES and in most cells on CD, so a cell often shows only one direction of change. The cell-gate result holds under this structure, not under a balanced baseline.
+- **Shared LLM seeds across levels.** L1 and L2 incidents with the same seed number share their LLM seed, so the two cells of a family are coupled at the seed level; the size of the coupling is not measured.
+- **Fisher p describes the frozen pool.** The RQ9-1 test compares C5 with random filtering inside this pool. It is not a basis for generalizing to new candidates, which share the S0 baseline, the seeds and, within an idea group, the idea.
 - **Study-specific limits** of the mean-gate study are listed in its section.
 
 ## Related work
@@ -370,12 +383,13 @@ src/evidencegate/   agent policy, runners, proposer, pool, gates, oracle, metric
   t009b/            cell-gate study, revised attempt: duplicate rule, proposer entry, pool freeze, preflight, analysis
   t010/             harness knob probe runner
   t012/             harness knob probe with the open skill: base-rate check and probe runner
+  t013/             audit after the results of the cell-gate study
 results/            ticket-005/, ticket-006/: mean-gate study (JSON and sha256 files);
                     ticket-009/: thresholds h and delta (sha256 file), call manifest;
                     ticket-009b/: cell-gate study (JSON and sha256 file);
                     ticket-010/, ticket-012/: harness probes (JSON only; their sha256 is fixed in the write-up code)
-docs/               detailed tables of the mean-gate and cell-gate studies (rendered from writeup/)
-writeup/            templates, inputs (run summaries, definitions, release manifest), generated values, tables and figures
+docs/               detailed tables of the mean-gate and cell-gate studies and the cell-gate audit (rendered from writeup/)
+writeup/            templates, inputs (run summaries, audit, definitions, release manifest), generated values, tables and figures
 plans/              frozen run plans and probe criteria and their sha256, power checks, duplicate-rule groups and properties, pool idea groups
 preregistration/    pre-registered texts and their sha256: Ticket 004 section 7.8, Ticket 006 L3, Ticket 009, Ticket 009b
 skills/             initial skill S0, open skill S0′, controls and the frozen candidates (candidates/, candidates-009b/)

@@ -1,0 +1,84 @@
+Audit 013 definition (Ticket 013 step 1), fixed before the file is generated
+==========================================================================
+
+Status: an after-the-fact audit of how the committed results were produced. Descriptive counts
+from run records and from the committed 009b result file. It never enters a verdict, changes no
+committed result and re-judges nothing. No new runs, no LLM or API calls.
+
+Honesty note: every value below was first computed in the review report of 2026-11-24, before this
+definition was written. This definition fixes how each value is counted so that the README and
+docs/study-2-cell-gate-audit.md can render it from a pinned file. It is not a blind definition,
+and no rule here is tuned after this commit.
+
+Output: writeup/inputs/audit_013.json and audit_013.json.sha256 ("sha256  name"). Sorted keys, no
+generation time; the same inputs give the same bytes. The generator only reads its inputs and
+refuses to write if an input sha256 differs from its pin. An existing output with different
+bytes is refused.
+
+Kinds for writeup/generated/values.json: every value under "audit" is "exploratory" (it was
+looked at after the results were known); input paths and sha256 are "provenance".
+
+Pins (no new trust): the 009b Dev-B and Oracle record files are pinned by the sha256 recorded in
+writeup/inputs/run_summary_009b.json (provenance.inputs), the calibration record files by
+results/ticket-009/thresholds.json (inputs), and the three Ticket 012 stage-0 record files by the
+constants T012_RECORD_PINS in src/evidencegate/t013/audit.py. The 009b result file is pinned by
+its committed sha256 (evidencegate.writeup.T009B_ANALYSIS_SHA256).
+
+Shared rules:
+- Records are read with EpisodeStore(path, repair=False). A case is (family, level,
+  incident_seed); a cell is "family/level". Metrics: cd = correct_disposition, es =
+  evidence_safe, each 0/1.
+- S0 is skill bf65e569ae37 (evidencegate.eval_constants.S0_SKILL_ID).
+- Majority: per case over Oracle repeats 0-4, 1 if at least 3 of 5 are 1 (same rule as
+  evidencegate.eval_data.majority).
+
+A. oracle_asymmetry (S0 Oracle records, repeats 0-4)
+   Per metric and cell:
+   - single_minus_majority = mean over the cell's cases of (mean of the 5 repeats - majority)
+   - r0_minus_majority = mean over the cell's cases of (repeat 0 - majority)
+   - mixed_cases = cases whose 5 repeats are not all equal; cases = cases in the cell
+   Meaning: the Oracle effect estimate compares a candidate's single run (repeat 0, the same LLM
+   seed as S0 repeat 0) with the S0 majority. For a candidate that behaves exactly like S0, these
+   are the expected cell offsets that come from the aggregation rule alone.
+
+B. s0_rates (S0 records)
+   - dev_b: Dev-B repeat 0. oracle_majority: Oracle majority. oracle_repeats: Oracle repeat r.
+   - Per metric and cell: correct (count of 1) and cases.
+   - edges, per metric, from oracle_majority: floor = cells with correct = 0; ceiling = cells
+     with correct = cases; near_floor = cells with correct / cases <= 1/10 (floor included);
+     near_ceiling = cells with correct / cases >= 9/10 (ceiling included); cells = 6.
+
+C. seed_sharing (case lists of evidencegate.t009.splits; the seed rule of evidencegate.seeds)
+   - Per split (t009_dev_b, t009_oracle, calibration = calibration_all()): cases, seed_groups =
+     distinct (family, incident_seed), shared_by_l1_l2 = groups that hold both an L1 and an L2 case.
+   - level_free_rule = true when derive_llm_seed takes no level argument, so the L1 and L2 cases
+     of a group get the same LLM seed for the same repeat.
+
+D. calibration_discordance (S0 calibration records, 420 cases x repeats 0-4, different seeds)
+   - Per cell and in all: differ = (case, repeat pair) with different cd; pairs = cases x 10.
+
+E. dev_b_pairs (009b Dev-B records of the 40 pool candidates and of S0 repeat 0)
+   - candidates, pairs = candidate records, same_seed = pairs whose llm_seed equals the S0 repeat-0
+     record of the same case. A missing case is refused. Outcomes are not read.
+
+F. labels (results/ticket-009b/analysis.json, CD, proposer candidates)
+   - A cell is "below tau" when oracle_cells[cell] < -tau[cell] (point estimate, the Local Harm
+     rule of evidencegate.oracle.local_harm).
+   - severe.candidates; severe.worst_cell = the lowest cell value of each Severe candidate,
+     reported as the one closest to zero and the farthest.
+   - local_harm_only = Local Harm and not Severe: candidates; with_cell[cell] = how many have
+     that cell below tau; this_cell_only[cell] = how many have only that cell below tau.
+
+G. t012_pairs (Ticket 012 stage-0 records of S0-prime: run 1, rerun 1, rerun 2, Dev-A)
+   - The same pairs as evidencegate.t012.stage0.disagreements: (run 1, rerun 1) and (run 1,
+     rerun 2) per case, compared on action. A pair with a different llm_seed is refused.
+   - cases, llm_seeds (distinct), pairs, differing, cases_both_pairs_differ,
+     cases_one_pair_differs, cases_no_pair_differs, reruns_differing = cases where rerun 1 and
+     rerun 2 differ (not used by the stage-0 rule).
+
+H. s0_prime (the same three runs)
+   - Per metric and cell: runs = correct count per run, cases per run, pooled = sum, pooled_of =
+     3 x cases, both_directions = 0 < pooled < pooled_of (a cell where both an improvement and a
+     regression of the candidate could be observed against S0-prime).
+   - both_directions_cells per metric.
+   - discordance per cell: differ and pairs of the G pairs, by the cell of the case.

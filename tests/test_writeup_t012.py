@@ -102,6 +102,7 @@ def test_a_changed_012_result_is_refused(tmp_path: Path) -> None:
         *(p for p, _ in w.FOLLOW_UP_INPUTS.values()),
         w.T009B_SIDECAR,
         w.RUN_SUMMARY_009B_SIDECAR,
+        w.AUDIT_013_SIDECAR,
         w.PREREG_009B_PATH,
         w.PREREG_009_PATH,
         w.PREREG_009_SHA_PATH,

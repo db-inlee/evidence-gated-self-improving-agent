@@ -1,0 +1,102 @@
+# Cell-level gate: audit after the results
+
+This page belongs to the cell-gate study in the [README](../README.md#cell-level-gate-confirmatory-study). Everything on it is exploratory: it was looked at after the results were known, and it changes no committed result, label or verdict. The counting rules are fixed in `writeup/inputs/audit_013_definition.txt`; the values come from `writeup/inputs/audit_013.json` (sha256 {{hash.audit_013}}), which reads the run records and the committed result file. Notation: p10 is the share of pairs where the candidate succeeds and S0 fails (an improvement), p01 the share where the candidate fails and S0 succeeds (a regression), and Δ = p10 − p01.
+
+## What the Oracle effect estimate compares (Exploratory)
+
+On the Oracle split, a candidate runs once (repeat zero, with the same LLM seed as S0's repeat zero), while S0 is the case-wise majority of its {{design.t009b.s0_oracle_repeats}} repeats. So the Oracle effect estimate of the cell-gate study is the mean, over the fixed Oracle incidents ({{design.t009b.oracle_per_cell}} per cell, equal cell weights), of a single candidate run minus the S0 majority. It is not the expected difference between two single-run policies. This was the registered design; the planning simulation of the null label rates used the same majority.
+
+The table shows, from S0's own records, what this rule gives for a candidate that behaves exactly like S0: the cell mean of a single S0 run minus the majority, the same for S0's repeat zero, and the number of cases whose repeats disagree.
+
+| Cell | Single run − majority | Repeat zero − majority | Cases with mixed repeats |
+| --- | --- | --- | --- |
+| bad_deployment/L1 | {{audit.oracle_asymmetry.cd.bad_deployment/L1.single_minus_majority}} | {{audit.oracle_asymmetry.cd.bad_deployment/L1.r0_minus_majority}} | {{audit.oracle_asymmetry.cd.bad_deployment/L1.mixed_cases}} of {{audit.oracle_asymmetry.cd.bad_deployment/L1.cases}} |
+| bad_deployment/L2 | {{audit.oracle_asymmetry.cd.bad_deployment/L2.single_minus_majority}} | {{audit.oracle_asymmetry.cd.bad_deployment/L2.r0_minus_majority}} | {{audit.oracle_asymmetry.cd.bad_deployment/L2.mixed_cases}} of {{audit.oracle_asymmetry.cd.bad_deployment/L2.cases}} |
+| dependency_failure/L1 | {{audit.oracle_asymmetry.cd.dependency_failure/L1.single_minus_majority}} | {{audit.oracle_asymmetry.cd.dependency_failure/L1.r0_minus_majority}} | {{audit.oracle_asymmetry.cd.dependency_failure/L1.mixed_cases}} of {{audit.oracle_asymmetry.cd.dependency_failure/L1.cases}} |
+| dependency_failure/L2 | {{audit.oracle_asymmetry.cd.dependency_failure/L2.single_minus_majority}} | {{audit.oracle_asymmetry.cd.dependency_failure/L2.r0_minus_majority}} | {{audit.oracle_asymmetry.cd.dependency_failure/L2.mixed_cases}} of {{audit.oracle_asymmetry.cd.dependency_failure/L2.cases}} |
+| traffic_spike/L1 | {{audit.oracle_asymmetry.cd.traffic_spike/L1.single_minus_majority}} | {{audit.oracle_asymmetry.cd.traffic_spike/L1.r0_minus_majority}} | {{audit.oracle_asymmetry.cd.traffic_spike/L1.mixed_cases}} of {{audit.oracle_asymmetry.cd.traffic_spike/L1.cases}} |
+| traffic_spike/L2 | {{audit.oracle_asymmetry.cd.traffic_spike/L2.single_minus_majority}} | {{audit.oracle_asymmetry.cd.traffic_spike/L2.r0_minus_majority}} | {{audit.oracle_asymmetry.cd.traffic_spike/L2.mixed_cases}} of {{audit.oracle_asymmetry.cd.traffic_spike/L2.cases}} |
+
+The table is on CD. On ES the offsets are zero except dependency_failure/L2 ({{audit.oracle_asymmetry.es.dependency_failure/L2.single_minus_majority}}), because S0's ES sits at the floor or the ceiling in every cell (see below).
+
+**What this means for the labels.** The offsets reach the size of ε ({{design.epsilon}}) and of τ_cell ({{t009b.tau.cd.bad_deployment/L2}} in bad_deployment/L2).
+
+- **Severe Local Harm.** The lowest cell of each of the {{audit.labels.severe.candidates}} Severe candidates lies between {{audit.labels.severe.worst_cell.closest_to_zero}} and {{audit.labels.severe.worst_cell.farthest}}, well beyond the largest offset. The Severe labels, and the RQ9-1 result built on them, stand as reported.
+- **Local Harm without Severe.** Of the {{audit.labels.local_harm_only.candidates}} such candidates, {{audit.labels.local_harm_only.with_cell.bad_deployment/L2}} have bad_deployment/L2 below −τ, and {{audit.labels.local_harm_only.this_cell_only.bad_deployment/L2}} have no other cell below −τ. In that cell a candidate that behaves like S0 already starts near {{audit.oracle_asymmetry.cd.bad_deployment/L2.r0_minus_majority}}. These labels should be read as limited evidence of harm. No label is changed.
+
+## Thresholds h and δ (Exploratory)
+
+- δ(N) resamples cases without cell stratification and picks one random pair of S0 repeats per draw (`exact.null_diff_quantile_exact`, as registered); C4 uses a cell-stratified paired bootstrap (`gates.gate_c4`). The mismatch noted for the mean-gate study is still present here.
+- h(n_c) is a quantile of the minimum over the six cells of S0-vs-S0 cell differences (`rq9.cell_threshold_h`), so it already acts jointly on the cells; on CD, h({{design.t009b.h_n}}) = {{t009b.h.cd.70.h}} with an achieved false rejection of {{t009b.h.cd.70.achieved_false_rejection}}. The uncertainty of h itself is not reported: its draws reuse the same repeat pairs and the same {{design.t009b.calibration_per_cell}} cases per cell.
+- The calibration pairs use different LLM seeds, while every gate comparison pairs a candidate with S0 under the same seed. Different-seed S0 repeats disagreed on CD in {{audit.calibration_discordance.cd.all.differ}} of {{audit.calibration_discordance.cd.all.pairs}} pairs; by cell:
+
+| Cell | CD disagreement between S0 calibration repeats |
+| --- | --- |
+| bad_deployment/L1 | {{audit.calibration_discordance.cd.bad_deployment/L1.differ}} of {{audit.calibration_discordance.cd.bad_deployment/L1.pairs}} |
+| bad_deployment/L2 | {{audit.calibration_discordance.cd.bad_deployment/L2.differ}} of {{audit.calibration_discordance.cd.bad_deployment/L2.pairs}} |
+| dependency_failure/L1 | {{audit.calibration_discordance.cd.dependency_failure/L1.differ}} of {{audit.calibration_discordance.cd.dependency_failure/L1.pairs}} |
+| dependency_failure/L2 | {{audit.calibration_discordance.cd.dependency_failure/L2.differ}} of {{audit.calibration_discordance.cd.dependency_failure/L2.pairs}} |
+| traffic_spike/L1 | {{audit.calibration_discordance.cd.traffic_spike/L1.differ}} of {{audit.calibration_discordance.cd.traffic_spike/L1.pairs}} |
+| traffic_spike/L2 | {{audit.calibration_discordance.cd.traffic_spike/L2.differ}} of {{audit.calibration_discordance.cd.traffic_spike/L2.pairs}} |
+
+The same-seed agreement of {{run.same_seed.same_disposition}} of {{run.same_seed.pairs}} pairs compares sequential with concurrent runs under two configurations, so it does not tell how much the same seed reduces disagreement in the gate comparisons.
+
+## S0's cells: ceiling and floor (Exploratory)
+
+| Cell | Dev-B CD | Dev-B ES | Oracle majority CD | Oracle majority ES |
+| --- | --- | --- | --- | --- |
+| bad_deployment/L1 | {{audit.s0_rates.dev_b.cd.bad_deployment/L1.correct}}/{{audit.s0_rates.dev_b.cd.bad_deployment/L1.cases}} | {{audit.s0_rates.dev_b.es.bad_deployment/L1.correct}}/{{audit.s0_rates.dev_b.es.bad_deployment/L1.cases}} | {{audit.s0_rates.oracle_majority.cd.bad_deployment/L1.correct}}/{{audit.s0_rates.oracle_majority.cd.bad_deployment/L1.cases}} | {{audit.s0_rates.oracle_majority.es.bad_deployment/L1.correct}}/{{audit.s0_rates.oracle_majority.es.bad_deployment/L1.cases}} |
+| bad_deployment/L2 | {{audit.s0_rates.dev_b.cd.bad_deployment/L2.correct}}/{{audit.s0_rates.dev_b.cd.bad_deployment/L2.cases}} | {{audit.s0_rates.dev_b.es.bad_deployment/L2.correct}}/{{audit.s0_rates.dev_b.es.bad_deployment/L2.cases}} | {{audit.s0_rates.oracle_majority.cd.bad_deployment/L2.correct}}/{{audit.s0_rates.oracle_majority.cd.bad_deployment/L2.cases}} | {{audit.s0_rates.oracle_majority.es.bad_deployment/L2.correct}}/{{audit.s0_rates.oracle_majority.es.bad_deployment/L2.cases}} |
+| dependency_failure/L1 | {{audit.s0_rates.dev_b.cd.dependency_failure/L1.correct}}/{{audit.s0_rates.dev_b.cd.dependency_failure/L1.cases}} | {{audit.s0_rates.dev_b.es.dependency_failure/L1.correct}}/{{audit.s0_rates.dev_b.es.dependency_failure/L1.cases}} | {{audit.s0_rates.oracle_majority.cd.dependency_failure/L1.correct}}/{{audit.s0_rates.oracle_majority.cd.dependency_failure/L1.cases}} | {{audit.s0_rates.oracle_majority.es.dependency_failure/L1.correct}}/{{audit.s0_rates.oracle_majority.es.dependency_failure/L1.cases}} |
+| dependency_failure/L2 | {{audit.s0_rates.dev_b.cd.dependency_failure/L2.correct}}/{{audit.s0_rates.dev_b.cd.dependency_failure/L2.cases}} | {{audit.s0_rates.dev_b.es.dependency_failure/L2.correct}}/{{audit.s0_rates.dev_b.es.dependency_failure/L2.cases}} | {{audit.s0_rates.oracle_majority.cd.dependency_failure/L2.correct}}/{{audit.s0_rates.oracle_majority.cd.dependency_failure/L2.cases}} | {{audit.s0_rates.oracle_majority.es.dependency_failure/L2.correct}}/{{audit.s0_rates.oracle_majority.es.dependency_failure/L2.cases}} |
+| traffic_spike/L1 | {{audit.s0_rates.dev_b.cd.traffic_spike/L1.correct}}/{{audit.s0_rates.dev_b.cd.traffic_spike/L1.cases}} | {{audit.s0_rates.dev_b.es.traffic_spike/L1.correct}}/{{audit.s0_rates.dev_b.es.traffic_spike/L1.cases}} | {{audit.s0_rates.oracle_majority.cd.traffic_spike/L1.correct}}/{{audit.s0_rates.oracle_majority.cd.traffic_spike/L1.cases}} | {{audit.s0_rates.oracle_majority.es.traffic_spike/L1.correct}}/{{audit.s0_rates.oracle_majority.es.traffic_spike/L1.cases}} |
+| traffic_spike/L2 | {{audit.s0_rates.dev_b.cd.traffic_spike/L2.correct}}/{{audit.s0_rates.dev_b.cd.traffic_spike/L2.cases}} | {{audit.s0_rates.dev_b.es.traffic_spike/L2.correct}}/{{audit.s0_rates.dev_b.es.traffic_spike/L2.cases}} | {{audit.s0_rates.oracle_majority.cd.traffic_spike/L2.correct}}/{{audit.s0_rates.oracle_majority.cd.traffic_spike/L2.cases}} | {{audit.s0_rates.oracle_majority.es.traffic_spike/L2.correct}}/{{audit.s0_rates.oracle_majority.es.traffic_spike/L2.cases}} |
+
+- **ES.** S0's ES is at the floor in {{audit.s0_rates.edges.es.floor}} of {{audit.s0_rates.edges.es.cells}} cells (every Oracle repeat and Dev-B) and at the ceiling in {{audit.s0_rates.edges.es.ceiling}}. In a floor cell p01 is zero, so a regression cannot appear on ES there; the ES cell condition could act only in the dependency cells. This is part of why C4 and C5 accepted the same candidates on ES; on Dev-B no candidate that C4 accepted on ES had a dependency cell below −h.
+- **CD.** S0's CD is at the ceiling in {{audit.s0_rates.edges.cd.ceiling}} cells (Oracle majority) and at most a tenth in {{audit.s0_rates.edges.cd.near_floor}}. A ceiling cell can show only regressions (p10 is zero), a near-floor cell mostly improvements, so no cell measures both directions well.
+- This structure is kept as it is: the cell-gate result is a result under this stress test, not under a balanced baseline.
+
+## Shared LLM seeds across levels (Exploratory)
+
+The LLM seed rule takes the family, the incident seed and the repeat, but not the level (`seeds.derive_llm_seed`). The L1 and L2 incidents that share an incident seed number are different incidents (the L2 generator uses its own random stream), but they get the same LLM seed.
+
+| Split | Cases | Family and seed groups | Groups holding both an L1 and an L2 case |
+| --- | --- | --- | --- |
+| Dev-B | {{audit.seed_sharing.t009_dev_b.cases}} | {{audit.seed_sharing.t009_dev_b.seed_groups}} | {{audit.seed_sharing.t009_dev_b.shared_by_l1_l2}} |
+| Oracle | {{audit.seed_sharing.t009_oracle.cases}} | {{audit.seed_sharing.t009_oracle.seed_groups}} | {{audit.seed_sharing.t009_oracle.shared_by_l1_l2}} |
+| Calibration | {{audit.seed_sharing.calibration.cases}} | {{audit.seed_sharing.calibration.seed_groups}} | {{audit.seed_sharing.calibration.shared_by_l1_l2}} |
+
+So the L1 and L2 cells of one family are not independent at the seed level. How much this couples their outcomes is not measured.
+
+## Candidate pairs on Dev-B (Exploratory)
+
+All {{audit.dev_b_pairs.candidates}} proposer candidates have Dev-B records paired with S0's repeat zero: {{audit.dev_b_pairs.pairs}} pairs, {{audit.dev_b_pairs.same_seed}} of them with the same LLM seed. Each candidate and S0 ran once on Dev-B, so the candidate's own run-to-run variation cannot be estimated from these records.
+
+## Idea groups (Exploratory)
+
+The grouping method (same condition, same action or same added step; no gate or oracle values) is fixed in Section 6.6 of the cell-gate pre-registration, committed in {{commit.t009b_preregistration}} before any proposer call. The group file (sha256 {{hash.t009b_groups}}) was committed with the pool in {{commit.t009b_groups}}, before the run plan ({{commit.t009b_plan}}) and before the main run started ({{run.t009b.main.records.first_start}}). One rater (Claude) made the groups; there is no agreement check.
+
+## What the Fisher and Clopper–Pearson results support (Exploratory)
+
+- The Fisher p of RQ9-1 ({{t009b.rq.rq9_1.p}}) compares the set C5 rejected with a random rejection of the same size, inside this frozen pool and with the labels held fixed. It describes this pool.
+- It is not evidence about a new population of candidates. The candidates share the S0 majority baseline, the LLM seeds and, within an idea group, the idea; the sensitivity check with one candidate per group ({{t009b.cluster_sensitivity.rq9_1.p}}) addresses only the last.
+- The Clopper–Pearson interval of RQ9-3 treats the candidates as independent draws, which candidates of one idea group are not.
+
+## Pairs in the Ticket 012 base-rate check (Exploratory)
+
+The {{t012.stage0.attempts.0.disagreement.pairs}} same-seed pairs of the base-rate check pair the base run of each of {{audit.t012_pairs.cases}} Dev-A cases with each of two reruns, so every pair shares the base run with one other pair. The cases carry {{audit.t012_pairs.llm_seeds}} distinct LLM seeds (L1 and L2 share). Of the {{audit.t012_pairs.differing}} differing pairs, {{audit.t012_pairs.cases_both_pairs_differ}} cases contributed both of their pairs and {{audit.t012_pairs.cases_one_pair_differs}} cases one pair; the two reruns differed in {{audit.t012_pairs.reruns_differing}} cases, a comparison the rule did not use. The Clopper–Pearson bound behind k treats the pairs as independent, so its effective sample is smaller than the count. k was an exploratory rule and is not re-judged here.
+
+## S0′ as a baseline with mid-range success (Exploratory)
+
+From the same three runs (Dev-A, {{audit.s0_prime.cd.bad_deployment/L1.cases}} cases per cell and run): correct dispositions and Evidence-Safe outcomes per run, and the disagreements of the pairs above.
+
+| Cell | CD per run | ES per run | Disagreeing pairs |
+| --- | --- | --- | --- |
+| bad_deployment/L1 | {{audit.s0_prime.cd.bad_deployment/L1.runs}} | {{audit.s0_prime.es.bad_deployment/L1.runs}} | {{audit.s0_prime.discordance.bad_deployment/L1.differ}} of {{audit.s0_prime.discordance.bad_deployment/L1.pairs}} |
+| bad_deployment/L2 | {{audit.s0_prime.cd.bad_deployment/L2.runs}} | {{audit.s0_prime.es.bad_deployment/L2.runs}} | {{audit.s0_prime.discordance.bad_deployment/L2.differ}} of {{audit.s0_prime.discordance.bad_deployment/L2.pairs}} |
+| dependency_failure/L1 | {{audit.s0_prime.cd.dependency_failure/L1.runs}} | {{audit.s0_prime.es.dependency_failure/L1.runs}} | {{audit.s0_prime.discordance.dependency_failure/L1.differ}} of {{audit.s0_prime.discordance.dependency_failure/L1.pairs}} |
+| dependency_failure/L2 | {{audit.s0_prime.cd.dependency_failure/L2.runs}} | {{audit.s0_prime.es.dependency_failure/L2.runs}} | {{audit.s0_prime.discordance.dependency_failure/L2.differ}} of {{audit.s0_prime.discordance.dependency_failure/L2.pairs}} |
+| traffic_spike/L1 | {{audit.s0_prime.cd.traffic_spike/L1.runs}} | {{audit.s0_prime.es.traffic_spike/L1.runs}} | {{audit.s0_prime.discordance.traffic_spike/L1.differ}} of {{audit.s0_prime.discordance.traffic_spike/L1.pairs}} |
+| traffic_spike/L2 | {{audit.s0_prime.cd.traffic_spike/L2.runs}} | {{audit.s0_prime.es.traffic_spike/L2.runs}} | {{audit.s0_prime.discordance.traffic_spike/L2.differ}} of {{audit.s0_prime.discordance.traffic_spike/L2.pairs}} |
+
+Both an improvement and a regression could be observed against S0′ in {{audit.s0_prime.both_directions_cells.cd}} of the six cells on CD and {{audit.s0_prime.both_directions_cells.es}} on ES. With so few cases per cell this shows only that S0′ is not at the floor or the ceiling; it does not give rates precise enough to plan a study on.
