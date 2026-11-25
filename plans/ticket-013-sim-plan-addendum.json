@@ -1,0 +1,51 @@
+{
+ "status": "frozen",
+ "tag": "t013-sim-addendum",
+ "ticket": "013",
+ "addendum_to": {
+  "path": "plans/ticket-013-sim-plan.json",
+  "sha256": "8c97f64145d8f9b79cb7cb7591fafbd4e1d4895f57c8f3c05e7d797db3db43a0",
+  "tag": "t013-sim-plan"
+ },
+ "why": "Choices the frozen plan does not fix, decided by David on 2026-11-25 after report 2026-11-25-02, before any condition of the main simulation ran. The plan file itself is unchanged.",
+ "decisions": {
+  "true_effect": {
+   "rule": "A candidate's true cell effect delta_c is the exact mean, over the baseline's whole case population of that cell, of clip(p_i + s_c, 0, 1) - p_i, with p_i the case rates (fractions) and s_c the shift applied to the cell. delta is the equal-weight mean of the six delta_c.",
+   "use": "inadmissible, useful, expected gain and the coverage targets all use these population effects, not the cases drawn into a pool"
+  },
+  "shift_solving": {
+   "rule": "Each target is met exactly under clipping. A cell with its own target (the loss cell at -m_c or -2 m_c, every room cell of useful_representative at +0.10) gets the shift s_c that solves its population delta_c = target. The equal positive shift s of the room cells other than the loss cell solves mean_c delta_c = target delta. Solutions are exact (piecewise linear in the shift, rational).",
+   "infeasible": "no shift reaches the target; the (baseline, scenario, placement, m_c) is reported as infeasible and not run",
+   "record": "the applied shift and the resulting population delta_c of every cell, per baseline, scenario, placement and m_c"
+  },
+  "s0_independent_variant": "The cases of a pool are shared; only S0's Dev-B run is drawn anew for each candidate.",
+  "seed_coupling": {
+   "pairing": "within a family, the i-th L1 case and the i-th L2 case of the same draw form a pair",
+   "rule": "for every run (calibration, Dev-B, Oracle; S0 and candidates), the uniforms of a pair come from a Gaussian copula with correlation 0.5: z_L1 = x, z_L2 = 0.5 x + sqrt(0.75) y, u = Phi(z), with x and y independent standard normals; outcome = u < rate",
+   "report": [
+    "the binary (phi) correlation realized in the simulation, per family pair (L1, L2), from S0's calibration draws pooled over pools, per baseline, n_c and coupling setting",
+    "descriptive only: the phi correlation between the L1 and L2 cases that share an incident seed number in the 009b S0 calibration records, per family, pooled over repeats; it is not used to change 0.5"
+   ]
+  }
+ },
+ "conventions": {
+  "common_random_numbers": "Within a pool, the case draws and uniforms are shared across scenarios, margins, placements, gates and the coupling setting (the coupling only transforms the same normals).",
+  "oracle_label_uncertainty": "share of candidates for which evidencegate.oracle.classify_effect would return None, i.e. the simulated oracle interval crosses +epsilon or -epsilon",
+  "idea_group_sizes": "the number of candidates per group in plans/ticket-009b-pool-groups.json (6, 4, 2, 2, 2 and 24 groups of 1); no outcome is read from it",
+  "exact_conditional_d_zero": "with no discordant pair in a cell the bound is 0, as the plan's formula gives; such a cell passes any margin, and the results report how often this happened"
+ },
+ "readings": {
+  "note": "Points the decisions imply but do not spell out, written here so that the code follows a frozen text.",
+  "oracle_in_s0_independent_variant": "The Oracle labels use one shared S0 majority per pool in every dependence setting; the variant changes only the Dev-B pairing that the gates see.",
+  "empirical_shift": "In the empirical scenario the drawn v1 cell effects are added to the case rates as shifts with clipping, as in evidencegate.t009.power_sim; the true effects are then computed by the true_effect rule.",
+  "dependence_settings": "main = shared S0, no coupling, independent effect draws; each other setting changes one of these. The idea-group setting applies to the empirical scenario only.",
+  "baseline_populations": "baseline a: the 420 S0 calibration cases (70 per cell), rate = mean of repeats 0-4; baseline b: the 60 S0-prime Dev-A cases (10 per cell), rate = mean of the three stage-0 runs",
+  "pool_seeds": "numpy SeedSequence([0, baseline index (a = 0, b = 1), n_c, pool index]); the bootstrap indices use evidencegate.eval_constants.SEED as in the existing gates"
+ },
+ "execution": {
+  "blocks": "The work is split into blocks (baseline, n_c, coupling setting). A block computes every condition that shares its draws (margins, scenarios, placements, the other dependence settings and gates) for all 2000 pools.",
+  "checkpoints": "Each finished block is written to runs/ticket013_sim/blocks/ (outside git) with the plan and addendum sha256. A restart reuses a finished block only if both hashes match; otherwise it refuses.",
+  "final_output": "results/ticket-013/sim.json and its .sha256 are written once, only when every block is finished; an existing file is never overwritten.",
+  "trial_mode": "A trial run with fewer pools or bootstrap draws writes only under runs/ticket013_sim/trial/ and never to results/."
+ }
+}
