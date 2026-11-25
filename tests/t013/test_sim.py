@@ -166,3 +166,10 @@ def test_percentile_cell_lower_is_the_alpha_quantile_of_cell_bootstrap_means() -
 def test_the_v1_oracle_pin_comes_from_the_committed_run_summary() -> None:
     summary = json.loads((REPO_ROOT / sim.V1_RUN_SUMMARY).read_text())
     assert summary["inputs"][str(sim.V1_ORACLE_S0)] == sim.V1_ORACLE_S0_SHA256
+
+
+@pytest.mark.parametrize(("k", "n"), [(1, 5), (9, 12), (40, 60), (150, 200)])
+def test_one_sided_cp_lower_equals_the_exact_clopper_pearson(k: int, n: int) -> None:
+    q_low = clopper_pearson(k, n, 2 * ALPHA)
+    assert q_low is not None
+    assert sim._cp_lower(k, n, float(ALPHA)) == pytest.approx(q_low[0], abs=1e-9)
