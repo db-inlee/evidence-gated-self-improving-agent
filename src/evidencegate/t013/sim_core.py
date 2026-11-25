@@ -498,7 +498,8 @@ def evaluate_pool(s: Setup, pool: int) -> dict[str, Any]:
 
 
 def rate(pools: Sequence[Mapping[str, Any]], num: str, den: str) -> dict[str, Any]:
-    events = [int(p[num]) for p in pools]
+    """풀 단위 비율. 분자는 개수 또는 이득 합(실수)이라 자르지 않는다(2026-11-26 수정)."""
+    events = [p[num] for p in pools]
     eligible = [int(p[den]) for p in pools]
     estimate, se = sim.mc_se(events, eligible)
     return {"estimate": estimate, "se": se, "events": sum(events), "eligible": sum(eligible)}

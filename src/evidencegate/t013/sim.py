@@ -3,6 +3,7 @@
     uv run python -m evidencegate.t013.sim gate                 # 첫 관문(9.1 귀무 라벨률 재현)
     uv run python -m evidencegate.t013.sim run --workers 6      # 본 실행(결과는 한 번만 쓴다)
     uv run python -m evidencegate.t013.sim run --trial --pools 4 --boot 100   # 시험(runs/ 아래만)
+    uv run python -m evidencegate.t013.sim gain-correction      # 이득 지표 보정(별도 파일, 한 번)
 
 - 입력은 동결 계획과 부록이다. 실행 시작 때 두 파일의 sha256을 고정값(`PLAN_SHA256`,
   `ADDENDUM_SHA256`)과 옆 `.sha256`으로 확인하고, 다르면 멈춘다. 두 파일은 고치지 않는다.
@@ -200,7 +201,7 @@ def credit_accept(w: int, loss: int, n: int, n_s: int, *, eps: float) -> bool:
 # MC SE -----------------------------------------------------------------------------------------
 
 
-def mc_se(events: Sequence[int], eligible: Sequence[int]) -> tuple[float, float]:
+def mc_se(events: Sequence[float], eligible: Sequence[int]) -> tuple[float, float]:
     """풀 단위 비율 추정량 p = Σa / Σn과 SE = sqrt(R/(R-1) Σ(a - p n)^2) / Σn(계획 monte_carlo)."""
     r, total = len(events), sum(eligible)
     if total == 0:
@@ -363,6 +364,20 @@ POOL_GROUPS_SHA256 = "c3893a7737fe9e2cc76d3b4e1c2f5ffe2f1c8804ecc95fc68798e70a14
 BLOCKS_DIR = Path("runs/ticket013_sim/blocks")
 TRIAL_DIR = Path("runs/ticket013_sim/trial")
 FINAL = Path("results/ticket-013/sim.json")
+SIM_SHA256 = "02b95b098df79c40ac4a84278551cefab0e15d726fef27334de01d2cb0feba46"  # 커밋된 본 결과
+GAIN_CORRECTION = Path("results/ticket-013/sim-gain-correction.json")
+GAIN_BUG = (
+    "In the original result, sim_core.rate passed each pool's gain sum through int() before "
+    "the pool-ratio MC SE, so every per-pool sum below 1 became 0 and gain_per_proposal was "
+    "understated. "
+    "Every other metric counts candidates and is unaffected. gain_per_proposal is not used by the "
+    "Go rule, so the decision, the borderline marks and every other value are unchanged."
+)
+GAIN_FIX = (
+    "rate keeps the per-pool sums as they are (2026-11-26, regression test "
+    "test_rate_keeps_fractional_events_such_as_gain_sums); gain_per_proposal is recomputed from "
+    "the block checkpoints that produced the original result. The original file is not modified."
+)
 
 
 def _pinned_json(root: Path, rel: Path, digest: str) -> Any:
@@ -714,6 +729,101 @@ def run_simulation(
     return out
 
 
+def gain_correction(
+    settings: RunSettings,
+    baselines: Sequence[str],
+    *,
+    blocks_dir: Path,
+    sim_path: Path,
+    sim_sha: str,
+    sim_label: str | None = None,
+) -> dict[str, Any]:
+    """체크포인트에서 gain_per_proposal만 다시 계산한다(원 결과 sha256과 머리말이 맞아야 한다)."""
+    from evidencegate.t013 import sim_core as sc
+
+    actual = _sha(sim_path)
+    if actual != sim_sha:
+        raise ValueError(
+            f"{sim_path} sha256 {actual} is not the result being corrected ({sim_sha})"
+        )
+    original = json.loads(sim_path.read_text(encoding="utf-8"))
+    header = _checkpoint_header(settings)
+    if {k: original["settings"].get(k) for k in header} != header:
+        raise ValueError(f"{sim_path} was made with other settings or hashes")
+    values: dict[str, dict[str, Any]] = {}
+    for baseline in baselines:
+        for n_c in settings.n_cs:
+            for coupled in (False, True):
+                block_id = _block_id(baseline, n_c, coupled)
+                path = blocks_dir / f"{block_id}.json"
+                data = json.loads(path.read_text())
+                if {k: data.get(k) for k in header} != header:
+                    raise ValueError(f"checkpoint {path} was made with other settings or hashes")
+                pools = data.pop("results")
+                values[block_id] = {}
+                for key in pools[0]["gates"]:
+                    row = sc.rate([p["gates"][key] for p in pools], "gain", "n")
+                    old = original["metrics"][block_id][key]["gain_per_proposal"]["estimate"]
+                    values[block_id][key] = row | {"original_estimate": old}
+    out: dict[str, Any] = _clean(
+        {
+            "corrects": {"path": sim_label or str(sim_path), "sha256": sim_sha},
+            "bug": GAIN_BUG,
+            "fix": GAIN_FIX,
+            "settings": header,
+            "metric": "gain_per_proposal = sum of (accepted x population delta) / candidates",
+            "gain_per_proposal": values,
+        }
+    )
+    return out
+
+
+def write_gain_correction(
+    settings: RunSettings,
+    baselines: Sequence[str],
+    *,
+    blocks_dir: Path,
+    sim_path: Path,
+    sim_sha: str,
+    out: Path,
+    sim_label: str | None = None,
+) -> dict[str, Any]:
+    """보정 파일을 한 번 쓴다. 이미 있으면 거부한다. 원 결과 파일은 읽기만 한다."""
+    if out.exists():
+        raise FileExistsError(f"{out} exists; it is written once")
+    data = gain_correction(
+        settings,
+        baselines,
+        blocks_dir=blocks_dir,
+        sim_path=sim_path,
+        sim_sha=sim_sha,
+        sim_label=sim_label,
+    )
+    payload = (json.dumps(data, indent=1, sort_keys=True) + "\n").encode()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(payload)
+    out.with_name(out.name + ".sha256").write_text(
+        f"{hashlib.sha256(payload).hexdigest()}  {out.name}\n"
+    )
+    return data
+
+
+def _gain_correction(root: Path) -> int:
+    plan = load_plan(root)
+    load_addendum(root)
+    write_gain_correction(
+        main_settings(plan),
+        ("a", "b"),
+        blocks_dir=root / BLOCKS_DIR,
+        sim_path=root / FINAL,
+        sim_sha=SIM_SHA256,
+        out=root / GAIN_CORRECTION,
+        sim_label=str(FINAL),
+    )
+    print(f"wrote {GAIN_CORRECTION}")
+    return 0
+
+
 def _run(root: Path, *, workers: int, trial: bool, pools: int | None, boot: int | None) -> int:
     plan = load_plan(root)
     load_addendum(root)
@@ -744,7 +854,7 @@ def _run(root: Path, *, workers: int, trial: bool, pools: int | None, boot: int 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="evidencegate-t013-sim")
-    parser.add_argument("command", choices=("gate", "run"))
+    parser.add_argument("command", choices=("gate", "run", "gain-correction"))
     parser.add_argument("--root", type=Path, default=REPO_ROOT)
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--trial", action="store_true")
@@ -754,6 +864,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         if args.command == "gate":
             return _gate(args.root)
+        if args.command == "gain-correction":
+            return _gain_correction(args.root)
         return _run(
             args.root, workers=args.workers, trial=args.trial, pools=args.pools, boot=args.boot
         )

@@ -198,6 +198,18 @@ def test_aggregate_uses_the_pool_ratio_se() -> None:
     assert (got["estimate"], got["se"]) == sim.mc_se([0, 1, 0, 2], [10] * 4)
 
 
+def test_rate_keeps_fractional_events_such_as_gain_sums() -> None:
+    """회귀(보고서 2026-11-26-01 §9): 풀별 이득 합을 정수로 자르지 않는다."""
+    from evidencegate.t013 import sim
+
+    gains = [0.0667, 0.1333, 0.3933, 0.22]
+    pools = [{"n": 40, "gain": g} for g in gains]
+    got = sc.rate(pools, "gain", "n")
+    assert got["estimate"] == pytest.approx(sum(gains) / 160)
+    assert got["events"] == pytest.approx(sum(gains))
+    assert (got["estimate"], got["se"]) == sim.mc_se(gains, [40] * 4)
+
+
 def decision_rows(fa: float, fa_se: float, power: float, power_se: float) -> dict[str, object]:
     return {
         "false_accept": {"estimate": fa, "se": fa_se},
