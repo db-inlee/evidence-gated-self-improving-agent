@@ -55,6 +55,11 @@ DOCUMENTS: tuple[Document, ...] = (
         Path("docs/study-2-cell-gate-audit.md"),
         "en",
     ),
+    Document(  # Ticket 013 모의와 009b 재생(탐색)
+        Path("writeup/study-2-gate-simulation.template"),
+        Path("docs/study-2-gate-simulation.md"),
+        "en",
+    ),
     Document(Path("writeup/README.ko.template"), Path("README.ko.md"), "ko"),
 )
 VALUES_PATH = Path("writeup/generated/values.json")

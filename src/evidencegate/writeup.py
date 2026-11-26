@@ -19,7 +19,8 @@
   멈춘다. `follow_up`이 없으면 v1 값만 낸다(v1 키·값·표시는 그대로).
 - p값(키 끝이 `.p`인 분수)은 정확한 분수로 표시한다. v1 값에는 그런 키가 없다.
 - Ticket 012 경로 A의 0단계·1단계 결과(`t012.stage0.`, `t012.stage1.`)와 기준 파일의 기준률·k 규칙
-  (`t012.criteria.`), Ticket 013 감사 요약(`audit.`)은 모두 exploratory다.
+  (`t012.criteria.`), Ticket 013 감사 요약(`audit.`), Ticket 013 모의·보정·재생(`t013.`)은 모두
+  exploratory다. 이득 값은 보정 파일에서만 읽는다.
 """
 
 import argparse
@@ -88,7 +89,25 @@ FOLLOW_UP_INPUTS: dict[str, tuple[Path, str]] = {
         Path("writeup/inputs/audit_013.json"),
         "b6c3736998aa40301421f29f99ac113b8bd27e1e472852877316871804978cb1",
     ),
+    # Ticket 013 본 모의, 이득 보정, 009b 탐색 재생(모두 탐색)
+    "t013_sim": (
+        Path("results/ticket-013/sim.json"),
+        "02b95b098df79c40ac4a84278551cefab0e15d726fef27334de01d2cb0feba46",
+    ),
+    "t013_gain": (
+        Path("results/ticket-013/sim-gain-correction.json"),
+        "d15a49797d19b0a1a42ab5ed01a501125a1432ef64ce2d663bc1f2c2a31872b8",
+    ),
+    "t013_replay": (
+        Path("results/ticket-013/replay-009b.json"),
+        "e134c4dab5a4b7c95bdfc972f57ded76eb806767cd009651915375f60e511640",
+    ),
+    "t013_replay_c6": (
+        Path("results/ticket-013/replay-009b-c6.json"),
+        "8d61b1ec89ad1cd498e69f03e55197c96b458652350821a1b23b02ca8f5d8cd9",
+    ),
 }
+T013_RESULTS = ("t013_sim", "t013_gain", "t013_replay", "t013_replay_c6")
 AUDIT_013_SIDECAR = Path("writeup/inputs/audit_013.json.sha256")
 # 012 기준 파일에서 문서에 쓰는 절(기준률, k 규칙)만 편다
 T012_CRITERIA_SECTIONS = ("base_rate", "k_rule")
@@ -452,6 +471,7 @@ class FollowUp:
     t012_stage1: dict[str, Any] = dataclass_field(default_factory=dict)
     t012_criteria: dict[str, Any] = dataclass_field(default_factory=dict)
     audit_013: dict[str, Any] = dataclass_field(default_factory=dict)
+    t013: dict[str, dict[str, Any]] = dataclass_field(default_factory=dict)  # T013_RESULTS
     releases: dict[str, dict[str, Any]] = dataclass_field(default_factory=dict)  # 있는 매니페스트만
 
 
@@ -508,6 +528,7 @@ def load_follow_up(root: Path) -> FollowUp:
         data["t012_stage1"],
         data["t012_criteria"],
         data["audit_013"],
+        {name: data[name] for name in T013_RESULTS},
         releases,
     )
 
@@ -563,6 +584,15 @@ def _design_009b_values() -> dict[str, Value]:
     return {f"design.t009b.{key}": _leaf(value, "design") for key, value in design.items()}
 
 
+def _t013(f: FollowUp) -> dict[str, Value]:
+    from evidencegate.t013.writeup_values import t013_values
+
+    if not f.t013:
+        return {}
+    return t013_values(f.t013["t013_sim"], f.t013["t013_gain"], f.t013["t013_replay"],
+                       f.t013["t013_replay_c6"])  # fmt: skip
+
+
 def _follow_up_values(f: FollowUp) -> dict[str, Value]:
     run = f.run_009b
     provenance = {k: v for k, v in run["provenance"].items() if k != "inputs"}
@@ -576,6 +606,7 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
         "hash.t012_stage1": FOLLOW_UP_INPUTS["t012_stage1"][1],
         "hash.t012_criteria": FOLLOW_UP_INPUTS["t012_criteria"][1],
         "hash.audit_013": FOLLOW_UP_INPUTS["audit_013"][1],
+        **{f"hash.{name}": FOLLOW_UP_INPUTS[name][1] for name in T013_RESULTS},
         "hash.preregistration_009b": inputs["preregistration"],
         "hash.preregistration_009": f.preregistration_009_sha256,
         "hash.t009b_pool": inputs["pool"],
@@ -595,6 +626,7 @@ def _follow_up_values(f: FollowUp) -> dict[str, Value]:
             kind="exploratory",
         ),
         **flatten_result("audit", f.audit_013["audit"], kind="exploratory"),
+        **_t013(f),
         **flatten_result("t009.thresholds", f.thresholds),
         **flatten_result("run", run["run"], kind="run"),
         **flatten_result("provenance", provenance, kind="provenance"),

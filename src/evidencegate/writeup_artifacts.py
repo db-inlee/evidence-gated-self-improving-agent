@@ -65,6 +65,8 @@ NAME_PATTERNS: tuple[str, ...] = (
     r"\bticket-010\b",
     r"\bcand-\d{3}\b",
     r"\bp(?:10|01)\b",  # 짝 결과 표기: p10 개선, p01 퇴행(Ticket 013 결정)
+    r"\bC6\b",  # Ticket 013 모의의 C6-IUT
+    r"λ[12]\b",  # SAGE λ1·λ2(Ticket 013 모의)
 )
 ALLOWED_NAME = re.compile("|".join(f"(?:{p})" for p in NAME_PATTERNS))
 METRICS = (("cd", "CD"), ("es", "ES"))

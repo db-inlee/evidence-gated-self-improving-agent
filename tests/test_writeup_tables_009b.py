@@ -198,6 +198,11 @@ def test_documents_are_the_readmes_the_two_study_pages_and_the_audit() -> None:
             Path("docs/study-2-cell-gate-audit.md"),
             "en",
         ),
+        wr.Document(
+            Path("writeup/study-2-gate-simulation.template"),
+            Path("docs/study-2-gate-simulation.md"),
+            "en",
+        ),
         wr.Document(Path("writeup/README.ko.template"), Path("README.ko.md"), "ko"),
     )
     assert expected == wr.DOCUMENTS

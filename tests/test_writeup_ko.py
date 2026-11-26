@@ -101,7 +101,7 @@ def test_documents_end_with_the_korean_summary() -> None:
     assert wr.DOCUMENTS[-1] == wr.Document(
         Path("writeup/README.ko.template"), Path("README.ko.md"), "ko"
     )
-    assert [d.lang for d in wr.DOCUMENTS] == ["en", "en", "en", "en", "ko"]
+    assert [d.lang for d in wr.DOCUMENTS] == ["en", "en", "en", "en", "en", "ko"]
 
 
 def test_main_check_applies_the_korean_list_only_to_the_korean_document(

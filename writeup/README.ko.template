@@ -108,5 +108,5 @@ S0′ 스킬은 조치 전에 확인할 증거는 그대로 두고 조사 순서
 ## 더 읽기
 
 - 영어 README: [`README.md`](README.md). 전체 설계, 표 T1, T3~T8(T2 표는 상세 문서), 그림, 재현 방법이 있다.
-- 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md), 결과 뒤 감사 [`docs/study-2-cell-gate-audit.md`](docs/study-2-cell-gate-audit.md)
+- 상세 표: [`docs/study-1-mean-gates.md`](docs/study-1-mean-gates.md), [`docs/study-2-cell-gate.md`](docs/study-2-cell-gate.md), 결과 뒤 감사 [`docs/study-2-cell-gate-audit.md`](docs/study-2-cell-gate-audit.md), 게이트 모의와 Ticket 009b 재생(탐색) [`docs/study-2-gate-simulation.md`](docs/study-2-gate-simulation.md)
 - 기록 압축본: GitHub 릴리스 [`records-2026-11`](https://github.com/db-inlee/evidence-gated-self-improving-agent/releases/tag/records-2026-11)에 세 개(평균 게이트 연구, 셀 게이트 연구, Ticket 010 하네스 탐침)가 있다. 저장소 루트에서 풀면 `runs/` 아래에 기록이 생긴다.

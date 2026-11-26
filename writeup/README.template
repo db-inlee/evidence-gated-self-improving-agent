@@ -138,6 +138,14 @@ Everything in this subsection was looked at after the results were known. It cha
 - **Shared LLM seeds across levels.** The seed rule ignores the level, so in {{audit.seed_sharing.t009_dev_b.shared_by_l1_l2}} of the {{audit.seed_sharing.t009_dev_b.seed_groups}} Dev-B family and seed groups the L1 and the L2 incident get the same LLM seed (Oracle: {{audit.seed_sharing.t009_oracle.shared_by_l1_l2}} of {{audit.seed_sharing.t009_oracle.seed_groups}}). The two cells of a family are not independent at the seed level.
 - **Fisher p.** The RQ9-1 p ({{t009b.rq.rq9_1.p}}) compares C5's rejections with a random rejection of the same size inside this frozen pool. It is a description of this pool, not evidence about a new population of candidates.
 
+### Gate simulation and replay (Exploratory)
+
+After the audit, a simulation without LLM calls (frozen plan and addendum) asked whether the existing admission rules control a loss of the size of the margin in one cell, and the same rules were replayed on the Ticket 009b pool. Details, tables and limits are in [`docs/study-2-gate-simulation.md`](docs/study-2-gate-simulation.md).
+
+- The frozen Go rule was met ({{t013.go.a}} combinations in baseline a, {{t013.go.b}} in baseline b), by C6-IUT and, in one combination, C5. At m_c = {{t013.margin.m05}}, C4, SAGE and C5 did not control a one-cell loss of −m_c; C6-IUT held it at the α level at the cost of more incidents per cell (baseline a: n_c {{t013.nc.150}}).
+- On the Ticket 009b pool, C5 and SAGE (our implementation, τ = {{t013.param.sage_tau}} is our value) both filtered most of the Severe candidates that C4 accepted; this gives no evidence that C5 is better than SAGE. C5 is a filter for large losses, not a control of margin-level losses.
+- Gain values are quoted only from `results/ticket-013/sim-gain-correction.json`; the gain values in `results/ticket-013/sim.json` are invalid.
+
 ## Harness knob probes (Exploratory)
 
 Everything in this section is exploratory. Both probes used Dev-A only, before any pre-registration for harness edits. Both used the same knobs: P1 lists the traffic tool at the top; P2 lists dependency health before deployments; P3 and P4 add a usage note to the traffic and dependency descriptions; P5 and P6 show tool output as key-value lines and as compact JSON. P0 caps the tool calls and does not count toward the decision. That the harness fields themselves reach the model is checked by tests on the request sent to the model.
@@ -323,12 +331,13 @@ src/evidencegate/   agent policy, runners, proposer, pool, gates, oracle, metric
   t009b/            cell-gate study, revised attempt: duplicate rule, proposer entry, pool freeze, preflight, analysis
   t010/             harness knob probe runner
   t012/             harness knob probe with the open skill: base-rate check and probe runner
-  t013/             audit after the results of the cell-gate study
+  t013/             audit after the results of the cell-gate study; gate simulation and replay
 results/            ticket-005/, ticket-006/: mean-gate study (JSON and sha256 files);
                     ticket-009/: thresholds h and delta (sha256 file), call manifest;
                     ticket-009b/: cell-gate study (JSON and sha256 file);
-                    ticket-010/, ticket-012/: harness probes (JSON only; their sha256 is fixed in the write-up code)
-docs/               detailed tables of the mean-gate and cell-gate studies and the cell-gate audit (rendered from writeup/)
+                    ticket-010/, ticket-012/: harness probes (JSON only; their sha256 is fixed in the write-up code);
+                    ticket-013/: gate simulation, gain correction and replays (JSON and sha256 files)
+docs/               detailed tables of the mean-gate and cell-gate studies, the cell-gate audit and the gate simulation (rendered from writeup/)
 writeup/            templates, inputs (run summaries, audit, definitions, release manifest), generated values, tables and figures
 plans/              frozen run plans and probe criteria and their sha256, power checks, duplicate-rule groups and properties, pool idea groups
 preregistration/    pre-registered texts and their sha256: Ticket 004 section 7.8, Ticket 006 L3, Ticket 009, Ticket 009b
