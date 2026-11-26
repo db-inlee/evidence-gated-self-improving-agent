@@ -370,3 +370,71 @@ def test_rebuilt_valid_list_skips_the_same_change(tmp_path: Path, inputs: Path) 
     run(args(tmp_path, inputs, "--calls", "1", "--previous", "valid"), fake)
     last = user(fake.bodies[2])
     assert "- H-a\n" in last + "\n" and "H-a-again" not in last
+
+
+# --exclude-dir (Ticket 014 사전 등록 3절) ------------------------------------------------------
+
+
+def write_skill(folder: Path, name: str, text: str) -> None:
+    (folder / name).mkdir(parents=True, exist_ok=True)
+    (folder / name / "SKILL.md").write_text(text)
+
+
+def test_a_duplicate_of_an_excluded_skill_leaves_the_pool(tmp_path: Path, inputs: Path) -> None:
+    excluded = tmp_path / "old"
+    write_skill(excluded, "cand-900", skill_with(CLAUSES[0]))
+    fake = FakeOpenAI([reply("H0", skill_with(CLAUSES[0])), reply("H1", skill_with(CLAUSES[1]))])
+    extra = (
+        "--calls",
+        "2",
+        "--dedupe",
+        "word",
+        "--dedupe-threshold",
+        "0.6",
+        "--exclude-dir",
+        str(excluded),
+    )
+    code, out, _ = run(args(tmp_path, inputs, *extra), fake)
+    assert code == 0
+    first, second = saved(tmp_path)
+    assert first["in_pool"] is False and first["excluded_by"] == "cand-900"
+    assert first["duplicate_of"] is None
+    assert second["in_pool"] is True and "excluded_by" not in second
+    assert "excluded 1" in out
+    options = json.loads((tmp_path / "out" / "run_options.json").read_text())
+    assert options["exclude_dir"] == str(excluded)
+
+
+def test_an_excluded_candidate_counts_as_idle_and_stays_in_the_valid_feedback(
+    tmp_path: Path, inputs: Path
+) -> None:
+    excluded = tmp_path / "old"
+    write_skill(excluded, "cand-900", skill_with(CLAUSES[0]))
+    fake = FakeOpenAI([reply("H0", skill_with(CLAUSES[0])), reply("H1", skill_with(CLAUSES[1]))])
+    extra = ("--calls", "2", "--previous", "valid", "--dedupe", "word", "--dedupe-threshold", "0.6",
+             "--exclude-dir", str(excluded))  # fmt: skip
+    run(args(tmp_path, inputs, *extra), fake)
+    second_prompt = json.dumps(fake.bodies[1])
+    assert "H0" in second_prompt  # --previous valid: 유효 후보 전부(빠진 후보 포함)
+
+
+def test_resuming_without_the_same_exclude_dir_is_refused(tmp_path: Path, inputs: Path) -> None:
+    excluded = tmp_path / "old"
+    write_skill(excluded, "cand-900", skill_with(CLAUSES[0]))
+    base = ("--dedupe", "word", "--dedupe-threshold", "0.6")
+    run(
+        args(tmp_path, inputs, *base, "--exclude-dir", str(excluded)),
+        FakeOpenAI([reply("H0", skill_with(CLAUSES[2]))]),
+    )
+    code, _, err = run(args(tmp_path, inputs, *base), FakeOpenAI([]))
+    assert code == 1 and "run_options" in err
+
+
+def test_without_exclude_dir_the_run_options_keep_their_old_keys(
+    tmp_path: Path, inputs: Path
+) -> None:
+    extra = ("--dedupe", "word", "--dedupe-threshold", "0.6")
+    run(args(tmp_path, inputs, *extra), FakeOpenAI([reply("H0", skill_with(CLAUSES[0]))]))
+    options = json.loads((tmp_path / "out" / "run_options.json").read_text())
+    assert set(options) == {"previous", "dedupe", "dedupe_threshold", "stop_after_idle"}
+    assert "excluded_by" not in saved(tmp_path)[0]

@@ -24,6 +24,11 @@
 - `--quota-message 문구`(여러 번): 429 메시지에 이 문구가 있으면 잔액 부족으로 멈춘다.
 - 기본값이 아닌 앞의 셋(`previous`, `dedupe`, `stop_after_idle`)은 `<out-dir>/run_options.json`에
   적는다. 폴더의 기록과 다른 값으로 이어 부르면 거부한다(기본값끼리는 파일을 만들지 않는다).
+
+선택 인자(Ticket 014, 주지 않으면 위 동작과 같다):
+- `--exclude-dir 폴더`: 폴더의 `*/SKILL.md`(예: 009b 후보)와 같은 판정으로 중복인 유효 후보를 풀에서
+  뺀다(`excluded_by`에 그 이름). proposer 중복처럼 세고(풀에 넣지 않음), 이전 hypothesis 목록 규칙은
+  `--previous`를 따른다. 줄 때만 `run_options.json`에 `exclude_dir`로 적는다.
 """
 
 import argparse
@@ -131,16 +136,25 @@ def _parser() -> argparse.ArgumentParser:
         "--stop-after-idle", type=int, default=None, help="no more calls after N idle calls"
     )
     p.add_argument("--quota-message", action="append", default=None, dest="quota_messages")
+    p.add_argument(
+        "--exclude-dir",
+        type=Path,
+        default=None,
+        help="drop duplicates of the skills in this folder",
+    )
     return parser
 
 
 def _run_options(args: argparse.Namespace) -> dict[str, Any]:
-    return {
+    options: dict[str, Any] = {
         "previous": args.previous,
         "dedupe": args.dedupe,
         "dedupe_threshold": args.dedupe_threshold,
         "stop_after_idle": args.stop_after_idle,
     }
+    if args.exclude_dir is not None:  # Ticket 014: 줄 때만 적는다(이전 폴더의 기록과 같게)
+        options["exclude_dir"] = str(args.exclude_dir)
+    return options
 
 
 def _options_problem(options: dict[str, Any], out_dir: Path) -> str | None:
@@ -226,6 +240,14 @@ def _propose(
         path.parent.name: path.read_text(encoding="utf-8")
         for path in sorted(args.controls_dir.glob("*/SKILL.md"))
     }
+    excluded = (
+        {
+            path.parent.name: path.read_text(encoding="utf-8")
+            for path in sorted(args.exclude_dir.glob("*/SKILL.md"))
+        }
+        if args.exclude_dir is not None
+        else {}
+    )
     pool = [s for s in previous if s.get("in_pool")]
     # 이전 hypothesis 목록: 기본은 풀에 남는 후보만(티켓 §4·§5), --previous valid면 유효 후보 전부
     # (정규화한 skill_md가 같으면 한 번)
@@ -275,7 +297,9 @@ def _propose(
             if reasons:
                 status = f"{candidate.candidate_id} invalid ({', '.join(reasons)})"
             else:
-                status = _dedupe(record, candidate.skill_md, pool, controls, s0_text, duplicate)
+                status = _dedupe(
+                    record, candidate.skill_md, pool, controls, s0_text, duplicate, excluded
+                )
                 if record["in_pool"]:
                     pool.append(record)
                 lines = normalize_lines(candidate.skill_md)
@@ -300,6 +324,7 @@ def _dedupe(
     controls: dict[str, str],
     s0_text: str,
     duplicate: Callable[[str, str, str], bool] = is_duplicate,
+    excluded: dict[str, str] | None = None,
 ) -> str:
     """유효한 후보의 중복 판정을 record에 적고 상태 문구를 돌려준다."""
     candidate_id = record["candidate"]["evidence"]["candidate_id"]
@@ -307,6 +332,10 @@ def _dedupe(
         if duplicate(skill_md, earlier["candidate"]["skill_md"], s0_text):
             record["duplicate_of"] = earlier["candidate"]["evidence"]["candidate_id"]
             return f"{candidate_id} duplicate of {record['duplicate_of']}"
+    for name, text in (excluded or {}).items():  # Ticket 014: 제외 폴더와 중복이면 풀에서 뺀다
+        if duplicate(skill_md, text, s0_text):
+            record["excluded_by"] = name
+            return f"{candidate_id} excluded as duplicate of {name}"
     marked = [name for name, text in controls.items() if duplicate(skill_md, text, s0_text)]
     record["control_duplicates"] = marked
     record["in_pool"] = True
@@ -328,6 +357,11 @@ def _summary(results: Sequence[dict[str, Any]]) -> str:
         f"control-marked {sum(1 for r in pool if r.get('control_duplicates'))}, "
         f"format errors {sum(format_kinds.values())}{_counts(format_kinds)}, "
         f"invalid {invalid_count}{_counts(invalid)}"
+        + (
+            f", excluded {excluded}"
+            if (excluded := sum(1 for r in results if r.get("excluded_by")))
+            else ""
+        )
     )
 
 

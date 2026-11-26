@@ -1,0 +1,208 @@
+# Ticket 014 사전 등록 — 확증 연구 D: 칸 단위 비열등성 게이트 C6-IUT
+
+- 상태: 동결. 이 파일 전체의 sha256은 `preregistration/ticket-014.sha256`에, 태그는 `t014-prereg`다.
+- 동결 시점: 분석 코드(11절)와 함께, **단계 0(Dev-A 실행, 어떤 API 호출)보다 먼저** 동결한다. 동결 뒤에 바꾸는 것은 12절(고정 뒤 규칙)을 따른다.
+- 근거:
+  - Ticket 013 동결 모의(계획 `t013-sim-plan`, 부록 `t013-sim-addendum`, 결과 `results/ticket-013/sim.json` 02b95b09)의 Go 판정.
+  - Ticket 014 계획 모의(`plans/ticket-014-oracle-scale.json` 64f20ac1).
+  - David 결정(2026-11-26, 2026-11-27).
+
+## 1. 실행 조건과 환경 지문
+
+- 정책은 009b와 같다.
+  - `gpt-oss:20b`, digest `f38aa0c53da5f8c49d08c43a99df24ff53167fe68e24664a7777288e7656fdfe`, MXFP4, Ollama 0.40.3.
+  - temperature 0.7, think low, num_ctx 8192.
+  - config_id `7c66ee5bf13c`(동시 2, 서버 `OLLAMA_NUM_PARALLEL=2`), 장비 Mac15,3.
+  - tool_spec_id `e9b4996f7529`, S0 skill_id `bf65e569ae37`.
+- 칸: family × level 6칸, 순서는 `evidencegate.eval_data.CELLS`.
+- 주 metric은 CD다. ES는 같은 방식으로 계산해 기술용으로만 보고한다. S0의 ES는 009b에서 6칸 중 4칸이 바닥이었다(감사 `audit_013` B절).
+- LLM seed는 `seeds.derive_llm_seed(family, incident_seed, repeat)`다. 같은 (케이스, 반복)에서 후보와 S0가 같은 seed를 쓴다. 이 규칙은 level을 쓰지 않으므로 같은 seed 번호의 L1·L2 장애가 LLM seed를 공유한다(감사 C절).
+- **환경 지문**(`evidencegate.t014.fingerprint`): 에피소드 단계(0, 1, 2, 4)마다 그 단계의 첫 실행에 `runs/ticket014/stage<N>/fingerprint.json`을 쓰고 고치지 않는다.
+  - 환경 항목(모든 단계가 같아야 함): Ollama 버전, 모델 digest, config_id, tool_spec_id, S0 skill_id, 코드 트리(`git rev-parse HEAD:src`), 사전 등록 sha256.
+  - 단계 항목: 단계 번호, 실행 계획 sha256, 계획의 skill_id 목록.
+  - 코드 커밋 해시(`git rev-parse HEAD`)는 기록만 하고 대조하지 않는다. 단계 사이에 결과 파일(풀 등)을 커밋하면 커밋 해시는 바뀌지만 `src/`는 같아야 하므로 코드 트리로 대조한다. `src/`에 커밋하지 않은 변경이 있으면 실행 전 점검 실패다.
+  - 재개할 때마다 이 단계 지문과 앞 단계 지문의 환경 항목을 모두 대조하고, 하나라도 다르면 실행하지 않고 종료 코드 2로 끝낸다.
+  - 지문은 단계 결과 파일에 포함한다.
+
+## 2. 분할과 장애 seed 범위
+
+모든 범위는 지금까지 쓴 범위와 겹치지 않는다. 지금까지 쓴 범위: v1 100,000~ / 200,000~ / 300,000~, L3 400,000~ / 410,000~, 009·009b 500,000~ / 600,000~ / 700,000~, 보정 900,000~.
+
+| split | 칸당 | 크기 | incident seed | 반복 | 용도 |
+| --- | --- | --- | --- | --- | --- |
+| Dev-A | 10 | 60 | 1,100,000 ~ 1,100,009 | S0 반복 0 | proposer 입력(S0 실패 궤적) |
+| 보정 | 150 | 900 | 1,200,000 ~ 1,200,149 | S0 반복 0~4 | δ(900), h(150) |
+| Dev-B | 150 | 900 | 1,300,000 ~ 1,300,149 | 후보·S0 반복 0 | 게이트 판정 |
+| Oracle | 100 | 600 | 1,400,000 ~ 1,400,099 | 대상·S0 반복 0~2 | 사후 채점(대칭) |
+
+- split 이름은 `t014_dev_a`, `t014_calibration`, `t014_dev_b`, `t014_oracle`이다(`evidencegate.t014.splits`).
+- 실행 블록은 (스킬, split, 반복, 칸)이고, 순서는 정해진 순서를 `random.Random(0)`으로 섞는다(`evidencegate.t014.plans`). 단계 0·1 계획은 이 사전 등록과 함께 동결한다.
+  - `plans/ticket-014-stage0-plan.json`: 6블록, 60 에피소드, sha256 `1d1dbb8f7f331c0f170e0ce87f7ec9196166d89acecc545162ef2a51f438037f`.
+  - `plans/ticket-014-stage1-plan.json`: 30블록, 4,500 에피소드, sha256 `bb4cf7b8cb474fe3dd1324a3ea3dfd44b1a8c50c2ef2a84d666a905b9180538a`.
+  - 단계 2 계획은 동결 풀에서, 단계 4 계획은 단계 3 결과의 Oracle 대상 목록에서 같은 규칙으로 만든다.
+
+## 3. 후보 생성 절차
+
+- 009b 사전 등록 2.1절과 같다. 같은 설정, 프롬프트(sha256 `58ffd9f0…e2c6`), 층화 추출, 이전 hypothesis 목록 규칙(`--previous valid`), 중복 판정 W(t = 0.55), 호출 종료 규칙, 잔액 부족 규칙, 응답 모델 기록을 쓴다. 다른 점은 다음뿐이다.
+  - 입력은 새 Dev-A(2절)의 S0 실패 내보내기다. 실패 층(evidence-only, wrong) 중 하나라도 2개 미만이면 호출하지 않고 멈춘다.
+  - 경로: 원장 `runs/proposer-014/ledger.jsonl`, 결과 `runs/proposer-014/pool/`. 이전 원장·경로는 쓰지 않는다.
+  - **009b 후보 40개**는 피드백(이전 hypothesis 목록)에 넣지 않는다. 중복 판정에만 쓴다.
+    - 호출 때 새 후보가 009b 후보 중 하나와 W 기준 중복이면 그 후보를 풀에서 뺀다(proposer 중복과 같게 센다, `propose_cli --exclude-dir skills/candidates-009b`).
+    - 뺀 후보의 수와 목록(새 후보 id, 대응 009b 후보)을 단계 0 결과에 보고한다.
+  - **통제 후보(009b와 다른 점):** 이번 연구는 통제 후보(`skills/controls`의 7개)를 Dev-B와 Oracle 어디에서도 쓰지 않는다(David 결정, 2026-11-27; `settings.CONTROLS_IN_ORACLE = False`). 근거:
+    - 확증 질문(RQ14)은 proposer 후보에 대한 것이다. 통제 후보는 009b에서도 기술용이었다.
+    - 게이트·분석 코드는 테스트를 먼저 쓴 구현과 변이 검사로 검증했다. 014가 쓰는 C4·C5 판정 함수(`gates.gate_c4`, `t009.rq9.cell_condition`)는 Ticket 013 재생(`results/ticket-013/replay-009b.json`)에서 009b 후보 40개의 기록된 C4·C5 판정을 다시 계산해 모두 일치했다.
+    - Oracle 탐지력은 계획 모의(`plans/ticket-014-oracle-scale.json`)로 평가했다.
+    - 통제 후보를 넣으면 Dev-B만 7 × 900 = 6,300 에피소드(009b 처리량 기준 벽시계 약 14.7시간)가 추가되고, Oracle까지 넣으면 7 × 600 × 3 = 12,600 에피소드(약 29.4시간)가 더 든다. 기술용 정보에 비해 비용이 크다.
+- **진행 기준:**
+  - N_go = 25. 호출 종료 때 풀이 25 미만이면 No-Go로 기록하고 단계 0에서 닫는다(009의 처리와 같음).
+  - 풀이 25 이상이면 그 풀(최대 40)을 동결한다.
+- **동결:** `skills/candidates-014/POOL-014.json`(+ sha256)과 아이디어 묶음 파일 `plans/ticket-014-pool-groups.json`이다. 009b와 같은 방법으로 Dev-B 실행 전에 만든다.
+- **비용 상한:** 호출 120회, $5. 호출 직전에 현재 단가와 모델 목록을 확인하고 원장에 남긴다.
+
+## 4. 게이트 (proposer 후보, Dev-B N = 900, CD)
+
+| 게이트 | 채택 조건 | 구현 |
+| --- | --- | --- |
+| C4 | 칸 층화 paired bootstrap(2,000회, seed 0) 평균 Δ의 5번째 백분위수 > 0 **그리고** 평균 Δ > δ(900) | `gates.gate_c4` |
+| C5 | C4 **그리고** 모든 칸 Δ_c ≥ −h(150) | `t009.rq9.cell_condition` |
+| C6-IUT(주) | C4 **그리고** 모든 칸에서 Tango score 한쪽 하한(α = 1/20) > −m, m = 1/20 | `t013.sim.tango_lower` |
+| SAGE λ1(비교) | Δ_λ = w − l > 0, P[Bin(w + l, 1/2) ≥ w] < 1/20, ρ = l / n_S ≤ 0.05. 한 라운드, 우리 구현이며 τ는 우리 값 | `t013.sim.sage_accept` |
+
+- w, l, n_S는 Dev-B 후보 반복 0 대 S0 반복 0(같은 seed)의 짝에서 센다. w는 후보 성공·S0 실패, l은 후보 실패·S0 성공, n_S는 S0 성공 수다.
+- 판정 비교는 유리수로 한다. Tango 하한은 이분법 float이다. 하한이 −m에서 1e−12 안이면 통과로 보지 않는다.
+
+## 5. 보정 δ(900), h(150)
+
+- 보정 S0 기록(2절, 900 케이스 × 반복 0~4)에서 009b 4.2절(h)·5절(δ)과 같은 알고리즘으로 계산한다.
+  - h는 `t009.rq9.cell_threshold_h(n_c = 150, n_boot = 2000, seed 0)`.
+  - δ는 `exact.null_diff_quantile_exact(n_cases = 900, q = 0.95, n_boot = 2000, seed 0)`.
+- 결과는 `results/ticket-014/stage1-thresholds.json`(+ sha256)에 한 번만 쓴다.
+- δ의 비층화 재표집과 C4의 층화 재표집이 다르다는 점(감사 사실 2)은 그대로 두고 한계에 적는다.
+
+## 6. Oracle (대칭)
+
+- **대상:**
+  - 단계 3에서 고정한 목록 = C4 채택 ∪ SAGE λ1 채택 proposer 후보, 그리고 S0.
+  - 그 밖의 후보는 "Oracle 라벨 없음"으로 보고한다.
+  - 목록은 `results/ticket-014/stage3-gates.json`(+ sha256)에 단계 4 전에 고정한다.
+- **실행:** 대상과 S0 모두 Oracle 600 케이스 × 반복 0, 1, 2다. 반복 r에서 대상과 S0는 같은 LLM seed를 쓴다(same_seed 짝).
+- **집계: mean.** 케이스 i의 차이 = (대상 성공 수 − S0 성공 수) / 3이다. 칸 Δ_c와 전체 Δ(칸 동일 가중)는 케이스 차이의 평균이다. majority 집계는 쓰지 않는다. 계획 모의에서 다수결이 천장 칸의 손실을 가렸기 때문이다.
+- **구간:** 케이스 단위 칸 층화 paired bootstrap 95% 양측(2.5·97.5 백분위수, 2,000회, seed 0)이다. 칸 구간도 같은 bootstrap의 칸 합에서 낸다.
+- **라벨:**
+  - **M(margin 부적합, 확인):** 어떤 칸의 상한(97.5 백분위수) < −m(1/20)이다(David 결정, 2026-11-27).
+  - **M_point(기술용):** 어떤 칸의 점추정 Δ_c < −m이다. M과 나란히 수를 보고하고, 판정에는 쓰지 않는다.
+  - **Useful:** 전체 하한 > ε(1/20)이다. **Clean Useful:** Useful이고 M이 아니다.
+  - **라벨 불확실:** M에 대해서는 M이 아니고 어떤 칸 하한(2.5 백분위수) < −m인 경우, Useful에 대해서는 전체 하한 ≤ ε < 전체 상한인 경우다. 각각의 수를 보고한다.
+- **계획 모의의 라벨 불확실성**(n_o 100, R 3, mean, 기준선 a). 같은 seed 짝과 독립 짝 사이의 범위로 함께 적는다. 실제 seed 공유의 결합 정도는 재지 않았다.
+  - 대표 Useful의 Useful 라벨 불확실: 0.023(same_seed) ~ 0.235(independent).
+  - 경험 분포의 효과 라벨 불확실: 0.229 ~ 0.281.
+  - 참 −2m 손실의 M 확인: realistic 배치 0.852 ~ 0.865, worst 배치 0.640 ~ 0.693.
+
+## 7. 연구 질문과 판정 규칙 (CD, proposer 후보)
+
+### 7.1 RQ14-1 (주 질문) — C6-IUT가 margin 부적합 후보를 거르는가
+
+- **표본:**
+  - C4 채택 후보 n개 중 C6-IUT가 거른 f개, 남긴 n − f개.
+  - 각 후보의 M 라벨(6절). k = M인 후보 수, a = 거른 후보 중 M인 수다.
+  - C4 채택 후보는 모두 Oracle 대상이므로 라벨이 있다.
+- **검정:** 단측 Fisher(초기하) P(X ≥ a), `t009.rq9.fisher_one_sided`. RQ9-1과 같은 함수를 쓴다.
+- **판정**(`t009.rq9.rq9_1`의 규칙 그대로, RQ9-1의 margin 판):
+  - undecidable: n < 2, 또는 f ∈ {0, n}, 또는 k ∈ {0, n}.
+  - not_supported: a / f ≤ (k − a) / (n − f).
+  - supported: 방향이 맞고 p < 1/20.
+  - direction_only: 방향은 맞지만 p ≥ 1/20.
+- **함께 보고:** 2 × 2 표, M 라벨 불확실 후보 수, 불확실 후보를 M이 아닌 쪽과 M인 쪽으로 각각 옮겼을 때의 판정(민감도, 기술용).
+  - 주어진 n, f, k에서 달성 가능한 최소 단측 p(a = min(f, k)일 때의 P(X ≥ a))를 기술용으로 보고한다. 판정에는 쓰지 않는다.
+
+### 7.2 RQ14-2 — 모의 예측 검증(판정 없음)
+
+- 판정 기준이 아니다. Ticket 013 계획 모의의 예측과 관측을 나란히 보고한다(David 결정, 2026-11-27).
+- **예측:** C6-IUT(기준선 a, n_c 150, m 0.05)의 Clean Useful 손실 = 1 − 대표 Useful 검정력.
+  - 검정력은 `results/ticket-013/sim.json`(sha256 02b95b09)의 `decision.a`(gate C6_IUT, n_c 150, m_c 1/20) `useful_power`, 59,352 / 80,000 = 0.7419다.
+  - 예측 손실은 20,648 / 80,000 = 0.2581이다.
+- **관측:** C4 채택 후보 중 Clean Useful인 u_4개와 그중 C6-IUT가 거른 u개. 관측 손실 u / u_4와 정확 구간(Clopper–Pearson 양측 95%, `exact.clopper_pearson`)을 보고한다.
+- **보고:** 구간이 예측값 0.2581을 포함하는지(예 / 아니오). u_4 = 0이면 "정의 안 됨"으로 적는다.
+- 지지·불지지 같은 판정 문구는 쓰지 않는다.
+- 예측값은 Ticket 013 모의의 대표 Useful 효과 형태(room 셀 +0.10, 나머지 0)에 대한 것이며, 실제 Clean Useful 후보의 효과 분포는 다르다. 구간 포함 여부는 모의 전체의 타당성 판정이 아니라 대략적 일치의 기술이다.
+
+### 7.3 RQ14-3 (부 질문, 기술용) — C5·SAGE λ1과의 비교
+
+- Oracle 대상 안에서 게이트마다(C4, C5, C6-IUT, SAGE λ1) 채택 수, M 채택 수, Clean Useful 채택 수를 보고한다.
+- 판정은 없다. 우월성을 주장하지 않는다.
+- SAGE λ1 채택 후보 중 C4 밖의 것도 대상이므로 라벨이 있다.
+
+### 7.4 그 밖의 기술용 값
+
+- ES 기준 같은 표, 단계별 실행 요약(에피소드, 세션, 정지 구간, 형식 오류), 응답 모델, 비용.
+
+## 8. 단계와 정지 규칙
+
+| 단계 | 내용 | 결과(한 번 쓰기 + sha256) | 다음 단계 조건 |
+| --- | --- | --- | --- |
+| 0 | Dev-A S0 → proposer → 풀 동결 | `stage0-pool.json`(풀·묶음 sha256, 비용, 응답 모델, 지문) | N_go 충족. **멈추고 David 확인** |
+| 1 | 보정 S0 × 5 | `stage1-thresholds.json` | 0의 해시 확인 |
+| 2 | Dev-B 후보 + S0 | `stage2-devb-summary.json` | 1의 해시 확인 |
+| 3 | 게이트 판정과 Oracle 대상 목록 고정 | `stage3-gates.json` | 2의 해시 확인. **멈추고 David 확인** |
+| 4 | Oracle(대상 + S0 × 반복 3) | `stage4-oracle-summary.json` | 3의 해시 확인 |
+| 5 | 분석(7절) | `results/ticket-014/analysis.json` | 4의 해시 확인 |
+
+- 각 단계는 앞 단계 결과의 sha256을 확인한 뒤에만 시작한다.
+- 단계 3에서 Oracle 대상이 0개이면 단계 4를 실행하지 않는다. 단계 5는 RQ14-1을 undecidable, RQ14-2를 '정의 안 됨', RQ14-3을 모두 0으로 기록한다. 대상이 1개 이상이면 단계 4를 계획대로 실행한다.
+- 명령(`evidencegate.t014.run`): `run --stage N [--max-hours H]`, `preflight --stage N`, `status [--stage N]`, `finalize --stage N`. 단계 0의 proposer는 `evidencegate.t014.propose`, 내보내기·풀 동결·묶음 검사는 `evidencegate.t014.pool`이다.
+- `--max-hours N`이면 진행 중인 블록을 끝내고 깔끔히 멈춘다. 재개는 같은 명령이고, 끝난 블록은 건너뛴다. 중간 종료(Ctrl-C, 전원)도 마지막 완료 블록부터 재개한다.
+- **중단 규칙:**
+  - 환경 지문 불일치(종료 코드 2).
+  - 실행 조건 점검 실패.
+  - 기존 실행기(`bench_runner`)의 규칙을 그대로 쓴다.
+    - 서버 오류는 같은 에피소드를 3회까지 재시도한다. 실패한 에피소드가 연속 3개면 멈춘다.
+    - 형식 오류 에피소드 비율이 최근 200개 창(20개째부터 판정)에서 0.05를 넘으면 멈춘다.
+  - 이 경우 기록하고 멈춘다. 다시 시작하려면 원인 기록과 David 결정이 필요하다.
+
+## 9. 부정적 결과와 이탈 보고 규칙
+
+- 판정은 supported / direction_only / not_supported / undecidable 그대로 보고한다. 결과를 보고 판정 규칙, 표본, 대상, margin을 바꾸지 않는다.
+- 단계 0의 No-Go(풀 < 25)도 결과다. 009처럼 기록하고 닫는다.
+- 결과를 보고 다시 실행해 판정을 바꾸지 않는다. 다시 실행이 필요하면(장비 고장 등) 이유와 영향을 적고 David 결정을 받은 뒤 진행한다. 원 기록은 지우지 않는다.
+- README에는 판정과 관계없이 결과를 적는다. 사전 등록과 다르게 한 점을 모두 적는다.
+- 탐색 분석은 "Exploratory"로 표시하고, 판정과 섞지 않는다.
+
+## 10. 예상 비용과 일정(계획용)
+
+- 에피소드: Dev-A 60, 보정 4,500, Dev-B (풀 + 1) × 900, Oracle (대상 + 1) × 1,800.
+  - 풀 40, 대상 25를 예로 들면 Dev-B 36,900, Oracle 46,800이다.
+  - 대상이 40이면 Oracle은 73,800이다.
+- 009b 처리량(에피소드당 활동 6.67초, 벽시계 8.40초)으로 Oracle 대상 25면 합계 약 88,260 에피소드, 활동 약 6.8일, 벽시계 약 8.6일이다.
+- proposer: 009b 실측 기준 약 61회·$2.67, 상한 120회·$5.
+
+## 11. 분석 코드와 고정 시점
+
+- 단계 0 전에 커밋하고 이 사전 등록과 함께 태그한다.
+  - 게이트(4절), 보정(5절), Oracle 집계·라벨(6절), RQ14(7절)를 구현한 분석 모듈과 테스트.
+  - 각 단계 실행기(8절)와 지문·체크포인트·status.
+- 구현(`src/evidencegate/t014/`, 테스트 `tests/t014/`):
+
+| 사전 등록 | 함수 |
+| --- | --- |
+| 1절 지문 | `fingerprint.collect`, `fingerprint.ensure`, `fingerprint.compare_environment` |
+| 2절 분할·계획 | `splits.split_cases`, `plans.build_plan`, `plans.check_plan` |
+| 3절 내보내기·호출·동결 | `pool.build_export`, `propose.proposer_preflight`, `propose.v1_argv`, `pool.build_freeze`, `pool.check_pool_groups` |
+| 4절 게이트 | `analysis.gate_row`, `analysis.tango_pass` |
+| 5절 보정 | `analysis.thresholds` |
+| 6절 Oracle | `analysis.oracle_targets`, `analysis.oracle_label` |
+| 7절 RQ | `analysis.rq14_1`, `analysis.rq14_2`, `analysis.rq14_3` |
+| 8절 단계 | `run.main`, `stages.finalize`, `stages.check_previous`, `pool.finalize_stage0` |
+
+## 12. 고정 뒤 규칙
+
+- 동결 뒤 이 문서를 고치려면 무엇을 왜 고치는지 적고, sha256을 다시 기록하는 별도 커밋으로 한다. 단계 0이 시작된 뒤에는 판정 규칙(7절)과 라벨(6절)을 고치지 않는다.
+
+## 13. 동결 전에 닫은 항목
+
+- 닫힌 항목(David 결정, 2026-11-27):
+  - M 라벨 정의(6절).
+  - 009b 중복 제외(3절).
+  - RQ14-2를 모의 예측 검증으로 둔다(7.2절).
+  - 통제 후보를 쓰지 않는다(3절, 2026-11-27).
+- 열린 항목은 없다.

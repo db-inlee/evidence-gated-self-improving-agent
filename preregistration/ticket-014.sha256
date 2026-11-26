@@ -1,0 +1,8 @@
+# Ticket 014 confirmatory study D preregistration: cell-level non-inferiority gate C6-IUT (fixed before any stage 0 run or proposer call)
+# The preregistered text is the whole committed file preregistration/ticket-014.txt.
+# Range: the whole file, as UTF-8 bytes, with no normalization.
+sha256: b62af3026dc8b627e80434e734037e56252acaa8aeee7f100ae8274ba336823a
+file: preregistration/ticket-014.txt
+range: whole file (UTF-8 bytes)
+lines: 208
+recorded_at: 2026-11-27T01:37:40+09:00
