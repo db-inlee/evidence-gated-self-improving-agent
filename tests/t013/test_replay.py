@@ -97,3 +97,32 @@ def test_the_cell_cap_can_reject_what_sage_accepts() -> None:
     counts = [{"w": 40, "l": 5, "n_s": 60, "n": 70}] + [{"w": 0, "l": 0, "n_s": 70, "n": 70}] * 5
     got = rp.replay_gates(counts)
     assert got["SAGE_l1"] is True and got["SAGE_cell_l1"] is False
+
+
+# C6-IUT 탐색 재생([2-prime]) ------------------------------------------------------------
+
+
+def test_c6_needs_c4_and_every_cell_bound_above_minus_m() -> None:
+    from fractions import Fraction
+
+    quiet = [{"w": 0, "l": 0, "n_s": 70, "n": 70}] * 6
+    m = Fraction(1, 20)
+    assert rp.c6_accept(quiet, c4=True, m=m, bound="tango") is True  # 불일치 0: 하한 -0.037
+    assert rp.c6_accept(quiet, c4=False, m=m, bound="tango") is False
+    lossy = [{"w": 0, "l": 4, "n_s": 70, "n": 70}, *quiet[1:]]
+    assert sim.tango_lower(0, 4, 70, sc.ALPHA) < -float(m)
+    assert rp.c6_accept(lossy, c4=True, m=m, bound="tango") is False
+    assert rp.c6_accept(lossy, c4=True, m=Fraction(1, 5), bound="tango") is True
+    exact = sim.exact_conditional_lower(0, 4, 70, sc.ALPHA)
+    assert rp.c6_accept(lossy, c4=True, m=m, bound="exact_conditional") is (exact > -float(m))
+
+
+def test_committed_c6_replay_is_exploratory_and_says_it_changes_nothing() -> None:
+    path = REPO_ROOT / rp.OUT_C6
+    recorded = path.with_name(path.name + ".sha256").read_text().split()
+    assert recorded == [hashlib.sha256(path.read_bytes()).hexdigest(), path.name]
+    data = json.loads(path.read_text())
+    assert data["status"] == "Exploratory"
+    assert "does not change m_c or n_c" in data["header"]
+    assert data["margins"] == ["1/20", "1/10"] and data["primary_bound"] == "tango"
+    assert data["pools"]["all"]["C4"]["accepted"] == 22
