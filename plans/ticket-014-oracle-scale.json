@@ -1,0 +1,3113 @@
+{
+ "baseline": "a (S0 calibration case rates)",
+ "candidates": 40,
+ "controls": 7,
+ "m_c": "1/20",
+ "n_boot": 2000,
+ "pools": 1000,
+ "rows": [
+  {
+   "condition": "n50_r1_mean_independent",
+   "hours": {
+    "active": 26.66658610603291,
+    "wall": 33.59369372333943
+   },
+   "oracle_episodes": 14400,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.63735,
+      "se": 0.0029308390125213834
+     },
+     "severe": {
+      "estimate": 0.50935,
+      "se": 0.002798957245415096
+     },
+     "severe_uncertain": {
+      "estimate": 0.45565,
+      "se": 0.0026777318289454882
+     },
+     "useful_uncertain": {
+      "estimate": 0.592375,
+      "se": 0.002621661206655521
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.309425,
+      "se": 0.0057859979387437695
+     },
+     "severe": {
+      "estimate": 0.218,
+      "se": 0.002058272694879492
+     },
+     "severe_uncertain": {
+      "estimate": 0.780225,
+      "se": 0.002070352804653288
+     },
+     "useful_uncertain": {
+      "estimate": 0.309425,
+      "se": 0.0057859979387437695
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.115975,
+      "se": 0.005423775596087721
+     },
+     "severe": {
+      "estimate": 0.217425,
+      "se": 0.010377544883680957
+     },
+     "severe_uncertain": {
+      "estimate": 0.781725,
+      "se": 0.010365705341279107
+     },
+     "useful_uncertain": {
+      "estimate": 0.115975,
+      "se": 0.005423775596087721
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.27845,
+      "se": 0.005746291618719621
+     },
+     "severe": {
+      "estimate": 0.01135,
+      "se": 0.0005547388892400057
+     },
+     "severe_uncertain": {
+      "estimate": 0.963825,
+      "se": 0.0010744295108446036
+     },
+     "useful_uncertain": {
+      "estimate": 0.27845,
+      "se": 0.005746291618719621
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.131875,
+      "se": 0.005195705412138927
+     },
+     "severe": {
+      "estimate": 0.031325,
+      "se": 0.0026336867089083852
+     },
+     "severe_uncertain": {
+      "estimate": 0.9535,
+      "se": 0.0029572360820951118
+     },
+     "useful_uncertain": {
+      "estimate": 0.131875,
+      "se": 0.005195705412138927
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.1268,
+      "se": 0.0036749510561727575
+     },
+     "severe": {
+      "estimate": 0.0125,
+      "se": 0.0005971654767370654
+     },
+     "severe_uncertain": {
+      "estimate": 0.984625,
+      "se": 0.0006583447370434374
+     },
+     "useful_uncertain": {
+      "estimate": 0.05775,
+      "se": 0.00274795173515452
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.06595,
+      "se": 0.0032709014501045887
+     },
+     "severe": {
+      "estimate": 0.031375,
+      "se": 0.002634516094095849
+     },
+     "severe_uncertain": {
+      "estimate": 0.96125,
+      "se": 0.002758359303289919
+     },
+     "useful_uncertain": {
+      "estimate": 0.029575,
+      "se": 0.0018653213660918592
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.050775,
+      "se": 0.00275456203179144
+     },
+     "severe": {
+      "estimate": 0.003825,
+      "se": 0.0005232285763823906
+     },
+     "severe_uncertain": {
+      "estimate": 0.980275,
+      "se": 0.0014172360187819574
+     },
+     "useful_uncertain": {
+      "estimate": 0.022725,
+      "se": 0.001675038844364551
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.7556,
+      "se": 0.0061000697414743425
+     },
+     "severe": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.835575,
+      "se": 0.004674467351476532
+     },
+     "useful_uncertain": {
+      "estimate": 0.75545,
+      "se": 0.006112295612751208
+     }
+    }
+   }
+  },
+  {
+   "condition": "n50_r1_mean_same_seed",
+   "hours": {
+    "active": 26.66658610603291,
+    "wall": 33.59369372333943
+   },
+   "oracle_episodes": 14400,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.569925,
+      "se": 0.004386526072644044
+     },
+     "severe": {
+      "estimate": 0.5368,
+      "se": 0.0034383982582857657
+     },
+     "severe_uncertain": {
+      "estimate": 0.339625,
+      "se": 0.0037717317422286726
+     },
+     "useful_uncertain": {
+      "estimate": 0.5487,
+      "se": 0.004125418655006917
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.205,
+      "se": 0.012772554096113203
+     },
+     "severe": {
+      "estimate": 0.216,
+      "se": 0.01301973553930776
+     },
+     "severe_uncertain": {
+      "estimate": 0.781,
+      "se": 0.013084731950262116
+     },
+     "useful_uncertain": {
+      "estimate": 0.205,
+      "se": 0.012772554096113203
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.053,
+      "se": 0.007088105617246491
+     },
+     "severe": {
+      "estimate": 0.225,
+      "se": 0.013211720158614833
+     },
+     "severe_uncertain": {
+      "estimate": 0.771,
+      "se": 0.013294199326613685
+     },
+     "useful_uncertain": {
+      "estimate": 0.053,
+      "se": 0.007088105617246491
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.143,
+      "se": 0.011075814808567074
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.925,
+      "se": 0.008333333333333335
+     },
+     "useful_uncertain": {
+      "estimate": 0.143,
+      "se": 0.011075814808567074
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.027,
+      "se": 0.005128089049275305
+     },
+     "severe": {
+      "estimate": 0.014,
+      "se": 0.0037172325482565413
+     },
+     "severe_uncertain": {
+      "estimate": 0.897,
+      "se": 0.009616833339695739
+     },
+     "useful_uncertain": {
+      "estimate": 0.027,
+      "se": 0.005128089049275305
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.925,
+      "se": 0.008333333333333335
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.014,
+      "se": 0.0037172325482565413
+     },
+     "severe_uncertain": {
+      "estimate": 0.897,
+      "se": 0.009616833339695739
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.529,
+      "se": 0.015792669451628764
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.529,
+      "se": 0.015792669451628764
+     }
+    }
+   }
+  },
+  {
+   "condition": "n50_r3_mean_independent",
+   "hours": {
+    "active": 79.99975831809873,
+    "wall": 100.78108117001828
+   },
+   "oracle_episodes": 43200,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.40555,
+      "se": 0.002622226834881676
+     },
+     "severe": {
+      "estimate": 0.5796,
+      "se": 0.002539495823788462
+     },
+     "severe_uncertain": {
+      "estimate": 0.309475,
+      "se": 0.002427548633368108
+     },
+     "useful_uncertain": {
+      "estimate": 0.402075,
+      "se": 0.002567179344102158
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.009325,
+      "se": 0.0007343082347240725
+     },
+     "severe": {
+      "estimate": 0.59405,
+      "se": 0.0025700102047370266
+     },
+     "severe_uncertain": {
+      "estimate": 0.405875,
+      "se": 0.002571278056890356
+     },
+     "useful_uncertain": {
+      "estimate": 0.009325,
+      "se": 0.0007343082347240725
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.001825,
+      "se": 0.0007610016415872562
+     },
+     "severe": {
+      "estimate": 0.38955,
+      "se": 0.01300850755347318
+     },
+     "severe_uncertain": {
+      "estimate": 0.609725,
+      "se": 0.012991336505502398
+     },
+     "useful_uncertain": {
+      "estimate": 0.001825,
+      "se": 0.0007610016415872562
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.006175,
+      "se": 0.0005940094462398912
+     },
+     "severe": {
+      "estimate": 0.013225,
+      "se": 0.0005818616140784147
+     },
+     "severe_uncertain": {
+      "estimate": 0.94585,
+      "se": 0.0012069524573214282
+     },
+     "useful_uncertain": {
+      "estimate": 0.006175,
+      "se": 0.0005940094462398912
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0011,
+      "se": 0.0003907591236205403
+     },
+     "severe": {
+      "estimate": 0.023825,
+      "se": 0.0029105782657129907
+     },
+     "severe_uncertain": {
+      "estimate": 0.935775,
+      "se": 0.004363606930102715
+     },
+     "useful_uncertain": {
+      "estimate": 0.0011,
+      "se": 0.0003907591236205403
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.000225,
+      "se": 7.469909607856681e-05
+     },
+     "severe": {
+      "estimate": 0.0133,
+      "se": 0.000584980514378216
+     },
+     "severe_uncertain": {
+      "estimate": 0.964925,
+      "se": 0.0010441310188786582
+     },
+     "useful_uncertain": {
+      "estimate": 0.000125,
+      "se": 5.578967187112224e-05
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 5e-05,
+      "se": 5e-05
+     },
+     "severe": {
+      "estimate": 0.023825,
+      "se": 0.0029105782657129907
+     },
+     "severe_uncertain": {
+      "estimate": 0.93915,
+      "se": 0.004205498033968595
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 5e-05,
+      "se": 3.533763926394559e-05
+     },
+     "severe": {
+      "estimate": 0.0003,
+      "se": 0.00020603992926724777
+     },
+     "severe_uncertain": {
+      "estimate": 0.818325,
+      "se": 0.006148790694274933
+     },
+     "useful_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.50625,
+      "se": 0.007489628297321039
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.258025,
+      "se": 0.006632040284356944
+     },
+     "useful_uncertain": {
+      "estimate": 0.50625,
+      "se": 0.007489628297321039
+     }
+    }
+   }
+  },
+  {
+   "condition": "n50_r3_mean_same_seed",
+   "hours": {
+    "active": 79.99975831809873,
+    "wall": 100.78108117001828
+   },
+   "oracle_episodes": 43200,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.3442,
+      "se": 0.004032849349265836
+     },
+     "severe": {
+      "estimate": 0.59835,
+      "se": 0.002720004765791032
+     },
+     "severe_uncertain": {
+      "estimate": 0.2483,
+      "se": 0.003079219315279701
+     },
+     "useful_uncertain": {
+      "estimate": 0.343825,
+      "se": 0.004023671744726365
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.001,
+      "se": 0.001
+     },
+     "severe": {
+      "estimate": 0.573,
+      "se": 0.01564978964446219
+     },
+     "severe_uncertain": {
+      "estimate": 0.427,
+      "se": 0.01564978964446219
+     },
+     "useful_uncertain": {
+      "estimate": 0.001,
+      "se": 0.001
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.001,
+      "se": 0.001
+     },
+     "severe": {
+      "estimate": 0.425,
+      "se": 0.01564032031704017
+     },
+     "severe_uncertain": {
+      "estimate": 0.575,
+      "se": 0.01564032031704017
+     },
+     "useful_uncertain": {
+      "estimate": 0.001,
+      "se": 0.001
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.016,
+      "se": 0.003969856390319398
+     },
+     "severe_uncertain": {
+      "estimate": 0.937,
+      "se": 0.007687007876286462
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.014,
+      "se": 0.0037172325482565413
+     },
+     "severe_uncertain": {
+      "estimate": 0.914,
+      "se": 0.008870325962594763
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.016,
+      "se": 0.003969856390319398
+     },
+     "severe_uncertain": {
+      "estimate": 0.937,
+      "se": 0.007687007876286462
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.014,
+      "se": 0.0037172325482565413
+     },
+     "severe_uncertain": {
+      "estimate": 0.914,
+      "se": 0.008870325962594763
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.213,
+      "se": 0.01295371756673731
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.213,
+      "se": 0.01295371756673731
+     }
+    }
+   }
+  },
+  {
+   "condition": "n50_r3_majority_independent",
+   "hours": {
+    "active": 79.99975831809873,
+    "wall": 100.78108117001828
+   },
+   "oracle_episodes": 43200,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.55165,
+      "se": 0.002894936641475623
+     },
+     "severe": {
+      "estimate": 0.38015,
+      "se": 0.0025636985099753927
+     },
+     "severe_uncertain": {
+      "estimate": 0.531375,
+      "se": 0.002678321822108535
+     },
+     "useful_uncertain": {
+      "estimate": 0.5284,
+      "se": 0.0027121570374511496
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.1088,
+      "se": 0.003520824648602399
+     },
+     "severe": {
+      "estimate": 0.0005,
+      "se": 0.00011073509950445821
+     },
+     "severe_uncertain": {
+      "estimate": 0.888575,
+      "se": 0.002246974247353153
+     },
+     "useful_uncertain": {
+      "estimate": 0.1088,
+      "se": 0.003520824648602399
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.004975,
+      "se": 0.00098264437359859
+     },
+     "severe": {
+      "estimate": 0.148425,
+      "se": 0.009631700994063254
+     },
+     "severe_uncertain": {
+      "estimate": 0.84855,
+      "se": 0.009632532542544727
+     },
+     "useful_uncertain": {
+      "estimate": 0.004975,
+      "se": 0.00098264437359859
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.1804,
+      "se": 0.00476718638885308
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.68805,
+      "se": 0.005071406773930353
+     },
+     "useful_uncertain": {
+      "estimate": 0.1804,
+      "se": 0.00476718638885308
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0097,
+      "se": 0.001172512168288579
+     },
+     "severe": {
+      "estimate": 0.02655,
+      "se": 0.002993168314104063
+     },
+     "severe_uncertain": {
+      "estimate": 0.95175,
+      "se": 0.0034751279133312506
+     },
+     "useful_uncertain": {
+      "estimate": 0.0097,
+      "se": 0.001172512168288579
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.022425,
+      "se": 0.0017166657555611447
+     },
+     "severe": {
+      "estimate": 0.001525,
+      "se": 0.00047410352155320375
+     },
+     "severe_uncertain": {
+      "estimate": 0.961,
+      "se": 0.0021954657979731933
+     },
+     "useful_uncertain": {
+      "estimate": 0.015425,
+      "se": 0.0013814314053646414
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.025475,
+      "se": 0.0026069033968139903
+     },
+     "severe": {
+      "estimate": 0.026725,
+      "se": 0.0030006921749037383
+     },
+     "severe_uncertain": {
+      "estimate": 0.962675,
+      "se": 0.0032076484195409237
+     },
+     "useful_uncertain": {
+      "estimate": 0.0015,
+      "se": 0.00030878041606511474
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.014325,
+      "se": 0.0014858085347722303
+     },
+     "severe": {
+      "estimate": 0.00285,
+      "se": 0.0007721552458694583
+     },
+     "severe_uncertain": {
+      "estimate": 0.9609,
+      "se": 0.0024652114041735385
+     },
+     "useful_uncertain": {
+      "estimate": 0.005825,
+      "se": 0.0006862326794100455
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.28115,
+      "se": 0.006960019351220897
+     },
+     "severe": {
+      "estimate": 0.0001,
+      "se": 4.992486847746815e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.8205,
+      "se": 0.005217947582812324
+     },
+     "useful_uncertain": {
+      "estimate": 0.280875,
+      "se": 0.006969554078924925
+     }
+    }
+   }
+  },
+  {
+   "condition": "n50_r3_majority_same_seed",
+   "hours": {
+    "active": 79.99975831809873,
+    "wall": 100.78108117001828
+   },
+   "oracle_episodes": 43200,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.493325,
+      "se": 0.004589622425538839
+     },
+     "severe": {
+      "estimate": 0.392575,
+      "se": 0.003178340167638011
+     },
+     "severe_uncertain": {
+      "estimate": 0.3333,
+      "se": 0.004318247012070669
+     },
+     "useful_uncertain": {
+      "estimate": 0.4817,
+      "se": 0.004406759527082177
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.05,
+      "se": 0.006895472974897919
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.767,
+      "se": 0.013374972519219989
+     },
+     "useful_uncertain": {
+      "estimate": 0.05,
+      "se": 0.006895472974897919
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.004,
+      "se": 0.001996994739098726
+     },
+     "severe": {
+      "estimate": 0.148,
+      "se": 0.011234866364235145
+     },
+     "severe_uncertain": {
+      "estimate": 0.844,
+      "se": 0.011480235006122297
+     },
+     "useful_uncertain": {
+      "estimate": 0.004,
+      "se": 0.001996994739098726
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.089,
+      "se": 0.009008893392651516
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.293,
+      "se": 0.01439994299844129
+     },
+     "useful_uncertain": {
+      "estimate": 0.089,
+      "se": 0.009008893392651516
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.002,
+      "se": 0.0014135055705578234
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.924,
+      "se": 0.00838416926679646
+     },
+     "useful_uncertain": {
+      "estimate": 0.002,
+      "se": 0.0014135055705578234
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.293,
+      "se": 0.01439994299844129
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.924,
+      "se": 0.00838416926679646
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.06,
+      "se": 0.0075137511574749705
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.06,
+      "se": 0.0075137511574749705
+     }
+    }
+   }
+  },
+  {
+   "condition": "n100_r1_mean_independent",
+   "hours": {
+    "active": 53.33317221206582,
+    "wall": 67.18738744667885
+   },
+   "oracle_episodes": 28800,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.485725,
+      "se": 0.002885337857088759
+     },
+     "severe": {
+      "estimate": 0.552025,
+      "se": 0.002592439993542786
+     },
+     "severe_uncertain": {
+      "estimate": 0.34585,
+      "se": 0.00240672387693724
+     },
+     "useful_uncertain": {
+      "estimate": 0.475225,
+      "se": 0.0027441947780687836
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.05715,
+      "se": 0.002275479137523635
+     },
+     "severe": {
+      "estimate": 0.308375,
+      "se": 0.0022584474667257507
+     },
+     "severe_uncertain": {
+      "estimate": 0.69005,
+      "se": 0.0022521811250030095
+     },
+     "useful_uncertain": {
+      "estimate": 0.05715,
+      "se": 0.002275479137523635
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0049,
+      "se": 0.0007409716857202029
+     },
+     "severe": {
+      "estimate": 0.277525,
+      "se": 0.01099272893618616
+     },
+     "severe_uncertain": {
+      "estimate": 0.7218,
+      "se": 0.010979483551563756
+     },
+     "useful_uncertain": {
+      "estimate": 0.0049,
+      "se": 0.0007409716857202029
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.042825,
+      "se": 0.0020057835233500505
+     },
+     "severe": {
+      "estimate": 0.00445,
+      "se": 0.0003264261846942645
+     },
+     "severe_uncertain": {
+      "estimate": 0.91125,
+      "se": 0.0016552726142322984
+     },
+     "useful_uncertain": {
+      "estimate": 0.042825,
+      "se": 0.0020057835233500505
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.00745,
+      "se": 0.000871927610388476
+     },
+     "severe": {
+      "estimate": 0.01865,
+      "se": 0.002237673945123526
+     },
+     "severe_uncertain": {
+      "estimate": 0.948075,
+      "se": 0.0033711324371654265
+     },
+     "useful_uncertain": {
+      "estimate": 0.00745,
+      "se": 0.000871927610388476
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.004325,
+      "se": 0.0004425666506191358
+     },
+     "severe": {
+      "estimate": 0.004525,
+      "se": 0.0003301641764083187
+     },
+     "severe_uncertain": {
+      "estimate": 0.96485,
+      "se": 0.0011606354184560174
+     },
+     "useful_uncertain": {
+      "estimate": 0.001975,
+      "se": 0.00025107252420846935
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.00065,
+      "se": 0.00017919154447018312
+     },
+     "severe": {
+      "estimate": 0.01865,
+      "se": 0.002237673945123526
+     },
+     "severe_uncertain": {
+      "estimate": 0.953325,
+      "se": 0.003140968809151097
+     },
+     "useful_uncertain": {
+      "estimate": 0.0003,
+      "se": 9.959879477142241e-05
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0003,
+      "se": 0.00011145592143274587
+     },
+     "severe": {
+      "estimate": 0.000525,
+      "se": 0.00014704079704624837
+     },
+     "severe_uncertain": {
+      "estimate": 0.88875,
+      "se": 0.004586062523501994
+     },
+     "useful_uncertain": {
+      "estimate": 0.000125,
+      "se": 5.578967187112224e-05
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.649675,
+      "se": 0.0068569334918687904
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.36445,
+      "se": 0.006960578075644806
+     },
+     "useful_uncertain": {
+      "estimate": 0.649675,
+      "se": 0.0068569334918687904
+     }
+    }
+   }
+  },
+  {
+   "condition": "n100_r1_mean_same_seed",
+   "hours": {
+    "active": 53.33317221206582,
+    "wall": 67.18738744667885
+   },
+   "oracle_episodes": 28800,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.42385,
+      "se": 0.004151615759365674
+     },
+     "severe": {
+      "estimate": 0.573775,
+      "se": 0.0028870329638461586
+     },
+     "severe_uncertain": {
+      "estimate": 0.261025,
+      "se": 0.0035098280966834074
+     },
+     "useful_uncertain": {
+      "estimate": 0.421325,
+      "se": 0.004110689375535707
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.025,
+      "se": 0.0049395748196984935
+     },
+     "severe": {
+      "estimate": 0.334,
+      "se": 0.014922019523732928
+     },
+     "severe_uncertain": {
+      "estimate": 0.666,
+      "se": 0.014922019523732928
+     },
+     "useful_uncertain": {
+      "estimate": 0.025,
+      "se": 0.0049395748196984935
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.002,
+      "se": 0.0014135055705578234
+     },
+     "severe": {
+      "estimate": 0.301,
+      "se": 0.01451239503354321
+     },
+     "severe_uncertain": {
+      "estimate": 0.698,
+      "se": 0.014526080235459498
+     },
+     "useful_uncertain": {
+      "estimate": 0.002,
+      "se": 0.0014135055705578234
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe": {
+      "estimate": 0.011,
+      "se": 0.0032999833166078114
+     },
+     "severe_uncertain": {
+      "estimate": 0.875,
+      "se": 0.010463483381956722
+     },
+     "useful_uncertain": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.003,
+      "se": 0.0017303161543469432
+     },
+     "severe_uncertain": {
+      "estimate": 0.871,
+      "se": 0.010605256784796466
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.011,
+      "se": 0.0032999833166078114
+     },
+     "severe_uncertain": {
+      "estimate": 0.875,
+      "se": 0.010463483381956722
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.003,
+      "se": 0.0017303161543469432
+     },
+     "severe_uncertain": {
+      "estimate": 0.871,
+      "se": 0.010605256784796466
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.357,
+      "se": 0.01515852172148659
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.357,
+      "se": 0.01515852172148659
+     }
+    }
+   }
+  },
+  {
+   "condition": "n100_r3_mean_independent",
+   "hours": {
+    "active": 159.99951663619746,
+    "wall": 201.56216234003656
+   },
+   "oracle_episodes": 86400,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.281025,
+      "se": 0.002510852196716038
+     },
+     "severe": {
+      "estimate": 0.605575,
+      "se": 0.002567808017164253
+     },
+     "severe_uncertain": {
+      "estimate": 0.2288,
+      "se": 0.0021301637490102956
+     },
+     "useful_uncertain": {
+      "estimate": 0.280975,
+      "se": 0.0025064829606107103
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.864975,
+      "se": 0.0017387200817045056
+     },
+     "severe_uncertain": {
+      "estimate": 0.135025,
+      "se": 0.0017387200817045056
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.639975,
+      "se": 0.012820129878636373
+     },
+     "severe_uncertain": {
+      "estimate": 0.360025,
+      "se": 0.012820129878636377
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.011775,
+      "se": 0.0005347993879814985
+     },
+     "severe_uncertain": {
+      "estimate": 0.933275,
+      "se": 0.0012767260490819496
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0179,
+      "se": 0.0020257575604434243
+     },
+     "severe_uncertain": {
+      "estimate": 0.9379,
+      "se": 0.0038622865322574477
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.011775,
+      "se": 0.0005347993879814985
+     },
+     "severe_uncertain": {
+      "estimate": 0.93975,
+      "se": 0.0012605659548498552
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0179,
+      "se": 0.0020257575604434243
+     },
+     "severe_uncertain": {
+      "estimate": 0.938075,
+      "se": 0.0038403343008835238
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.490975,
+      "se": 0.009128595490579624
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.235325,
+      "se": 0.006008233371236777
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0489,
+      "se": 0.0029353289689839123
+     },
+     "useful_uncertain": {
+      "estimate": 0.235325,
+      "se": 0.006008233371236777
+     }
+    }
+   }
+  },
+  {
+   "condition": "n100_r3_mean_same_seed",
+   "hours": {
+    "active": 159.99951663619746,
+    "wall": 201.56216234003656
+   },
+   "oracle_episodes": 86400,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.228825,
+      "se": 0.003070899672701764
+     },
+     "severe": {
+      "estimate": 0.623075,
+      "se": 0.002750588138945944
+     },
+     "severe_uncertain": {
+      "estimate": 0.184575,
+      "se": 0.0030046584410457285
+     },
+     "useful_uncertain": {
+      "estimate": 0.228825,
+      "se": 0.003070899672701764
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.852,
+      "se": 0.011234866364235145
+     },
+     "severe_uncertain": {
+      "estimate": 0.148,
+      "se": 0.011234866364235145
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.693,
+      "se": 0.01459328489285274
+     },
+     "severe_uncertain": {
+      "estimate": 0.307,
+      "se": 0.01459328489285274
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.009,
+      "se": 0.002987963843142672
+     },
+     "severe_uncertain": {
+      "estimate": 0.94,
+      "se": 0.0075137511574749705
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.927,
+      "se": 0.008230354715243976
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.009,
+      "se": 0.002987963843142672
+     },
+     "severe_uncertain": {
+      "estimate": 0.94,
+      "se": 0.0075137511574749705
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.927,
+      "se": 0.008230354715243976
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.023,
+      "se": 0.004742730594656784
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.023,
+      "se": 0.004742730594656784
+     }
+    }
+   }
+  },
+  {
+   "condition": "n100_r3_majority_independent",
+   "hours": {
+    "active": 159.99951663619746,
+    "wall": 201.56216234003656
+   },
+   "oracle_episodes": 86400,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.436925,
+      "se": 0.0030972588505624433
+     },
+     "severe": {
+      "estimate": 0.4129,
+      "se": 0.0026677625375878112
+     },
+     "severe_uncertain": {
+      "estimate": 0.371375,
+      "se": 0.002999204828717873
+     },
+     "useful_uncertain": {
+      "estimate": 0.43285,
+      "se": 0.0030298609799061012
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.005375,
+      "se": 0.0005251286843575917
+     },
+     "severe": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.6202,
+      "se": 0.0034159374450696
+     },
+     "useful_uncertain": {
+      "estimate": 0.005375,
+      "se": 0.0005251286843575917
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     },
+     "severe": {
+      "estimate": 0.206225,
+      "se": 0.010851711109728688
+     },
+     "severe_uncertain": {
+      "estimate": 0.790475,
+      "se": 0.010877417781467833
+     },
+     "useful_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.01555,
+      "se": 0.0010784760593590432
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.2185,
+      "se": 0.005406429457551395
+     },
+     "useful_uncertain": {
+      "estimate": 0.01555,
+      "se": 0.0010784760593590432
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     },
+     "severe": {
+      "estimate": 0.015675,
+      "se": 0.001942277481931152
+     },
+     "severe_uncertain": {
+      "estimate": 0.93775,
+      "se": 0.0040626583283230565
+     },
+     "useful_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0001,
+      "se": 4.992486847746815e-05
+     },
+     "severe": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.7343,
+      "se": 0.007459668669361708
+     },
+     "useful_uncertain": {
+      "estimate": 7.5e-05,
+      "se": 4.325790385867358e-05
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.000175,
+      "se": 0.00010888632251679378
+     },
+     "severe": {
+      "estimate": 0.015675,
+      "se": 0.001942277481931152
+     },
+     "severe_uncertain": {
+      "estimate": 0.94735,
+      "se": 0.0036583960093682258
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 7.5e-05,
+      "se": 4.325790385867358e-05
+     },
+     "severe": {
+      "estimate": 7.5e-05,
+      "se": 4.325790385867358e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.8143,
+      "se": 0.00682345730327153
+     },
+     "useful_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.06785,
+      "se": 0.0033468386320270704
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.339375,
+      "se": 0.006979896369454802
+     },
+     "useful_uncertain": {
+      "estimate": 0.06785,
+      "se": 0.0033468386320270704
+     }
+    }
+   }
+  },
+  {
+   "condition": "n100_r3_majority_same_seed",
+   "hours": {
+    "active": 159.99951663619746,
+    "wall": 201.56216234003656
+   },
+   "oracle_episodes": 86400,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.387525,
+      "se": 0.004888777917284086
+     },
+     "severe": {
+      "estimate": 0.419625,
+      "se": 0.002917875661054352
+     },
+     "severe_uncertain": {
+      "estimate": 0.2255,
+      "se": 0.0030908013609827877
+     },
+     "useful_uncertain": {
+      "estimate": 0.38695,
+      "se": 0.0048779854696628855
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.535,
+      "se": 0.015780495050030086
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.21,
+      "se": 0.012886662332274642
+     },
+     "severe_uncertain": {
+      "estimate": 0.786,
+      "se": 0.012975838021968847
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.002,
+      "se": 0.0014135055705578234
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.045,
+      "se": 0.006558812241406063
+     },
+     "useful_uncertain": {
+      "estimate": 0.002,
+      "se": 0.0014135055705578234
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.005,
+      "se": 0.002231586874844889
+     },
+     "severe_uncertain": {
+      "estimate": 0.878,
+      "se": 0.010354864712936776
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.045,
+      "se": 0.006558812241406063
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.005,
+      "se": 0.002231586874844889
+     },
+     "severe_uncertain": {
+      "estimate": 0.878,
+      "se": 0.010354864712936776
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.004,
+      "se": 0.001996994739098726
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.004,
+      "se": 0.001996994739098726
+     }
+    }
+   }
+  },
+  {
+   "condition": "n150_r1_mean_independent",
+   "hours": {
+    "active": 79.99975831809873,
+    "wall": 100.78108117001828
+   },
+   "oracle_episodes": 43200,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.40475,
+      "se": 0.0026527296270962997
+     },
+     "severe": {
+      "estimate": 0.58675,
+      "se": 0.0025980641711546384
+     },
+     "severe_uncertain": {
+      "estimate": 0.307075,
+      "se": 0.0023698492695866887
+     },
+     "useful_uncertain": {
+      "estimate": 0.40145,
+      "se": 0.00261337468175293
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.008925,
+      "se": 0.0006802073632775943
+     },
+     "severe": {
+      "estimate": 0.588475,
+      "se": 0.0025728231174711167
+     },
+     "severe_uncertain": {
+      "estimate": 0.411425,
+      "se": 0.0025703503800213845
+     },
+     "useful_uncertain": {
+      "estimate": 0.008925,
+      "se": 0.0006802073632775943
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     },
+     "severe": {
+      "estimate": 0.527675,
+      "se": 0.012199940898747541
+     },
+     "severe_uncertain": {
+      "estimate": 0.472275,
+      "se": 0.012197878406207065
+     },
+     "useful_uncertain": {
+      "estimate": 2.5e-05,
+      "se": 2.5e-05
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.005425,
+      "se": 0.0004951661989317977
+     },
+     "severe": {
+      "estimate": 0.012075,
+      "se": 0.0005580150139160736
+     },
+     "severe_uncertain": {
+      "estimate": 0.947375,
+      "se": 0.0011532841971688677
+     },
+     "useful_uncertain": {
+      "estimate": 0.005425,
+      "se": 0.0004951661989317977
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0002,
+      "se": 7.884298457197202e-05
+     },
+     "severe": {
+      "estimate": 0.025075,
+      "se": 0.0024158757896114674
+     },
+     "severe_uncertain": {
+      "estimate": 0.948,
+      "se": 0.003437705312823922
+     },
+     "useful_uncertain": {
+      "estimate": 0.0002,
+      "se": 7.884298457197202e-05
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 5e-05,
+      "se": 3.533763926394559e-05
+     },
+     "severe": {
+      "estimate": 0.012075,
+      "se": 0.0005580150139160736
+     },
+     "severe_uncertain": {
+      "estimate": 0.967875,
+      "se": 0.0009602246645480456
+     },
+     "useful_uncertain": {
+      "estimate": 5e-05,
+      "se": 3.533763926394559e-05
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.025075,
+      "se": 0.0024158757896114674
+     },
+     "severe_uncertain": {
+      "estimate": 0.950025,
+      "se": 0.003322335366468486
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.000325,
+      "se": 0.00014331753177791932
+     },
+     "severe_uncertain": {
+      "estimate": 0.838275,
+      "se": 0.005889319439329001
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.519475,
+      "se": 0.007468994929725167
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.248975,
+      "se": 0.006268282519218542
+     },
+     "useful_uncertain": {
+      "estimate": 0.519475,
+      "se": 0.007468994929725167
+     }
+    }
+   }
+  },
+  {
+   "condition": "n150_r1_mean_same_seed",
+   "hours": {
+    "active": 79.99975831809873,
+    "wall": 100.78108117001828
+   },
+   "oracle_episodes": 43200,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.34195,
+      "se": 0.003961804310335557
+     },
+     "severe": {
+      "estimate": 0.601425,
+      "se": 0.0028053902740242023
+     },
+     "severe_uncertain": {
+      "estimate": 0.2439,
+      "se": 0.0031547967831134136
+     },
+     "useful_uncertain": {
+      "estimate": 0.3417,
+      "se": 0.003955756313021318
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.556,
+      "se": 0.015719768163402127
+     },
+     "severe_uncertain": {
+      "estimate": 0.444,
+      "se": 0.015719768163402127
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.596,
+      "se": 0.015524980677122437
+     },
+     "severe_uncertain": {
+      "estimate": 0.404,
+      "se": 0.015524980677122437
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.001,
+      "se": 0.001
+     },
+     "severe": {
+      "estimate": 0.009,
+      "se": 0.002987963843142672
+     },
+     "severe_uncertain": {
+      "estimate": 0.932,
+      "se": 0.007964887911291624
+     },
+     "useful_uncertain": {
+      "estimate": 0.001,
+      "se": 0.001
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.02,
+      "se": 0.004429403980178329
+     },
+     "severe_uncertain": {
+      "estimate": 0.925,
+      "se": 0.008333333333333335
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.009,
+      "se": 0.002987963843142672
+     },
+     "severe_uncertain": {
+      "estimate": 0.932,
+      "se": 0.007964887911291624
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.02,
+      "se": 0.004429403980178329
+     },
+     "severe_uncertain": {
+      "estimate": 0.925,
+      "se": 0.008333333333333335
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.173,
+      "se": 0.011967214137559927
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.173,
+      "se": 0.011967214137559927
+     }
+    }
+   }
+  },
+  {
+   "condition": "n150_r3_mean_independent",
+   "hours": {
+    "active": 239.9992749542962,
+    "wall": 302.34324351005483
+   },
+   "oracle_episodes": 129600,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.219075,
+      "se": 0.002205761718717541
+     },
+     "severe": {
+      "estimate": 0.62195,
+      "se": 0.002606960633332184
+     },
+     "severe_uncertain": {
+      "estimate": 0.20055,
+      "se": 0.002042699224095442
+     },
+     "useful_uncertain": {
+      "estimate": 0.219075,
+      "se": 0.002205761718717541
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.97475,
+      "se": 0.0008189066540870872
+     },
+     "severe_uncertain": {
+      "estimate": 0.02525,
+      "se": 0.0008189066540870872
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.8548,
+      "se": 0.009005376549973179
+     },
+     "severe_uncertain": {
+      "estimate": 0.1452,
+      "se": 0.009005376549973179
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01685,
+      "se": 0.0006256748108793968
+     },
+     "severe_uncertain": {
+      "estimate": 0.94155,
+      "se": 0.0011667084934587168
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.021575,
+      "se": 0.0025117629920691823
+     },
+     "severe_uncertain": {
+      "estimate": 0.94235,
+      "se": 0.003946777743242524
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01685,
+      "se": 0.0006256748108793968
+     },
+     "severe_uncertain": {
+      "estimate": 0.9426,
+      "se": 0.0011571858446589637
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.021575,
+      "se": 0.0025117629920691823
+     },
+     "severe_uncertain": {
+      "estimate": 0.942375,
+      "se": 0.003946429865547301
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.269025,
+      "se": 0.007642534442690313
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.102375,
+      "se": 0.003958933888376078
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.010925,
+      "se": 0.001067665342831865
+     },
+     "useful_uncertain": {
+      "estimate": 0.102375,
+      "se": 0.003958933888376078
+     }
+    }
+   }
+  },
+  {
+   "condition": "n150_r3_mean_same_seed",
+   "hours": {
+    "active": 239.9992749542962,
+    "wall": 302.34324351005483
+   },
+   "oracle_episodes": 129600,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.186975,
+      "se": 0.0026975917734854507
+     },
+     "severe": {
+      "estimate": 0.639075,
+      "se": 0.002697646506062585
+     },
+     "severe_uncertain": {
+      "estimate": 0.1592,
+      "se": 0.0027609750058598835
+     },
+     "useful_uncertain": {
+      "estimate": 0.186975,
+      "se": 0.0026975917734854507
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.974,
+      "se": 0.005034813735318254
+     },
+     "severe_uncertain": {
+      "estimate": 0.026,
+      "se": 0.005034813735318254
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.912,
+      "se": 0.00896305396259201
+     },
+     "severe_uncertain": {
+      "estimate": 0.088,
+      "se": 0.00896305396259201
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.013,
+      "se": 0.0035838308894036624
+     },
+     "severe_uncertain": {
+      "estimate": 0.94,
+      "se": 0.0075137511574749705
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.009,
+      "se": 0.002987963843142672
+     },
+     "severe_uncertain": {
+      "estimate": 0.942,
+      "se": 0.0073953154557929906
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.013,
+      "se": 0.0035838308894036624
+     },
+     "severe_uncertain": {
+      "estimate": 0.94,
+      "se": 0.0075137511574749705
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.009,
+      "se": 0.002987963843142672
+     },
+     "severe_uncertain": {
+      "estimate": 0.942,
+      "se": 0.0073953154557929906
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.004,
+      "se": 0.001996994739098726
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.004,
+      "se": 0.001996994739098726
+     }
+    }
+   }
+  },
+  {
+   "condition": "n150_r3_majority_independent",
+   "hours": {
+    "active": 239.9992749542962,
+    "wall": 302.34324351005483
+   },
+   "oracle_episodes": 129600,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.366325,
+      "se": 0.0031016107693204132
+     },
+     "severe": {
+      "estimate": 0.454675,
+      "se": 0.0026357098363327747
+     },
+     "severe_uncertain": {
+      "estimate": 0.304075,
+      "se": 0.0028216983106555448
+     },
+     "useful_uncertain": {
+      "estimate": 0.365525,
+      "se": 0.0030842928261170725
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.000125,
+      "se": 6.605860079307417e-05
+     },
+     "severe": {
+      "estimate": 5e-05,
+      "se": 3.533763926394559e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.65975,
+      "se": 0.0028586464208361553
+     },
+     "useful_uncertain": {
+      "estimate": 0.000125,
+      "se": 6.605860079307417e-05
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.40435,
+      "se": 0.012973314317643906
+     },
+     "severe_uncertain": {
+      "estimate": 0.595575,
+      "se": 0.01297104631159019
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.001025,
+      "se": 0.00018264099411887996
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.1491,
+      "se": 0.00450632854960632
+     },
+     "useful_uncertain": {
+      "estimate": 0.001025,
+      "se": 0.00018264099411887996
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.02305,
+      "se": 0.002285863660123384
+     },
+     "severe_uncertain": {
+      "estimate": 0.94695,
+      "se": 0.003513444434140349
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 7.5e-05,
+      "se": 5.587931189176813e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.609525,
+      "se": 0.008375189142232441
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.023075,
+      "se": 0.0022857480217685893
+     },
+     "severe_uncertain": {
+      "estimate": 0.95105,
+      "se": 0.00336473906402398
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.00015,
+      "se": 8.651580771734716e-05
+     },
+     "severe_uncertain": {
+      "estimate": 0.738125,
+      "se": 0.0077688457533496786
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.014975,
+      "se": 0.0013301856144045346
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.178475,
+      "se": 0.005207150256021885
+     },
+     "useful_uncertain": {
+      "estimate": 0.014975,
+      "se": 0.0013301856144045346
+     }
+    }
+   }
+  },
+  {
+   "condition": "n150_r3_majority_same_seed",
+   "hours": {
+    "active": 239.9992749542962,
+    "wall": 302.34324351005483
+   },
+   "oracle_episodes": 129600,
+   "scenarios": {
+    "empirical|-": {
+     "effect_uncertain": {
+      "estimate": 0.330625,
+      "se": 0.004671676244554403
+     },
+     "severe": {
+      "estimate": 0.454675,
+      "se": 0.0030811138631406726
+     },
+     "severe_uncertain": {
+      "estimate": 0.188525,
+      "se": 0.0029476920231366207
+     },
+     "useful_uncertain": {
+      "estimate": 0.33045,
+      "se": 0.004665786864727864
+     }
+    },
+    "global_up_one_cell_minus_2m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.603,
+      "se": 0.015480007449307985
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_2m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.424,
+      "se": 0.015635487471405186
+     },
+     "severe_uncertain": {
+      "estimate": 0.576,
+      "se": 0.015635487471405186
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.016,
+      "se": 0.003969856390319398
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "global_up_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.933,
+      "se": 0.007910345983177573
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|realistic": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.016,
+      "se": 0.003969856390319398
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "no_global_one_cell_minus_m|worst": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.01,
+      "se": 0.0031480009386767836
+     },
+     "severe_uncertain": {
+      "estimate": 0.933,
+      "se": 0.007910345983177573
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "null_all_cells|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    },
+    "useful_representative|-": {
+     "effect_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "severe_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     },
+     "useful_uncertain": {
+      "estimate": 0.0,
+      "se": 0.0
+     }
+    }
+   }
+  }
+ ],
+ "status": "planning (not a result; no verdict uses it)",
+ "tau": "1/20",
+ "throughput_009b": {
+  "active_s": 218799.339,
+  "episodes": 32820,
+  "wall_s": 275636.257
+ }
+}
